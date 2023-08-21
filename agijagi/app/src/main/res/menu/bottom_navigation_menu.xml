@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:enabled="true"
+        android:icon="@drawable/home_24px"
+        android:title="홈"
+        app:showAsAction="always" />
+    <item
+        android:enabled="true"
+        android:icon="@drawable/menu_24px"
+        android:title="카테고리"
+        app:showAsAction="always" />
+    <item
+        android:enabled="true"
+        android:icon="@drawable/local_shipping_24px"
+        android:title="주문/배송"
+        app:showAsAction="always" />
+    <item
+        android:enabled="true"
+        android:icon="@drawable/favorite_24px"
+        android:title="찜"
+        app:showAsAction="always" />
+    <item
+        android:enabled="true"
+        android:icon="@drawable/person_24px"
+        android:title="내 정보"
+        app:showAsAction="always" />
+</menu>
