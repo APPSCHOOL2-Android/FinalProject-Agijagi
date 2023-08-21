@@ -6,4 +6,6 @@
     </style>
 
     <style name="Theme.Agijagi" parent="Base.Theme.Agijagi" />
++
+    <style name="Theme.AgijagiToolbar" parent="Widget.Material3.Toolbar"/>
 </resources>
