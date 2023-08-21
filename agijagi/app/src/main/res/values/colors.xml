@@ -2,10 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparency">#00FFFFFF</color>
 
-    <color name="hint_color">#6BFFFFFF</color>
-
-    <color name="jagi_brown">#B09887</color>
-    <color name="jagi_ivory">#FFFBF7</color>
-    <color name="jagi_carrot">#FF5C00</color>
+    <color name="jagi_brown">#FFB09887</color>
+    <color name="jagi_ivory">#FFFFFBF7</color>
+    <color name="jagi_carrot">#FFFF5C00</color>
 </resources>
