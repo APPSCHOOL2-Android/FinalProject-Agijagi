@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "88391793720",
+    "project_id": "agijagi-36f4d",
+    "storage_bucket": "agijagi-36f4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88391793720:android:42b17994c642f06534bacd",
+        "android_client_info": {
+          "package_name": "likelion.project.agijagi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88391793720-kie30cd4hrklk2aa3jjsjd2pikpoeb1k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoHE2ehRyeZy15Uld8kfn8SbuIsTcOLKc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "88391793720-kie30cd4hrklk2aa3jjsjd2pikpoeb1k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
