@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/jagi_ivory"
+    android:orientation="vertical"
+    tools:context=".signup.SignupSellerFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_google_signup_seller_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.AgijagiToolbar"
+        app:navigationIcon="@drawable/arrow_back_24px"
+        app:title="회원가입" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linearlayout_google_signup_seller_layout_inside"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editinputlayout_google_signup_seller_business_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/wide_box_rounded_stroke"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editinput_google_signup_seller_business_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="상호명"
+                        android:textColorHint="@color/transparency" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editinputlayout_google_signup_seller_representative_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/wide_box_rounded_stroke"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editinput_google_signup_seller_representative_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="대표자명"
+                        android:textColorHint="@color/transparency" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editinputlayout_google_signup_seller_registration_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/wide_box_rounded_stroke"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editinput_google_signup_seller_registration_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="사업자등록번호"
+                        android:textColorHint="@color/transparency" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editinputlayout_google_signup_seller_business_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/wide_box_rounded_stroke"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editinput_google_signup_seller_business_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="사업장 주소"
+                        android:textColorHint="@color/transparency" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editinputlayout_google_signup_seller_business_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/wide_box_rounded_stroke"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editinput_google_signup_seller_business_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="사업장 전화번호"
+                        android:textColorHint="@color/transparency" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textview_google_signup_seller_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="20dp"
+                        android:text="사업자 등록증 추가"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textview_google_signup_seller_file"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="등록증.pdf"
+                        android:textColor="@color/black"
+                        android:textSize="14dp"
+                        android:layout_below="@+id/textview_google_signup_seller_text"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button_google_signup_seller_add_file"
+                        android:layout_width="64dp"
+                        android:layout_height="36dp"
+                        android:text="파일 추가"
+                        android:textColor="@color/white"
+                        android:background="@drawable/small_box_rounded_button_stroke"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginStart="138dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_toRightOf="@+id/textview_google_signup_seller_text"
+                        android:layout_alignParentRight="true"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button_google_signup_seller_complete"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="가입하기"
+                        android:textColor="@color/hint_color"
+                        android:textSize="16dp"
+                        android:background="@drawable/wide_box_selected_active"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+</LinearLayout>
