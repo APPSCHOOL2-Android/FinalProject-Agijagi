@@ -4,27 +4,27 @@
 
     <item
         android:enabled="true"
-        android:icon="@drawable/home_24px"
+        android:icon="@drawable/item_home_24px"
         android:title="홈"
         app:showAsAction="always" />
     <item
         android:enabled="true"
-        android:icon="@drawable/menu_24px"
+        android:icon="@drawable/item_menu_24px"
         android:title="카테고리"
         app:showAsAction="always" />
     <item
         android:enabled="true"
-        android:icon="@drawable/local_shipping_24px"
+        android:icon="@drawable/item_local_shipping_24px"
         android:title="주문/배송"
         app:showAsAction="always" />
     <item
         android:enabled="true"
-        android:icon="@drawable/favorite_24px"
+        android:icon="@drawable/item_favorite_24px"
         android:title="찜"
         app:showAsAction="always" />
     <item
         android:enabled="true"
-        android:icon="@drawable/person_24px"
+        android:icon="@drawable/item_person_24px"
         android:title="내 정보"
         app:showAsAction="always" />
 </menu>
