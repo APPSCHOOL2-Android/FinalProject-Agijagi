@@ -39,7 +39,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="브랜드명" />
+                android:text="브랜드명"
+                android:textSize="14dp"
+                android:textColor="@color/brand_name" />
 
             <TextView
                 android:id="@+id/textview_product_detail_name"
@@ -48,7 +50,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="제품명 도자기"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -57,7 +59,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
-                android:text="150,000원" />
+                android:text="150,000원"
+                android:textSize="14dp" />
 
             <View
                 android:id="@+id/view_product_detail_divider_stick"
@@ -72,8 +75,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="24dp"
-                android:text="제품명 도자기"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:text="제품명 도자기 .."
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -85,7 +88,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="40dp"
                 android:text="기본적인 블랙 색상의 깔끔한 디자인과 다양한 디자인으로 쓰임이 많은 도자기 그릇입니다. 도자기 재질로 무게감이 있어 안정적으로.."
-                android:textAlignment="center" />
+                android:textSize="12sp"
+                android:textAlignment="center"/>
 
             <ImageView
                 android:id="@+id/imageview_product_detail_image2"
@@ -153,7 +157,8 @@
             android:layout_marginBottom="4dp"
             android:background="@drawable/wide_box_rounded_purchase_button_solid"
             android:text="구매하기"
-            android:textColor="@color/white" />
+            android:textSize="16dp"
+            android:textColor="@color/hint_color" />
 
     </LinearLayout>
 
