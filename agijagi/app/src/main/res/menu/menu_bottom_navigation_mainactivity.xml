@@ -3,26 +3,30 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/homefragment"
         android:enabled="true"
         android:icon="@drawable/home_24px"
-        android:title="홈"
-        app:showAsAction="always" />
+        android:title="홈"/>
     <item
+        android:id="@+id/categoryfragment"
         android:enabled="true"
         android:icon="@drawable/menu_24px"
         android:title="카테고리"
-        app:showAsAction="always" />
+        />
     <item
+        android:id="@+id/shippingfragment"
         android:enabled="true"
         android:icon="@drawable/local_shipping_24px"
         android:title="주문/배송"
-        app:showAsAction="always" />
+        />
     <item
+        android:id="@+id/favoritefragment"
         android:enabled="true"
         android:icon="@drawable/favorite_24px"
         android:title="찜"
-        app:showAsAction="always" />
+         />
     <item
+        android:id="@+id/mypagefragment"
         android:enabled="true"
         android:icon="@drawable/person_24px"
         android:title="내 정보"

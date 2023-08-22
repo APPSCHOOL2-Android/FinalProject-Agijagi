@@ -5,7 +5,6 @@
     <size
         android:width="360dp"
         android:height="56dp" />
-
-    <solid android:color="@color/jagi_brown" />
+    <solid android:color="@color/jagi_gray" />
 
 </shape>

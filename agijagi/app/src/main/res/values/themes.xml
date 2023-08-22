@@ -5,10 +5,12 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:statusBarColor">@color/transparency</item>
         <item name="android:colorBackground">@color/jagi_ivory</item>
+        <item name="fontFamily">@font/nanumsquareround_r</item>
     </style>
 
     <style name="Theme.Agijagi" parent="Base.Theme.Agijagi" />
 
+    <!--Toolbar-->
     <style name="Theme.AgijagiToolbar" parent="Widget.Material3.AppBarLayout">
         <item name="android:background">@color/transparency</item>
         <item name="titleTextColor">@color/black</item>
