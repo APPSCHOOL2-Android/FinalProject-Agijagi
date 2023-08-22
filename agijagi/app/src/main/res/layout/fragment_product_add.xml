@@ -28,6 +28,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp">
 
@@ -36,7 +37,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="총 6장의 사진"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -45,6 +47,7 @@
                     android:id="@+id/textView_subtitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="체크버튼을 눌러서 대표사진을 선택할 수 있습니다."
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -126,12 +129,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="가격을 입력해주세요"
+                        android:inputType="number|numberDecimal"
                         android:textColorHint="@color/jagi_inactiveText" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/menu_product_add_select_category"
-                    style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -147,7 +151,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/menu_product_add_select_ordermade"
-                    style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -179,7 +183,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp">
+                        android:layout_height="48dp">
 
                         <CheckBox
                             android:id="@+id/checkBox_product_add_option1"
@@ -195,7 +199,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/wide_box_rounded_stroke"
-                            android:gravity="right">
+                            android:gravity="right|center_vertical">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/editinputlayout_product_add_option1_price"
@@ -203,13 +207,14 @@
                                 android:layout_height="32dp"
                                 android:gravity="right|center_vertical"
                                 android:hint="추가 금액"
+                                android:inputType="number|numberDecimal"
                                 android:textColorHint="@color/jagi_inactiveText" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp">
+                        android:layout_height="48dp">
 
                         <CheckBox
                             android:id="@+id/checkBox_product_add_option2"
@@ -225,7 +230,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/wide_box_rounded_stroke"
-                            android:gravity="right">
+                            android:gravity="right|center_vertical">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/editinputlayout_product_add_option2_price"
@@ -233,6 +238,7 @@
                                 android:layout_height="32dp"
                                 android:gravity="right|center_vertical"
                                 android:hint="추가 금액"
+                                android:inputType="number|numberDecimal"
                                 android:textColorHint="@color/jagi_inactiveText" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
@@ -283,7 +289,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text="( 3/ 4 )"
+                    android:text="( 3 / 4 )"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                     app:layout_constraintBaseline_toBaselineOf="@+id/textView_title3"
                     app:layout_constraintLeft_toRightOf="@+id/textView_title3" />
@@ -320,7 +326,7 @@
                 android:id="@+id/button_product_add_ok"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bottom_button_active"
+                android:background="@drawable/wide_box_bottom_inactive"
                 android:padding="8dp"
                 android:text="확인"
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge"

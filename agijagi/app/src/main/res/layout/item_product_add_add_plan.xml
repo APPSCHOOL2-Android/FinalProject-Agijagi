@@ -8,12 +8,12 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/signup_box_rounded_selected_button" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonX"
-        android:layout_width="7dp"
-        android:layout_height="7dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_margin="4dp"
         android:background="@drawable/close_24px"
         app:layout_constraintRight_toRightOf="parent"

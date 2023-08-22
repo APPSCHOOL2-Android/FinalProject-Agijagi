@@ -5,25 +5,30 @@
     android:layout_height="104dp">
 
     <ImageView
+        android:id="@+id/imageView_border"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/signup_box_rounded_selected_button" />
+
+    <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/signup_box_rounded_selected_button" />
 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_checkBox"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_margin="8dp"
-        android:background="@drawable/radio_button_unchecked_24px"
-        android:button="null"
+        android:background="@drawable/circle_checkbox_selector"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonX"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_margin="8dp"
         android:background="@drawable/close_24px"
         app:layout_constraintRight_toRightOf="parent"
