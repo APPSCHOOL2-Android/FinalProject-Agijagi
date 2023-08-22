@@ -15,4 +15,5 @@
         <item name="navigationIconTint">@color/black</item>
         <item name="android:subtitle">null</item>
     </style>
+
 </resources>
