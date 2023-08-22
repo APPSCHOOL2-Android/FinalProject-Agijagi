@@ -34,12 +34,12 @@ class WishListFragment : Fragment() {
 
         fragmentWishListBinding.run {
 
-            toolbarShoppinglist.run {
+            toolbarWishList.run {
                 title = "찜"
                 inflateMenu(R.menu.menu_wish_list)
             }
 
-            recyclerviewShoppinglist.run {
+            wishListRecyclerview.run {
                 layoutManager = GridLayoutManager(context, 2)
                 adapter = listAdapter
             }
