@@ -1,4 +1,4 @@
-package likelion.project.agijagi.shopping
+package likelion.project.agijagi.signup
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import likelion.project.agijagi.R
 
-class ShoppingListFragment : Fragment() {
+class WishListFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

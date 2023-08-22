@@ -1,22 +1,19 @@
-package likelion.project.agijagi.shopping
+package likelion.project.agijagi.wishlist
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.databinding.ItemShoppinglistBinding
 
-class ShoppingListAdapter() :
-    ListAdapter<ShoppingListModel, ShoppingListAdapter.ShoppingListViewHolder>(diffUtil) {
+class WishListAdapter() :
+    ListAdapter<WishListModel, WishListAdapter.ShoppingListViewHolder>(diffUtil) {
 
     inner class ShoppingListViewHolder(val bind: ItemShoppinglistBinding) :
         RecyclerView.ViewHolder(bind.root) {
 
-        fun bind(item: ShoppingListModel) {
+        fun bind(item: WishListModel) {
             with(bind) {
                 textviewShoppinglistBrand.text = item.brand
                 textviewShoppinglistName.text = item.name
@@ -38,17 +35,17 @@ class ShoppingListAdapter() :
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<ShoppingListModel>() {
+        val diffUtil = object : DiffUtil.ItemCallback<WishListModel>() {
             override fun areItemsTheSame(
-                oldItem: ShoppingListModel,
-                newItem: ShoppingListModel
+                oldItem: WishListModel,
+                newItem: WishListModel
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: ShoppingListModel,
-                newItem: ShoppingListModel
+                oldItem: WishListModel,
+                newItem: WishListModel
             ): Boolean {
                 return oldItem == newItem
             }
