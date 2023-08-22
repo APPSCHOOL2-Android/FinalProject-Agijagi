@@ -21,7 +21,7 @@
                 android:id="@+id/imageview_login_app_logo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/thunbnail"
+                android:background="@drawable/thumbnail"
                 android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
