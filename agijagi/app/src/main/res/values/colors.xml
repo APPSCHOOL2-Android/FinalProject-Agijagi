@@ -11,4 +11,6 @@
     <color name="jagi_brown">#FFB09887</color>
     <color name="jagi_ivory">#FFFFFBF7</color>
     <color name="jagi_carrot">#FFFF5C00</color>
+
+    <color name="brand_name">#80000000</color>
 </resources>
