@@ -27,7 +27,7 @@ class CustomProductDetailFragment : Fragment() {
 
     private fun clickFloatingButton() {
         binding?.run {
-            customFloatingButtonCustomProductDetail.customFloatingButtonLayout.setOnClickListener {
+            customFloatingButtonCustomProductDetailToChatting.customFloatingButtonLayout.setOnClickListener {
                 Toast.makeText(context, "Custom Floating Button Clicked!", Toast.LENGTH_SHORT)
                     .show()
             }
@@ -36,7 +36,7 @@ class CustomProductDetailFragment : Fragment() {
 
     private fun clickFloorPlanDownloadButton() {
         binding?.run {
-            buttonCustomProductDetailDownload.setOnClickListener {
+            buttonCustomProductDetailDownloadFloorPlan.setOnClickListener {
                 Snackbar.make(it, "도면 다운로드가 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
             }
         }

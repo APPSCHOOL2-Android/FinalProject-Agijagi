@@ -185,7 +185,6 @@
                     android:layout_marginHorizontal="16dp">
 
                     <TextView
-                        android:id="@+id/text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -194,7 +193,7 @@
                         android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_custom_product_detail_download"
+                        android:id="@+id/button_custom_product_detail_download_floor_plan"
                         android:layout_width="64dp"
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
@@ -227,6 +226,7 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/image_button_custom_product_detail_favorite"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="16dp"
@@ -234,6 +234,7 @@
                 android:background="@drawable/favorite_pressed_button" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_custom_product_detail_purchase"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -248,7 +249,7 @@
     </LinearLayout>
 
     <include
-        android:id="@+id/custom_floating_button_custom_product_detail"
+        android:id="@+id/custom_floating_button_custom_product_detail_to_chatting"
         layout="@layout/custom_floating_button" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
