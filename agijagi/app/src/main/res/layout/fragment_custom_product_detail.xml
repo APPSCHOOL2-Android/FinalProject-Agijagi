@@ -69,7 +69,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="12dp"
@@ -102,11 +102,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
                             android:text="이 상품은 구매자의 요청에 따라 개별 주문 제작되며 판매자에 의해 취소/반품/교환이 제한될 수 있습니다."
-                            android:textSize="12sp" />
+                            android:textSize="12dp" />
 
                     </LinearLayout>
-
 
                 </LinearLayout>
 
@@ -176,13 +176,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="40dp"
+                    android:layout_marginBottom="104dp"
                     android:adjustViewBounds="true"
                     android:src="@drawable/product_detail_default_image" />
 
             </LinearLayout>
-        </ScrollView>
 
+
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -213,13 +214,8 @@
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="72dp"
-        app:srcCompat="@drawable/sms_24px" />
+    <include
+        android:id="@+id/custom_button_layout"
+        layout="@layout/custom_floating_button" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
