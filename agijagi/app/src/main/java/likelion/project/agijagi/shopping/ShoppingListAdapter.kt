@@ -8,26 +8,26 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import likelion.project.agijagi.databinding.ItemShoppinglistBinding
+import likelion.project.agijagi.databinding.ItemShoppingListBinding
 
 class ShoppingListAdapter() :
     ListAdapter<ShoppingListModel, ShoppingListAdapter.ShoppingListViewHolder>(diffUtil) {
 
-    inner class ShoppingListViewHolder(val bind: ItemShoppinglistBinding) :
+    inner class ShoppingListViewHolder(val bind: ItemShoppingListBinding) :
         RecyclerView.ViewHolder(bind.root) {
 
         fun bind(item: ShoppingListModel) {
             with(bind) {
-                textviewShoppinglistBrand.text = item.brand
-                textviewShoppinglistName.text = item.name
-                textviewShoppinglistPrice.text = item.price
+//                textviewShoppinglistBrand.text = item.brand
+//                textviewShoppinglistName.text = item.name
+//                textviewShoppinglistPrice.text = item.price
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListViewHolder {
         val itemShoppinglistBinding =
-            ItemShoppinglistBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemShoppingListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         val viewHolder = ShoppingListViewHolder(itemShoppinglistBinding)
 
         return viewHolder

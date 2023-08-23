@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/homefragment"
         android:enabled="true"
-        android:icon="@drawable/home_24px"
-        android:title="홈"/>
+        android:icon="@drawable/wish_list_home_24px"
+        android:title="홈" />
     <item
         android:id="@+id/categoryfragment"
         android:enabled="true"
-        android:icon="@drawable/menu_24px"
-        android:title="카테고리"
-        />
+        android:icon="@drawable/wish_list_menu_24px"
+        android:title="카테고리" />
     <item
         android:id="@+id/shippingfragment"
         android:enabled="true"
-        android:icon="@drawable/local_shipping_24px"
-        android:title="주문/배송"
-        />
+        android:icon="@drawable/wish_list_local_shipping_24px"
+        android:title="주문/배송" />
     <item
         android:id="@+id/favoritefragment"
         android:enabled="true"
-        android:icon="@drawable/favorite_24px"
-        android:title="찜"
-         />
+        android:icon="@drawable/wish_list_favorite_24px"
+        android:title="찜" />
     <item
         android:id="@+id/mypagefragment"
         android:enabled="true"
-        android:icon="@drawable/person_24px"
+        android:icon="@drawable/wish_list_person_24px"
         android:title="내 정보"
         app:showAsAction="always" />
 </menu>

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/menu_product_detail_shopping"
-        android:icon="@drawable/shopping_bag_24px"
+        android:icon="@drawable/wish_list_shopping_bag_24px"
         android:title="장바구니"
         app:showAsAction="always" />
 </menu>

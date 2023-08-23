@@ -13,7 +13,7 @@
     <item
         android:id="@+id/shoppingbag"
         android:enabled="true"
-        android:icon="@drawable/shopping_bag_24px"
+        android:icon="@drawable/wish_list_shopping_bag_24px"
         android:title="검색창"
         app:showAsAction="ifRoom"
         />

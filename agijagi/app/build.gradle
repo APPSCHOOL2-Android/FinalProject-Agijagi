@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'likelion.project.agijagi'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "likelion.project.agijagi"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -53,4 +53,8 @@ dependencies {
 
     // Firebase Realtime Database
     implementation 'com.google.firebase:firebase-database:20.2.2'
+
+    //navigation
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.0'
 }
