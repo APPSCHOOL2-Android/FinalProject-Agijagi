@@ -251,7 +251,7 @@
     </LinearLayout>
 
     <include
-        android:id="@+id/custom_button_layout"
+        android:id="@+id/custom_floating_button_custom_product_detail"
         layout="@layout/custom_floating_button" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
