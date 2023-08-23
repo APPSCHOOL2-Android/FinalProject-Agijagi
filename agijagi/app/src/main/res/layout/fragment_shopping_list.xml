@@ -7,7 +7,8 @@
     tools:context=".shopping.ShoppingListFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/shoppingListToolbar"
+        android:theme="@style/Theme.AgijagiToolbar"
+        android:id="@+id/toolbar_shoppinglist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,15 +16,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:id="@+id/recyclerview_shoppinglist"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/shoppingListBottomNavigationView"
+        app:layout_constraintBottom_toTopOf="@id/bottomnavigationview_shoppingList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/shoppingListToolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_shoppinglist" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/shoppingListBottomNavigationView"
+        android:id="@+id/bottomnavigationview_shoppingList"
         android:layout_width="match_parent"
         app:labelVisibilityMode="labeled"
         android:layout_height="wrap_content"
@@ -31,6 +35,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_bottom_navigation_mainactivity" />
+        app:menu="@menu/menu_bottom_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
