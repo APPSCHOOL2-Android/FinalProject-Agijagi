@@ -21,6 +21,7 @@ class CustomProductDetailFragment : Fragment() {
 
         clickFloatingButton()
         clickFloorPlanDownloadButton()
+        clickFavoriteButton()
 
         return binding?.root
     }
@@ -38,6 +39,16 @@ class CustomProductDetailFragment : Fragment() {
         binding?.run {
             buttonCustomProductDetailDownloadFloorPlan.setOnClickListener {
                 Snackbar.make(it, "도면 다운로드가 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun clickFavoriteButton() {
+        binding?.run {
+            imageButtonCustomProductDetailFavorite.run {
+                setOnClickListener {
+                    isSelected = isSelected != true
+                }
             }
         }
     }

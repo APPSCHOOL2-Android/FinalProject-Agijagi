@@ -142,6 +142,7 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/image_button_product_detail_favorite"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginStart="16dp"
