@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="payment_card_category">
+        <item>삼성카드</item>
+        <item>KB국민카드</item>
+        <item>롯데카드</item>
+        <item>신한카드</item>
+        <item>하나카드</item>
+        <item>BC카드</item>
+        <item>현대카드</item>
+        <item>우리카드</item>
+        <item>NH농협카드</item>
+    </array>
+
+    <array name="payment_card_detail_category">
+        <item>일시불</item>
+        <item>2개월(무이자)</item>
+        <item>3개월(무이자)</item>
+        <item>4개월(무이자)</item>
+        <item>5개월</item>
+        <item>6개월</item>
+        <item>7개월</item>
+        <item>8개월</item>
+    </array>
+
+    <array name="payment_simple_category">
+        <item>삼성페이</item>
+        <item>카카오페이</item>
+        <item>네이버페이</item>
+        <item>페이코</item>
+    </array>
+
+    <array name="payment_simple_detail_category">
+        <item>일시불</item>
+    </array>
+
+    <array name="payment_phone_category">
+        <item>KT</item>
+        <item>SKT</item>
+        <item>LG U+</item>
+        <item>헬로모바일(SKT알뜰폰)</item>
+        <item>KCT</item>
+        <item>헬로모바일(KT알뜰폰)</item>
+        <item>KT알뜰폰</item>
+        <item>LG U+알뜰폰</item>
+    </array>
+
+    <array name="payment_bank_transfer_category">
+        <item>카카오뱅크</item>
+        <item>농협은행</item>
+        <item>국민은행</item>
+        <item>신한은행</item>
+        <item>우리은행</item>
+        <item>기업은행</item>
+        <item>하나은행</item>
+        <item>새마을금고</item>
+    </array>
+
+</resources>
