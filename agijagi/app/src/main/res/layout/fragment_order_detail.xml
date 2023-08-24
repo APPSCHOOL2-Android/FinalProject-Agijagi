@@ -37,7 +37,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_order_detail_arrival_information"
-        app:srcCompat="@drawable/agijagi_logo" />
+        android:src="@drawable/order_delivery_ready_on" />
 
     <ImageView
         android:id="@+id/imageView_order_detail_delivery_shipping"
@@ -47,7 +47,7 @@
         app:layout_constraintEnd_toStartOf="@+id/imageView_order_detail_delivery_complete"
         app:layout_constraintStart_toEndOf="@+id/imageView_order_detail_delivery_ready"
         app:layout_constraintTop_toBottomOf="@+id/textView_order_detail_arrival_information"
-        app:srcCompat="@drawable/agijagi_logo" />
+        android:src="@drawable/order_delivery_off" />
 
     <ImageView
         android:id="@+id/imageView_order_detail_delivery_complete"
@@ -57,7 +57,7 @@
         android:layout_marginEnd="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_order_detail_arrival_information"
-        app:srcCompat="@drawable/agijagi_logo" />
+        android:src="@drawable/order_delivery_complete_off" />
 
 
     <TextView
@@ -118,7 +118,7 @@
         android:background="@drawable/imageview_rounded_stroke"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_order_detail_stick"
-        app:srcCompat="@drawable/agijagi_logo" />
+        android:src="@drawable/order_default_image" />
 
     <TextView
         android:id="@+id/textView_order_detail_product_name"
@@ -155,6 +155,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_order_detail_product">
 
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_order_exchange"
             android:layout_width="match_parent"
@@ -163,7 +164,10 @@
             android:layout_weight="1"
             android:background="@drawable/narrow_box_rounded_button_solid"
             android:text="택배 회사"
-            android:textColor="@color/white" />
+            android:drawableStart="@drawable/order_call_20px"
+            android:paddingStart="35dp"
+            android:paddingEnd="30dp"
+            android:textColor="@color/hint_color" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_order_shipping_tracking"
@@ -173,7 +177,11 @@
             android:layout_weight="1"
             android:background="@drawable/narrow_box_rounded_button_solid"
             android:text="배송 기사"
-            android:textColor="@color/white" />
+            android:drawableStart="@drawable/order_call_20px"
+            android:paddingStart="35dp"
+            android:paddingEnd="30dp"
+            android:textColor="@color/hint_color" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
