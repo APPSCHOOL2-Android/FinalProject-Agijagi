@@ -35,4 +35,32 @@
             android:id="@+id/action_wishListFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/customProductDetailFragment"
+        android:name="likelion.project.agijagi.product.CustomProductDetailFragment"
+        android:label="fragment_custom_product_detail"
+        tools:layout="@layout/fragment_custom_product_detail" >
+        <action
+            android:id="@+id/action_customProductDetailFragment_to_customOptionFragment"
+            app:destination="@id/customOptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customOptionFragment"
+        android:name="likelion.project.agijagi.productoption.CustomOptionFragment"
+        android:label="fragment_custom_option"
+        tools:layout="@layout/fragment_custom_option" />
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="likelion.project.agijagi.product.ProductDetailFragment"
+        android:label="fragment_product_detail"
+        tools:layout="@layout/fragment_product_detail" >
+        <action
+            android:id="@+id/action_productDetailFragment_to_readyMadeOptionFragment"
+            app:destination="@id/readyMadeOptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/readyMadeOptionFragment"
+        android:name="likelion.project.agijagi.productoption.ReadyMadeOptionFragment"
+        android:label="fragment_ready_made_option"
+        tools:layout="@layout/fragment_ready_made_option" />
 </navigation>

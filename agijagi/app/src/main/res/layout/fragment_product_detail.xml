@@ -150,6 +150,7 @@
             android:background="@drawable/favorite_pressed_button" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_product_detail_purchase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
