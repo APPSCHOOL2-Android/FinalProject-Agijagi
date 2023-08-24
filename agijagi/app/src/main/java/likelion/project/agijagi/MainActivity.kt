@@ -1,10 +1,10 @@
 package likelion.project.agijagi
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.setupWithNavController
 import likelion.project.agijagi.databinding.ActivityMainBinding
 
@@ -36,6 +36,18 @@ class MainActivity : AppCompatActivity() {
                 NavigationUI.onNavDestinationSelected(item, navController)
                 navController.popBackStack(item.itemId, inclusive = false)
                 true
+            }
+
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                visibility = when (destination.id) {
+                    R.id.homeFragment, R.id.categoryfragment, R.id.shippingfragment, R.id.wishListFragment, R.id.mypagefragment -> {
+                        View.VISIBLE
+                    }
+
+                    else -> {
+                        View.GONE
+                    }
+                }
             }
         }
     }
