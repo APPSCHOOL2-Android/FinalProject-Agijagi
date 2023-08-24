@@ -131,17 +131,17 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/product_detail_default_image" />
 
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_product_detail_preview_product_registration"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/wide_box_bottom_active"
-                android:text="등록"
-                android:textColor="@color/hint_color"
-                android:textSize="16dp" />
         </LinearLayout>
 
     </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_product_detail_preview_product_registration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/wide_box_bottom_active"
+        android:text="등록"
+        android:textColor="@color/hint_color"
+        android:textSize="16dp" />
 
 </LinearLayout>
