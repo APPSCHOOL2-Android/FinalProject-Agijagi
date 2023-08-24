@@ -159,7 +159,7 @@
             android:layout_marginBottom="4dp"
             android:background="@drawable/wide_box_rounded_purchase_button_solid"
             android:text="구매하기"
-            android:textColor="@color/jagi_hint_color"
+            android:textColor="@color/hint_color"
             android:textSize="16dp" />
 
     </LinearLayout>
