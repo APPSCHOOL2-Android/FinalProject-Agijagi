@@ -216,7 +216,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        app:simpleItems="@array/category" />
+                        app:simpleItems="@array/product_add_category" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -232,7 +232,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
-                        app:simpleItems="@array/select_ordermade" />
+                        app:simpleItems="@array/product_add_select_ordermade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
