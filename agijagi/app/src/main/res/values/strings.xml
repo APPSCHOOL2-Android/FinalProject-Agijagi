@@ -3,4 +3,16 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <array name="category">
+        <item>ALL</item>
+        <item>Plate</item>
+        <item>Cup</item>
+        <item>Bowl</item>
+        <item>Order made</item>
+    </array>
+
+    <array name="select_ordermade">
+        <item>주문 제작 가능</item>
+        <item>주문 제작 불가능</item>
+    </array>
 </resources>
