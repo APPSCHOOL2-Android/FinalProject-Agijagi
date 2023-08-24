@@ -18,4 +18,12 @@
         <item name="android:subtitle">null</item>
     </style>
 
+    <style name="CustomCheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/shopping_list_circle_checkbox_selector</item>
+    </style>
+
+    <style name="CustomCheckBoxSmall" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/shopping_list_small_circle_checkbox_selector</item>
+    </style>
+
 </resources>
