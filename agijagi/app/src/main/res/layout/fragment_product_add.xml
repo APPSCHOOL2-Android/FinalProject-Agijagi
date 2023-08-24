@@ -25,11 +25,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="24dp" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginRight="16dp">
 
                 <TextView
@@ -37,7 +41,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="총 6장의 사진"
-
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -74,12 +77,81 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_product_add_add_picture"
+            <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:visibility="visible" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:stretchColumns="0,2,4">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include
+                        android:id="@+id/include_product_add_add_picture_box1"
+                        layout="@layout/item_product_add_add_picture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
+
+                    <include
+                        android:id="@+id/include_product_add_add_picture_box2"
+                        layout="@layout/item_product_add_add_picture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
+
+                    <include
+                        android:id="@+id/include_product_add_add_picture_box3"
+                        layout="@layout/item_product_add_add_picture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include
+                        android:id="@+id/include_product_add_add_picture_box4"
+                        layout="@layout/item_product_add_add_picture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
+
+                    <include
+                        android:id="@+id/include_product_add_add_picture_box5"
+                        layout="@layout/item_product_add_add_picture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
+
+                    <include
+                        android:id="@+id/include_product_add_add_picture_box6"
+                        layout="@layout/item_product_add_add_picture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
+                </TableRow>
+
+            </TableLayout>
 
             <Space
                 android:layout_width="match_parent"
@@ -93,7 +165,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView_title2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="상품정보"
@@ -166,15 +237,16 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_product_add_option"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/wide_box_rounded_stroke"
                     android:orientation="vertical"
-                    android:padding="8dp">
+                    android:padding="8dp"
+                    android:visibility="visible">
 
                     <TextView
-                        android:id="@+id/textView_product_add_option"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="start"
@@ -312,11 +384,55 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_product_add_add_plan"
+            <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:stretchColumns="0,2,4,6">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include
+                        android:id="@+id/include_product_add_add_plan_box1"
+                        layout="@layout/item_product_add_add_plan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
+
+                    <include
+                        android:id="@+id/include_product_add_add_plan_box2"
+                        layout="@layout/item_product_add_add_plan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
+
+                    <include
+                        android:id="@+id/include_product_add_add_plan_box3"
+                        layout="@layout/item_product_add_add_plan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
+
+                    <include
+                        android:id="@+id/include_product_add_add_plan_box4"
+                        layout="@layout/item_product_add_add_plan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+            </TableLayout>
 
             <Space
                 android:layout_width="match_parent"
