@@ -43,6 +43,12 @@
         <action
             android:id="@+id/action_customProductDetailFragment_to_customOptionFragment"
             app:destination="@id/customOptionFragment" />
+        <action
+            android:id="@+id/action_customProductDetailFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
+        <action
+            android:id="@+id/action_customProductDetailFragment_to_userChatListFragment"
+            app:destination="@id/userChatListFragment" />
     </fragment>
     <fragment
         android:id="@+id/customOptionFragment"
@@ -57,10 +63,23 @@
         <action
             android:id="@+id/action_productDetailFragment_to_readyMadeOptionFragment"
             app:destination="@id/readyMadeOptionFragment" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/readyMadeOptionFragment"
         android:name="likelion.project.agijagi.productoption.ReadyMadeOptionFragment"
         android:label="fragment_ready_made_option"
         tools:layout="@layout/fragment_ready_made_option" />
+    <fragment
+        android:id="@+id/shoppingListFragment"
+        android:name="likelion.project.agijagi.shopping.ShoppingListFragment"
+        android:label="fragment_shopping_list"
+        tools:layout="@layout/fragment_shopping_list" />
+    <fragment
+        android:id="@+id/userChatListFragment"
+        android:name="likelion.project.agijagi.userchat.UserChatListFragment"
+        android:label="fragment_user_chat_list"
+        tools:layout="@layout/fragment_user_chat_list" />
 </navigation>

@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import likelion.project.agijagi.R
@@ -23,6 +21,7 @@ class CustomProductDetailFragment : Fragment() {
     ): View? {
         binding = FragmentCustomProductDetailBinding.inflate(inflater)
 
+        toolbarClickItem()
         clickFloatingButton()
         clickFloorPlanDownloadButton()
         clickFavoriteButton()
@@ -31,11 +30,25 @@ class CustomProductDetailFragment : Fragment() {
         return binding?.root
     }
 
+    private fun toolbarClickItem() {
+        binding?.run {
+            toolbarCustomProductDetail.run {
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.menu_product_detail_shopping -> {
+                            findNavController().navigate(R.id.action_customProductDetailFragment_to_shoppingListFragment)
+                        }
+                    }
+                    false
+                }
+            }
+        }
+    }
+
     private fun clickFloatingButton() {
         binding?.run {
             customFloatingButtonCustomProductDetailToChatting.customFloatingButtonLayout.setOnClickListener {
-                Toast.makeText(context, "Custom Floating Button Clicked!", Toast.LENGTH_SHORT)
-                    .show()
+                it.findNavController().navigate(R.id.action_customProductDetailFragment_to_userChatListFragment)
             }
         }
     }
@@ -61,7 +74,8 @@ class CustomProductDetailFragment : Fragment() {
     private fun clickPurchaseButtonToCustomOption() {
         binding?.run {
             buttonCustomProductDetailPurchase.setOnClickListener {
-                it.findNavController().navigate(R.id.action_customProductDetailFragment_to_customOptionFragment)
+                it.findNavController()
+                    .navigate(R.id.action_customProductDetailFragment_to_customOptionFragment)
             }
         }
     }

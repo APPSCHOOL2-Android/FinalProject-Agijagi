@@ -21,10 +21,26 @@ class ProductDetailFragment : Fragment() {
     ): View? {
         binding = FragmentProductDetailBinding.inflate(inflater)
 
+        toolbarClickItem()
         clickFavoriteButton()
         clickPurchaseButtonToReadyMadeOption()
 
         return binding?.root
+    }
+
+    private fun toolbarClickItem() {
+        binding?.run {
+            toolbarProductDetail.run {
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.menu_product_detail_shopping -> {
+                            findNavController().navigate(R.id.action_productDetailFragment_to_shoppingListFragment)
+                        }
+                    }
+                    false
+                }
+            }
+        }
     }
 
     private fun clickFavoriteButton() {
