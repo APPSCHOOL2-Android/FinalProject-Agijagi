@@ -69,10 +69,9 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="12dp"
                     android:layout_marginTop="24dp"
-                    android:layout_marginEnd="12dp"
                     android:background="@drawable/custom_product_notice_box_rounded"
                     android:orientation="horizontal">
 
@@ -88,8 +87,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="12dp">
+                        android:paddingVertical="16dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -102,6 +100,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:autoSizeTextType="uniform"
                             android:text="이 상품은 구매자의 요청에 따라 개별 주문 제작되며 판매자에 의해 취소/반품/교환이 제한될 수 있습니다."
                             android:textSize="12sp" />
 
@@ -109,6 +109,7 @@
 
 
                 </LinearLayout>
+
 
                 <View
                     android:id="@+id/view_product_detail_divider_stick"
@@ -132,10 +133,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="40dp"
+                    android:layout_marginHorizontal="40dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="40dp"
-                    android:text="기본적인 블랙 색상의 깔끔한 디자인과 다양한 디자인으로 쓰임이 많은 도자기 그릇입니다. 도자기 재질로 무게감이 있어 안정적으로.."
+                    android:text="기본적인 블랙 색상의 깔끔한 디자인과 다양한 디자인으로 쓰임이 많은 도자기 그릇입니다. 도자기 재질로 무게감이 있어 안정적으로 .."
                     android:textAlignment="center"
                     android:textSize="12sp" />
 
@@ -180,9 +180,46 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/product_detail_default_image" />
 
-            </LinearLayout>
-        </ScrollView>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp">
 
+                    <TextView
+                        android:id="@+id/text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="도면"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button_custom_product_detail_download"
+                        android:layout_width="64dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/wide_box_rounded_button_stroke"
+                        android:text="다운로드"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="@color/jagi_ivory" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="112dp"
+                    android:text="파일을 저장해 편집(인스타그램 스토리, 마크업, 스노우 등)해 주셔도 되며, 종이에 그린 것을 찍어 첨부해 주셔도 됩니다."
+                    android:textAlignment="center"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -213,13 +250,8 @@
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="72dp"
-        app:srcCompat="@drawable/sms_24px" />
+    <include
+        android:id="@+id/custom_button_layout"
+        layout="@layout/custom_floating_button" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
