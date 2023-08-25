@@ -167,7 +167,7 @@
             android:drawableStart="@drawable/order_call_20px"
             android:paddingStart="35dp"
             android:paddingEnd="30dp"
-            android:textColor="@color/hint_color" />
+            android:textColor="@color/jagi_hint_color" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_order_shipping_tracking"
@@ -180,7 +180,7 @@
             android:drawableStart="@drawable/order_call_20px"
             android:paddingStart="35dp"
             android:paddingEnd="30dp"
-            android:textColor="@color/hint_color" />
+            android:textColor="@color/jagi_hint_color" />
 
     </LinearLayout>
 

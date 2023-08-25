@@ -98,7 +98,7 @@ class PaymentFragment : Fragment() {
 
         for (button in buttons) {
             if (button == selectedButton) {
-                button.setTextColor(resources.getColor(R.color.hint_color)) // 선택된 버튼 스타일 변경
+                button.setTextColor(resources.getColor(R.color.jagi_hint_color)) // 선택된 버튼 스타일 변경
                 button.setBackgroundResource(R.drawable.narrow_box_rounded_button_solid)
             } else {
                 button.setTextColor(resources.getColor(R.color.jagi_brown))
