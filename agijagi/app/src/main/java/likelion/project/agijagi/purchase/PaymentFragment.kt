@@ -34,9 +34,9 @@ class PaymentFragment : Fragment() {
                     }
                     dropdownmenuPaymentCategoryDetail.run {
                         visibility = View.VISIBLE
-                        hint = "할부기간"
                         (editText as? MaterialAutoCompleteTextView)?.setSimpleItems(R.array.payment_card_detail_category)
                     }
+                    dropdownTextViewPaymentCategoryDetail.hint = "할부기간"
                     editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
                 }
             }
@@ -61,10 +61,8 @@ class PaymentFragment : Fragment() {
                         (editText as? MaterialAutoCompleteTextView)?.setSimpleItems(R.array.payment_phone_category)
                     }
                     dropdownmenuPaymentCategoryDetail.visibility = View.INVISIBLE
-                    editinputlayoutPaymentCategoryDetail.run {
-                        visibility = View.VISIBLE
-                        hint = "전화번호를 입력하세요."
-                    }
+                    editinputlayoutPaymentCategoryDetail.visibility = View.VISIBLE
+                    editinputPaymentCategoryDetail.hint = "전화번호를 입력하세요."
                 }
             }
 
@@ -76,10 +74,8 @@ class PaymentFragment : Fragment() {
                         (editText as? MaterialAutoCompleteTextView)?.setSimpleItems(R.array.payment_bank_transfer_category)
                     }
                     dropdownmenuPaymentCategoryDetail.visibility = View.INVISIBLE
-                    editinputlayoutPaymentCategoryDetail.run {
-                        visibility = View.VISIBLE
-                        hint = "계좌번호를 입력하세요."
-                    }
+                    editinputlayoutPaymentCategoryDetail.visibility = View.VISIBLE
+                    editinputPaymentCategoryDetail.hint = "계좌번호를 입력하세요."
                 }
             }
         }
