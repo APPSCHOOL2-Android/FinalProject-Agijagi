@@ -43,6 +43,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:background="#80FFFFFF"
                 app:layout_constraintTop_toBottomOf="@id/textView_payment_delivery_title">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -218,14 +219,18 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:hint="카드사를 선택해주세요"
+                app:hintEnabled="false"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/narrow_box_rounded_button_stroke"
+                    android:hint="카드사를 선택해주세요"
                     android:inputType="none"
-                    app:simpleItems="@array/payment_card_category" />
+                    android:popupBackground = "@color/jagi_ivory"
+                    app:simpleItems="@array/payment_card_category"
+                    app:simpleItemSelectedColor = "@color/jagi_brown"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -234,16 +239,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="14dp"
                 android:layout_marginEnd="16dp"
-                android:hint="일시불"
+                app:hintEnabled="false"
                 app:layout_constraintTop_toBottomOf="@+id/dropdownmenu_payment_category">
 
                 <AutoCompleteTextView
+                    android:id="@+id/dropdownTextView_payment_category_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/narrow_box_rounded_button_stroke"
+                    android:hint="할부기간"
                     android:inputType="none"
-                    app:simpleItems="@array/payment_card_category" />
+                    android:popupBackground = "@color/jagi_ivory"
+                    app:simpleItems="@array/payment_card_detail_category" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -252,14 +261,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="14dp"
                 android:layout_marginEnd="16dp"
+                app:boxStrokeColor="@color/jagi_brown"
+                app:hintEnabled="false"
                 app:layout_constraintTop_toBottomOf="@+id/dropdownmenu_payment_category">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editinput_payment_category_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/narrow_box_rounded_button_stroke"
                     android:textColorHint="@color/jagi_hint_color" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -340,6 +352,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
                 android:background="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

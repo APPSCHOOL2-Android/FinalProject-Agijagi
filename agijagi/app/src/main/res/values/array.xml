@@ -70,4 +70,10 @@
         <item>주문 제작 불가능</item>
     </array>
 
+    <array name="custom_option_select">
+        <item>래터링</item>
+        <item>이미지</item>
+        <item>래터링 + 이미지</item>
+    </array>
+
 </resources>
