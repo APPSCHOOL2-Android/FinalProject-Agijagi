@@ -165,7 +165,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/wide_box_bottom_active"
         android:text="홈으로"
-        android:textColor="@color/jagi_hint_color"
+        android:textColor="@color/hint_color"
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
