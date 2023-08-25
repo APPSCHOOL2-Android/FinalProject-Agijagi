@@ -8,9 +8,9 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_margin="4dp"
         app:cardCornerRadius="8dp"
-        android:backgroundTint="@color/jagi_white_30"
+        android:backgroundTint="@color/jagi_white"
         app:strokeWidth="1dp"
-        app:strokeColor="@color/jagi_inactive"
+        app:strokeColor="@color/jagi_black_42"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
