@@ -165,7 +165,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/narrow_box_rounded_button_solid"
                         android:text="신용카드"
-                        android:textColor="@color/hint_color"
+                        android:textColor="@color/jagi_hint_color"
                         android:textSize="14sp" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -378,7 +378,7 @@
                 android:layout_marginTop="24dp"
                 android:background="@drawable/wide_box_bottom_active"
                 android:text="159,000원 결제하기"
-                android:textColor="@color/hint_color"
+                android:textColor="@color/jagi_hint_color"
                 android:textSize="16dp"
                 app:layout_constraintTop_toBottomOf="@id/textView_payment_total_mount_value" />
         </androidx.constraintlayout.widget.ConstraintLayout>

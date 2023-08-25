@@ -218,7 +218,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="64dp"
                         android:text="가입하기"
-                        android:textColor="@color/hint_color"
+                        android:textColor="@color/jagi_hint_color"
                         android:textSize="16dp"
                         android:background="@drawable/wide_box_selected_active"
                         android:layout_below="@+id/button_signup_seller_add_file"

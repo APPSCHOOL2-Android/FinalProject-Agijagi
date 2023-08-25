@@ -114,7 +114,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="상품명을 입력해주세요"
-                        android:textColorHint="@color/jagi_inactiveText" />
+                        android:textColorHint="@color/jagi_black_42" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -130,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:hint="가격을 입력해주세요"
                         android:inputType="number|numberDecimal"
-                        android:textColorHint="@color/jagi_inactiveText" />
+                        android:textColorHint="@color/jagi_black_42" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -208,7 +208,7 @@
                                 android:gravity="right|center_vertical"
                                 android:hint="추가 금액"
                                 android:inputType="number|numberDecimal"
-                                android:textColorHint="@color/jagi_inactiveText" />
+                                android:textColorHint="@color/jagi_black_42" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
@@ -239,7 +239,7 @@
                                 android:gravity="right|center_vertical"
                                 android:hint="추가 금액"
                                 android:inputType="number|numberDecimal"
-                                android:textColorHint="@color/jagi_inactiveText" />
+                                android:textColorHint="@color/jagi_black_42" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
@@ -258,7 +258,7 @@
                         android:layout_height="200dp"
                         android:gravity="start"
                         android:hint="상품 상세정보를 입력해주세요"
-                        android:textColorHint="@color/jagi_inactiveText" />
+                        android:textColorHint="@color/jagi_black_42" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>

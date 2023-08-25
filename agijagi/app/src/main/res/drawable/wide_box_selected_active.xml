@@ -3,7 +3,7 @@
 
     <item android:state_selected="false">
         <shape android:shape="rectangle">
-            <solid android:color="@color/noactive"/>
+            <solid android:color="@color/jagi_inactive"/>
             <size android:width="360dp" android:height="56dp" />
         </shape>
     </item>
