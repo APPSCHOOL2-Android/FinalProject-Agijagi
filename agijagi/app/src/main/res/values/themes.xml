@@ -13,7 +13,7 @@
         <!--드롭다운 아이템 선택 시-->
         <item name="colorSurfaceVariant">@color/jagi_brown</item>
         <!--힌트-->
-        <item name="android:textColorHint">@color/jagi_gray</item>
+        <item name="android:textColorHint">@color/jagi_black_42</item>
         <!--인풋 레이아웃의 기본 테두리-->
         <item name="colorOutline">@color/jagi_brown</item>
         <!--인풋 레이아웃이 선택됐을 때의 테두리-->

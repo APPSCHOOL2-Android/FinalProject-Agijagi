@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AutoCompleteTextView
 import android.widget.Button
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import likelion.project.agijagi.R
