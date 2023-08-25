@@ -1,14 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".purchase.PurchaseCompleteFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_order_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.AgijagiToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="주문완료" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textView_purchase_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="주문이 완료되었습니다."
+        android:layout_marginTop="48dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_order_detail" />
+
+    <View
+        android:id="@+id/line_purchase_complete"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_purchase_complete" />
+
+    <TextView
+        android:id="@+id/textView_purchase_complete_order_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="주문번호"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:layout_marginTop="48dp"
+        android:layout_marginStart="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line_purchase_complete" />
+
+    <TextView
+        android:id="@+id/textView_purchase_complete_order_number_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="128dp"
+        android:text="000000000000000000000000000"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_purchase_complete_order_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_purchase_complete_order_number" />
+
+    <TextView
+        android:id="@+id/textView_purchase_complete_customer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="주문자"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_purchase_complete_order_number" />
+
+    <TextView
+        android:id="@+id/textView_purchase_complete_customer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="128dp"
+        android:text="홍길동"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_purchase_complete_customer" />
+
+    <TextView
+        android:id="@+id/textView_purchase_complete_customer_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="010 1111 2222"
+        android:textColor="@color/black"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="128dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_purchase_complete_customer_name" />
+
+    <TextView
+        android:id="@+id/textView_purchase_complete_shipping_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="배송지"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="56dp"
+        android:layout_marginStart="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_purchase_complete_customer" />
+
+    <TextView
+        android:id="@+id/textView_purchase_complete_shipping_address_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="128dp"
+        android:text="경기도 고양시 일산동구 어쩌구 저쩌구"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_purchase_complete_shipping_address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_purchase_complete_shipping_address" />
+
+    <TextView
+        android:id="@+id/textView_purchase_complete_shipping_method"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="배송방법"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_purchase_complete_shipping_address" />
+
+    <TextView
+        android:id="@+id/textView_purchase_complete_shipping_method_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="128dp"
+        android:text="택배"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_purchase_complete_shipping_method"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_purchase_complete_shipping_method" />
+
+    <View
+        android:id="@+id/line_purchase_complete2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_purchase_complete_shipping_method" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_purchase_complete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/wide_box_bottom_active"
+        android:text="홈으로"
+        android:textColor="@color/hint_color"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
