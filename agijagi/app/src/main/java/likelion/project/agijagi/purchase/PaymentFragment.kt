@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import androidx.navigation.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentPaymentBinding
@@ -77,6 +78,10 @@ class PaymentFragment : Fragment() {
                     editinputlayoutPaymentCategoryDetail.visibility = View.VISIBLE
                     editinputPaymentCategoryDetail.hint = "계좌번호를 입력하세요."
                 }
+            }
+
+            buttonPaymentPayment.setOnClickListener {
+                it.findNavController().navigate(R.id.action_paymentFragment_to_purchaseCompleteFragment)
             }
         }
 
