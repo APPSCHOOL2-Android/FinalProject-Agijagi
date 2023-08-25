@@ -22,12 +22,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="24dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -186,6 +182,7 @@
                         android:layout_height="wrap_content"
                         android:hint="상품명을 입력해주세요"
                         android:textColorHint="@color/jagi_inactiveText" />
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -202,6 +199,7 @@
                         android:hint="가격을 입력해주세요"
                         android:inputType="number|numberDecimal"
                         android:textColorHint="@color/jagi_inactiveText" />
+                        android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -236,86 +234,91 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <LinearLayout
+
+                <TableLayout
                     android:id="@+id/layout_product_add_option"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/wide_box_rounded_stroke"
-                    android:orientation="vertical"
                     android:padding="8dp"
+                    android:stretchColumns="0"
                     android:visibility="visible">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="start"
-                        android:text="주문제작 옵션 선택"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+                    <TableRow>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_span="2"
+                            android:gravity="start"
+                            android:text="주문제작 옵션 선택"
+                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+                    </TableRow>
+
+                    <TableRow>
 
                         <CheckBox
                             android:id="@+id/checkBox_product_add_option1"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:text="레터링" />
+
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/editinputlayout_product_add_option1_priceedit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/wide_box_rounded_stroke"
-                            android:gravity="right|center_vertical">
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/small_box_rounded_stroke"
+                            android:gravity="end|center_vertical"
+                            android:padding="0dp"
+                            app:hintEnabled="false">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/editinputlayout_product_add_option1_price"
-                                android:layout_width="128dp"
-                                android:layout_height="32dp"
-                                android:gravity="right|center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:autoSizeTextType="uniform"
+                                android:gravity="end|center_vertical"
                                 android:hint="추가 금액"
                                 android:inputType="number|numberDecimal"
-                                android:textColorHint="@color/jagi_inactiveText" />
+                                android:padding="0dp" />
                         </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp">
+                    </TableRow>
+
+                    <TableRow>
 
                         <CheckBox
                             android:id="@+id/checkBox_product_add_option2"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
                             android:text="그림" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/editinputlayout_product_add_option2_priceedit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@drawable/wide_box_rounded_stroke"
-                            android:gravity="right|center_vertical">
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/small_box_rounded_stroke"
+                            android:gravity="end|center_vertical"
+                            app:hintEnabled="false">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/editinputlayout_product_add_option2_price"
-                                android:layout_width="128dp"
-                                android:layout_height="32dp"
-                                android:gravity="right|center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:autoSizeTextType="uniform"
+                                android:gravity="end|center_vertical"
                                 android:hint="추가 금액"
-                                android:inputType="number|numberDecimal"
-                                android:textColorHint="@color/jagi_inactiveText" />
+                                android:inputType="number|numberDecimal" />
                         </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
 
-                </LinearLayout>
+                    </TableRow>
+
+                </TableLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/editinputlayout_product_add_detailedit"
@@ -339,100 +342,105 @@
                 android:layout_width="match_parent"
                 android:layout_height="24dp" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
-
-                <TextView
-                    android:id="@+id/textView_title3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="도면추가"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView_subtitle3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="( 3 / 4 )"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textView_title3"
-                    app:layout_constraintLeft_toRightOf="@+id/textView_title3" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_product_add_add_blueprint"
-                    android:layout_width="64dp"
-                    android:layout_height="24dp"
-                    android:background="@drawable/wide_box_rounded_button_stroke"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="4dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="4dp"
-                    android:text="도면추가"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="@color/jagi_ivory"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TableLayout
+            <LinearLayout
+                android:id="@+id/layout_product_add_add_plan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginRight="16dp"
-                android:stretchColumns="0,2,4,6">
+                android:orientation="vertical">
 
-                <TableRow
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
-                    <include
-                        android:id="@+id/include_product_add_add_plan_box1"
-                        layout="@layout/item_product_add_add_plan"
+                    <TextView
+                        android:id="@+id/textView_title3"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="도면추가"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <Space
-                        android:layout_width="4dp"
-                        android:layout_height="match_parent" />
-
-                    <include
-                        android:id="@+id/include_product_add_add_plan_box2"
-                        layout="@layout/item_product_add_add_plan"
+                    <TextView
+                        android:id="@+id/textView_subtitle3"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="( 3 / 4 )"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/textView_title3"
+                        app:layout_constraintLeft_toRightOf="@+id/textView_title3" />
 
-                    <Space
-                        android:layout_width="4dp"
-                        android:layout_height="match_parent" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button_product_add_add_plan"
+                        android:layout_width="64dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/wide_box_rounded_button_stroke"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="4dp"
+                        android:text="도면추가"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="@color/jagi_ivory"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <include
-                        android:id="@+id/include_product_add_add_plan_box3"
-                        layout="@layout/item_product_add_add_plan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <Space
-                        android:layout_width="4dp"
-                        android:layout_height="match_parent" />
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:stretchColumns="0,2,4,6">
 
-                    <include
-                        android:id="@+id/include_product_add_add_plan_box4"
-                        layout="@layout/item_product_add_add_plan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </TableRow>
-            </TableLayout>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <include
+                            android:id="@+id/include_product_add_add_plan_box1"
+                            layout="@layout/item_product_add_add_plan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <Space
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent" />
+
+                        <include
+                            android:id="@+id/include_product_add_add_plan_box2"
+                            layout="@layout/item_product_add_add_plan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <Space
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent" />
+
+                        <include
+                            android:id="@+id/include_product_add_add_plan_box3"
+                            layout="@layout/item_product_add_add_plan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <Space
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent" />
+
+                        <include
+                            android:id="@+id/include_product_add_add_plan_box4"
+                            layout="@layout/item_product_add_add_plan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
 
             <Space
                 android:layout_width="match_parent"
