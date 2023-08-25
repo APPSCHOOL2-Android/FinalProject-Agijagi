@@ -131,7 +131,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:text="가입하기"
-                        android:textColor="@color/hint_color"
+                        android:textColor="@color/jagi_hint_color"
                         android:textSize="16dp"
                         android:background="@drawable/wide_box_selected_active"
                         android:layout_alignParentBottom="true"/>

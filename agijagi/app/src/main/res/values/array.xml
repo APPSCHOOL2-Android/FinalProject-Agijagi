@@ -57,4 +57,23 @@
         <item>새마을금고</item>
     </array>
 
+    <array name="product_add_category">
+        <item>ALL</item>
+        <item>Plate</item>
+        <item>Cup</item>
+        <item>Bowl</item>
+        <item>Order made</item>
+    </array>
+
+    <array name="product_add_select_ordermade">
+        <item>주문 제작 가능</item>
+        <item>주문 제작 불가능</item>
+    </array>
+
+    <array name="custom_option_select">
+        <item>래터링</item>
+        <item>이미지</item>
+        <item>래터링 + 이미지</item>
+    </array>
+
 </resources>
