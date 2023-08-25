@@ -48,7 +48,11 @@
         android:id="@+id/paymentFragment"
         android:name="likelion.project.agijagi.purchase.PaymentFragment"
         android:label="fragment_payment"
-        tools:layout="@layout/fragment_payment" />
+        tools:layout="@layout/fragment_payment" >
+        <action
+            android:id="@+id/action_paymentFragment_to_purchaseCompleteFragment"
+            app:destination="@id/purchaseCompleteFragment" />
+    </fragment>
     <fragment
         android:id="@+id/orderDetailFragment"
         android:name="likelion.project.agijagi.order.OrderDetailFragment"
@@ -133,4 +137,13 @@
         android:name="likelion.project.agijagi.sellermypage.ProductUpdateFragment"
         android:label="fragment_product_update"
         tools:layout="@layout/fragment_product_update" />
+    <fragment
+        android:id="@+id/purchaseCompleteFragment"
+        android:name="likelion.project.agijagi.purchase.PurchaseCompleteFragment"
+        android:label="fragment_purchase_complete"
+        tools:layout="@layout/fragment_purchase_complete" >
+        <action
+            android:id="@+id/action_purchaseCompleteFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>
