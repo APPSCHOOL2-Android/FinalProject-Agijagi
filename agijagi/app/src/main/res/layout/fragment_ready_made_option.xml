@@ -110,7 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="수량 선택"
-            android:textColorHint="@color/jagi_inactiveText" />
+            android:textColorHint="@color/jagi_white_30" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -139,7 +139,7 @@
             android:layout_marginBottom="4dp"
             android:background="@drawable/wide_box_rounded_purchase_button_solid"
             android:text="구매하기"
-            android:textColor="@color/hint_color"
+            android:textColor="@color/jagi_hint_color"
             android:textSize="16dp" />
 
     </LinearLayout>
