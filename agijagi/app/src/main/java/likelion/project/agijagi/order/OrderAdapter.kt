@@ -29,7 +29,7 @@ class OrderAdapter() : ListAdapter<OrderModel, OrderAdapter.OrderViewHolder>(dif
                 if(adapterPosition != RecyclerView.NO_POSITION){
 
                 }
-                it.findNavController().navigate(R.id.action_orderFragment_to_orderDetailFragment)
+                it.findNavController().navigate(R.id.action_orderFragment_to_deliveryTrackingFragment)
             }
         }
     }
