@@ -182,6 +182,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="상품명을 입력해주세요"
+                        android:inputType="text"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -346,6 +347,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:gravity="start"
+                        android:inputType="textMultiLine"
                         android:hint="상품 상세정보를 입력해주세요" />
                 </com.google.android.material.textfield.TextInputLayout>
 
