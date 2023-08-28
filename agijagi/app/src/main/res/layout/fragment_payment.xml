@@ -229,7 +229,7 @@
                     android:background="@drawable/narrow_box_rounded_button_stroke"
                     android:hint="카드사를 선택해주세요"
                     android:inputType="none"
-                    app:simpleItems="@array/payment_card_category" />
+                    app:simpleItems="@array/payment_card_category"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
