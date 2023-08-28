@@ -21,5 +21,336 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/home_thumbnail">
+                
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/ordermade_box_rounded"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="주문 제작 상품 보기"
+                            android:textSize="14dp"
+                            android:textColor="@color/white"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/arrow_forward_ios_24px" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+                
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textview_homefragment_bestitem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BEST ITEMS"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="18dp"/>
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        android:rowCount="2"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_below="@+id/textview_homefragment_bestitem">
+
+                        <RelativeLayout
+                            android:id="@+id/relativelayout_homefragment_layout_one"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:layout_marginBottom="16dp">
+
+                            <LinearLayout
+                                android:id="@+id/linearlayout_homefragment_button_one"
+                                android:layout_width="160dp"
+                                android:layout_height="112dp"
+                                android:orientation="vertical"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:background="@drawable/bestitem_box_rounded"
+                                android:gravity="center"
+                                android:layout_centerHorizontal="true">
+
+                                <ImageView
+                                    android:id="@+id/linearlayout_homefragment_image_one"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/agijagi_logo" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textview_homefragment_brandname_one"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="브랜드명"
+                                android:textSize="12sp"
+                                android:textColor="@color/brand_name"
+                                android:layout_marginTop="8dp"
+                                android:layout_below="@+id/linearlayout_homefragment_button_one"
+                                android:layout_alignStart="@+id/linearlayout_homefragment_button_one"
+                                />
+
+                            <TextView
+                                android:id="@+id/textview_homefragment_productname_one"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="제품명 도자기"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                android:layout_marginTop="4dp"
+                                android:layout_below="@+id/textview_homefragment_brandname_one"
+                                android:layout_alignStart="@+id/linearlayout_homefragment_button_one"/>
+
+                            <TextView
+                                android:id="@+id/textview_homefragment_price_one"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="100,000원"
+                                android:textSize="13sp"
+                                android:textColor="@color/black"
+                                android:layout_below="@+id/textview_homefragment_productname_one"
+                                android:layout_alignStart="@+id/linearlayout_homefragment_button_one"/>
+
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/relativelayout_homefragment_layout_two"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:layout_marginBottom="16dp">
+
+                            <LinearLayout
+                                android:id="@+id/linearlayout_homefragment_button_two"
+                                android:layout_width="160dp"
+                                android:layout_height="112dp"
+                                android:orientation="vertical"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:background="@drawable/bestitem_box_rounded"
+                                android:gravity="center"
+                                android:layout_centerHorizontal="true">
+
+                                <ImageView
+                                    android:id="@+id/linearlayout_homefragment_image_two"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/agijagi_logo" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textview_homefragment_brandname_two"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="브랜드명"
+                                android:textSize="12sp"
+                                android:textColor="@color/brand_name"
+                                android:layout_marginTop="8dp"
+                                android:layout_below="@+id/linearlayout_homefragment_button_two"
+                                android:layout_alignStart="@+id/linearlayout_homefragment_button_two"/>
+
+                            <TextView
+                                android:id="@+id/textview_homefragment_productname_two"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="제품명 도자기"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                android:layout_marginTop="4dp"
+                                android:layout_below="@+id/textview_homefragment_brandname_two"
+                                android:layout_alignStart="@+id/linearlayout_homefragment_button_two"/>
+
+                            <TextView
+                                android:id="@+id/textview_homefragment_price_two"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="100,000원"
+                                android:textSize="13sp"
+                                android:textColor="@color/black"
+                                android:layout_below="@+id/textview_homefragment_productname_two"
+                                android:layout_alignStart="@+id/linearlayout_homefragment_button_two"/>
+
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/relativelayout_homefragment_layout_three"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:layout_marginBottom="16dp">
+
+                            <LinearLayout
+                                android:id="@+id/linearlayout_homefragment_button_three"
+                                android:layout_width="160dp"
+                                android:layout_height="112dp"
+                                android:orientation="vertical"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:background="@drawable/bestitem_box_rounded"
+                                android:gravity="center"
+                                android:layout_centerHorizontal="true">
+
+                                <ImageView
+                                    android:id="@+id/linearlayout_homefragment_image_three"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/agijagi_logo" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textview_homefragment_brandname_three"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="브랜드명"
+                                android:textSize="12sp"
+                                android:textColor="@color/brand_name"
+                                android:layout_marginTop="8dp"
+                                android:layout_below="@+id/linearlayout_homefragment_button_three"
+                                android:layout_alignStart="@+id/linearlayout_homefragment_button_three"/>
+
+                            <TextView
+                                android:id="@+id/textview_homefragment_productname_three"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="제품명 도자기"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                android:layout_marginTop="4dp"
+                                android:layout_below="@+id/textview_homefragment_brandname_three"
+                                android:layout_alignStart="@+id/linearlayout_homefragment_button_three"/>
+
+                            <TextView
+                                android:id="@+id/textview_homefragment_price_three"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="100,000원"
+                                android:textSize="13sp"
+                                android:textColor="@color/black"
+                                android:layout_below="@+id/textview_homefragment_productname_three"
+                                android:layout_alignStart="@+id/linearlayout_homefragment_button_three"/>
+
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:id="@+id/relativelayout_homefragment_layout_four"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_rowWeight="1"
+                            android:layout_marginBottom="16dp">
+
+                            <LinearLayout
+                                android:id="@+id/linearlayout_homefragment_button_four"
+                                android:layout_width="160dp"
+                                android:layout_height="112dp"
+                                android:orientation="vertical"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:background="@drawable/bestitem_box_rounded"
+                                android:gravity="center"
+                                android:layout_centerHorizontal="true">
+
+                                <ImageView
+                                    android:id="@+id/linearlayout_homefragment_image_four"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/agijagi_logo" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/textview_homefragment_brandname_four"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="브랜드명"
+                                android:textSize="12sp"
+                                android:textColor="@color/brand_name"
+                                android:layout_marginTop="8dp"
+                                android:layout_below="@+id/linearlayout_homefragment_button_four"
+                                android:layout_alignStart="@+id/linearlayout_homefragment_button_four"/>
+
+                            <TextView
+                                android:id="@+id/textview_homefragment_productname_four"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="제품명 도자기"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                android:layout_marginTop="4dp"
+                                android:layout_below="@+id/textview_homefragment_brandname_four"
+                                android:layout_alignStart="@+id/linearlayout_homefragment_button_four"/>
+
+                            <TextView
+                                android:id="@+id/textview_homefragment_price_four"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="100,000원"
+                                android:textSize="13sp"
+                                android:textColor="@color/black"
+                                android:layout_below="@+id/textview_homefragment_productname_four"
+                                android:layout_alignStart="@+id/linearlayout_homefragment_button_four"/>
+
+                        </RelativeLayout>
+
+                    </GridLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

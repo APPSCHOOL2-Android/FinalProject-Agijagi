@@ -5,16 +5,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import likelion.project.agijagi.R
+import likelion.project.agijagi.databinding.FragmentDeliveryTrackingBinding
 
 class DeliveryTrackingFragment : Fragment() {
 
+    lateinit var fragmentDeliveryTrackingBinding: FragmentDeliveryTrackingBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_delivery_tracking, container, false)
+        fragmentDeliveryTrackingBinding = FragmentDeliveryTrackingBinding.inflate(layoutInflater)
+
+        fragmentDeliveryTrackingBinding.run {
+            toolbarDeliverytracking.run {
+                setNavigationOnClickListener {
+                    it.findNavController().navigate(R.id.action_deliveryTrackingFragment_to_orderFragment)
+                }
+            }
+        }
+
+        return fragmentDeliveryTrackingBinding.root
     }
 
 }

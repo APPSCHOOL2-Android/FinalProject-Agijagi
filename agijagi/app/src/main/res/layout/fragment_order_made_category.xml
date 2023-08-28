@@ -1,14 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".category.OrderMadeCategoryFragment">
+    android:orientation="vertical"
+    tools:context=".category.CategoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_cateforyfragment_toolbar"
+        style="@style/Theme.AgijagiToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        app:menu="@menu/menu_categoryfragment"
+        app:title="Order made"
+        app:navigationIcon="@drawable/arrow_back_24px"/>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:columnCount="2"
+                android:rowCount="3">
+
+                <RelativeLayout
+                    android:id="@+id/relativelayout_cateforyfragment_layout_one"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/linearlayout_ordermade_cateforyfragment_button_one"
+                        android:layout_width="160dp"
+                        android:layout_height="112dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/bestitem_box_rounded"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:cardCornerRadius="8dp">
+
+                            <ImageView
+                                android:id="@+id/linearlayout_ordermade_cateforyfragment_image_one"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/order_made_thumbnail"
+                                android:scaleType="centerCrop"/>
+
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textview_cateforyfragment_brandname_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearlayout_ordermade_cateforyfragment_button_one"
+                        android:layout_alignStart="@+id/linearlayout_ordermade_cateforyfragment_button_one"
+                        android:layout_marginTop="8dp"
+                        android:text="All"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativelayout_ordermade_cateforyfragment_layout_two"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/linearlayout_ordermade_cateforyfragment_button_two"
+                        android:layout_width="160dp"
+                        android:layout_height="112dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/bestitem_box_rounded"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:cardCornerRadius="8dp">
+
+                            <ImageView
+                                android:id="@+id/linearlayout_cateforyfragment_image_two"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/order_made_plate_thumbnail"
+                                android:scaleType="centerCrop"/>
+
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textview_cateforyfragment_brandname_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearlayout_ordermade_cateforyfragment_button_two"
+                        android:layout_alignStart="@+id/linearlayout_ordermade_cateforyfragment_button_two"
+                        android:layout_marginTop="8dp"
+                        android:text="Plate"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativelayout_cateforyfragment_layout_three"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/linearlayout_ordermade_cateforyfragment_button_three"
+                        android:layout_width="160dp"
+                        android:layout_height="112dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/bestitem_box_rounded"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:cardCornerRadius="8dp">
+
+                            <ImageView
+                                android:id="@+id/linearlayout_ordermade_cateforyfragment_image_three"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/order_made_cup_thumbnail"
+                                android:scaleType="centerCrop"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textview_ordermade_cateforyfragment_brandname_three"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearlayout_ordermade_cateforyfragment_button_three"
+                        android:layout_alignStart="@+id/linearlayout_ordermade_cateforyfragment_button_three"
+                        android:layout_marginTop="8dp"
+                        android:text="Cup"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativelayout_ordermade_cateforyfragment_layout_four"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/linearlayout_ordermade_cateforyfragment_button_four"
+                        android:layout_width="160dp"
+                        android:layout_height="112dp"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/bestitem_box_rounded"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:cardCornerRadius="8dp">
+
+                            <ImageView
+                                android:id="@+id/linearlayout_ordermade_cateforyfragment_image_four"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/order_made_bowl_thumbnail"
+                                android:scaleType="centerCrop"/>
+
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textview_ordermade_cateforyfragment_brandname_four"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/linearlayout_ordermade_cateforyfragment_button_four"
+                        android:layout_alignStart="@+id/linearlayout_ordermade_cateforyfragment_button_four"
+                        android:layout_marginTop="8dp"
+                        android:text="Bowl"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+
+            </GridLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
