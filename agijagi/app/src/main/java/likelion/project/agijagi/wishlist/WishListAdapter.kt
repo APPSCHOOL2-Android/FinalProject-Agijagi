@@ -22,6 +22,10 @@ class WishListAdapter() :
                 textviewWishListName.text = item.name
                 textviewWishListPrice.text = item.price
             }
+
+            bind.buttonWishListFavorite.setOnClickListener {
+                it.isSelected = it.isSelected != true
+            }
         }
     }
 
