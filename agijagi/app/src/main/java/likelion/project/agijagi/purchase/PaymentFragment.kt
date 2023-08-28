@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import androidx.navigation.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -21,6 +22,7 @@ class PaymentFragment : Fragment() {
     ): View? {
         fragmentPaymentBinding = FragmentPaymentBinding.inflate(inflater)
 
+
         fragmentPaymentBinding.run {
             editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
 
@@ -28,13 +30,19 @@ class PaymentFragment : Fragment() {
                 setOnClickListener {
                     selectButtonColor(buttonPaymentCategoryCreditcard)
                     dropdownmenuPaymentCategory.run {
-                        hint = "카드사를 선택해주세요."
                         (editText as? MaterialAutoCompleteTextView)?.setSimpleItems(R.array.payment_card_category)
+                    }
+                    dropdownTextViewPaymentCategory.run{
+                        setText("")
+                        hint = "카드사를 선택해주세요."
                     }
                     dropdownmenuPaymentCategoryDetail.run {
                         visibility = View.VISIBLE
-                        hint = "할부기간"
                         (editText as? MaterialAutoCompleteTextView)?.setSimpleItems(R.array.payment_card_detail_category)
+                    }
+                    dropdownTextViewPaymentCategoryDetail.run {
+                        setText("")
+                        hint = "할부기간"
                     }
                     editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
                 }
@@ -44,9 +52,13 @@ class PaymentFragment : Fragment() {
                 setOnClickListener {
                     selectButtonColor(buttonPaymentCategorySimplepay)
                     dropdownmenuPaymentCategory.run {
-                        hint = "결제수단을 선택해주세요."
                         (editText as? MaterialAutoCompleteTextView)?.setSimpleItems(R.array.payment_simple_category)
                     }
+                    dropdownTextViewPaymentCategory.run {
+                        setText("")
+                        hint = "결제수단을 선택해주세요."
+                    }
+                    dropdownTextViewPaymentCategoryDetail.setText("")
                     dropdownmenuPaymentCategoryDetail.visibility = View.INVISIBLE
                     editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
                 }
@@ -56,14 +68,16 @@ class PaymentFragment : Fragment() {
                 setOnClickListener {
                     selectButtonColor(buttonPaymentCategoryMobile)
                     dropdownmenuPaymentCategory.run {
-                        hint = "통신사를 선택해주세요."
                         (editText as? MaterialAutoCompleteTextView)?.setSimpleItems(R.array.payment_phone_category)
                     }
-                    dropdownmenuPaymentCategoryDetail.visibility = View.INVISIBLE
-                    editinputlayoutPaymentCategoryDetail.run {
-                        visibility = View.VISIBLE
-                        hint = "전화번호를 입력하세요."
+                    dropdownTextViewPaymentCategory.run {
+                        setText("")
+                        hint = "통신사를 선택해주세요."
                     }
+                    dropdownTextViewPaymentCategoryDetail.setText("")
+                    dropdownmenuPaymentCategoryDetail.visibility = View.INVISIBLE
+                    editinputlayoutPaymentCategoryDetail.visibility = View.VISIBLE
+                    editinputPaymentCategoryDetail.hint = "전화번호를 입력하세요."
                 }
             }
 
@@ -71,15 +85,21 @@ class PaymentFragment : Fragment() {
                 setOnClickListener {
                     selectButtonColor(buttonPaymentCategoryBank)
                     dropdownmenuPaymentCategory.run {
-                        hint = "은행을 선택해주세요."
                         (editText as? MaterialAutoCompleteTextView)?.setSimpleItems(R.array.payment_bank_transfer_category)
                     }
-                    dropdownmenuPaymentCategoryDetail.visibility = View.INVISIBLE
-                    editinputlayoutPaymentCategoryDetail.run {
-                        visibility = View.VISIBLE
-                        hint = "계좌번호를 입력하세요."
+                    dropdownTextViewPaymentCategory.run {
+                        setText("")
+                        hint = "은행을 선택해주세요."
                     }
+                    dropdownTextViewPaymentCategoryDetail.setText("")
+                    dropdownmenuPaymentCategoryDetail.visibility = View.INVISIBLE
+                    editinputlayoutPaymentCategoryDetail.visibility = View.VISIBLE
+                    editinputPaymentCategoryDetail.hint = "계좌번호를 입력하세요."
                 }
+            }
+
+            buttonPaymentPayment.setOnClickListener {
+                it.findNavController().navigate(R.id.action_paymentFragment_to_purchaseCompleteFragment)
             }
         }
 

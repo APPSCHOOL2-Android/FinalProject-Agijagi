@@ -41,8 +41,8 @@
         android:label="fragment_order"
         tools:layout="@layout/fragment_order" >
         <action
-            android:id="@+id/action_orderFragment_to_orderDetailFragment"
-            app:destination="@id/orderDetailFragment" />
+            android:id="@+id/action_orderFragment_to_deliveryTrackingFragment"
+            app:destination="@id/deliveryTrackingFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -52,15 +52,6 @@
         <action
             android:id="@+id/action_paymentFragment_to_purchaseCompleteFragment"
             app:destination="@id/purchaseCompleteFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/orderDetailFragment"
-        android:name="likelion.project.agijagi.order.OrderDetailFragment"
-        android:label="fragment_order_detail"
-        tools:layout="@layout/fragment_order_detail" >
-        <action
-            android:id="@+id/action_orderDetailFragment_to_orderFragment"
-            app:destination="@id/orderFragment" />
     </fragment>
     <fragment
         android:id="@+id/customProductDetailFragment"
@@ -145,5 +136,14 @@
         <action
             android:id="@+id/action_purchaseCompleteFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deliveryTrackingFragment"
+        android:name="likelion.project.agijagi.deliverytracking.DeliveryTrackingFragment"
+        android:label="fragment_delivery_tracking"
+        tools:layout="@layout/fragment_delivery_tracking" >
+        <action
+            android:id="@+id/action_deliveryTrackingFragment_to_orderFragment"
+            app:destination="@id/orderFragment" />
     </fragment>
 </navigation>
