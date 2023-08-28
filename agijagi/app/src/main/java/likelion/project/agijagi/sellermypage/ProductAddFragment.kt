@@ -106,7 +106,7 @@ class ProductAddFragment : Fragment() {
 
                     // R.array.product_add_category 참조
                     when (position) {
-                        0 -> { // 주문 제작 가능
+                        ProductAddSelectOrdermade.ORDER_POSSIBLE.idx -> {
                             layoutProductAddOption.visibility = View.VISIBLE
                             layoutProductAddAddPlan.visibility = View.VISIBLE
 
@@ -117,7 +117,7 @@ class ProductAddFragment : Fragment() {
                             editinputlayoutProductAddOption2Price.setText("")
                         }
 
-                        1 -> { // 주문 제작 불가능
+                        ProductAddSelectOrdermade.ORDER_IMPOSSIBLE.idx -> {
                             layoutProductAddOption.visibility = View.GONE
                             layoutProductAddAddPlan.visibility = View.GONE
                         }
@@ -201,40 +201,100 @@ class ProductAddFragment : Fragment() {
         fragmentProductAddBinding.run {
             // 하단 버튼 클릭
             buttonProductAddOk.setOnClickListener {
-                // 상품명
                 val name = editinputProductAddProductname.text.toString()
                 if (name.isEmpty() || name == "" || name == " ") {
                     Snackbar.make(it, "상품명을 입력하세요", Snackbar.LENGTH_SHORT).show()
-
                     return@setOnClickListener
                 }
 
                 val price = editinputlayoutProductAddProductprice.text.toString()
                 if (price.isEmpty() || price == "" || price == " ") {
                     Snackbar.make(it, "상품가격을 입력하세요", Snackbar.LENGTH_SHORT).show()
-
                     return@setOnClickListener
                 }
 
                 if (categoryIdx == ListView.INVALID_POSITION) {
                     Snackbar.make(it, "카테고리를 선택하세요", Snackbar.LENGTH_SHORT).show()
-
                     return@setOnClickListener
                 }
 
+                val options = ArrayList<ProductAddModel.OptionClass>()
                 if (ordermadeIdx == ListView.INVALID_POSITION) {
                     Snackbar.make(it, "주문 제작 가능 여부를 선택하세요", Snackbar.LENGTH_SHORT).show()
-
                     return@setOnClickListener
+                } else if (ordermadeIdx == ProductAddSelectOrdermade.ORDER_POSSIBLE.idx) {
+                    // 주문 제작 가능 옵션의 유효성 검사
+                    var checkOption = false
+                    if (checkBoxProductAddOption1.isChecked) {
+                        val op1 = editinputlayoutProductAddOption1Price.text.toString()
+                        if (op1.isEmpty() || op1 == "" || op1 == " ") {
+                            Snackbar.make(it, "선택한 옵션의 가격을 입력하세요", Snackbar.LENGTH_SHORT).show()
+                            return@setOnClickListener
+                        } else {
+                            checkOption = true
+                            options.add(ProductAddModel().OptionClass("레터링", true, op1))
+                        }
+                    } else {
+                        options.add(ProductAddModel().OptionClass("레터링", false, ""))
+                    }
+                    if (checkBoxProductAddOption2.isChecked) {
+                        val op2 = editinputlayoutProductAddOption2Price.text.toString()
+                        if (op2.isEmpty() || op2 == "" || op2 == " ") {
+                            Snackbar.make(it, "선택한 옵션의 가격을 입력하세요", Snackbar.LENGTH_SHORT).show()
+                            return@setOnClickListener
+                        } else {
+                            checkOption = true
+                            options.add(ProductAddModel().OptionClass("그림", true, op2))
+                        }
+                    } else {
+                        options.add(ProductAddModel().OptionClass("그림", false, ""))
+                    }
+
+                    if (!checkOption) {
+                        Snackbar.make(it, "옵션을 하나 이상 추가하세요", Snackbar.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
                 }
 
-                // 데이터 저장
+                // 데이터 클래스 생성
+                val data = ProductAddModel().apply {
+                    this.name = name
+                    this.price = price
+                    this.category = when (categoryIdx) {
+                        ProductAddCategory.ALL.idx -> ProductAddCategory.ALL.str
+                        ProductAddCategory.PLATE.idx -> ProductAddCategory.PLATE.str
+                        ProductAddCategory.CUP.idx -> ProductAddCategory.CUP.str
+                        ProductAddCategory.BOWL.idx -> ProductAddCategory.BOWL.str
+                        ProductAddCategory.ORDER_MADE.idx -> ProductAddCategory.ORDER_MADE.str
+                        else -> ProductAddCategory.ALL.str
+                    }
+                    this.ordermade = when (ordermadeIdx) {
+                        ProductAddSelectOrdermade.ORDER_POSSIBLE.idx -> ProductAddSelectOrdermade.ORDER_POSSIBLE.str
+                        ProductAddSelectOrdermade.ORDER_IMPOSSIBLE.idx -> ProductAddSelectOrdermade.ORDER_IMPOSSIBLE.str
+                        else -> ProductAddSelectOrdermade.ORDER_IMPOSSIBLE.str
+                    }
+                    this.options = options
 
+                    this.detail = editinputlayoutProductAddDetail.text.toString()
+                }
+
+                // 상품 이미지 저장 후 Uri 리스트 저장
+                data.pictures.add("Uri1")
+                data.pictures.add("Uri2")
+
+                // 도면 이미지 저장 후 Uri 리스트 저장
+                data.plans.add("Uri1")
+                data.plans.add("Uri2")
+
+
+                // 서버 저장
+                // 디버그 찍어보기(개발용)
+                data.debugData()
             }
         }
     }
 
-    fun hideSoftKeyboard() {
+    private fun hideSoftKeyboard() {
         if (mainActivity.currentFocus != null) {
             // currentFocus : 현재 포커스를 가지고 있는 View를 지칭할 수 있다.
             imm.hideSoftInputFromWindow(mainActivity.currentFocus!!.windowToken, 0)
@@ -243,5 +303,17 @@ class ProductAddFragment : Fragment() {
         }
     }
 
+}
 
+enum class ProductAddCategory(val idx: Int, val str: String) {
+    ALL(0, "ALL"),
+    PLATE(1, "Plate"),
+    CUP(2, "Cup"),
+    BOWL(3, "Bowl"),
+    ORDER_MADE(4, "Order made"),
+}
+
+enum class ProductAddSelectOrdermade(val idx: Int, val str: String) {
+    ORDER_POSSIBLE(0, "주문 제작 가능"),
+    ORDER_IMPOSSIBLE(1, "주문 제작 불가능")
 }
