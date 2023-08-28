@@ -25,7 +25,6 @@
         app:layout_constraintBottom_toBottomOf="@id/imageview_wish_list"
         app:layout_constraintEnd_toEndOf="@id/imageview_wish_list" />
 
-
     <TextView
         android:id="@+id/textview_wish_list_brand"
         android:layout_marginTop="8dp"
