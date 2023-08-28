@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import likelion.project.agijagi.R
@@ -41,6 +42,7 @@ class SearchFragment : Fragment() {
         searchAdapter = SearchAdapter()
         searchResultAdapter = SearchResultAdapter()
 
+        setNavigationListener()
         setRecyclerViewRecentSearches()
         setRecyclerViewSearchResult()
 
@@ -65,6 +67,14 @@ class SearchFragment : Fragment() {
             }
         }
         searchResultAdapter.submitList(dataList)
+    }
+
+    private fun setNavigationListener() {
+        binding.run {
+            toolbarSearch.setNavigationOnClickListener {
+                it.findNavController().navigate(R.id.action_searchFragment_to_homeFragment)
+            }
+        }
     }
 
     override fun onDestroyView() {
