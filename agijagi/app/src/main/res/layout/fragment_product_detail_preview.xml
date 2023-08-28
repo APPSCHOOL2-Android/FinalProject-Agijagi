@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/jagi_ivory"
     android:orientation="vertical"
-    tools:context=".product.ProductDetailFragment">
+    tools:context=".sellermypage.ProductDetailPreviewFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_product_detail"
+        android:id="@+id/toolbar_product_detail_preview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.AgijagiToolbar"
@@ -27,24 +27,24 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageview_product_detail_image1"
+                android:id="@+id/imageview_product_detail_preview_image1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:src="@drawable/product_detail_default_image" />
 
             <TextView
-                android:id="@+id/textview_product_detail_brand"
+                android:id="@+id/textview_product_detail_preview_brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:text="브랜드명"
-                android:textSize="14dp"
-                android:textColor="@color/brand_name"/>
+                android:textColor="@color/brand_name"
+                android:textSize="14dp" />
 
             <TextView
-                android:id="@+id/textview_product_detail_name"
+                android:id="@+id/textview_product_detail_preview_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -54,23 +54,23 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textview_product_detail_price"
+                android:id="@+id/textview_product_detail_preview_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 android:text="150,000원"
-                android:textSize="14dp"/>
+                android:textSize="14dp" />
 
             <View
-                android:id="@+id/view_product_detail_divider_stick"
+                android:id="@+id/view_product_detail_preview_divider_stick"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/divider_stick" />
 
             <TextView
-                android:id="@+id/textview_product_detail_info_title"
+                android:id="@+id/textview_product_detail_preview_info_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -80,7 +80,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textview_product_detail_info_description"
+                android:id="@+id/textview_product_detail_preview_info_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -88,11 +88,11 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="40dp"
                 android:text="기본적인 블랙 색상의 깔끔한 디자인과 다양한 디자인으로 쓰임이 많은 도자기 그릇입니다. 도자기 재질로 무게감이 있어 안정적으로.."
-                android:textSize="12sp"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="12sp" />
 
             <ImageView
-                android:id="@+id/imageview_product_detail_image2"
+                android:id="@+id/imageview_product_preview_detail_image2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -100,7 +100,7 @@
                 android:src="@drawable/product_detail_default_image" />
 
             <ImageView
-                android:id="@+id/imageview_product_detail_image3"
+                android:id="@+id/imageview_product_preview_detail_image3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
@@ -108,7 +108,7 @@
                 android:src="@drawable/product_detail_default_image" />
 
             <ImageView
-                android:id="@+id/imageview_product_detail_image4"
+                android:id="@+id/imageview_product_preview_detail_image4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -116,7 +116,7 @@
                 android:src="@drawable/product_detail_default_image" />
 
             <ImageView
-                android:id="@+id/imageview_product_detail_image5"
+                android:id="@+id/imageview_product_preview_detail_image5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -124,23 +124,24 @@
                 android:src="@drawable/product_detail_default_image" />
 
             <ImageView
-                android:id="@+id/imageview_product_detail_image6"
+                android:id="@+id/imageview_product_preview_detail_image6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/product_detail_default_image" />
 
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_product_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/wide_box_bottom_active"
-                android:text="등록"
-                android:textSize="16dp"
-                android:textColor="@color/hint_color" />
         </LinearLayout>
+
     </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_product_detail_preview_product_registration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/wide_box_bottom_active"
+        android:text="등록"
+        android:textColor="@color/jagi_hint_color"
+        android:textSize="16dp" />
 
 </LinearLayout>

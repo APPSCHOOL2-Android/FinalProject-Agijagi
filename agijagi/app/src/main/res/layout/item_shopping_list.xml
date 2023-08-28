@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_margin="4dp"
+        app:cardCornerRadius="8dp"
+        android:backgroundTint="@color/jagi_white"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/jagi_black_42"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/checkbox_shopping_list_item"
+                style="@style/CustomCheckBoxSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageview_shopping_list_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/shopping_list_no_item_logo"
+                app:layout_constraintStart_toEndOf="@id/checkbox_shopping_list_item"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textview_shopping_list_item_brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="28dp"
+                android:text="브랜드명"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textview_shopping_list_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:text="제품명 도자기"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item"
+                app:layout_constraintTop_toBottomOf="@id/textview_shopping_list_item_brand" />
+
+            <TextView
+                android:id="@+id/textview_shopping_list_item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:text="100,000원"
+                android:textSize="11sp"
+                app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item"
+                app:layout_constraintTop_toBottomOf="@id/textview_shopping_list_item_name" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_change_option"
+                android:layout_width="64dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/wide_box_rounded_button_stroke"
+                android:text="옵션변경"
+                android:textColor="@color/jagi_ivory"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/button_count"
+                app:layout_constraintTop_toBottomOf="@id/imageview_shopping_list_item" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_count"
+                android:layout_width="64dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/wide_box_rounded_button_stroke"
+                android:text="1"
+                android:textColor="@color/jagi_ivory"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</LinearLayout>

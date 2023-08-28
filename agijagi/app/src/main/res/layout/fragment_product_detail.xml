@@ -40,8 +40,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:text="브랜드명"
-                android:textSize="14dp"
-                android:textColor="@color/brand_name" />
+                android:textColor="@color/brand_name"
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/textview_product_detail_name"
@@ -88,8 +88,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="40dp"
                 android:text="기본적인 블랙 색상의 깔끔한 디자인과 다양한 디자인으로 쓰임이 많은 도자기 그릇입니다. 도자기 재질로 무게감이 있어 안정적으로.."
-                android:textSize="12sp"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:textSize="12sp" />
 
             <ImageView
                 android:id="@+id/imageview_product_detail_image2"
@@ -131,8 +131,8 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/product_detail_default_image" />
 
-
         </LinearLayout>
+
     </ScrollView>
 
     <LinearLayout
@@ -142,6 +142,7 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/image_button_product_detail_favorite"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginStart="16dp"
@@ -149,6 +150,7 @@
             android:background="@drawable/favorite_pressed_button" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_product_detail_purchase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -157,8 +159,8 @@
             android:layout_marginBottom="4dp"
             android:background="@drawable/wide_box_rounded_purchase_button_solid"
             android:text="구매하기"
-            android:textSize="16dp"
-            android:textColor="@color/hint_color" />
+            android:textColor="@color/jagi_hint_color"
+            android:textSize="16dp" />
 
     </LinearLayout>
 
