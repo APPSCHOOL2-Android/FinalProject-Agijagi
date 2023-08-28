@@ -6,11 +6,15 @@
         android:width="158dp"
         android:height="32dp"/>
 
+    <solid
+        android:color="#00FFFFFF"/>
+
     <corners
         android:radius="8dp"/>
 
     <stroke
         android:width="1dp"
-        android:color="#80FFFBF7"/>
+        android:color="@color/white"/>
+
 
 </shape>
