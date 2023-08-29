@@ -233,6 +233,12 @@
         <action
             android:id="@+id/action_orderMadeCategoryFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_orderMadeCategoryFragment_to_categoryDetailFragment"
+            app:destination="@id/categoryDetailFragment" />
+        <action
+            android:id="@+id/action_orderMadeCategoryFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/productAddFragment"
