@@ -41,4 +41,12 @@
         <item name="android:button">@drawable/shopping_list_small_circle_checkbox_selector</item>
     </style>
 
+    <!-- Splash Screen -->
+    <style name="AppTheme.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/jagi_brown</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.Agijagi</item>
+    </style>
+
 </resources>
