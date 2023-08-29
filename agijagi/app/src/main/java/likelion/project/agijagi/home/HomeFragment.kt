@@ -13,7 +13,7 @@ import likelion.project.agijagi.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
-    private lateinit var fragmentHomeBinding: FragmentHomeBinding
+    lateinit var fragmentHomeBinding: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,6 +23,7 @@ class HomeFragment : Fragment() {
 
         toolbarMenuItemScreenNavigate()
         orderMadeProductScreenNavigate()
+        setBestItemsListener()
 
         return fragmentHomeBinding.root
 
@@ -46,6 +47,22 @@ class HomeFragment : Fragment() {
     private fun orderMadeProductScreenNavigate() {
         fragmentHomeBinding.linearlayoutHomeToOrderMadeCategory.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_orderMadeCategoryFragment)
+        }
+    }
+
+    private fun setBestItemsListener() {
+        fragmentHomeBinding.run {
+            linearlayoutHomeButtonOne.setOnClickListener { it.navigateToProductDetail() }
+            linearlayoutHomeButtonTwo.setOnClickListener { it.navigateToProductDetail() }
+            linearlayoutHomeButtonThree.setOnClickListener { it.navigateToProductDetail() }
+            linearlayoutHomeButtonFour.setOnClickListener { it.navigateToProductDetail() }
+        }
+    }
+
+    private fun View.navigateToProductDetail() {
+        fragmentHomeBinding.run {
+            // 추후 상품 종류(기성품, 주문제작)에 맞게 화면 전환할 수 있도록 수정
+            findNavController().navigate(R.id.action_homeFragment_to_productDetailFragment)
         }
     }
 }
