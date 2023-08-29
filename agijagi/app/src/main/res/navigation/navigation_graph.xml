@@ -142,6 +142,9 @@
         <action
             android:id="@+id/action_shoppingListFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
+        <action
+            android:id="@+id/action_shoppingListFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/userChatListFragment"
