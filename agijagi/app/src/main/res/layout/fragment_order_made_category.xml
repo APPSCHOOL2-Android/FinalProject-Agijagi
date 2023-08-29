@@ -12,7 +12,7 @@
         style="@style/Theme.AgijagiToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/menu_categoryfragment"
+        app:menu="@menu/menu_category"
         app:title="Order made"
         app:navigationIcon="@drawable/arrow_back_24px"/>
 

@@ -215,6 +215,12 @@
         <action
             android:id="@+id/action_categoryFragment_to_orderMadeCategoryFragment"
             app:destination="@id/orderMadeCategoryFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_self"
+            app:destination="@id/categoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderMadeCategoryFragment"

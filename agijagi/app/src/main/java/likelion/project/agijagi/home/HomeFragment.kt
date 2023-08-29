@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
                     findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
                 }
 
-                R.id.shoppingbag -> {
+                R.id.menu_home_shopping_list -> {
                     findNavController().navigate(R.id.action_homeFragment_to_shoppingListFragment)
                 }
             }
