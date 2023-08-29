@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_homeFragment_to_orderMadeCategoryFragment"
             app:destination="@id/orderMadeCategoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_sellerMypageFragment2"
+            app:destination="@id/sellerMypageFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -267,4 +270,9 @@
             android:id="@+id/action_signupSelectFragment_to_signupSellerFragment"
             app:destination="@id/signupSellerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/sellerMypageFragment"
+        android:name="likelion.project.agijagi.sellermypage.SellerMypageFragment"
+        android:label="fragment_seller_mypage"
+        tools:layout="@layout/fragment_seller_mypage" />
 </navigation>

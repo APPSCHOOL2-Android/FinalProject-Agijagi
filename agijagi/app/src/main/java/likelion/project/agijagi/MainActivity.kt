@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             }
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 visibility = when (destination.id) {
-                    R.id.homeFragment, R.id.categoryfragment, R.id.shippingfragment, R.id.wishListFragment, R.id.mypagefragment -> {
+                    R.id.homeFragment, R.id.categoryFragment, R.id.orderFragment, R.id.wishListFragment, R.id.sellerMypageFragment -> {
                         View.VISIBLE
                     }
 
