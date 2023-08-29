@@ -8,7 +8,8 @@ data class ProductAddModel(
     var options: ArrayList<OptionClass> = arrayListOf(),
     var detail: String = "",
     var pictures: ArrayList<String> = arrayListOf(), // Uri
-    var plans: ArrayList<String> = arrayListOf() // Uri
+    var plans: ArrayList<String> = arrayListOf(), // Uri
+    val date: String = "" // date
 ) {
     inner class OptionClass(val opName: String, val isCheck: Boolean, val opPrice: String)
 
