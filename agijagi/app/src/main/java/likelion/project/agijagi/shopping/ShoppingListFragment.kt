@@ -33,9 +33,6 @@ class ShoppingListFragment : Fragment() {
         shoppingListAdapter = ShoppingListAdapter()
 
         shoppingListBinding.run {
-            toolbarShoppinglist.run {
-                title = "장바구니"
-            }
 
             recyclerviewShoppingList.run {
                 layoutManager = LinearLayoutManager(mainActivity)
