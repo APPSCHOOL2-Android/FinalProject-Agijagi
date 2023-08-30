@@ -33,7 +33,6 @@ class SearchFragment : Fragment() {
         SearchResultModel(R.drawable.search_result_default_image, "김자기", "화려한 그릇", "2억원")
     )
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,7 +41,6 @@ class SearchFragment : Fragment() {
         searchAdapter = SearchAdapter()
         searchResultAdapter = SearchResultAdapter()
 
-        setNavigationListener()
         setRecyclerViewRecentSearches()
         setRecyclerViewSearchResult()
 
@@ -50,31 +48,20 @@ class SearchFragment : Fragment() {
     }
 
     private fun setRecyclerViewRecentSearches() {
-        binding.run {
-            recyclerviewSearchRecentSearches.run {
-                adapter = searchAdapter
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            }
+        binding.recyclerviewSearchRecentSearches.run {
+            adapter = searchAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
+
         searchAdapter.submitList(recentSearchesList)
     }
 
     private fun setRecyclerViewSearchResult() {
-        binding.run {
-            recyclerviewSearchSearchResult.run {
-                adapter = searchResultAdapter
-                layoutManager = GridLayoutManager(context, 2)
-            }
+        binding.recyclerviewSearchSearchResult.run {
+            adapter = searchResultAdapter
+            layoutManager = GridLayoutManager(context, 2)
         }
         searchResultAdapter.submitList(dataList)
-    }
-
-    private fun setNavigationListener() {
-        binding.run {
-            toolbarSearch.setNavigationOnClickListener {
-                it.findNavController().navigate(R.id.action_searchFragment_to_homeFragment)
-            }
-        }
     }
 
     override fun onDestroyView() {

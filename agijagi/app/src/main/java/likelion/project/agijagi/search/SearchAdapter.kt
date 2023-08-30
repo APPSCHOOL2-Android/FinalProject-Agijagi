@@ -14,9 +14,8 @@ class SearchAdapter : ListAdapter<String, SearchAdapter.SearchViewHolder>(diffUt
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(recentSearch: String) {
-            binding.textviewRecentSearch.text = recentSearch
-
             binding.run {
+                textviewRecentSearch.text = recentSearch
                 imageButtonDelete.setOnClickListener {
                     recentSearchesList.removeAt(adapterPosition)
                     // notifyDataSetChanged() 사용 하지 않는 코드로 수정 필요
