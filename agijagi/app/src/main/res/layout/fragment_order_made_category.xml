@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".category.CategoryFragment">
+    tools:context=".category.OrderMadeCategoryFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_cateforyfragment_toolbar"
+        android:id="@+id/toolbar_category"
         style="@style/Theme.AgijagiToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/menu_categoryfragment"
-        app:title="Order made"
-        app:navigationIcon="@drawable/arrow_back_24px"/>
+        app:menu="@menu/menu_category"
+        app:navigationIcon="@drawable/arrow_back_24px"
+        app:title="Order made" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:rowCount="3">
 
                 <RelativeLayout
-                    android:id="@+id/relativelayout_cateforyfragment_layout_one"
+                    android:id="@+id/relativelayout_category_layout_one"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
@@ -43,7 +43,7 @@
                     android:layout_marginBottom="16dp">
 
                     <LinearLayout
-                        android:id="@+id/linearlayout_ordermade_cateforyfragment_button_one"
+                        android:id="@+id/linearlayout_order_made_category_button_one"
                         android:layout_width="160dp"
                         android:layout_height="112dp"
                         android:layout_centerHorizontal="true"
@@ -59,11 +59,11 @@
                             app:cardCornerRadius="8dp">
 
                             <ImageView
-                                android:id="@+id/linearlayout_ordermade_cateforyfragment_image_one"
+                                android:id="@+id/imageview_order_made_category_image_one"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/order_made_thumbnail"
-                                android:scaleType="centerCrop"/>
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/order_made_thumbnail" />
 
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
@@ -72,8 +72,8 @@
                         android:id="@+id/textview_cateforyfragment_brandname_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/linearlayout_ordermade_cateforyfragment_button_one"
-                        android:layout_alignStart="@+id/linearlayout_ordermade_cateforyfragment_button_one"
+                        android:layout_below="@+id/linearlayout_order_made_category_button_one"
+                        android:layout_alignStart="@+id/linearlayout_order_made_category_button_one"
                         android:layout_marginTop="8dp"
                         android:text="All"
                         android:textColor="@color/black"
@@ -83,7 +83,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativelayout_ordermade_cateforyfragment_layout_two"
+                    android:id="@+id/relativelayout_order_made_category_layout_two"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
@@ -91,7 +91,7 @@
                     android:layout_marginBottom="16dp">
 
                     <LinearLayout
-                        android:id="@+id/linearlayout_ordermade_cateforyfragment_button_two"
+                        android:id="@+id/linearlayout_order_made_category_button_two"
                         android:layout_width="160dp"
                         android:layout_height="112dp"
                         android:layout_centerHorizontal="true"
@@ -107,21 +107,21 @@
                             app:cardCornerRadius="8dp">
 
                             <ImageView
-                                android:id="@+id/linearlayout_cateforyfragment_image_two"
+                                android:id="@+id/imageview_category_image_two"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/order_made_plate_thumbnail"
-                                android:scaleType="centerCrop"/>
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/order_made_plate_thumbnail" />
 
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/textview_cateforyfragment_brandname_two"
+                        android:id="@+id/textview_category_brand_name_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/linearlayout_ordermade_cateforyfragment_button_two"
-                        android:layout_alignStart="@+id/linearlayout_ordermade_cateforyfragment_button_two"
+                        android:layout_below="@+id/linearlayout_order_made_category_button_two"
+                        android:layout_alignStart="@+id/linearlayout_order_made_category_button_two"
                         android:layout_marginTop="8dp"
                         android:text="Plate"
                         android:textColor="@color/black"
@@ -131,7 +131,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativelayout_cateforyfragment_layout_three"
+                    android:id="@+id/relativelayout_category_layout_three"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
@@ -139,7 +139,7 @@
                     android:layout_marginBottom="16dp">
 
                     <LinearLayout
-                        android:id="@+id/linearlayout_ordermade_cateforyfragment_button_three"
+                        android:id="@+id/linearlayout_order_made_category_button_three"
                         android:layout_width="160dp"
                         android:layout_height="112dp"
                         android:layout_centerHorizontal="true"
@@ -155,22 +155,22 @@
                             app:cardCornerRadius="8dp">
 
                             <ImageView
-                                android:id="@+id/linearlayout_ordermade_cateforyfragment_image_three"
+                                android:id="@+id/imageview_order_made_category_image_three"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/order_made_cup_thumbnail"
-                                android:scaleType="centerCrop"/>
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/order_made_cup_thumbnail" />
 
                         </androidx.cardview.widget.CardView>
 
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/textview_ordermade_cateforyfragment_brandname_three"
+                        android:id="@+id/textview_order_made_category_brand_name_three"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/linearlayout_ordermade_cateforyfragment_button_three"
-                        android:layout_alignStart="@+id/linearlayout_ordermade_cateforyfragment_button_three"
+                        android:layout_below="@+id/linearlayout_order_made_category_button_three"
+                        android:layout_alignStart="@+id/linearlayout_order_made_category_button_three"
                         android:layout_marginTop="8dp"
                         android:text="Cup"
                         android:textColor="@color/black"
@@ -180,7 +180,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativelayout_ordermade_cateforyfragment_layout_four"
+                    android:id="@+id/relativelayout_order_made_category_layout_four"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
@@ -188,7 +188,7 @@
                     android:layout_marginBottom="16dp">
 
                     <LinearLayout
-                        android:id="@+id/linearlayout_ordermade_cateforyfragment_button_four"
+                        android:id="@+id/linearlayout_order_made_category_button_four"
                         android:layout_width="160dp"
                         android:layout_height="112dp"
                         android:layout_centerHorizontal="true"
@@ -204,21 +204,22 @@
                             app:cardCornerRadius="8dp">
 
                             <ImageView
-                                android:id="@+id/linearlayout_ordermade_cateforyfragment_image_four"
+                                android:id="@+id/linearlayout_order_made_category_image_four"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/order_made_bowl_thumbnail"
-                                android:scaleType="centerCrop"/>
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/order_made_bowl_thumbnail" />
 
                         </androidx.cardview.widget.CardView>
+
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/textview_ordermade_cateforyfragment_brandname_four"
+                        android:id="@+id/textview_order_made_category_brand_name_four"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/linearlayout_ordermade_cateforyfragment_button_four"
-                        android:layout_alignStart="@+id/linearlayout_ordermade_cateforyfragment_button_four"
+                        android:layout_below="@+id/linearlayout_order_made_category_button_four"
+                        android:layout_alignStart="@+id/linearlayout_order_made_category_button_four"
                         android:layout_marginTop="8dp"
                         android:text="Bowl"
                         android:textColor="@color/black"

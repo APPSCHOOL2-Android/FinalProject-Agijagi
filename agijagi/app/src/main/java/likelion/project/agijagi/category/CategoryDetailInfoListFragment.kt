@@ -40,7 +40,7 @@ class CategoryDetailInfoListFragment : Fragment() {
 
                 // category 클릭 시 정보를 전달 받아서 title 변경 필요
                 title = ""
-                inflateMenu(R.menu.menu_categoryfragment)
+                inflateMenu(R.menu.menu_category)
             }
 
             recyclerviewCategoryDetailInfoList.run {
