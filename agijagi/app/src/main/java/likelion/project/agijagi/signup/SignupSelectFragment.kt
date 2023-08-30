@@ -17,4 +17,7 @@ class SignupSelectFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_signup_select, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
 }
