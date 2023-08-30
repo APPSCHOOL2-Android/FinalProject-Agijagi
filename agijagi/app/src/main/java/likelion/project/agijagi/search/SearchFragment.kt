@@ -41,7 +41,6 @@ class SearchFragment : Fragment() {
         searchAdapter = SearchAdapter()
         searchResultAdapter = SearchResultAdapter()
 
-        setNavigationListener()
         setRecyclerViewRecentSearches()
         setRecyclerViewSearchResult()
 
@@ -63,12 +62,6 @@ class SearchFragment : Fragment() {
             layoutManager = GridLayoutManager(context, 2)
         }
         searchResultAdapter.submitList(dataList)
-    }
-
-    private fun setNavigationListener() {
-        binding.toolbarSearch.setNavigationOnClickListener {
-            it.findNavController().navigate(R.id.action_searchFragment_to_homeFragment)
-        }
     }
 
     override fun onDestroyView() {

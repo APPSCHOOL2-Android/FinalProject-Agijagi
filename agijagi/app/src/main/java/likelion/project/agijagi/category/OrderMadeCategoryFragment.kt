@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentOrderMadeCategoryBinding
 
@@ -20,27 +21,22 @@ class OrderMadeCategoryFragment : Fragment() {
     ): View {
         _binding = FragmentOrderMadeCategoryBinding.inflate(inflater)
 
-        toolbarItemScreenNavigate()
+        toolbarMenuItemScreenNavigate()
         setOrderMadeCategoryMenuListener()
 
         return binding.root
     }
 
-    private fun toolbarItemScreenNavigate() {
-        binding.toolbarCategory.run {
-            setNavigationOnClickListener {
-                it.findNavController()
-                    .navigate(R.id.action_orderMadeCategoryFragment_to_categoryFragment)
-            }
-            setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.menu_category_shopping_list -> {
-                        findNavController().navigate(R.id.action_orderMadeCategoryFragment_to_shoppingListFragment)
-                    }
+    private fun toolbarMenuItemScreenNavigate() {
+        binding.toolbarCategory.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_category_shopping_list -> {
+                    findNavController().navigate(R.id.action_orderMadeCategoryFragment_to_shoppingListFragment)
                 }
-                false
             }
+            false
         }
+
     }
 
     private fun setOrderMadeCategoryMenuListener() {
