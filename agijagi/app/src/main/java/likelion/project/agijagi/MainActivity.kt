@@ -9,12 +9,17 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.firestoreSettings
+import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
     lateinit var activityMainBinding: ActivityMainBinding
 
+    private var auth: FirebaseAuth? = null
+    private lateinit var db: FirebaseFirestore
     override fun onCreate(savedInstanceState: Bundle?) {
 
         installSplashScreen()
@@ -25,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
 
         onSetUpNavigation()
+        setup()
 
         activityMainBinding.run {
 
@@ -71,5 +77,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun setup() {
+        db = Firebase.firestore
+
+        val settings = firestoreSettings {
+            isPersistenceEnabled = true
+        }
+        db.firestoreSettings = settings
     }
 }
