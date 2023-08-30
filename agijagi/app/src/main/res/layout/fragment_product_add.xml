@@ -73,23 +73,24 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TableLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="16dp"
-                android:stretchColumns="0,2,4">
+                android:orientation="vertical">
 
-                <TableRow
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <include
                         android:id="@+id/include_product_add_add_picture_box1"
                         layout="@layout/item_product_add_add_picture"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
                     <Space
                         android:layout_width="4dp"
@@ -98,8 +99,9 @@
                     <include
                         android:id="@+id/include_product_add_add_picture_box2"
                         layout="@layout/item_product_add_add_picture"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
                     <Space
                         android:layout_width="4dp"
@@ -108,23 +110,25 @@
                     <include
                         android:id="@+id/include_product_add_add_picture_box3"
                         layout="@layout/item_product_add_add_picture"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </TableRow>
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+                </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="8dp" />
 
-                <TableRow
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent">
 
                     <include
                         android:id="@+id/include_product_add_add_picture_box4"
                         layout="@layout/item_product_add_add_picture"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
                     <Space
                         android:layout_width="4dp"
@@ -133,8 +137,9 @@
                     <include
                         android:id="@+id/include_product_add_add_picture_box5"
                         layout="@layout/item_product_add_add_picture"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
                     <Space
                         android:layout_width="4dp"
@@ -143,11 +148,11 @@
                     <include
                         android:id="@+id/include_product_add_add_picture_box6"
                         layout="@layout/item_product_add_add_picture"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent" />
-                </TableRow>
-
-            </TableLayout>
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+                </LinearLayout>
+            </LinearLayout>
 
             <Space
                 android:layout_width="match_parent"
@@ -182,8 +187,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="상품명을 입력해주세요"
+                        android:inputType="text"
                         android:maxLines="1" />
-
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -347,7 +352,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:gravity="start"
-                        android:hint="상품 상세정보를 입력해주세요" />
+                        android:hint="상품 상세정보를 입력해주세요"
+                        android:inputType="textMultiLine" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -407,58 +413,56 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TableLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:stretchColumns="0,2,4,6">
+                    android:layout_marginTop="8dp">
 
-                    <TableRow
+                    <include
+                        android:id="@+id/include_product_add_add_plan_box1"
+                        layout="@layout/item_product_add_add_plan"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
-                        <include
-                            android:id="@+id/include_product_add_add_plan_box1"
-                            layout="@layout/item_product_add_add_plan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
 
-                        <Space
-                            android:layout_width="4dp"
-                            android:layout_height="match_parent" />
+                    <include
+                        android:id="@+id/include_product_add_add_plan_box2"
+                        layout="@layout/item_product_add_add_plan"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
-                        <include
-                            android:id="@+id/include_product_add_add_plan_box2"
-                            layout="@layout/item_product_add_add_plan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
 
-                        <Space
-                            android:layout_width="4dp"
-                            android:layout_height="match_parent" />
+                    <include
+                        android:id="@+id/include_product_add_add_plan_box3"
+                        layout="@layout/item_product_add_add_plan"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
-                        <include
-                            android:id="@+id/include_product_add_add_plan_box3"
-                            layout="@layout/item_product_add_add_plan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                    <Space
+                        android:layout_width="4dp"
+                        android:layout_height="match_parent" />
 
-                        <Space
-                            android:layout_width="4dp"
-                            android:layout_height="match_parent" />
-
-                        <include
-                            android:id="@+id/include_product_add_add_plan_box4"
-                            layout="@layout/item_product_add_add_plan"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </TableRow>
-                </TableLayout>
+                    <include
+                        android:id="@+id/include_product_add_add_plan_box4"
+                        layout="@layout/item_product_add_add_plan"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+                </LinearLayout>
             </LinearLayout>
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="24dp" />
+                android:layout_height="64dp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_product_add_ok"
