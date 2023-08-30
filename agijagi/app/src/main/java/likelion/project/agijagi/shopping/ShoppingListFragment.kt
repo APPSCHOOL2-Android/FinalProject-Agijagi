@@ -37,8 +37,6 @@ class ShoppingListFragment : Fragment() {
 
         shoppingListBinding.run {
 
-            toolbarItemScreenNavigate()
-
             recyclerviewShoppingList.run {
                 layoutManager = LinearLayoutManager(mainActivity)
                 adapter = shoppingListAdapter
@@ -46,12 +44,6 @@ class ShoppingListFragment : Fragment() {
             shoppingListAdapter.submitList(dataSet)
         }
         return shoppingListBinding.root
-    }
-
-    private fun toolbarItemScreenNavigate() {
-        shoppingListBinding.toolbarShoppinglist.setNavigationOnClickListener {
-            it.findNavController().navigate(R.id.action_shoppingListFragment_to_homeFragment)
-        }
     }
 
 }

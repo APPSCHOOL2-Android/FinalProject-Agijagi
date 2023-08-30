@@ -50,7 +50,7 @@ class OrderMadeCategoryFragment : Fragment() {
 
     private fun View.navigateToCategoryDetail() {
         binding.run {
-            findNavController().navigate(R.id.action_orderMadeCategoryFragment_to_categoryDetailFragment)
+            findNavController().navigate(R.id.action_orderMadeCategoryFragment_to_categoryDetailInfoListFragment)
         }
     }
 

@@ -53,7 +53,7 @@ class CategoryFragment : Fragment() {
 
     private fun View.navigateToCategoryDetail() {
         binding.run {
-            findNavController().navigate(R.id.action_categoryFragment_to_categoryDetailFragment)
+            findNavController().navigate(R.id.action_categoryFragment_to_categoryDetailInfoListFragment)
         }
     }
 

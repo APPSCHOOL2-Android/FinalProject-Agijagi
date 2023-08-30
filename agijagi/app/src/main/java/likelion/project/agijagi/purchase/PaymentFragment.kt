@@ -43,6 +43,7 @@ class PaymentFragment : Fragment() {
                         setText("")
                         hint = "할부기간"
                     }
+
                     editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
                 }
             }

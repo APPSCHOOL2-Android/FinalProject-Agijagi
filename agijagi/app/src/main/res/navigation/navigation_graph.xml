@@ -119,9 +119,6 @@
             android:id="@+id/action_productDetailFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
         <action
-            android:id="@+id/action_productDetailFragment_to_categoryDetailFragment"
-            app:destination="@id/categoryDetailFragment" />
-        <action
             android:id="@+id/action_productDetailFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
         <action
@@ -204,26 +201,12 @@
             android:id="@+id/action_deliveryTrackingFragment_to_orderFragment"
             app:destination="@id/orderFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/categoryDetailFragment"
-        android:name="likelion.project.agijagi.category.CategoryDetailFragment"
-        android:label="fragment_category_detail"
-        tools:layout="@layout/fragment_category_detail" >
-        <action
-            android:id="@+id/action_categoryDetailFragment_to_productDetailFragment"
-            app:destination="@id/productDetailFragment" />
-        <action
-            android:id="@+id/action_categoryDetailFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/categoryFragment"
         android:name="likelion.project.agijagi.category.CategoryFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" >
-        <action
-            android:id="@+id/action_categoryFragment_to_categoryDetailFragment"
-            app:destination="@id/categoryDetailFragment" />
         <action
             android:id="@+id/action_categoryFragment_to_orderMadeCategoryFragment"
             app:destination="@id/orderMadeCategoryFragment" />
@@ -233,6 +216,9 @@
         <action
             android:id="@+id/action_categoryFragment_self"
             app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_categoryDetailInfoListFragment"
+            app:destination="@id/categoryDetailInfoListFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderMadeCategoryFragment"
@@ -240,17 +226,14 @@
         android:label="fragment_order_made_category"
         tools:layout="@layout/fragment_order_made_category" >
         <action
-            android:id="@+id/action_orderMadeCategoryFragment_to_customProductDetailFragment"
-            app:destination="@id/customProductDetailFragment" />
-        <action
             android:id="@+id/action_orderMadeCategoryFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
         <action
-            android:id="@+id/action_orderMadeCategoryFragment_to_categoryDetailFragment"
-            app:destination="@id/categoryDetailFragment" />
-        <action
             android:id="@+id/action_orderMadeCategoryFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
+        <action
+            android:id="@+id/action_orderMadeCategoryFragment_to_categoryDetailInfoListFragment"
+            app:destination="@id/categoryDetailInfoListFragment" />
     </fragment>
     <fragment
         android:id="@+id/productAddFragment"
@@ -299,4 +282,15 @@
         android:name="likelion.project.agijagi.sellermypage.SellerMypageFragment"
         android:label="fragment_seller_mypage"
         tools:layout="@layout/fragment_seller_mypage" />
+    <fragment
+        android:id="@+id/categoryDetailInfoListFragment"
+        android:name="likelion.project.agijagi.category.CategoryDetailInfoListFragment"
+        android:label="CategoryDetailInfoListFragment" >
+        <action
+            android:id="@+id/action_categoryDetailInfoListFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_categoryDetailInfoListFragment_to_customProductDetailFragment"
+            app:destination="@id/customProductDetailFragment" />
+    </fragment>
 </navigation>
