@@ -5,60 +5,56 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentProductDetailBinding
 
 class ProductDetailFragment : Fragment() {
 
-    private var binding: FragmentProductDetailBinding? = null
+    private var _binding: FragmentProductDetailBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentProductDetailBinding.inflate(inflater)
+    ): View {
+        _binding = FragmentProductDetailBinding.inflate(inflater)
 
         toolbarClickItem()
         clickFavoriteButton()
         clickPurchaseButtonToReadyMadeOption()
 
-        return binding?.root
+        return binding.root
     }
 
     private fun toolbarClickItem() {
-        binding?.run {
-            toolbarProductDetail.run {
-                setOnMenuItemClickListener {
-                    when (it.itemId) {
-                        R.id.menu_product_detail_shopping -> {
-                            findNavController().navigate(R.id.action_productDetailFragment_to_shoppingListFragment)
-                        }
-                    }
-                    false
+        binding.toolbarProductDetail.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_product_detail_shopping -> {
+                    findNavController().navigate(R.id.action_productDetailFragment_to_shoppingListFragment)
                 }
             }
+            false
         }
     }
 
     private fun clickFavoriteButton() {
-        binding?.run {
-            imageButtonProductDetailFavorite.run {
-                setOnClickListener {
-                    isSelected = isSelected != true
-                }
-            }
+        binding.imageButtonProductDetailFavorite.setOnClickListener {
+            it.isSelected = it.isSelected != true
         }
     }
 
     private fun clickPurchaseButtonToReadyMadeOption() {
-        binding?.run {
-            buttonProductDetailPurchase.setOnClickListener {
-                it.findNavController().navigate(R.id.action_productDetailFragment_to_readyMadeOptionFragment)
-            }
+        binding.buttonProductDetailPurchase.setOnClickListener {
+            it.findNavController()
+                .navigate(R.id.action_productDetailFragment_to_readyMadeOptionFragment)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

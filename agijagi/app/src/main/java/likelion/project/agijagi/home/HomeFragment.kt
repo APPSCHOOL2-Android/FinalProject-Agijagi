@@ -13,24 +13,25 @@ import likelion.project.agijagi.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
-    lateinit var fragmentHomeBinding: FragmentHomeBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        fragmentHomeBinding = FragmentHomeBinding.inflate(inflater)
+        _binding = FragmentHomeBinding.inflate(inflater)
 
         toolbarMenuItemScreenNavigate()
         orderMadeProductScreenNavigate()
         setBestItemsListener()
 
-        return fragmentHomeBinding.root
+        return binding.root
 
     }
 
     private fun toolbarMenuItemScreenNavigate() {
-        fragmentHomeBinding.toolbarHome.setOnMenuItemClickListener {
+        binding.toolbarHome.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_home_search -> {
                     findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
@@ -45,13 +46,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun orderMadeProductScreenNavigate() {
-        fragmentHomeBinding.linearlayoutHomeToOrderMadeCategory.setOnClickListener {
+        binding.linearlayoutHomeToOrderMadeCategory.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_orderMadeCategoryFragment)
         }
     }
 
     private fun setBestItemsListener() {
-        fragmentHomeBinding.run {
+        binding.run {
             linearlayoutHomeButtonOne.setOnClickListener { it.navigateToProductDetail() }
             linearlayoutHomeButtonTwo.setOnClickListener { it.navigateToProductDetail() }
             linearlayoutHomeButtonThree.setOnClickListener { it.navigateToProductDetail() }
@@ -60,9 +61,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun View.navigateToProductDetail() {
-        fragmentHomeBinding.run {
+        binding.run {
             // 추후 상품 종류(기성품, 주문제작)에 맞게 화면 전환할 수 있도록 수정
             findNavController().navigate(R.id.action_homeFragment_to_productDetailFragment)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

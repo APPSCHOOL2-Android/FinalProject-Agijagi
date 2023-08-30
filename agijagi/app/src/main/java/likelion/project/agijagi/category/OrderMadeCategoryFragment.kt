@@ -11,22 +11,23 @@ import likelion.project.agijagi.databinding.FragmentOrderMadeCategoryBinding
 
 class OrderMadeCategoryFragment : Fragment() {
 
-    lateinit var fragmentOrderMadeCategoryBinding: FragmentOrderMadeCategoryBinding
+    private var _binding: FragmentOrderMadeCategoryBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        fragmentOrderMadeCategoryBinding = FragmentOrderMadeCategoryBinding.inflate(inflater)
+        _binding = FragmentOrderMadeCategoryBinding.inflate(inflater)
 
         toolbarItemScreenNavigate()
         setOrderMadeCategoryMenuListener()
 
-        return fragmentOrderMadeCategoryBinding.root
+        return binding.root
     }
 
     private fun toolbarItemScreenNavigate() {
-        fragmentOrderMadeCategoryBinding.toolbarCategory.run {
+        binding.toolbarCategory.run {
             setNavigationOnClickListener {
                 it.findNavController()
                     .navigate(R.id.action_orderMadeCategoryFragment_to_categoryFragment)
@@ -43,7 +44,7 @@ class OrderMadeCategoryFragment : Fragment() {
     }
 
     private fun setOrderMadeCategoryMenuListener() {
-        fragmentOrderMadeCategoryBinding.run {
+        binding.run {
             linearlayoutOrderMadeCategoryButtonOne.setOnClickListener { it.navigateToCategoryDetail() }
             linearlayoutOrderMadeCategoryButtonTwo.setOnClickListener { it.navigateToCategoryDetail() }
             linearlayoutOrderMadeCategoryButtonThree.setOnClickListener { it.navigateToCategoryDetail() }
@@ -52,9 +53,14 @@ class OrderMadeCategoryFragment : Fragment() {
     }
 
     private fun View.navigateToCategoryDetail() {
-        fragmentOrderMadeCategoryBinding.run {
+        binding.run {
             findNavController().navigate(R.id.action_orderMadeCategoryFragment_to_categoryDetailFragment)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

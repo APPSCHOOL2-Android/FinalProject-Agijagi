@@ -12,22 +12,23 @@ import likelion.project.agijagi.databinding.FragmentCategoryBinding
 
 class CategoryFragment : Fragment() {
 
-    lateinit var fragmentCategoryBinding: FragmentCategoryBinding
+    private var _binding: FragmentCategoryBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        fragmentCategoryBinding = FragmentCategoryBinding.inflate(inflater)
+        _binding = FragmentCategoryBinding.inflate(inflater)
 
         toolbarMenuItemScreenNavigate()
         setCategoryMenuListener()
 
-        return fragmentCategoryBinding.root
+        return binding.root
     }
 
     private fun toolbarMenuItemScreenNavigate() {
-        fragmentCategoryBinding.toolbarCategory.setOnMenuItemClickListener {
+        binding.toolbarCategory.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_category_shopping_list -> {
                     findNavController().navigate(R.id.action_categoryFragment_to_shoppingListFragment)
@@ -38,7 +39,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun setCategoryMenuListener() {
-        fragmentCategoryBinding.run {
+        binding.run {
             linearlayoutCategoryButtonOne.setOnClickListener { it.navigateToCategoryDetail() }
             linearlayoutCategoryButtonTwo.setOnClickListener { it.navigateToCategoryDetail() }
             linearlayoutCategoryButtonThree.setOnClickListener { it.navigateToCategoryDetail() }
@@ -51,9 +52,15 @@ class CategoryFragment : Fragment() {
     }
 
     private fun View.navigateToCategoryDetail() {
-        fragmentCategoryBinding.run {
+        binding.run {
             findNavController().navigate(R.id.action_categoryFragment_to_categoryDetailFragment)
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }
 
