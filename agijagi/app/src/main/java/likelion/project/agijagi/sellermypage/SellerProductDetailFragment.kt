@@ -25,9 +25,9 @@ class SellerProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toolbarClickItem()
+        setToolbarMenuItem()
     }
-    private fun toolbarClickItem() {
+    private fun setToolbarMenuItem() {
         binding?.run {
             toolbarSellerProductDetail.run {
                 setOnMenuItemClickListener {
