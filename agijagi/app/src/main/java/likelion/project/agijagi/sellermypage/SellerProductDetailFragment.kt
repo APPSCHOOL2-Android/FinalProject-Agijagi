@@ -19,11 +19,14 @@ class SellerProductDetailFragment : Fragment() {
     ): View? {
         binding = FragmentSellerProductDetailBinding.inflate(inflater)
 
-        toolbarClickItem()
-
         return binding?.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        toolbarClickItem()
+    }
     private fun toolbarClickItem() {
         binding?.run {
             toolbarSellerProductDetail.run {

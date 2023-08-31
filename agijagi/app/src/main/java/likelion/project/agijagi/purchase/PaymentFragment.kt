@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import androidx.navigation.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -43,6 +44,8 @@ class PaymentFragment : Fragment() {
                         setText("")
                         hint = "할부기간"
                     }
+
+
 
                     editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
                 }
