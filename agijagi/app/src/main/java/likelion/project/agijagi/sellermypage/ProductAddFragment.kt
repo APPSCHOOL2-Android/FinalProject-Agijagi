@@ -34,7 +34,8 @@ import kotlin.concurrent.thread
 
 class ProductAddFragment : Fragment() {
 
-    lateinit var fragmentProductAddBinding: FragmentProductAddBinding
+    private var _binding: FragmentProductAddBinding? = null
+    private val binding get() = _binding!!
     lateinit var mainActivity: MainActivity
 
     lateinit var imm: InputMethodManager
@@ -60,7 +61,7 @@ class ProductAddFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        fragmentProductAddBinding = FragmentProductAddBinding.inflate(inflater)
+        _binding = FragmentProductAddBinding.inflate(inflater)
         mainActivity = activity as MainActivity
 
         thread {
@@ -73,7 +74,7 @@ class ProductAddFragment : Fragment() {
         }
 
         // 동작
-        fragmentProductAddBinding.run {
+        binding.run {
             // 초기화
             layoutProductAddOption.visibility = View.GONE
             layoutProductAddAddPlan.visibility = View.GONE
@@ -253,7 +254,7 @@ class ProductAddFragment : Fragment() {
         resetPlanView()
         setBottomButton()
 
-        return fragmentProductAddBinding.root
+        return binding.root
     }
 
     override fun onRequestPermissionsResult(
@@ -293,7 +294,7 @@ class ProductAddFragment : Fragment() {
     // 상품명, 가격, 카테고리, 주문제작가능여부 4가지만 확인해서 버튼을 활성화한다.
     // 유효성 검사는 별개로, 하단 버튼을 클릭 시 검사한다.
     private fun checkBottomButtonActive() {
-        fragmentProductAddBinding.run {
+        binding.run {
             var checker = true
 
             val name = editinputProductAddProductname.text.toString()
@@ -361,7 +362,7 @@ class ProductAddFragment : Fragment() {
                     pictureList.add(bitmap!!)
                     resetPictureView()
                     Snackbar.make(
-                        fragmentProductAddBinding.root,
+                        binding.root,
                         "사진을 추가했습니다",
                         Toast.LENGTH_SHORT
                     )
@@ -404,7 +405,7 @@ class ProductAddFragment : Fragment() {
                     planList.add(bitmap!!)
                     resetPlanView()
                     Snackbar.make(
-                        fragmentProductAddBinding.root,
+                        binding.root,
                         "도면을 추가했습니다",
                         Toast.LENGTH_SHORT
                     )
@@ -414,7 +415,7 @@ class ProductAddFragment : Fragment() {
     }
 
     private fun resetPictureView() {
-        fragmentProductAddBinding.run {
+        binding.run {
             // 사진 테이블 6개
             val pictureIncludeList = arrayListOf<ImageView>()
             pictureIncludeList.add(includeProductAddAddPictureBox1.imageView)
@@ -437,7 +438,7 @@ class ProductAddFragment : Fragment() {
     }
 
     private fun resetPlanView() {
-        fragmentProductAddBinding.run {
+        binding.run {
             // 사진 테이블 6개
             val planIncludeList = arrayListOf<ItemProductAddAddPlanBinding>()
             planIncludeList.add(includeProductAddAddPlanBox1)
@@ -464,7 +465,7 @@ class ProductAddFragment : Fragment() {
     // 하단 버튼을 클릭했을 경우의 유효성검사 메소드
     // 길어서 함수로 뺌
     private fun setBottomButton() {
-        fragmentProductAddBinding.run {
+        binding.run {
             // 하단 버튼 클릭
             buttonProductAddOk.setOnClickListener {
                 val name = editinputProductAddProductname.text.toString()
