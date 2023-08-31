@@ -1,17 +1,21 @@
 package likelion.project.agijagi.order
 
+import android.graphics.Rect
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentOrderBinding
 
 class OrderFragment : Fragment() {
 
-    lateinit var fragmentOrderBinding: FragmentOrderBinding
+    private var _binding: FragmentOrderBinding? = null
+    private val binding get() = _binding!!
+
     lateinit var orderAdapter: OrderAdapter
 
     val dataList = arrayListOf<OrderModel>().apply {
@@ -26,18 +30,43 @@ class OrderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fragmentOrderBinding = FragmentOrderBinding.inflate(inflater)
+        _binding = FragmentOrderBinding.inflate(inflater)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         orderAdapter = OrderAdapter()
 
-        fragmentOrderBinding.run {
+        binding.run {
             recyclerviewOrder.run {
                 adapter = orderAdapter
                 layoutManager = LinearLayoutManager(context)
+
+                // 마지막 아이템 bottom margin
+                addItemDecoration(MarginItemDecoration(40))
             }
             orderAdapter.submitList(dataList)
         }
-
-        return fragmentOrderBinding.root
     }
 
+    inner class MarginItemDecoration(private val spaceSize: Int) : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect, view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            val position = parent.getChildAdapterPosition(view)
+            val itemCount = state.itemCount
+
+            // px -> dp 변환
+            val transformationDP = resources.displayMetrics.density
+            val size = (spaceSize * transformationDP).toInt()
+
+            with(outRect) {
+                bottom = if (position == itemCount - 1) size else 0
+            }
+        }
+    }
 }

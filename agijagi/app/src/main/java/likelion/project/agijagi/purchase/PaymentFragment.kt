@@ -14,16 +14,22 @@ import likelion.project.agijagi.databinding.FragmentPaymentBinding
 
 class PaymentFragment : Fragment() {
 
-    lateinit var fragmentPaymentBinding: FragmentPaymentBinding
+    private var _binding: FragmentPaymentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fragmentPaymentBinding = FragmentPaymentBinding.inflate(inflater)
+        _binding = FragmentPaymentBinding.inflate(inflater)
 
+        return binding.root
+    }
 
-        fragmentPaymentBinding.run {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.run {
             editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
 
             buttonPaymentCategoryCreditcard.run {
@@ -105,17 +111,15 @@ class PaymentFragment : Fragment() {
                 it.findNavController().navigate(R.id.action_paymentFragment_to_purchaseCompleteFragment)
             }
         }
-
-        return fragmentPaymentBinding.root
     }
 
     // 버튼 누를시 글자색, 배경 변경
     private fun selectButtonColor(selectedButton: Button) {
         val buttons = arrayOf(
-            fragmentPaymentBinding.buttonPaymentCategoryCreditcard,
-            fragmentPaymentBinding.buttonPaymentCategorySimplepay,
-            fragmentPaymentBinding.buttonPaymentCategoryMobile,
-            fragmentPaymentBinding.buttonPaymentCategoryBank
+            binding.buttonPaymentCategoryCreditcard,
+            binding.buttonPaymentCategorySimplepay,
+            binding.buttonPaymentCategoryMobile,
+            binding.buttonPaymentCategoryBank
         )
 
         for (button in buttons) {

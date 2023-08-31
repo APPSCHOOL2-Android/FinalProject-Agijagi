@@ -11,22 +11,27 @@ import likelion.project.agijagi.databinding.FragmentDeliveryTrackingBinding
 
 class DeliveryTrackingFragment : Fragment() {
 
-    lateinit var fragmentDeliveryTrackingBinding: FragmentDeliveryTrackingBinding
+    private var _binding: FragmentDeliveryTrackingBinding? = null
+    private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fragmentDeliveryTrackingBinding = FragmentDeliveryTrackingBinding.inflate(layoutInflater)
+        _binding = FragmentDeliveryTrackingBinding.inflate(layoutInflater)
 
-        fragmentDeliveryTrackingBinding.run {
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.run {
             toolbarDeliverytracking.run {
                 setNavigationOnClickListener {
                     it.findNavController().navigate(R.id.action_deliveryTrackingFragment_to_orderFragment)
                 }
             }
         }
-
-        return fragmentDeliveryTrackingBinding.root
     }
 
 }

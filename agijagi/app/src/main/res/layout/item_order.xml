@@ -117,7 +117,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
+            android:id="@+id/buttonOrderChat"
             android:layout_width="96dp"
             android:layout_height="22dp"
             android:layout_marginTop="12dp"

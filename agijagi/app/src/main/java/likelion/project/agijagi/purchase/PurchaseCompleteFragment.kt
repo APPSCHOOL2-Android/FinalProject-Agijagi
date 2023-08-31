@@ -11,20 +11,26 @@ import likelion.project.agijagi.databinding.FragmentPurchaseCompleteBinding
 
 class PurchaseCompleteFragment : Fragment() {
 
-    lateinit var fragmentPurchaseCompleteBinding: FragmentPurchaseCompleteBinding
+    private var _binding: FragmentPurchaseCompleteBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fragmentPurchaseCompleteBinding = FragmentPurchaseCompleteBinding.inflate(layoutInflater)
+        _binding = FragmentPurchaseCompleteBinding.inflate(layoutInflater)
 
-        fragmentPurchaseCompleteBinding.run {
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.run {
             buttonPurchaseComplete.setOnClickListener {
                 it.findNavController().navigate(R.id.action_purchaseCompleteFragment_to_homeFragment)
             }
         }
-        return fragmentPurchaseCompleteBinding.root
     }
 
 }
