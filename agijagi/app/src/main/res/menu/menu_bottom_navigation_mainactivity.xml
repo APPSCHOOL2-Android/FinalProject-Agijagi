@@ -25,7 +25,7 @@
         android:icon="@drawable/favorite_24px"
         android:title="찜" />
     <item
-        android:id="@+id/sellerMypageFragment"
+        android:id="@+id/buyerMypageFragment"
         android:enabled="true"
         android:icon="@drawable/person_24px"
         android:title="내 정보"
