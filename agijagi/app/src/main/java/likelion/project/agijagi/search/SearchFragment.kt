@@ -38,13 +38,19 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         searchAdapter = SearchAdapter()
         searchResultAdapter = SearchResultAdapter()
 
         setRecyclerViewRecentSearches()
         setRecyclerViewSearchResult()
 
-        return binding.root
     }
 
     private fun setRecyclerViewRecentSearches() {

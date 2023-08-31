@@ -22,16 +22,20 @@ class CustomProductDetailFragment : Fragment() {
     ): View {
         _binding = FragmentCustomProductDetailBinding.inflate(inflater)
 
-        toolbarClickItem()
-        clickFloatingButton()
-        clickFloorPlanDownloadButton()
-        clickFavoriteButton()
-        clickPurchaseButtonToCustomOption()
-
         return binding.root
     }
 
-    private fun toolbarClickItem() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setToolbarMenuItem()
+        setFloatingButton()
+        setFloorPlanDownloadButton()
+        setFavoriteButton()
+        setPurchaseButton()
+    }
+
+    private fun setToolbarMenuItem() {
         binding.toolbarCustomProductDetail.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_product_detail_shopping -> {
@@ -42,26 +46,26 @@ class CustomProductDetailFragment : Fragment() {
         }
     }
 
-    private fun clickFloatingButton() {
+    private fun setFloatingButton() {
         binding.customFloatingButtonCustomProductDetailToChatting.customFloatingButtonLayout.setOnClickListener {
             it.findNavController()
                 .navigate(R.id.action_customProductDetailFragment_to_userChatListFragment)
         }
     }
 
-    private fun clickFloorPlanDownloadButton() {
+    private fun setFloorPlanDownloadButton() {
         binding.buttonCustomProductDetailDownloadFloorPlan.setOnClickListener {
             Snackbar.make(it, "도면 다운로드가 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
         }
     }
 
-    private fun clickFavoriteButton() {
+    private fun setFavoriteButton() {
         binding.imageButtonCustomProductDetailFavorite.setOnClickListener {
             it.isSelected = it.isSelected != true
         }
     }
 
-    private fun clickPurchaseButtonToCustomOption() {
+    private fun setPurchaseButton() {
         binding.buttonCustomProductDetailPurchase.setOnClickListener {
             it.findNavController()
                 .navigate(R.id.action_customProductDetailFragment_to_customOptionFragment)
