@@ -64,7 +64,7 @@ class ProductAddFragment : Fragment() {
         _binding = FragmentProductAddBinding.inflate(inflater)
         mainActivity = activity as MainActivity
 
-        return fragmentProductAddBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
