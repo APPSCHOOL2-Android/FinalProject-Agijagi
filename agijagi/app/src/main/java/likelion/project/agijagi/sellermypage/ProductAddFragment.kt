@@ -63,6 +63,12 @@ class ProductAddFragment : Fragment() {
         fragmentProductAddBinding = FragmentProductAddBinding.inflate(inflater)
         mainActivity = activity as MainActivity
 
+        return fragmentProductAddBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         thread {
             SystemClock.sleep(500)
             // 키보드 해제
@@ -252,8 +258,6 @@ class ProductAddFragment : Fragment() {
         resetPictureView()
         resetPlanView()
         setBottomButton()
-
-        return fragmentProductAddBinding.root
     }
 
     override fun onRequestPermissionsResult(
