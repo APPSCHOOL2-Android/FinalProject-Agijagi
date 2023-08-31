@@ -259,8 +259,6 @@ class ProductAddFragment : Fragment() {
         resetPictureView()
         resetPlanView()
         setBottomButton()
-
-        return binding.root
     }
 
     override fun onRequestPermissionsResult(
