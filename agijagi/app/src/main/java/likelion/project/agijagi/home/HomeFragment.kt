@@ -20,14 +20,16 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater)
+        _binding = FragmentHomeBinding.inflate(inflater, container,false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         toolbarMenuItemScreenNavigate()
         orderMadeProductScreenNavigate()
         setBestItemsListener()
-
-        return binding.root
-
     }
 
     private fun toolbarMenuItemScreenNavigate() {
