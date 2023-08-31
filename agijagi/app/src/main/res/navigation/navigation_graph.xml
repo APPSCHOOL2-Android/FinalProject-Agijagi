@@ -70,12 +70,14 @@
         <action
             android:id="@+id/action_paymentFragment_to_purchaseCompleteFragment"
             app:destination="@id/purchaseCompleteFragment" />
+
         <action
             android:id="@+id/action_paymentFragment_to_readyMadeOptionFragment"
             app:destination="@id/readyMadeOptionFragment" />
         <action
             android:id="@+id/action_paymentFragment_to_customOptionFragment"
             app:destination="@id/customOptionFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/customProductDetailFragment"
@@ -202,6 +204,7 @@
             app:destination="@id/orderFragment" />
     </fragment>
 
+
     <fragment
         android:id="@+id/categoryFragment"
         android:name="likelion.project.agijagi.category.CategoryFragment"
@@ -293,4 +296,5 @@
             android:id="@+id/action_categoryDetailInfoListFragment_to_customProductDetailFragment"
             app:destination="@id/customProductDetailFragment" />
     </fragment>
+
 </navigation>
