@@ -25,11 +25,18 @@ class OrderAdapter() : ListAdapter<OrderModel, OrderAdapter.OrderViewHolder>(dif
         }
 
         init{
-            orderBinding.root.setOnClickListener {
-                if(adapterPosition != RecyclerView.NO_POSITION){
+            orderBinding.run {
+                buttonOrderExchange.setOnClickListener {
 
                 }
-                it.findNavController().navigate(R.id.action_orderFragment_to_deliveryTrackingFragment)
+
+                buttonOrderShippingTracking.setOnClickListener {
+                    it.findNavController().navigate(R.id.action_orderFragment_to_deliveryTrackingFragment)
+                }
+
+                buttonOrderChat.setOnClickListener {
+
+                }
             }
         }
     }
@@ -63,6 +70,4 @@ class OrderAdapter() : ListAdapter<OrderModel, OrderAdapter.OrderViewHolder>(dif
             }
         }
     }
-
-
 }

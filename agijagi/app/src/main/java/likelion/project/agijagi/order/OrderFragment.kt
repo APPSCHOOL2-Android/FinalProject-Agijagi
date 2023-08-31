@@ -43,10 +43,30 @@ class OrderFragment : Fragment() {
             recyclerviewOrder.run {
                 adapter = orderAdapter
                 layoutManager = LinearLayoutManager(context)
+
+                // 마지막 아이템 bottom margin
+                addItemDecoration(MarginItemDecoration(40))
             }
             orderAdapter.submitList(dataList)
         }
     }
 
+    inner class MarginItemDecoration(private val spaceSize: Int) : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect, view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            val position = parent.getChildAdapterPosition(view)
+            val itemCount = state.itemCount
 
+            // px -> dp 변환
+            val transformationDP = resources.displayMetrics.density
+            val size = (spaceSize * transformationDP).toInt()
+
+            with(outRect) {
+                bottom = if (position == itemCount - 1) size else 0
+            }
+        }
+    }
 }
