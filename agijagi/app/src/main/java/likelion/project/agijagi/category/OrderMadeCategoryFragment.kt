@@ -21,13 +21,13 @@ class OrderMadeCategoryFragment : Fragment() {
     ): View {
         _binding = FragmentOrderMadeCategoryBinding.inflate(inflater)
 
-        toolbarMenuItemScreenNavigate()
-        setOrderMadeCategoryMenuListener()
+        setToolbarMenuItem()
+        setOrderMadeCategoryMenuButton()
 
         return binding.root
     }
 
-    private fun toolbarMenuItemScreenNavigate() {
+    private fun setToolbarMenuItem() {
         binding.toolbarCategory.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_category_shopping_list -> {
@@ -39,7 +39,7 @@ class OrderMadeCategoryFragment : Fragment() {
 
     }
 
-    private fun setOrderMadeCategoryMenuListener() {
+    private fun setOrderMadeCategoryMenuButton() {
         binding.run {
             linearlayoutOrderMadeCategoryButtonOne.setOnClickListener { it.navigateToCategoryDetail() }
             linearlayoutOrderMadeCategoryButtonTwo.setOnClickListener { it.navigateToCategoryDetail() }

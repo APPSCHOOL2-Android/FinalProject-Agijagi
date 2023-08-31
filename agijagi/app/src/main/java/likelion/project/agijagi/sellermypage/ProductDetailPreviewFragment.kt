@@ -26,10 +26,10 @@ class ProductDetailPreviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        clickProductRegistration()
+        setProductRegistrationButton()
     }
 
-    private fun clickProductRegistration() {
+    private fun setProductRegistrationButton() {
         binding?.run {
             buttonProductDetailPreviewProductRegistration.setOnClickListener {
                 Snackbar.make(it, "상품 등록이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()

@@ -27,12 +27,12 @@ class ProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toolbarClickItem()
-        clickFavoriteButton()
-        clickPurchaseButtonToReadyMadeOption()
+        setToolbarMenuItem()
+        setFavoriteButton()
+        setPurchaseButton()
     }
 
-    private fun toolbarClickItem() {
+    private fun setToolbarMenuItem() {
         binding.toolbarProductDetail.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_product_detail_shopping -> {
@@ -43,13 +43,13 @@ class ProductDetailFragment : Fragment() {
         }
     }
 
-    private fun clickFavoriteButton() {
+    private fun setFavoriteButton() {
         binding.imageButtonProductDetailFavorite.setOnClickListener {
             it.isSelected = it.isSelected != true
         }
     }
 
-    private fun clickPurchaseButtonToReadyMadeOption() {
+    private fun setPurchaseButton() {
         binding.buttonProductDetailPurchase.setOnClickListener {
             it.findNavController()
                 .navigate(R.id.action_productDetailFragment_to_readyMadeOptionFragment)

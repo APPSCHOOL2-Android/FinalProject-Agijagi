@@ -22,15 +22,15 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater)
 
-        toolbarMenuItemScreenNavigate()
-        orderMadeProductScreenNavigate()
-        setBestItemsListener()
+        setToolbarMenuItem()
+        setOrderMadeProductButton()
+        setBestItemsButton()
 
         return binding.root
 
     }
 
-    private fun toolbarMenuItemScreenNavigate() {
+    private fun setToolbarMenuItem() {
         binding.toolbarHome.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_home_search -> {
@@ -45,13 +45,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun orderMadeProductScreenNavigate() {
+    private fun setOrderMadeProductButton() {
         binding.linearlayoutHomeToOrderMadeCategory.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_orderMadeCategoryFragment)
         }
     }
 
-    private fun setBestItemsListener() {
+    private fun setBestItemsButton() {
         binding.run {
             linearlayoutHomeButtonOne.setOnClickListener { it.navigateToProductDetail() }
             linearlayoutHomeButtonTwo.setOnClickListener { it.navigateToProductDetail() }

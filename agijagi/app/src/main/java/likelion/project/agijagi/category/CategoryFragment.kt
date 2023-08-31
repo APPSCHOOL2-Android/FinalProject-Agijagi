@@ -21,13 +21,13 @@ class CategoryFragment : Fragment() {
     ): View {
         _binding = FragmentCategoryBinding.inflate(inflater)
 
-        toolbarMenuItemScreenNavigate()
-        setCategoryMenuListener()
+        setToolbarMenuItem()
+        setCategoryMenuButton()
 
         return binding.root
     }
 
-    private fun toolbarMenuItemScreenNavigate() {
+    private fun setToolbarMenuItem() {
         binding.toolbarCategory.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_category_shopping_list -> {
@@ -38,7 +38,7 @@ class CategoryFragment : Fragment() {
         }
     }
 
-    private fun setCategoryMenuListener() {
+    private fun setCategoryMenuButton() {
         binding.run {
             linearlayoutCategoryButtonOne.setOnClickListener { it.navigateToCategoryDetail() }
             linearlayoutCategoryButtonTwo.setOnClickListener { it.navigateToCategoryDetail() }
