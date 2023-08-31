@@ -21,10 +21,14 @@ class OrderMadeCategoryFragment : Fragment() {
     ): View {
         _binding = FragmentOrderMadeCategoryBinding.inflate(inflater)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         setToolbarMenuItem()
         setOrderMadeCategoryMenuButton()
-
-        return binding.root
     }
 
     private fun setToolbarMenuItem() {
