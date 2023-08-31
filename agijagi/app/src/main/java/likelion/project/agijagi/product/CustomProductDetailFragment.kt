@@ -22,13 +22,17 @@ class CustomProductDetailFragment : Fragment() {
     ): View {
         _binding = FragmentCustomProductDetailBinding.inflate(inflater)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         toolbarClickItem()
         clickFloatingButton()
         clickFloorPlanDownloadButton()
         clickFavoriteButton()
         clickPurchaseButtonToCustomOption()
-
-        return binding.root
     }
 
     private fun toolbarClickItem() {

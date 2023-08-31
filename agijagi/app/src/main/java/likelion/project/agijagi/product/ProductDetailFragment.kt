@@ -21,11 +21,15 @@ class ProductDetailFragment : Fragment() {
     ): View {
         _binding = FragmentProductDetailBinding.inflate(inflater)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         toolbarClickItem()
         clickFavoriteButton()
         clickPurchaseButtonToReadyMadeOption()
-
-        return binding.root
     }
 
     private fun toolbarClickItem() {
