@@ -23,7 +23,7 @@
         android:layout_height="0dp"
         android:descendantFocusability="blocksDescendants"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="@+id/bottom_layout_check"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_layout_check"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_ready_made_option">
@@ -130,8 +130,7 @@
                 android:id="@+id/layout_custom_lettering_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -202,8 +201,7 @@
                 android:id="@+id/layout_custom_print_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -213,65 +211,64 @@
                     android:text="사진 첨부"
                     android:textSize="16sp" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <include
+                        layout="@layout/item_custom_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true" />
+
+                    <include
+                        layout="@layout/item_custom_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <include
+                        layout="@layout/item_custom_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true" />
+
+
+                    <include
+                        layout="@layout/item_custom_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true" />
+
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:text="다양한 위치에다가 하고싶으면 1:1 문의로 보내주세요"
+                    android:layout_marginTop="8dp"
+                    android:text="원하시는 위치에 원하는 그림을 넣어주세요"
                     android:textSize="12sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <include
-                        layout="@layout/item_custom_option"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true" />
-
-                    <include
-                        layout="@layout/item_custom_option"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <include
-                        layout="@layout/item_custom_option"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true" />
-
-
-                    <include
-                        layout="@layout/item_custom_option"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true" />
-
-
-                </LinearLayout>
 
             </LinearLayout>
 
