@@ -146,4 +146,22 @@
             android:id="@+id/action_deliveryTrackingFragment_to_orderFragment"
             app:destination="@id/orderFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/orderManagementDetailFragment"
+        android:name="likelion.project.agijagi.sellermypage.OrderManagementDetailFragment"
+        android:label="fragment_order_management_detail"
+        tools:layout="@layout/fragment_order_management_detail" >
+        <action
+            android:id="@+id/action_orderManagementDetailFragment_to_orderManagementFragment"
+            app:destination="@id/orderManagementFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderManagementFragment"
+        android:name="likelion.project.agijagi.sellermypage.OrderManagementFragment"
+        android:label="fragment_order_management"
+        tools:layout="@layout/fragment_order_management" >
+        <action
+            android:id="@+id/action_orderManagementFragment_to_orderManagementDetailFragment"
+            app:destination="@id/orderManagementDetailFragment" />
+    </fragment>
 </navigation>

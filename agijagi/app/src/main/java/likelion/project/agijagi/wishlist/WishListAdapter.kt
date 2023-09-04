@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.databinding.ItemWishListBinding
 
 class WishListAdapter() :
-    ListAdapter<WishListModel, WishListAdapter.ShoppingListViewHolder>(diffUtil) {
+    ListAdapter<WishListModel, WishListAdapter.WishListViewHolder>(diffUtil) {
 
-    inner class ShoppingListViewHolder(val bind: ItemWishListBinding) :
+    inner class WishListViewHolder(val bind: ItemWishListBinding) :
         RecyclerView.ViewHolder(bind.root) {
 
         fun bind(item: WishListModel) {
@@ -29,15 +29,15 @@ class WishListAdapter() :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WishListViewHolder {
         val itemWishListBinding =
             ItemWishListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val viewHolder = ShoppingListViewHolder(itemWishListBinding)
+        val viewHolder = WishListViewHolder(itemWishListBinding)
 
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: ShoppingListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: WishListViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
 
@@ -58,5 +58,4 @@ class WishListAdapter() :
             }
         }
     }
-
 }
