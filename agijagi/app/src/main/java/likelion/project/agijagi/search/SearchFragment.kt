@@ -1,11 +1,14 @@
 package likelion.project.agijagi.search
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import likelion.project.agijagi.R
@@ -20,8 +23,7 @@ class SearchFragment : Fragment() {
     lateinit var searchResultAdapter: SearchResultAdapter
 
     companion object {
-        val recentSearchesList =
-            mutableListOf("그릇", "밥그릇", "컵", "접시", "아기자기", "커스텀 도자기", "custom", "레터링", "Agijagi")
+        val recentSearchesList = mutableListOf<String>()
     }
 
     val dataList = mutableListOf(
@@ -48,15 +50,50 @@ class SearchFragment : Fragment() {
         searchAdapter = SearchAdapter()
         searchResultAdapter = SearchResultAdapter()
 
+        test()
         setRecyclerViewRecentSearches()
         setRecyclerViewSearchResult()
+    }
 
+    private fun test() {
+        binding.run {
+            linearlayoutSearchRecentSearches.visibility = VISIBLE
+            recyclerviewSearchSearchResult.visibility = GONE
+            edittextSearch.run {
+                addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, start: Int, count: Int, after: Int) {
+
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {
+                        if (start == 0 && count == 0) {
+                            linearlayoutSearchRecentSearches.visibility = VISIBLE
+                            recyclerviewSearchSearchResult.visibility = GONE
+                        } else {
+                            linearlayoutSearchRecentSearches.visibility = GONE
+                            recyclerviewSearchSearchResult.visibility = VISIBLE
+                        }
+                    }
+
+                    override fun afterTextChanged(p0: Editable?) {
+
+                    }
+                })
+
+                setOnEditorActionListener { textView, i, keyEvent ->
+                    recentSearchesList.add(text.toString())
+                    false
+                }
+            }
+        }
     }
 
     private fun setRecyclerViewRecentSearches() {
         binding.recyclerviewSearchRecentSearches.run {
             adapter = searchAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true)
+            (layoutManager as LinearLayoutManager).stackFromEnd = true
+
         }
 
         searchAdapter.submitList(recentSearchesList)
