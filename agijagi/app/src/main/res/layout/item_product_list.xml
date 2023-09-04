@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView_product_list_product"
+            android:layout_width="96dp"
+            android:layout_height="72dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/order_default_image" />
+
+        <TextView
+            android:id="@+id/textView_product_list_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="30dp"
+            android:text="브랜드명"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView_product_list_product"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_product_list_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="제품명 도자기"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/textView_product_list_brand"
+            app:layout_constraintTop_toBottomOf="@+id/textView_product_list_brand" />
+
+        <TextView
+            android:id="@+id/textView_product_list_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100,000원"
+            android:textSize="11sp"
+            app:layout_constraintStart_toStartOf="@+id/textView_product_list_name"
+            app:layout_constraintTop_toBottomOf="@+id/textView_product_list_name" />
+
+        <TextView
+            android:id="@+id/textView_product_list_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="23.09.09"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
