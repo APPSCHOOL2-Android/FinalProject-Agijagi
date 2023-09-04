@@ -67,7 +67,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textview_seller_my_page_management_my_store"
+                android:id="@+id/textview_buyer_my_page_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -83,7 +83,7 @@
                 android:background="@drawable/line_1" />
 
             <TextView
-                android:id="@+id/textview_seller_my_page_product_add"
+                android:id="@+id/textview_buyer_my_page_management_ship"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -99,7 +99,7 @@
                 android:background="@drawable/line_1" />
 
             <TextView
-                android:id="@+id/textview_seller_my_page_product_list"
+                android:id="@+id/textview_buyer_my_page_order_ship"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -115,7 +115,7 @@
                 android:background="@drawable/line_1" />
 
             <TextView
-                android:id="@+id/textview_seller_my_page_order_cancel_change"
+                android:id="@+id/textview_buyer_my_page_notify"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -131,7 +131,7 @@
                 android:background="@drawable/line_1" />
 
             <TextView
-                android:id="@+id/textview_seller_my_page_management_order_ship"
+                android:id="@+id/textview_buyer_my_page_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -148,7 +148,7 @@
 
 
             <TextView
-                android:id="@+id/textview_seller_my_page_quit"
+                android:id="@+id/textview_buyer_my_page_quit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
