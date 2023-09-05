@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
@@ -30,7 +31,6 @@ import likelion.project.agijagi.databinding.FragmentProductAddBinding
 import likelion.project.agijagi.databinding.ItemProductAddAddPictureBinding
 import likelion.project.agijagi.databinding.ItemProductAddAddPlanBinding
 import kotlin.concurrent.thread
-
 
 class ProductAddFragment : Fragment() {
 
@@ -103,6 +103,7 @@ class ProductAddFragment : Fragment() {
             editinputlayoutProductAddProductprice.run {
                 setOnEditorActionListener { v, actionId, event ->
                     checkBottomButtonActive()
+                    hideSoftKeyboard()
                     false
                 }
             }
@@ -132,8 +133,8 @@ class ProductAddFragment : Fragment() {
                             // 초기화
                             checkBoxProductAddOption1.isChecked = false
                             checkBoxProductAddOption2.isChecked = false
-                            editinputlayoutProductAddOption1Price.setText("")
-                            editinputlayoutProductAddOption2Price.setText("")
+                            editinputlayoutProductAddOption1Price.text = null
+                            editinputlayoutProductAddOption2Price.text = null
                         }
 
                         ProductAddSelectOrdermade.ORDER_IMPOSSIBLE.idx -> {
@@ -154,7 +155,7 @@ class ProductAddFragment : Fragment() {
             }
 
             // 옵션2 가격입력
-            editinputlayoutProductAddOption1Price.run {
+            editinputlayoutProductAddOption2Price.run {
                 setOnEditorActionListener { v, actionId, event ->
                     checkBottomButtonActive()
                     hideSoftKeyboard()
@@ -163,14 +164,13 @@ class ProductAddFragment : Fragment() {
             }
 
             // 상품 상세정보
-            editinputlayoutProductAddProductprice.run {
+            editinputlayoutProductAddDetail.run {
                 setOnEditorActionListener { v, actionId, event ->
                     checkBottomButtonActive()
                     hideSoftKeyboard()
                     false
                 }
             }
-
 
             // 사진추가 버튼
             buttonProductAddAddPicture.setOnClickListener {
@@ -252,7 +252,6 @@ class ProductAddFragment : Fragment() {
                     resetPlanView()
                 }
             }
-
         }
 
         setAlbumActivityLaunchers()
@@ -293,6 +292,7 @@ class ProductAddFragment : Fragment() {
             }
         }
     }
+
 
     // 하단 버튼 활성 체크
     // 상품명, 가격, 카테고리, 주문제작가능여부 4가지만 확인해서 버튼을 활성화한다.
@@ -342,23 +342,7 @@ class ProductAddFragment : Fragment() {
                 val uri = (it.data?.data) ?: return@registerForActivityResult
 
                 // 버젼별 이미지 디코드
-                var bitmap: Bitmap? = null
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    val source =
-                        ImageDecoder.createSource(mainActivity.contentResolver, uri)
-                    bitmap = ImageDecoder.decodeBitmap(source)
-                } else {
-                    val cursor =
-                        mainActivity.contentResolver.query(uri, null, null, null, null)
-                    if (cursor != null) {
-                        cursor.moveToNext()
-
-                        val idx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
-                        val source = cursor.getString(idx)
-
-                        bitmap = BitmapFactory.decodeFile(source)
-                    }
-                }
+                val bitmap = imageDecode(uri)
 
                 // 가져온 이미지가 있다면 저장하고 화면에 보여줌
                 if (bitmap != null) {
@@ -372,7 +356,6 @@ class ProductAddFragment : Fragment() {
                     )
                         .show()
                 }
-
             }
 
         // 도면 추가
@@ -385,23 +368,7 @@ class ProductAddFragment : Fragment() {
                 val uri = (it.data?.data) ?: return@registerForActivityResult
 
                 // 버젼별 이미지 디코드
-                var bitmap: Bitmap? = null
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    val source =
-                        ImageDecoder.createSource(mainActivity.contentResolver, uri)
-                    bitmap = ImageDecoder.decodeBitmap(source)
-                } else {
-                    val cursor =
-                        mainActivity.contentResolver.query(uri, null, null, null, null)
-                    if (cursor != null) {
-                        cursor.moveToNext()
-
-                        val idx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
-                        val source = cursor.getString(idx)
-
-                        bitmap = BitmapFactory.decodeFile(source)
-                    }
-                }
+                val bitmap = imageDecode(uri)
 
                 // 가져온 이미지가 있다면 저장하고 화면에 보여줌
                 if (bitmap != null) {
@@ -416,6 +383,29 @@ class ProductAddFragment : Fragment() {
                         .show()
                 }
             }
+    }
+
+    private fun imageDecode(uri: Uri): Bitmap? {
+        // 버젼별 이미지 디코드
+        var bitmap: Bitmap? = null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val source =
+                ImageDecoder.createSource(mainActivity.contentResolver, uri)
+            bitmap = ImageDecoder.decodeBitmap(source)
+        } else {
+            val cursor =
+                mainActivity.contentResolver.query(uri, null, null, null, null)
+            if (cursor != null) {
+                cursor.moveToNext()
+
+                val idx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                val source = cursor.getString(idx)
+
+                bitmap = BitmapFactory.decodeFile(source)
+            }
+        }
+
+        return bitmap
     }
 
     private fun resetPictureView() {
@@ -533,21 +523,11 @@ class ProductAddFragment : Fragment() {
                 val data = ProductAddModel().apply {
                     this.name = name
                     this.price = price
-                    this.category = when (categoryIdx) {
-                        ProductAddCategory.ALL.idx -> ProductAddCategory.ALL.str
-                        ProductAddCategory.PLATE.idx -> ProductAddCategory.PLATE.str
-                        ProductAddCategory.CUP.idx -> ProductAddCategory.CUP.str
-                        ProductAddCategory.BOWL.idx -> ProductAddCategory.BOWL.str
-                        ProductAddCategory.ORDER_MADE.idx -> ProductAddCategory.ORDER_MADE.str
-                        else -> ProductAddCategory.ALL.str
-                    }
-                    this.ordermade = when (ordermadeIdx) {
-                        ProductAddSelectOrdermade.ORDER_POSSIBLE.idx -> ProductAddSelectOrdermade.ORDER_POSSIBLE.str
-                        ProductAddSelectOrdermade.ORDER_IMPOSSIBLE.idx -> ProductAddSelectOrdermade.ORDER_IMPOSSIBLE.str
-                        else -> ProductAddSelectOrdermade.ORDER_IMPOSSIBLE.str
-                    }
+                    this.category = (resources.getStringArray(R.array.product_add_category)
+                        .toList())[categoryIdx]
+                    this.ordermade = (resources.getStringArray(R.array.product_add_select_ordermade)
+                        .toList())[ordermadeIdx]
                     this.options = options
-
                     this.detail = editinputlayoutProductAddDetail.text.toString()
                 }
 
@@ -580,7 +560,6 @@ class ProductAddFragment : Fragment() {
             mainActivity.currentFocus!!.clearFocus()
         }
     }
-
 }
 
 enum class ProductAddCategory(val idx: Int, val str: String) {
