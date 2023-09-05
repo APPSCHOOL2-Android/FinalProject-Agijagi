@@ -1,17 +1,19 @@
 package likelion.project.agijagi.order
 
 
+import android.content.Context
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemOrderBinding
 
-class OrderAdapter : ListAdapter<OrderModel, OrderAdapter.OrderViewHolder>(diffUtil) {
+class OrderAdapter(var context: Context) : ListAdapter<OrderModel, OrderAdapter.OrderViewHolder>(diffUtil) {
 
     inner class OrderViewHolder(val orderBinding: ItemOrderBinding) :
         RecyclerView.ViewHolder(orderBinding.root) {
@@ -28,8 +30,15 @@ class OrderAdapter : ListAdapter<OrderModel, OrderAdapter.OrderViewHolder>(diffU
         init {
             orderBinding.run {
                 buttonOrderExchange.setOnClickListener {
-                    // 추후 교환/반품 신청 사유 입력(확인, 취소 버튼) 다이얼로그로 수정
-                    Snackbar.make(it, "교환/반품 신청이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+                    // 다이얼로그 커스텀 필요
+                    MaterialAlertDialogBuilder(context)
+                        .setTitle("교환/환불 신청")
+                        .setMessage("교환/환불 신청 하시겠습니까?")
+                        .setPositiveButton("확인") { _: DialogInterface, _: Int ->
+
+                        }
+                        .setNegativeButton("취소", null)
+                        .show()
                 }
 
                 buttonOrderShippingTracking.setOnClickListener {
