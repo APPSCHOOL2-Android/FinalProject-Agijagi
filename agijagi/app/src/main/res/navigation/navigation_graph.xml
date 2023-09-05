@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="likelion.project.agijagi.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        android:label="fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -48,8 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/wishListFragment"
-        android:name="likelion.project.agijagi.wishlist.WishListFragment"
-        android:label="fragment_wish_list">
+        android:name="likelion.project.agijagi.wishlist.WishListFragment">
         <action
             android:id="@+id/action_wishListFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -112,6 +110,7 @@
             android:id="@+id/action_customOptionFragment_to_customProductDetailFragment"
             app:destination="@id/customProductDetailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="likelion.project.agijagi.product.ProductDetailFragment"
@@ -196,11 +195,11 @@
             android:id="@+id/action_productDetailPreviewFragment_to_productAddFragment"
             app:destination="@id/productAddFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/productListFragment"
         android:name="likelion.project.agijagi.sellermypage.ProductListFragment"
-        android:label="fragment_product_list"
-        tools:layout="@layout/fragment_product_list" >
+        android:label="fragment_product_list">
         <action
             android:id="@+id/action_productListFragment_to_sellerProductDetailFragment"
             app:destination="@id/sellerProductDetailFragment" />
@@ -211,26 +210,25 @@
             android:id="@+id/action_productListFragment_to_sellerMypageFragment"
             app:destination="@id/sellerMypageFragment" />
     </fragment>
-         />
+
     <fragment
         android:id="@+id/productUpdateFragment"
         android:name="likelion.project.agijagi.sellermypage.ProductUpdateFragment"
-        android:label="fragment_product_update"
-         />
-        tools:layout="@layout/fragment_product_update" >
+        android:label="fragment_product_update">
         <action
             android:id="@+id/action_productUpdateFragment_to_sellerProductDetailFragment"
             app:destination="@id/sellerProductDetailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/purchaseCompleteFragment"
         android:name="likelion.project.agijagi.purchase.PurchaseCompleteFragment"
-        android:label="fragment_purchase_complete"
-        >
+        android:label="fragment_purchase_complete">
         <action
             android:id="@+id/action_purchaseCompleteFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/deliveryTrackingFragment"
         android:name="likelion.project.agijagi.deliverytracking.DeliveryTrackingFragment"
@@ -245,8 +243,7 @@
     <fragment
         android:id="@+id/categoryFragment"
         android:name="likelion.project.agijagi.category.CategoryFragment"
-        android:label="fragment_category"
-        tools:layout="@layout/fragment_category" >
+        android:label="fragment_category">
         <action
             android:id="@+id/action_categoryFragment_to_orderMadeCategoryFragment"
             app:destination="@id/orderMadeCategoryFragment" />
@@ -257,11 +254,11 @@
             android:id="@+id/action_categoryFragment_to_categoryDetailInfoListFragment"
             app:destination="@id/categoryDetailInfoListFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/orderMadeCategoryFragment"
         android:name="likelion.project.agijagi.category.OrderMadeCategoryFragment"
-        android:label="fragment_order_made_category"
-        tools:layout="@layout/fragment_order_made_category" >
+        android:label="fragment_order_made_category">
         <action
             android:id="@+id/action_orderMadeCategoryFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
@@ -272,6 +269,7 @@
             android:id="@+id/action_orderMadeCategoryFragment_to_categoryDetailInfoListFragment"
             app:destination="@id/categoryDetailInfoListFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/productAddFragment"
         android:name="likelion.project.agijagi.sellermypage.ProductAddFragment"
@@ -287,8 +285,7 @@
     <fragment
         android:id="@+id/buyerMypageFragment"
         android:name="likelion.project.agijagi.buyermypage.BuyerMypageFragment"
-        android:label="fragment_buyer_mypage"
-        tools:layout="@layout/fragment_buyer_mypage" >
+        android:label="fragment_buyer_mypage">
         <action
             android:id="@+id/action_buyerMypageFragment_to_shippingManagementFragment"
             app:destination="@id/shippingManagementFragment" />
@@ -317,46 +314,45 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="likelion.project.agijagi.login.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_signupSelectFragment2"
-            app:destination="@id/signupSelectFragment" />
+        android:label="fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_sellerMypageFragment"
             app:destination="@id/sellerMypageFragment" />
-    </fragment>
-        tools:layout="@layout/fragment_login" >
+
         <action
             android:id="@+id/action_loginFragment_to_signupSelectFragment"
             app:destination="@id/signupSelectFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/signupSellerFragment"
         android:name="likelion.project.agijagi.signup.SignupSellerFragment"
-        android:label="fragment_google_signup_buyer"
-        tools:layout="@layout/fragment_google_signup_buyer" >
+        android:label="fragment_google_signup_buyer">
         <action
             android:id="@+id/action_signupSellerFragment_to_signupSelectFragment"
             app:destination="@id/signupSelectFragment" />
+        <action
+            android:id="@+id/action_signupSellerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/signupSelectFragment"
         android:name="likelion.project.agijagi.signup.SignupSelectFragment"
-        android:label="fragment_signup_select"
-        tools:layout="@layout/fragment_signup_select" >
+        android:label="fragment_signup_select">
         <action
             android:id="@+id/action_signupSelectFragment_to_signupSellerFragment"
             app:destination="@id/signupSellerFragment" />
         <action
             android:id="@+id/action_signupSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signupSelectFragment_to_signupBuyerFragment"
+            app:destination="@id/signupBuyerFragment" />
     </fragment>
     <fragment
         android:id="@+id/sellerMypageFragment"
         android:name="likelion.project.agijagi.sellermypage.SellerMypageFragment"
-        android:label="fragment_seller_mypage"
-        tools:layout="@layout/fragment_seller_mypage" >
+        android:label="fragment_seller_mypage">
         <action
             android:id="@+id/action_sellerMypageFragment_to_productListFragment"
             app:destination="@id/productListFragment" />
@@ -378,12 +374,11 @@
         android:name="likelion.project.agijagi.category.CategoryDetailInfoListFragment"
         >
         <action
-            android:id="@+id/action_categoryDetailInfoListFragment_to_productDetailFragment"
-            />
+            android:id="@+id/action_categoryDetailInfoListFragment_to_productDetailFragment"/>
         <action
             android:id="@+id/action_categoryDetailInfoListFragment_to_customProductDetailFragment"
-            />
             app:destination="@id/customProductDetailFragment" />
+
         <action
             android:id="@+id/action_categoryDetailInfoListFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
@@ -394,8 +389,7 @@
     <fragment
         android:id="@+id/storeManagementFragment"
         android:name="likelion.project.agijagi.sellermypage.StoreManagementFragment"
-        android:label="fragment_store_management"
-        tools:layout="@layout/fragment_store_management" >
+        android:label="fragment_store_management">
         <action
             android:id="@+id/action_storeManagementFragment_to_sellerMypageFragment"
             app:destination="@id/sellerMypageFragment" />
@@ -403,8 +397,7 @@
     <fragment
         android:id="@+id/shippingManagementFragment"
         android:name="likelion.project.agijagi.buyermypage.ShippingManagementFragment"
-        android:label="fragment_shipping_management"
-        tools:layout="@layout/fragment_shipping_management" >
+        android:label="fragment_shipping_management">
         <action
             android:id="@+id/action_shippingManagementFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
@@ -418,8 +411,7 @@
     <fragment
         android:id="@+id/shippingAddFragment"
         android:name="likelion.project.agijagi.buyermypage.ShippingAddFragment"
-        android:label="fragment_shipping_add"
-        tools:layout="@layout/fragment_shipping_add" >
+        android:label="fragment_shipping_add">
         <action
             android:id="@+id/action_shippingAddFragment_to_shippingManagementFragment"
             app:destination="@id/shippingManagementFragment" />
@@ -427,8 +419,7 @@
     <fragment
         android:id="@+id/profileManagementFragment"
         android:name="likelion.project.agijagi.buyermypage.ProfileManagementFragment"
-        android:label="fragment_profile_management"
-        tools:layout="@layout/fragment_profile_management" >
+        android:label="fragment_profile_management">
         <action
             android:id="@+id/action_profileManagementFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
@@ -436,8 +427,7 @@
     <fragment
         android:id="@+id/orderManagementFragment"
         android:name="likelion.project.agijagi.sellermypage.OrderManagementFragment"
-        android:label="fragment_order_management"
-        tools:layout="@layout/fragment_order_management" >
+        android:label="fragment_order_management" >
         <action
             android:id="@+id/action_orderManagementFragment_to_orderManagementDetailFragment"
             app:destination="@id/orderManagementDetailFragment" />
@@ -448,8 +438,7 @@
     <fragment
         android:id="@+id/orderManagementDetailFragment"
         android:name="likelion.project.agijagi.sellermypage.OrderManagementDetailFragment"
-        android:label="fragment_order_management_detail"
-        tools:layout="@layout/fragment_order_management_detail" >
+        android:label="fragment_order_management_detail">
         <action
             android:id="@+id/action_orderManagementDetailFragment_to_orderManagementFragment"
             app:destination="@id/orderManagementFragment" />
@@ -457,8 +446,7 @@
     <fragment
         android:id="@+id/notificationFragment"
         android:name="likelion.project.agijagi.notification.NotificationFragment"
-        android:label="fragment_notification"
-        tools:layout="@layout/fragment_notification" >
+        android:label="fragment_notification">
         <action
             android:id="@+id/action_notificationFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
@@ -469,11 +457,21 @@
     <fragment
         android:id="@+id/alarmManagementFragment"
         android:name="likelion.project.agijagi.buyermypage.AlarmManagementFragment"
-        android:label="fragment_alarm"
-        tools:layout="@layout/fragment_alarm" >
+        android:label="fragment_alarm">
         <action
             android:id="@+id/action_alarmManagementFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupBuyerFragment"
+        android:name="likelion.project.agijagi.signup.SignupBuyerFragment"
+        android:label="fragment_signup_buyer">
+        <action
+            android:id="@+id/action_signupBuyerFragment_to_signupSelectFragment"
+            app:destination="@id/signupSelectFragment" />
+        <action
+            android:id="@+id/action_signupBuyerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
 </navigation>

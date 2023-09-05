@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
+        auth = FirebaseAuth.getInstance()
+
         onSetUpNavigation()
         setup()
 
@@ -51,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             }
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 visibility = when (destination.id) {
-                    R.id.homeFragment, R.id.categoryFragment, R.id.orderFragment, R.id.wishListFragment, R.id.buyerMypageFragment -> {
+                    R.id.homeFragment, R.id.categoryFragment, R.id.orderFragment, R.id.wishListFragment-> {
                         View.VISIBLE
                     }
 

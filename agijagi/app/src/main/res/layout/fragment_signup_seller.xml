@@ -110,7 +110,7 @@
                         android:id="@+id/editinput_signup_seller_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="비밀번호"
+                        android:hint="비밀번호 (공백 제외, 4자 이상)"
                         android:inputType="textPassword"
                         android:textColorHint="@color/transparency" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -194,7 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="4dp"
-                        android:text="등록증.pdf"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="14dp"
                         android:layout_below="@+id/textview_signup_seller_text"/>

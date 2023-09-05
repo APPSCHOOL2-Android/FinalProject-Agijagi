@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/jagi_ivory"
     android:orientation="vertical"
-    tools:context=".signup.SignupSellerFragment">
+    tools:context=".signup.SignupBuyerFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_google_signup_seller_toolbar"
+        android:id="@+id/toolbar_signup_seller_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.AgijagiToolbar"
@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/linearlayout_google_signup_seller_layout_inside"
+                android:id="@+id/linearlayout_signup_seller_layout_inside"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -43,6 +43,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="이름"
+                        android:maxLength="4"
                         android:textColorHint="@color/transparency" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,12 +76,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="E-mail"
+                        android:inputType="textEmailAddress"
                         android:textColorHint="@color/transparency" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/editinputlayout__signup_buyer_password"
+                    android:id="@+id/editinputlayout_signup_buyer_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -89,10 +91,10 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editinput_google_signup_buyer_password"
+                        android:id="@+id/editinput_signup_buyer_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="비밀번호"
+                        android:hint="비밀번호 (공백제외, 4자 이상)"
                         android:inputType="textPassword"
                         android:textColorHint="@color/transparency" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -127,7 +129,7 @@
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_google_signup_seller_complete"
+                        android:id="@+id/button_signup_buyer_complete"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:text="가입하기"
