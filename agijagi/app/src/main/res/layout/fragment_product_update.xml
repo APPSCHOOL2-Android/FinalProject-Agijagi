@@ -50,7 +50,6 @@
                     android:text="체크버튼을 눌러서 대표사진을 선택할 수 있습니다."
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/button_product_update_add_picture"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView_title1" />
 
@@ -66,9 +65,7 @@
                     android:text="사진추가"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                     android:textColor="@color/jagi_ivory"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/textView_subtitle1"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
