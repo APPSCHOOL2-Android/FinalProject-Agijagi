@@ -29,73 +29,93 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_deliverytracking" />
 
-    <ImageView
-        android:id="@+id/imageView_deliverytracking_delivery_ready"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_deliverytracking_arrival_information"
-        android:src="@drawable/order_delivery_ready_on" />
-
-    <ImageView
-        android:id="@+id/imageView_deliverytracking_delivery_shipping"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView_deliverytracking_delivery_complete"
-        app:layout_constraintStart_toEndOf="@+id/imageView_deliverytracking_delivery_ready"
-        app:layout_constraintTop_toBottomOf="@+id/textView_deliverytracking_arrival_information"
-        android:src="@drawable/order_delivery_off" />
-
-    <ImageView
-        android:id="@+id/imageView_deliverytracking_delivery_complete"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp"
+    <LinearLayout
+        android:id="@+id/linearLayout_deliverytracking_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_deliverytracking_arrival_information"
-        android:src="@drawable/order_delivery_complete_off" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_deliverytracking_arrival_information">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView_deliverytracking_delivery_ready"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="배송 대기"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView_deliverytracking_delivery_ready"
-        app:layout_constraintStart_toStartOf="@+id/imageView_deliverytracking_delivery_ready"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_deliverytracking_delivery_ready" />
+            <ImageView
+                android:id="@+id/imageView_deliverytracking_delivery_ready"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/order_delivery_ready_on" />
 
-    <TextView
-        android:id="@+id/textView_deliverytracking_delivery_shipping"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="배송 중"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView_deliverytracking_delivery_shipping"
-        app:layout_constraintStart_toStartOf="@+id/imageView_deliverytracking_delivery_shipping"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_deliverytracking_delivery_shipping" />
+            <TextView
+                android:id="@+id/textView_deliverytracking_delivery_ready"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:text="배송 대기"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView_deliverytracking_delivery_complete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="배송 완료"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView_deliverytracking_delivery_complete"
-        app:layout_constraintStart_toStartOf="@+id/imageView_deliverytracking_delivery_complete"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_deliverytracking_delivery_complete" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/imageView_deliverytracking_delivery_shipping"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/order_delivery_off" />
+
+            <TextView
+                android:id="@+id/textView_deliverytracking_delivery_shipping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:text="배송 중"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView_deliverytracking_delivery_complete"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/order_delivery_complete_off" />
+
+            <TextView
+                android:id="@+id/textView_deliverytracking_delivery_complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:text="배송 완료"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <View
         android:id="@+id/view_deliverytracking_stick"
@@ -106,79 +126,110 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_deliverytracking_delivery_shipping" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_deliverytracking_status" />
 
-    <ImageView
-        android:id="@+id/imageView_deliverytracking_product"
-        android:layout_width="112dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="40dp"
+    <LinearLayout
+        android:id="@+id/linearlayout_deliverytracking_pruduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
-        android:adjustViewBounds="true"
-        android:background="@drawable/imageview_rounded_stroke"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_deliverytracking_stick"
-        android:src="@drawable/order_default_image" />
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/view_deliverytracking_stick">
 
-    <TextView
-        android:id="@+id/textView_deliverytracking_product_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="40dp"
-        android:text="상품명"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView_deliverytracking_product"
-        app:layout_constraintTop_toBottomOf="@+id/view_deliverytracking_stick" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView_deliverytracking_tracking_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="4dp"
-        android:text="운송장번호 0000000000000000000"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView_deliverytracking_product"
-        app:layout_constraintTop_toBottomOf="@+id/textView_deliverytracking_product_name" />
+            <ImageView
+                android:id="@+id/imageView_deliverytracking_product"
+                android:layout_width="112dp"
+                android:layout_height="84dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@drawable/imageview_rounded_stroke"
+                android:src="@drawable/order_default_image" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_weight="4"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_deliverytracking_product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="상품명"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="운송장번호"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textView_deliverytracking_tracking_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="0000000000000000000"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_deliverytracking_product">
+        app:layout_constraintTop_toBottomOf="@+id/linearlayout_deliverytracking_pruduct">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_deliverytracking_exchange"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
+            android:layout_gravity="center"
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:background="@drawable/narrow_box_rounded_button_solid"
-            android:text="택배 회사"
             android:drawableStart="@drawable/order_call_20px"
-            android:paddingStart="35dp"
+            android:paddingStart="30dp"
             android:paddingEnd="30dp"
+            android:text="택배 회사"
             android:textColor="@color/jagi_hint_color" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_deliverytracking_shipping_tracking"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="24dp"
+            android:layout_gravity="center"
             android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/narrow_box_rounded_button_solid"
-            android:text="배송 기사"
             android:drawableStart="@drawable/order_call_20px"
-            android:paddingStart="35dp"
+            android:paddingStart="30dp"
             android:paddingEnd="30dp"
+            android:text="배송 기사"
             android:textColor="@color/jagi_hint_color" />
 
     </LinearLayout>
