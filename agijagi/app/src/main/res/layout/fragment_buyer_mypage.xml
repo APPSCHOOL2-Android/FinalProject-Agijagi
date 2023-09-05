@@ -7,7 +7,7 @@
     tools:context=".buyermypage.BuyerMypageFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_seller_my_page"
+        android:id="@+id/toolbar_buyer_my_page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.AgijagiToolbar"
@@ -19,7 +19,7 @@
         app:title="내 정보" />
 
     <TextView
-        android:id="@+id/textview_buyer_my_page_store_name"
+        android:id="@+id/textview_buyer_my_page_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -28,10 +28,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_seller_my_page" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_buyer_my_page" />
 
     <TextView
-        android:id="@+id/textview_buyer_my_page_store_email"
+        android:id="@+id/textview_buyer_my_page_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -39,7 +39,7 @@
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_buyer_my_page_store_name" />
+        app:layout_constraintTop_toBottomOf="@id/textview_buyer_my_page_name" />
 
     <View
         android:id="@+id/rectangle_4"
@@ -49,7 +49,7 @@
         android:background="#E4E3E2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_buyer_my_page_store_email" />
+        app:layout_constraintTop_toBottomOf="@id/textview_buyer_my_page_email" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -67,7 +67,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textview_seller_my_page_management_my_store"
+                android:id="@+id/textview_buyer_my_page_profile_management"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -83,7 +83,7 @@
                 android:background="@drawable/line_1" />
 
             <TextView
-                android:id="@+id/textview_seller_my_page_product_add"
+                android:id="@+id/textview_buyer_my_page_shipping_management"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -98,13 +98,14 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/line_1" />
 
+
             <TextView
-                android:id="@+id/textview_seller_my_page_product_list"
+                android:id="@+id/textview_buyer_my_page_notification_setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:clickable="true"
-                android:text="주문 / 배송"
+                android:text="알림 설정"
                 android:textSize="17sp" />
 
             <View
@@ -115,12 +116,12 @@
                 android:background="@drawable/line_1" />
 
             <TextView
-                android:id="@+id/textview_seller_my_page_order_cancel_change"
+                android:id="@+id/textview_buyer_my_page_logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:clickable="true"
-                android:text="알림 설정"
+                android:text="로그아웃"
                 android:textSize="17sp" />
 
             <View
@@ -130,25 +131,9 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/line_1" />
 
-            <TextView
-                android:id="@+id/textview_seller_my_page_management_order_ship"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:clickable="true"
-                android:text="로그아웃"
-                android:textSize="17sp" />
-
-            <View
-                android:id="@+id/line_5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/line_1" />
-
 
             <TextView
-                android:id="@+id/textview_seller_my_page_quit"
+                android:id="@+id/textview_buyer_my_page_quit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -157,7 +142,7 @@
                 android:textSize="17sp" />
 
             <View
-                android:id="@+id/line_8"
+                android:id="@+id/line_5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
