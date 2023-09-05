@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/sellerMyPageChat"
+        android:id="@+id/menu_seller_my_page_chat"
         android:icon="@drawable/chat_24px"
         android:title="chat"
         android:visible="true"
         app:showAsAction="always" />
     <item
-        android:id="@+id/sellerMyPageNotification"
+        android:id="@+id/menu_seller_my_page_notification"
         android:icon="@drawable/notifications_24px"
         android:title="Item"
         app:showAsAction="always" />

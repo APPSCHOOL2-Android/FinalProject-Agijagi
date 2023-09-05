@@ -395,6 +395,12 @@
         <action
             android:id="@+id/action_sellerMypageFragment_to_notificationFragment"
             app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_sellerMypageFragment_to_productAddFragment"
+            app:destination="@id/productAddFragment" />
+        <action
+            android:id="@+id/action_sellerMypageFragment_to_sellerNotificationSettingFragment"
+            app:destination="@id/sellerNotificationSettingFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryDetailInfoListFragment"
@@ -499,6 +505,15 @@
         <action
             android:id="@+id/action_alarmManagementFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellerNotificationSettingFragment"
+        android:name="likelion.project.agijagi.sellermypage.SellerNotificationSettingFragment"
+        android:label="fragment_seller_notification_setting"
+        tools:layout="@layout/fragment_seller_notification_setting" >
+        <action
+            android:id="@+id/action_sellerNotificationSettingFragment_to_sellerMypageFragment"
+            app:destination="@id/sellerMypageFragment" />
     </fragment>
 
 </navigation>
