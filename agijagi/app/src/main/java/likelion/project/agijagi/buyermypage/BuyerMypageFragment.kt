@@ -42,7 +42,7 @@ class BuyerMypageFragment : Fragment() {
                     findNavController().navigate(R.id.action_buyerMypageFragment_to_userChatListFragment)
                 }
                 R.id.menu_buyer_my_page_notify -> {
-                    findNavController().navigate(R.id.action_buyerMypageFragment_to_notificationFragment)
+                    findNavController().navigate(R.id.action_buyerMypageFragment_to_notificationListFragment)
                 }
                 R.id.menu_buyer_my_page_shopping_bag -> {
                     findNavController().navigate(R.id.action_buyerMypageFragment_to_shoppingListFragment)

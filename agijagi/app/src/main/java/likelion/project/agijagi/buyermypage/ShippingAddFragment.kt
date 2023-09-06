@@ -21,9 +21,19 @@ class ShippingAddFragment : Fragment() {
     ): View? {
         _binding = FragmentShippingAddBinding.inflate(inflater)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.run {
+            buttonShippingAddRegistration.setOnClickListener {
+
+            }
+        }
         setShippingRegistrationButton()
 
-        return binding.root
     }
 
     private fun setShippingRegistrationButton() {
@@ -35,7 +45,6 @@ class ShippingAddFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
         _binding = null
     }
 
