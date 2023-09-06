@@ -241,8 +241,8 @@
         android:label="fragment_product_update"
         tools:layout="@layout/fragment_product_update" >
         <action
-            android:id="@+id/action_productUpdateFragment_to_sellerProductDetailFragment"
-            app:destination="@id/sellerProductDetailFragment" />
+            android:id="@+id/action_productUpdateFragment_to_productDetailPreviewFragment"
+            app:destination="@id/productDetailPreviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/purchaseCompleteFragment"
