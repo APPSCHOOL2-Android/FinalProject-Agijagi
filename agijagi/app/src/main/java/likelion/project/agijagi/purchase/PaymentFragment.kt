@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentPaymentBinding
@@ -28,6 +29,8 @@ class PaymentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setShippingChangeButton()
 
         binding.run {
             editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
@@ -130,6 +133,12 @@ class PaymentFragment : Fragment() {
                 button.setTextColor(resources.getColor(R.color.jagi_brown))
                 button.setBackgroundResource(R.drawable.narrow_box_rounded_button_stroke)
             }
+        }
+    }
+
+    private fun setShippingChangeButton() {
+        binding.buttonPaymentShippingChange.setOnClickListener {
+            findNavController().navigate(R.id.action_paymentFragment_to_shippingManagementFragment)
         }
     }
 

@@ -7,7 +7,7 @@
     tools:context=".deliverytracking.DeliveryTrackingFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_deliverytracking"
+        android:id="@+id/toolbar_delivery_tracking"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.AgijagiToolbar"
@@ -18,7 +18,7 @@
         app:title="배송조회" />
 
     <TextView
-        android:id="@+id/textView_deliverytracking_arrival_information"
+        android:id="@+id/textView_delivery_tracking_arrival_information"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -27,16 +27,16 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_deliverytracking" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_delivery_tracking" />
 
     <LinearLayout
-        android:id="@+id/linearLayout_deliverytracking_status"
+        android:id="@+id/linearLayout_delivery_tracking_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_deliverytracking_arrival_information">
+        app:layout_constraintTop_toBottomOf="@+id/textView_delivery_tracking_arrival_information">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView_deliverytracking_delivery_ready"
+                android:id="@+id/imageView_delivery_tracking_delivery_ready"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
@@ -53,7 +53,7 @@
                 android:src="@drawable/order_delivery_ready_on" />
 
             <TextView
-                android:id="@+id/textView_deliverytracking_delivery_ready"
+                android:id="@+id/textView_delivery_tracking_delivery_ready"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -70,7 +70,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView_deliverytracking_delivery_shipping"
+                android:id="@+id/imageView_delivery_tracking_delivery_shipping"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
@@ -78,7 +78,7 @@
                 android:src="@drawable/order_delivery_off" />
 
             <TextView
-                android:id="@+id/textView_deliverytracking_delivery_shipping"
+                android:id="@+id/textView_delivery_tracking_delivery_shipping"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -96,7 +96,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView_deliverytracking_delivery_complete"
+                android:id="@+id/imageView_delivery_tracking_delivery_complete"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
@@ -104,7 +104,7 @@
                 android:src="@drawable/order_delivery_complete_off" />
 
             <TextView
-                android:id="@+id/textView_deliverytracking_delivery_complete"
+                android:id="@+id/textView_delivery_tracking_delivery_complete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -118,7 +118,7 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/view_deliverytracking_stick"
+        android:id="@+id/view_delivery_tracking_stick"
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:layout_marginTop="24dp"
@@ -126,17 +126,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout_deliverytracking_status" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_delivery_tracking_status" />
 
     <LinearLayout
-        android:id="@+id/linearlayout_deliverytracking_pruduct"
+        android:id="@+id/linearlayout_delivery_tracking_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="20dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/view_deliverytracking_stick">
+        app:layout_constraintTop_toBottomOf="@+id/view_delivery_tracking_stick">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView_deliverytracking_product"
+                android:id="@+id/imageView_delivery_tracking_product"
                 android:layout_width="112dp"
                 android:layout_height="84dp"
                 android:layout_gravity="center"
@@ -165,7 +165,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_deliverytracking_product_name"
+                android:id="@+id/textView_delivery_tracking_product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="상품명"
@@ -181,7 +181,7 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/textView_deliverytracking_tracking_number"
+                android:id="@+id/textView_delivery_tracking_tracking_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -202,10 +202,10 @@
         android:layout_marginBottom="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearlayout_deliverytracking_pruduct">
+        app:layout_constraintTop_toBottomOf="@+id/linearlayout_delivery_tracking_product">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_deliverytracking_exchange"
+            android:id="@+id/button_delivery_tracking_courier"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_gravity="center"
@@ -219,7 +219,7 @@
             android:textColor="@color/jagi_hint_color" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_deliverytracking_shipping_tracking"
+            android:id="@+id/button_delivery_tracking_shipping_driver"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_gravity="center"
