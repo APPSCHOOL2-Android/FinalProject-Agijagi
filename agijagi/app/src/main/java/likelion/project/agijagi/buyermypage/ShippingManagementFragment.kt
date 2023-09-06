@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.R
@@ -19,14 +20,14 @@ class ShippingManagementFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var shippingManagementAdapter: ShippingManagementAdapter
 
-    val dataList = arrayListOf<ShippingManagementModel>().apply{
-        add(ShippingManagementModel("집","010-1111-2222","서울시 마포구"))
-        add(ShippingManagementModel("회사","1577-1577", "경기도 고양시"))
-        add(ShippingManagementModel("어느곳","070-1577-1577", "경기도 용인시"))
-        add(ShippingManagementModel("다른수령지","010-4684-1577", "서울"))
-        add(ShippingManagementModel("완전 다른수령지","010-6342-8674", "서울시 어디구"))
-        add(ShippingManagementModel("또 다른수령지","010-8549-1577", "서울"))
-        add(ShippingManagementModel("그리고 완전 다른수령지","010-2454-8674", "서울시 어디구"))
+    val dataList = arrayListOf<ShippingManagementModel>().apply {
+        add(ShippingManagementModel("집", "010-1111-2222", "서울시 마포구"))
+        add(ShippingManagementModel("회사", "1577-1577", "경기도 고양시"))
+        add(ShippingManagementModel("어느곳", "070-1577-1577", "경기도 용인시"))
+        add(ShippingManagementModel("다른수령지", "010-4684-1577", "서울"))
+        add(ShippingManagementModel("완전 다른수령지", "010-6342-8674", "서울시 어디구"))
+        add(ShippingManagementModel("또 다른수령지", "010-8549-1577", "서울"))
+        add(ShippingManagementModel("그리고 완전 다른수령지", "010-2454-8674", "서울시 어디구"))
     }
 
     override fun onCreateView(
@@ -41,9 +42,11 @@ class ShippingManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setShippingAddButton()
         shippingManagementAdapter = ShippingManagementAdapter()
 
         binding.run {
+            
             recyclerviewShippingManagement.run {
                 adapter = shippingManagementAdapter
                 layoutManager = LinearLayoutManager(context)
@@ -62,6 +65,11 @@ class ShippingManagementFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     inner class MarginItemDecoration(private val spaceSize: Int) : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
             outRect: Rect, view: View,
@@ -78,6 +86,12 @@ class ShippingManagementFragment : Fragment() {
             with(outRect) {
                 bottom = if (position == itemCount - 1) size else 0
             }
+        }
+    }
+
+    private fun setShippingAddButton() {
+        binding.buttonShippingManagementAdd.setOnClickListener {
+            findNavController().navigate(R.id.action_shippingManagementFragment_to_shippingAddFragment)
         }
     }
 }

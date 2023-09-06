@@ -23,7 +23,7 @@
         android:layout_height="0dp"
         android:descendantFocusability="blocksDescendants"
         android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="@+id/bottom_layout_check"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_layout_check"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_ready_made_option">
@@ -95,7 +95,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="옵션 선택"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/menu_custom_option_select"
@@ -137,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:text="원하시는 색상과 문구를 자유롭게 적어주세요"
                     android:textSize="16sp" />
 
@@ -147,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
+                    app:hintEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textview_volume_text">
@@ -156,8 +157,7 @@
                         android:id="@+id/edit_input_layout_custom_option_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="ex) 멋쟁이(초록) + 사자(주황) + 부트(검정)"
-                        android:textColorHint="@color/jagi_white_30" />
+                        android:hint="ex) 멋쟁이(초록) + 사자(주황) + 부트(검정)" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:text="위치 선택"
                     android:textSize="16sp" />
 
@@ -175,7 +175,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
+                    app:hintEnabled="false"
+                    android:ems="1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textview_volume_text">
@@ -184,8 +185,7 @@
                         android:id="@+id/edit_input_layout_custom_option_location_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="ex) 왼쪽 위 + 오른쪽 위 + 오른쪽 아래 + 왼쪽 아래"
-                        android:textColorHint="@color/jagi_white_30" />
+                        android:hint="ex) 왼쪽 위 + 오른쪽 위 + 오른쪽 아래" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -209,69 +209,74 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:text="사진 첨부"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <include
+                        android:id="@+id/custom_option_front"
+                        layout="@layout/item_custom_option_front"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true" />
+
+                    <include
+                        android:id="@+id/custom_option_back"
+                        layout="@layout/item_custom_option_back"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <include
+                        android:id="@+id/custom_option_left"
+                        layout="@layout/item_custom_option_left"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true" />
+
+                    <include
+                        android:id="@+id/custom_option_right"
+                        layout="@layout/item_custom_option_right"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:text="다양한 위치에다가 하고싶으면 1:1 문의로 보내주세요"
+                    android:layout_marginTop="8dp"
+                    android:text="원하시는 위치에 원하는 그림을 넣어주세요"
                     android:textSize="12sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <include
-                        layout="@layout/item_custom_option"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true" />
-
-                    <include
-                        layout="@layout/item_custom_option"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <include
-                        layout="@layout/item_custom_option"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true" />
-
-
-                    <include
-                        layout="@layout/item_custom_option"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true" />
-
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -280,9 +285,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="수량 선택"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_input_layout_custom_option_volume_text"
@@ -290,7 +296,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/wide_box_rounded_stroke"
+                android:layout_marginBottom="16dp"
+                app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textview_volume_text">
@@ -299,8 +306,8 @@
                     android:id="@+id/edit_input_layout_ready_made_option_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="수량 선택"
-                    android:textColorHint="@color/jagi_white_30" />
+                    android:inputType="number"
+                    android:hint="수량 선택" />
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -317,6 +324,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
+            android:id="@+id/image_button_custom_option_shopping_bag"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginStart="16dp"
@@ -324,6 +332,7 @@
             android:background="@drawable/shopping_bag_24px" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_custom_option_purchase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

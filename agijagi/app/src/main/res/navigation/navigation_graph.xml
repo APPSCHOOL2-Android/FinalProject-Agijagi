@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="likelion.project.agijagi.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -48,10 +48,15 @@
     </fragment>
     <fragment
         android:id="@+id/wishListFragment"
-        android:name="likelion.project.agijagi.wishlist.WishListFragment">
+        android:name="likelion.project.agijagi.wishlist.WishListFragment"
+        android:label="fragment_wish_list"
+        tools:layout="@layout/fragment_wish_list" >
         <action
             android:id="@+id/action_wishListFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_wishListFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -60,6 +65,9 @@
         <action
             android:id="@+id/action_orderFragment_to_deliveryTrackingFragment"
             app:destination="@id/deliveryTrackingFragment" />
+        <action
+            android:id="@+id/action_orderFragment_to_chattingListFragment"
+            app:destination="@id/chattingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -93,8 +101,8 @@
             android:id="@+id/action_customProductDetailFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
         <action
-            android:id="@+id/action_customProductDetailFragment_to_userChatListFragment"
-            app:destination="@id/userChatListFragment" />
+            android:id="@+id/action_customProductDetailFragment_to_chattingListFragment"
+            app:destination="@id/chattingListFragment" />
         <action
             android:id="@+id/action_customProductDetailFragment_to_categoryDetailInfoListFragment"
             app:destination="@id/categoryDetailInfoListFragment" />
@@ -110,8 +118,10 @@
         <action
             android:id="@+id/action_customOptionFragment_to_customProductDetailFragment"
             app:destination="@id/customProductDetailFragment" />
+        <action
+            android:id="@+id/action_customOptionFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="likelion.project.agijagi.product.ProductDetailFragment"
@@ -144,6 +154,9 @@
         <action
             android:id="@+id/action_readyMadeOptionFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_readyMadeOptionFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoppingListFragment"
@@ -156,21 +169,30 @@
         <action
             android:id="@+id/action_shoppingListFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_shoppingListFragment_to_customOptionFragment"
+            app:destination="@id/customOptionFragment" />
+        <action
+            android:id="@+id/action_shoppingListFragment_to_categoryDetailInfoListFragment"
+            app:destination="@id/categoryDetailInfoListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/userChatListFragment"
-        android:name="likelion.project.agijagi.userchat.UserChatListFragment"
-        android:label="fragment_user_chat_list"
-         >
+        android:id="@+id/chattingListFragment"
+        android:name="likelion.project.agijagi.chatting.ChattingListFragment"
+        android:label="fragment_chatting_list"
+        tools:layout="@layout/fragment_chatting_list" >
         <action
-            android:id="@+id/action_userChatListFragment_to_userChatRoomFragment"
-            app:destination="@id/userChatRoomFragment" />
+            android:id="@+id/action_chattingListFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
         <action
-            android:id="@+id/action_userChatListFragment_to_customProductDetailFragment"
+            android:id="@+id/action_chattingListFragment_to_customProductDetailFragment"
             app:destination="@id/customProductDetailFragment" />
         <action
-            android:id="@+id/action_userChatListFragment_to_sellerMypageFragment"
+            android:id="@+id/action_chattingListFragment_to_sellerMypageFragment"
             app:destination="@id/sellerMypageFragment" />
+        <action
+            android:id="@+id/action_chattingListFragment_to_buyerMypageFragment"
+            app:destination="@id/buyerMypageFragment" />
     </fragment>
     <fragment
         android:id="@+id/sellerProductDetailFragment"
@@ -196,7 +218,6 @@
             android:id="@+id/action_productDetailPreviewFragment_to_productAddFragment"
             app:destination="@id/productAddFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/productListFragment"
         android:name="likelion.project.agijagi.sellermypage.ProductListFragment"
@@ -211,16 +232,14 @@
             android:id="@+id/action_productListFragment_to_sellerMypageFragment"
             app:destination="@id/sellerMypageFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/productUpdateFragment"
         android:name="likelion.project.agijagi.sellermypage.ProductUpdateFragment"
         android:label="fragment_product_update">
         <action
-            android:id="@+id/action_productUpdateFragment_to_sellerProductDetailFragment"
-            app:destination="@id/sellerProductDetailFragment" />
+            android:id="@+id/action_productUpdateFragment_to_productDetailPreviewFragment"
+            app:destination="@id/productDetailPreviewFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/purchaseCompleteFragment"
         android:name="likelion.project.agijagi.purchase.PurchaseCompleteFragment"
@@ -229,7 +248,6 @@
             android:id="@+id/action_purchaseCompleteFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/deliveryTrackingFragment"
         android:name="likelion.project.agijagi.deliverytracking.DeliveryTrackingFragment"
@@ -255,7 +273,6 @@
             android:id="@+id/action_categoryFragment_to_categoryDetailInfoListFragment"
             app:destination="@id/categoryDetailInfoListFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/orderMadeCategoryFragment"
         android:name="likelion.project.agijagi.category.OrderMadeCategoryFragment"
@@ -270,7 +287,6 @@
             android:id="@+id/action_orderMadeCategoryFragment_to_categoryDetailInfoListFragment"
             app:destination="@id/categoryDetailInfoListFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/productAddFragment"
         android:name="likelion.project.agijagi.sellermypage.ProductAddFragment"
@@ -297,63 +313,59 @@
             android:id="@+id/action_buyerMypageFragment_to_profileManagementFragment"
             app:destination="@id/profileManagementFragment" />
         <action
-            android:id="@+id/action_buyerMypageFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
+            android:id="@+id/action_buyerMypageFragment_to_notificationListFragment"
+            app:destination="@id/notificationListFragment" />
         <action
             android:id="@+id/action_buyerMypageFragment_to_alarmManagementFragment"
-            app:destination="@id/alarmManagementFragment" />
+            app:destination="@id/buyerNotificationSettingFragment" />
+        <action
+            android:id="@+id/action_buyerMypageFragment_to_chattingListFragment"
+            app:destination="@id/chattingListFragment" />
+        <action
+            android:id="@+id/action_buyerMypageFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/userChatRoomFragment"
-        android:name="likelion.project.agijagi.userchat.UserChatRoomFragment"
-        android:label="fragment_user_chat_room"
-         >
+        android:id="@+id/chattingRoomFragment"
+        android:name="likelion.project.agijagi.chatting.ChattingRoomFragment"
+        android:label="fragment_chatting_room"
+        tools:layout="@layout/fragment_chatting_room" >
         <action
-            android:id="@+id/action_userChatRoomFragment_to_userChatListFragment"
-            app:destination="@id/userChatListFragment" />
+            android:id="@+id/action_chattingRoomFragment_to_chattingListFragment"
+            app:destination="@id/chattingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="likelion.project.agijagi.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login">
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_signupSelectFragment2"
+            app:destination="@id/signupSelectFragment" />
         <action
             android:id="@+id/action_loginFragment_to_sellerMypageFragment"
             app:destination="@id/sellerMypageFragment" />
-
-        <action
-            android:id="@+id/action_loginFragment_to_signupSelectFragment"
-            app:destination="@id/signupSelectFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-
     </fragment>
     <fragment
         android:id="@+id/signupSellerFragment"
         android:name="likelion.project.agijagi.signup.SignupSellerFragment"
-        android:label="fragment_google_signup_buyer">
+        android:label="fragment_google_signup_buyer"
+        tools:layout="@layout/fragment_google_signup_buyer" >
         <action
             android:id="@+id/action_signupSellerFragment_to_signupSelectFragment"
             app:destination="@id/signupSelectFragment" />
-        <action
-            android:id="@+id/action_signupSellerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/signupSelectFragment"
         android:name="likelion.project.agijagi.signup.SignupSelectFragment"
         android:label="fragment_signup_select"
-        tools:layout="@layout/fragment_signup_select">
+        tools:layout="@layout/fragment_signup_select" >
         <action
             android:id="@+id/action_signupSelectFragment_to_signupSellerFragment"
             app:destination="@id/signupSellerFragment" />
         <action
             android:id="@+id/action_signupSelectFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_signupSelectFragment_to_signupBuyerFragment"
-            app:destination="@id/signupBuyerFragment" />
     </fragment>
     <fragment
         android:id="@+id/sellerMypageFragment"
@@ -369,28 +381,37 @@
             android:id="@+id/action_sellerMypageFragment_to_orderManagementFragment"
             app:destination="@id/orderManagementFragment" />
         <action
-            android:id="@+id/action_sellerMypageFragment_to_userChatListFragment"
-            app:destination="@id/userChatListFragment" />
+            android:id="@+id/action_sellerMypageFragment_to_chattingListFragment"
+            app:destination="@id/chattingListFragment" />
         <action
-            android:id="@+id/action_sellerMypageFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
+            android:id="@+id/action_sellerMypageFragment_to_notificationListFragment"
+            app:destination="@id/notificationListFragment" />
+        <action
+            android:id="@+id/action_sellerMypageFragment_to_productAddFragment"
+            app:destination="@id/productAddFragment" />
+        <action
+            android:id="@+id/action_sellerMypageFragment_to_sellerNotificationSettingFragment"
+            app:destination="@id/sellerNotificationSettingFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryDetailInfoListFragment"
         android:name="likelion.project.agijagi.category.CategoryDetailInfoListFragment"
-        >
+        android:label="CategoryDetailInfoListFragment" >
         <action
-            android:id="@+id/action_categoryDetailInfoListFragment_to_productDetailFragment"/>
+            android:id="@+id/action_categoryDetailInfoListFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
         <action
             android:id="@+id/action_categoryDetailInfoListFragment_to_customProductDetailFragment"
             app:destination="@id/customProductDetailFragment" />
-
         <action
             android:id="@+id/action_categoryDetailInfoListFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
         <action
             android:id="@+id/action_categoryDetailInfoListFragment_to_orderMadeCategoryFragment"
             app:destination="@id/orderMadeCategoryFragment" />
+        <action
+            android:id="@+id/action_categoryDetailInfoListFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/storeManagementFragment"
@@ -450,35 +471,34 @@
             app:destination="@id/orderManagementFragment" />
     </fragment>
     <fragment
-        android:id="@+id/notificationFragment"
-        android:name="likelion.project.agijagi.notification.NotificationFragment"
-        android:label="fragment_notification">
+        android:id="@+id/notificationListFragment"
+        android:name="likelion.project.agijagi.notification.NotificationListFragment"
+        android:label="fragment_notification_list"
+        tools:layout="@layout/fragment_notification_list" >
         <action
-            android:id="@+id/action_notificationFragment_to_buyerMypageFragment"
+            android:id="@+id/action_notificationListFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
         <action
-            android:id="@+id/action_notificationFragment_to_sellerMypageFragment"
+            android:id="@+id/action_notificationListFragment_to_sellerMypageFragment"
             app:destination="@id/sellerMypageFragment" />
     </fragment>
     <fragment
-        android:id="@+id/alarmManagementFragment"
-        android:name="likelion.project.agijagi.buyermypage.AlarmManagementFragment"
-        android:label="fragment_alarm">
+        android:id="@+id/buyerNotificationSettingFragment"
+        android:name="likelion.project.agijagi.buyermypage.BuyerNotificationSettingFragment"
+        android:label="fragment_alarm"
+        tools:layout="@layout/fragment_buyer_notification_setting" >
         <action
-            android:id="@+id/action_alarmManagementFragment_to_buyerMypageFragment"
+            android:id="@+id/action_buyerNotificationSettingFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
     </fragment>
     <fragment
-        android:id="@+id/signupBuyerFragment"
-        android:name="likelion.project.agijagi.signup.SignupBuyerFragment"
-        android:label="fragment_signup_buyer"
-        tools:layout="@layout/fragment_signup_buyer">
+        android:id="@+id/sellerNotificationSettingFragment"
+        android:name="likelion.project.agijagi.sellermypage.SellerNotificationSettingFragment"
+        android:label="fragment_seller_notification_setting"
+        tools:layout="@layout/fragment_seller_notification_setting" >
         <action
-            android:id="@+id/action_signupBuyerFragment_to_signupSelectFragment"
-            app:destination="@id/signupSelectFragment" />
-        <action
-            android:id="@+id/action_signupBuyerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_sellerNotificationSettingFragment_to_sellerMypageFragment"
+            app:destination="@id/sellerMypageFragment" />
     </fragment>
 
 </navigation>

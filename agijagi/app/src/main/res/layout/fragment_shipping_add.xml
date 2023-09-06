@@ -17,27 +17,16 @@
         app:navigationIcon="@drawable/arrow_back_24px"
         app:title="배송지 등록" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="신규 배송지 등록"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_shipping_add" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editinputlayout_shipping_add_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         app:boxStrokeColor="@color/jagi_brown"
         app:hintEnabled="false"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_shipping_add">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editinput_shipping_add_title"
@@ -123,6 +112,24 @@
             android:hint="수령인 연락처" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/checkBox_shipping_add_basic"
+        style="@style/CustomCheckBoxSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_add_recipient_phone" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="기본배송지로 등록하기"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_shipping_add_basic"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_shipping_add_basic"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_shipping_add_basic" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_shipping_add_registration"

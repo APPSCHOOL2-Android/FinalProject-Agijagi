@@ -50,7 +50,6 @@
                     android:text="체크버튼을 눌러서 대표사진을 선택할 수 있습니다."
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/button_product_add_add_picture"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView_title1" />
 
@@ -66,9 +65,7 @@
                     android:text="사진추가"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                     android:textColor="@color/jagi_ivory"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/textView_subtitle1"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -179,7 +176,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -196,7 +192,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -213,7 +208,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:hint="카테고리 선택"
                     android:textColorHint="@color/jagi_black_42"
                     app:hintEnabled="true">
 
@@ -221,6 +215,7 @@
                         android:id="@+id/menu_product_add_select_category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="카테고리 선택"
                         android:inputType="none"
                         app:simpleItems="@array/product_add_category" />
 
@@ -231,7 +226,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:hint="주문제작 가능 여부 선택"
                     android:textColorHint="@color/jagi_black_42"
                     app:hintEnabled="true">
 
@@ -239,6 +233,7 @@
                         android:id="@+id/menu_product_add_select_ordermade"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="주문제작 가능 여부 선택"
                         android:inputType="none"
                         app:simpleItems="@array/product_add_select_ordermade" />
 
@@ -284,7 +279,6 @@
                             android:id="@+id/editinputlayout_product_add_option1_priceedit"
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:background="@drawable/small_box_rounded_stroke"
                             android:gravity="end|center_vertical"
                             android:padding="0dp"
                             app:hintEnabled="false">
@@ -319,7 +313,6 @@
                             android:id="@+id/editinputlayout_product_add_option2_priceedit"
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:background="@drawable/small_box_rounded_stroke"
                             android:gravity="end|center_vertical"
                             android:padding="0dp"
                             app:hintEnabled="false">
@@ -344,7 +337,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText

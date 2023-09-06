@@ -73,7 +73,11 @@
     <array name="custom_option_select">
         <item>래터링</item>
         <item>이미지</item>
-        <item>래터링 + 이미지</item>
+    </array>
+
+    <array name="product_list_status">
+        <item>판매</item>
+        <item>품절</item>
     </array>
 
 </resources>

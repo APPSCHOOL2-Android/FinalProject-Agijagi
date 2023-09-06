@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
@@ -33,6 +34,9 @@ class CategoryDetailInfoListFragment : Fragment() {
     ): View? {
         fragmentCategoryDetailInfoListBinding = FragmentCategoryDetailInfoListBinding.inflate(inflater)
         mainActivity = activity as MainActivity
+
+        setToolbarMenuItem()
+
         listAdapter = CategoryDetailInfoListAdapter()
 
         fragmentCategoryDetailInfoListBinding.run {
@@ -50,5 +54,16 @@ class CategoryDetailInfoListFragment : Fragment() {
             listAdapter.submitList(dataSet)
         }
         return fragmentCategoryDetailInfoListBinding.root
+    }
+
+    private fun setToolbarMenuItem() {
+        fragmentCategoryDetailInfoListBinding.toolbarCategoryDetailInfoList.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.menu_category_shopping_list -> {
+                    findNavController().navigate(R.id.action_categoryDetailInfoListFragment_to_shoppingListFragment)
+                }
+            }
+            false
+        }
     }
 }
