@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_wishListFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_wishListFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -392,6 +395,12 @@
         <action
             android:id="@+id/action_sellerMypageFragment_to_notificationFragment"
             app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_sellerMypageFragment_to_productAddFragment"
+            app:destination="@id/productAddFragment" />
+        <action
+            android:id="@+id/action_sellerMypageFragment_to_sellerNotificationSettingFragment"
+            app:destination="@id/sellerNotificationSettingFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryDetailInfoListFragment"
@@ -409,6 +418,9 @@
         <action
             android:id="@+id/action_categoryDetailInfoListFragment_to_orderMadeCategoryFragment"
             app:destination="@id/orderMadeCategoryFragment" />
+        <action
+            android:id="@+id/action_categoryDetailInfoListFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/storeManagementFragment"
