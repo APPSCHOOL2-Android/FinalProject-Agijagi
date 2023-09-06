@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".sellermypage.ProductUpdateFragment">
-    
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar_product_update"
         android:layout_width="match_parent"
@@ -176,7 +176,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -193,7 +192,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -210,7 +208,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:hint="카테고리 선택"
                     android:textColorHint="@color/jagi_black_42"
                     app:hintEnabled="true">
 
@@ -218,6 +215,7 @@
                         android:id="@+id/menu_product_update_select_category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="카테고리 선택"
                         android:inputType="none"
                         app:simpleItems="@array/product_add_category" />
 
@@ -228,7 +226,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:hint="주문제작 가능 여부 선택"
                     android:textColorHint="@color/jagi_black_42"
                     app:hintEnabled="true">
 
@@ -236,6 +233,7 @@
                         android:id="@+id/menu_product_update_select_ordermade"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="주문제작 가능 여부 선택"
                         android:inputType="none"
                         app:simpleItems="@array/product_add_select_ordermade" />
 
@@ -281,7 +279,6 @@
                             android:id="@+id/editinputlayout_product_update_option1_priceedit"
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:background="@drawable/small_box_rounded_stroke"
                             android:gravity="end|center_vertical"
                             android:padding="0dp"
                             app:hintEnabled="false">
@@ -316,7 +313,6 @@
                             android:id="@+id/editinputlayout_product_update_option2_priceedit"
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:background="@drawable/small_box_rounded_stroke"
                             android:gravity="end|center_vertical"
                             android:padding="0dp"
                             app:hintEnabled="false">
@@ -341,7 +337,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
