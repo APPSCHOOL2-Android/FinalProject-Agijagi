@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import likelion.project.agijagi.R
 
-class AlarmManagementFragment : Fragment() {
+class BuyerNotificationSettingFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_alarm, container, false)
+        return inflater.inflate(R.layout.fragment_buyer_notification_setting, container, false)
     }
 
 }

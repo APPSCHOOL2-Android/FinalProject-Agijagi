@@ -325,7 +325,7 @@
             app:destination="@id/notificationFragment" />
         <action
             android:id="@+id/action_buyerMypageFragment_to_alarmManagementFragment"
-            app:destination="@id/alarmManagementFragment" />
+            app:destination="@id/buyerNotificationSettingFragment" />
         <action
             android:id="@+id/action_buyerMypageFragment_to_userChatListFragment"
             app:destination="@id/userChatListFragment" />
@@ -498,10 +498,10 @@
             app:destination="@id/sellerMypageFragment" />
     </fragment>
     <fragment
-        android:id="@+id/alarmManagementFragment"
-        android:name="likelion.project.agijagi.buyermypage.AlarmManagementFragment"
+        android:id="@+id/buyerNotificationSettingFragment"
+        android:name="likelion.project.agijagi.buyermypage.BuyerNotificationSettingFragment"
         android:label="fragment_alarm"
-        tools:layout="@layout/fragment_alarm" >
+        tools:layout="@layout/fragment_buyer_notification_setting" >
         <action
             android:id="@+id/action_alarmManagementFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
