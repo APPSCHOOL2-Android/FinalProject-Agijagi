@@ -48,7 +48,7 @@ class OrderAdapter(var context: Context) : ListAdapter<OrderModel, OrderAdapter.
 
                 buttonOrderChat.setOnClickListener {
                     it.findNavController()
-                        .navigate(R.id.action_orderFragment_to_userChatListFragment)
+                        .navigate(R.id.action_orderFragment_to_chattingListFragment)
                 }
             }
         }

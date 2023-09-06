@@ -49,7 +49,7 @@ class CustomProductDetailFragment : Fragment() {
     private fun setFloatingButton() {
         binding.customFloatingButtonCustomProductDetailToChatting.customFloatingButtonLayout.setOnClickListener {
             it.findNavController()
-                .navigate(R.id.action_customProductDetailFragment_to_userChatListFragment)
+                .navigate(R.id.action_customProductDetailFragment_to_chattingListFragment)
         }
     }
 

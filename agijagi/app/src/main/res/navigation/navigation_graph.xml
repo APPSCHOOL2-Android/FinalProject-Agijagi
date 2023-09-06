@@ -68,8 +68,8 @@
             android:id="@+id/action_orderFragment_to_deliveryTrackingFragment"
             app:destination="@id/deliveryTrackingFragment" />
         <action
-            android:id="@+id/action_orderFragment_to_userChatListFragment"
-            app:destination="@id/userChatListFragment" />
+            android:id="@+id/action_orderFragment_to_chattingListFragment"
+            app:destination="@id/chattingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -103,8 +103,8 @@
             android:id="@+id/action_customProductDetailFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
         <action
-            android:id="@+id/action_customProductDetailFragment_to_userChatListFragment"
-            app:destination="@id/userChatListFragment" />
+            android:id="@+id/action_customProductDetailFragment_to_chattingListFragment"
+            app:destination="@id/chattingListFragment" />
         <action
             android:id="@+id/action_customProductDetailFragment_to_categoryDetailInfoListFragment"
             app:destination="@id/categoryDetailInfoListFragment" />
@@ -179,21 +179,21 @@
             app:destination="@id/categoryDetailInfoListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/userChatListFragment"
-        android:name="likelion.project.agijagi.userchat.UserChatListFragment"
-        android:label="fragment_user_chat_list"
-        tools:layout="@layout/fragment_user_chat_list" >
+        android:id="@+id/chattingListFragment"
+        android:name="likelion.project.agijagi.chatting.ChattingListFragment"
+        android:label="fragment_chatting_list"
+        tools:layout="@layout/fragment_chatting_list" >
         <action
-            android:id="@+id/action_userChatListFragment_to_userChatRoomFragment"
-            app:destination="@id/userChatRoomFragment" />
+            android:id="@+id/action_chattingListFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
         <action
-            android:id="@+id/action_userChatListFragment_to_customProductDetailFragment"
+            android:id="@+id/action_chattingListFragment_to_customProductDetailFragment"
             app:destination="@id/customProductDetailFragment" />
         <action
-            android:id="@+id/action_userChatListFragment_to_sellerMypageFragment"
+            android:id="@+id/action_chattingListFragment_to_sellerMypageFragment"
             app:destination="@id/sellerMypageFragment" />
         <action
-            android:id="@+id/action_userChatListFragment_to_buyerMypageFragment"
+            android:id="@+id/action_chattingListFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
     </fragment>
     <fragment
@@ -327,20 +327,20 @@
             android:id="@+id/action_buyerMypageFragment_to_alarmManagementFragment"
             app:destination="@id/buyerNotificationSettingFragment" />
         <action
-            android:id="@+id/action_buyerMypageFragment_to_userChatListFragment"
-            app:destination="@id/userChatListFragment" />
+            android:id="@+id/action_buyerMypageFragment_to_chattingListFragment"
+            app:destination="@id/chattingListFragment" />
         <action
             android:id="@+id/action_buyerMypageFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/userChatRoomFragment"
-        android:name="likelion.project.agijagi.userchat.UserChatRoomFragment"
-        android:label="fragment_user_chat_room"
-        tools:layout="@layout/fragment_user_chat_room" >
+        android:id="@+id/chattingRoomFragment"
+        android:name="likelion.project.agijagi.chatting.ChattingRoomFragment"
+        android:label="fragment_chatting_room"
+        tools:layout="@layout/fragment_chatting_room" >
         <action
-            android:id="@+id/action_userChatRoomFragment_to_userChatListFragment"
-            app:destination="@id/userChatListFragment" />
+            android:id="@+id/action_chattingRoomFragment_to_chattingListFragment"
+            app:destination="@id/chattingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -390,8 +390,8 @@
             android:id="@+id/action_sellerMypageFragment_to_orderManagementFragment"
             app:destination="@id/orderManagementFragment" />
         <action
-            android:id="@+id/action_sellerMypageFragment_to_userChatListFragment"
-            app:destination="@id/userChatListFragment" />
+            android:id="@+id/action_sellerMypageFragment_to_chattingListFragment"
+            app:destination="@id/chattingListFragment" />
         <action
             android:id="@+id/action_sellerMypageFragment_to_notificationListFragment"
             app:destination="@id/notificationListFragment" />

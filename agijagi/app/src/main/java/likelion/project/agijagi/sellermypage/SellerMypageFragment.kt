@@ -39,7 +39,7 @@ class SellerMypageFragment : Fragment() {
         binding.toolbarSellerMyPage.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_seller_my_page_chat -> {
-                    findNavController().navigate(R.id.action_sellerMypageFragment_to_userChatListFragment)
+                    findNavController().navigate(R.id.action_sellerMypageFragment_to_chattingListFragment)
                 }
 
                 R.id.menu_seller_my_page_notification -> {
