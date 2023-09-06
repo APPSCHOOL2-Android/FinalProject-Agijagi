@@ -5,19 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import likelion.project.agijagi.R
-import likelion.project.agijagi.databinding.FragmentShippingAddBinding
+import likelion.project.agijagi.databinding.FragmentShippingUpdateBinding
 
-class ShippingAddFragment : Fragment() {
+class ShippingUpdateFragment : Fragment() {
 
-    private var _binding: FragmentShippingAddBinding? = null
+    private var _binding: FragmentShippingUpdateBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentShippingAddBinding.inflate(inflater)
+        _binding = FragmentShippingUpdateBinding.inflate(inflater)
 
         return binding.root
     }
@@ -26,9 +25,7 @@ class ShippingAddFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.run {
-            buttonShippingAddRegistration.setOnClickListener {
 
-            }
         }
     }
 
@@ -36,5 +33,4 @@ class ShippingAddFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
