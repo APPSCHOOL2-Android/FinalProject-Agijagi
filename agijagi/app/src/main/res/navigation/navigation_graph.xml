@@ -503,7 +503,7 @@
         android:label="fragment_alarm"
         tools:layout="@layout/fragment_buyer_notification_setting" >
         <action
-            android:id="@+id/action_alarmManagementFragment_to_buyerMypageFragment"
+            android:id="@+id/action_buyerNotificationSettingFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
     </fragment>
     <fragment
