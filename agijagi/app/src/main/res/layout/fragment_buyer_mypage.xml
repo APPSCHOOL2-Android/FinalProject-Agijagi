@@ -15,7 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_buyer_my_page"
-        app:navigationIcon="@drawable/arrow_back_24px"
         app:title="내 정보" />
 
     <TextView
