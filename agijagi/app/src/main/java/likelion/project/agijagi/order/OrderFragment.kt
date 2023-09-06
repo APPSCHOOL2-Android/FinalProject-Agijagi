@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentOrderBinding
 
@@ -15,7 +16,7 @@ class OrderFragment : Fragment() {
 
     private var _binding: FragmentOrderBinding? = null
     private val binding get() = _binding!!
-
+    lateinit var mainActivity: MainActivity
     lateinit var orderAdapter: OrderAdapter
 
     val dataList = arrayListOf<OrderModel>().apply {
@@ -31,13 +32,14 @@ class OrderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentOrderBinding.inflate(inflater)
+        mainActivity = activity as MainActivity
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        orderAdapter = OrderAdapter()
+        orderAdapter = OrderAdapter(mainActivity)
 
         binding.run {
             recyclerviewOrder.run {

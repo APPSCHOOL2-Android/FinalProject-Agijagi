@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.R
@@ -41,6 +42,7 @@ class ShippingManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setShippingAddButton()
         shippingManagementAdapter = ShippingManagementAdapter()
 
         binding.run {
@@ -78,6 +80,12 @@ class ShippingManagementFragment : Fragment() {
             with(outRect) {
                 bottom = if (position == itemCount - 1) size else 0
             }
+        }
+    }
+
+    private fun setShippingAddButton() {
+        binding.buttonShippingManagementAdd.setOnClickListener {
+            findNavController().navigate(R.id.action_shippingManagementFragment_to_shippingAddFragment)
         }
     }
 }
