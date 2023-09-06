@@ -35,10 +35,6 @@ class CustomOptionFragment : Fragment() {
                         layoutCustomLetteringOption.isGone = true
                         layoutCustomPrintOption.isVisible = true
                     }
-                    2 -> {
-                        layoutCustomLetteringOption.isVisible = true
-                        layoutCustomPrintOption.isVisible = true
-                    }
                 }
             }
         }
