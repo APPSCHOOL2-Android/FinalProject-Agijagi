@@ -8,7 +8,8 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="likelion.project.agijagi.home.HomeFragment"
-        android:label="fragment_home">
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -314,7 +315,8 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="likelion.project.agijagi.login.LoginFragment"
-        android:label="fragment_login">
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_sellerMypageFragment"
             app:destination="@id/sellerMypageFragment" />
@@ -322,6 +324,9 @@
         <action
             android:id="@+id/action_loginFragment_to_signupSelectFragment"
             app:destination="@id/signupSelectFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
 
     </fragment>
     <fragment
@@ -338,7 +343,8 @@
     <fragment
         android:id="@+id/signupSelectFragment"
         android:name="likelion.project.agijagi.signup.SignupSelectFragment"
-        android:label="fragment_signup_select">
+        android:label="fragment_signup_select"
+        tools:layout="@layout/fragment_signup_select">
         <action
             android:id="@+id/action_signupSelectFragment_to_signupSellerFragment"
             app:destination="@id/signupSellerFragment" />
@@ -465,7 +471,8 @@
     <fragment
         android:id="@+id/signupBuyerFragment"
         android:name="likelion.project.agijagi.signup.SignupBuyerFragment"
-        android:label="fragment_signup_buyer">
+        android:label="fragment_signup_buyer"
+        tools:layout="@layout/fragment_signup_buyer">
         <action
             android:id="@+id/action_signupBuyerFragment_to_signupSelectFragment"
             app:destination="@id/signupSelectFragment" />

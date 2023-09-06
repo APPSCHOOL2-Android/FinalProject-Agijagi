@@ -42,7 +42,7 @@
                         android:id="@+id/editinput_signup_buyer_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="이름"
+                        android:hint="이름 ( 2~ 4 자 )"
                         android:maxLength="4"
                         android:textColorHint="@color/transparency" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -59,7 +59,8 @@
                         android:id="@+id/editinput_signup_buyer_nickname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="닉네임"
+                        android:hint="닉네임 ( 2 ~ 9 자 )"
+                        android:maxLength="9"
                         android:textColorHint="@color/transparency" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,7 +95,7 @@
                         android:id="@+id/editinput_signup_buyer_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="비밀번호 (공백제외, 4자 이상)"
+                        android:hint="비밀번호 (공백제외, 6 ~ 15자)"
                         android:inputType="textPassword"
                         android:textColorHint="@color/transparency" />
                 </com.google.android.material.textfield.TextInputLayout>
