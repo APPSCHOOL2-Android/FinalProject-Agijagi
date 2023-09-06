@@ -176,7 +176,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -193,7 +192,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -281,7 +279,6 @@
                             android:id="@+id/editinputlayout_product_add_option1_priceedit"
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:background="@drawable/small_box_rounded_stroke"
                             android:gravity="end|center_vertical"
                             android:padding="0dp"
                             app:hintEnabled="false">
@@ -316,7 +313,6 @@
                             android:id="@+id/editinputlayout_product_add_option2_priceedit"
                             android:layout_width="match_parent"
                             android:layout_height="32dp"
-                            android:background="@drawable/small_box_rounded_stroke"
                             android:gravity="end|center_vertical"
                             android:padding="0dp"
                             app:hintEnabled="false">
@@ -341,7 +337,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
