@@ -43,7 +43,7 @@ class SellerMypageFragment : Fragment() {
                 }
 
                 R.id.menu_seller_my_page_notification -> {
-                    findNavController().navigate(R.id.action_sellerMypageFragment_to_notificationFragment)
+                    findNavController().navigate(R.id.action_sellerMypageFragment_to_notificationListFragment)
                 }
             }
             false
