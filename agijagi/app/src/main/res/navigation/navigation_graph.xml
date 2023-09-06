@@ -321,8 +321,8 @@
             android:id="@+id/action_buyerMypageFragment_to_profileManagementFragment"
             app:destination="@id/profileManagementFragment" />
         <action
-            android:id="@+id/action_buyerMypageFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
+            android:id="@+id/action_buyerMypageFragment_to_notificationListFragment"
+            app:destination="@id/notificationListFragment" />
         <action
             android:id="@+id/action_buyerMypageFragment_to_alarmManagementFragment"
             app:destination="@id/buyerNotificationSettingFragment" />
@@ -393,8 +393,8 @@
             android:id="@+id/action_sellerMypageFragment_to_userChatListFragment"
             app:destination="@id/userChatListFragment" />
         <action
-            android:id="@+id/action_sellerMypageFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
+            android:id="@+id/action_sellerMypageFragment_to_notificationListFragment"
+            app:destination="@id/notificationListFragment" />
         <action
             android:id="@+id/action_sellerMypageFragment_to_productAddFragment"
             app:destination="@id/productAddFragment" />
@@ -486,15 +486,15 @@
             app:destination="@id/orderManagementFragment" />
     </fragment>
     <fragment
-        android:id="@+id/notificationFragment"
-        android:name="likelion.project.agijagi.notification.NotificationFragment"
-        android:label="fragment_notification"
-        tools:layout="@layout/fragment_notification" >
+        android:id="@+id/notificationListFragment"
+        android:name="likelion.project.agijagi.notification.NotificationListFragment"
+        android:label="fragment_notification_list"
+        tools:layout="@layout/fragment_notification_list" >
         <action
-            android:id="@+id/action_notificationFragment_to_buyerMypageFragment"
+            android:id="@+id/action_notificationListFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
         <action
-            android:id="@+id/action_notificationFragment_to_sellerMypageFragment"
+            android:id="@+id/action_notificationListFragment_to_sellerMypageFragment"
             app:destination="@id/sellerMypageFragment" />
     </fragment>
     <fragment
