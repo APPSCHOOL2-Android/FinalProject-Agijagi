@@ -24,6 +24,7 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
@@ -542,6 +543,8 @@ class ProductUpdateFragment : Fragment() {
                 // 서버 저장
                 // 디버그 찍어보기(개발용)
                 dataOrigin.debugData()
+
+                findNavController().navigate(R.id.action_productUpdateFragment_to_productDetailPreviewFragment)
             }
         }
     }

@@ -314,6 +314,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
+            android:id="@+id/image_button_custom_option_shopping_bag"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginStart="16dp"
@@ -321,6 +322,7 @@
             android:background="@drawable/shopping_bag_24px" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_custom_option_purchase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

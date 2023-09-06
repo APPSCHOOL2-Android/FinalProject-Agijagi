@@ -1,16 +1,19 @@
 package likelion.project.agijagi.order
 
 
+import android.content.Context
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import likelion.project.agijagi.databinding.ItemOrderBinding
-import androidx.recyclerview.widget.DiffUtil
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import likelion.project.agijagi.R
+import likelion.project.agijagi.databinding.ItemOrderBinding
 
-class OrderAdapter() : ListAdapter<OrderModel, OrderAdapter.OrderViewHolder>(diffUtil) {
+class OrderAdapter(var context: Context) : ListAdapter<OrderModel, OrderAdapter.OrderViewHolder>(diffUtil) {
 
     inner class OrderViewHolder(val orderBinding: ItemOrderBinding) :
         RecyclerView.ViewHolder(orderBinding.root) {
@@ -24,18 +27,28 @@ class OrderAdapter() : ListAdapter<OrderModel, OrderAdapter.OrderViewHolder>(dif
             }
         }
 
-        init{
+        init {
             orderBinding.run {
                 buttonOrderExchange.setOnClickListener {
+                    // 다이얼로그 커스텀 필요
+                    MaterialAlertDialogBuilder(context)
+                        .setTitle("교환/환불 신청")
+                        .setMessage("교환/환불 신청 하시겠습니까?")
+                        .setPositiveButton("확인") { _: DialogInterface, _: Int ->
 
+                        }
+                        .setNegativeButton("취소", null)
+                        .show()
                 }
 
                 buttonOrderShippingTracking.setOnClickListener {
-                    it.findNavController().navigate(R.id.action_orderFragment_to_deliveryTrackingFragment)
+                    it.findNavController()
+                        .navigate(R.id.action_orderFragment_to_deliveryTrackingFragment)
                 }
 
                 buttonOrderChat.setOnClickListener {
-
+                    it.findNavController()
+                        .navigate(R.id.action_orderFragment_to_userChatListFragment)
                 }
             }
         }

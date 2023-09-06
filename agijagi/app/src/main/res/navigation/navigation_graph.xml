@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_wishListFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_wishListFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -64,6 +67,9 @@
         <action
             android:id="@+id/action_orderFragment_to_deliveryTrackingFragment"
             app:destination="@id/deliveryTrackingFragment" />
+        <action
+            android:id="@+id/action_orderFragment_to_userChatListFragment"
+            app:destination="@id/userChatListFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -114,6 +120,9 @@
         <action
             android:id="@+id/action_customOptionFragment_to_customProductDetailFragment"
             app:destination="@id/customProductDetailFragment" />
+        <action
+            android:id="@+id/action_customOptionFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
@@ -147,6 +156,9 @@
         <action
             android:id="@+id/action_readyMadeOptionFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_readyMadeOptionFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoppingListFragment"
@@ -159,6 +171,12 @@
         <action
             android:id="@+id/action_shoppingListFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_shoppingListFragment_to_customOptionFragment"
+            app:destination="@id/customOptionFragment" />
+        <action
+            android:id="@+id/action_shoppingListFragment_to_categoryDetailInfoListFragment"
+            app:destination="@id/categoryDetailInfoListFragment" />
     </fragment>
     <fragment
         android:id="@+id/userChatListFragment"
@@ -174,6 +192,9 @@
         <action
             android:id="@+id/action_userChatListFragment_to_sellerMypageFragment"
             app:destination="@id/sellerMypageFragment" />
+        <action
+            android:id="@+id/action_userChatListFragment_to_buyerMypageFragment"
+            app:destination="@id/buyerMypageFragment" />
     </fragment>
     <fragment
         android:id="@+id/sellerProductDetailFragment"
@@ -220,8 +241,8 @@
         android:label="fragment_product_update"
         tools:layout="@layout/fragment_product_update" >
         <action
-            android:id="@+id/action_productUpdateFragment_to_sellerProductDetailFragment"
-            app:destination="@id/sellerProductDetailFragment" />
+            android:id="@+id/action_productUpdateFragment_to_productDetailPreviewFragment"
+            app:destination="@id/productDetailPreviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/purchaseCompleteFragment"
@@ -304,7 +325,13 @@
             app:destination="@id/notificationListFragment" />
         <action
             android:id="@+id/action_buyerMypageFragment_to_alarmManagementFragment"
-            app:destination="@id/alarmManagementFragment" />
+            app:destination="@id/buyerNotificationSettingFragment" />
+        <action
+            android:id="@+id/action_buyerMypageFragment_to_userChatListFragment"
+            app:destination="@id/userChatListFragment" />
+        <action
+            android:id="@+id/action_buyerMypageFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/userChatRoomFragment"
@@ -368,6 +395,12 @@
         <action
             android:id="@+id/action_sellerMypageFragment_to_notificationListFragment"
             app:destination="@id/notificationListFragment" />
+        <action
+            android:id="@+id/action_sellerMypageFragment_to_productAddFragment"
+            app:destination="@id/productAddFragment" />
+        <action
+            android:id="@+id/action_sellerMypageFragment_to_sellerNotificationSettingFragment"
+            app:destination="@id/sellerNotificationSettingFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryDetailInfoListFragment"
@@ -385,6 +418,9 @@
         <action
             android:id="@+id/action_categoryDetailInfoListFragment_to_orderMadeCategoryFragment"
             app:destination="@id/orderMadeCategoryFragment" />
+        <action
+            android:id="@+id/action_categoryDetailInfoListFragment_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
     </fragment>
     <fragment
         android:id="@+id/storeManagementFragment"
@@ -462,13 +498,22 @@
             app:destination="@id/sellerMypageFragment" />
     </fragment>
     <fragment
-        android:id="@+id/alarmManagementFragment"
-        android:name="likelion.project.agijagi.buyermypage.AlarmManagementFragment"
+        android:id="@+id/buyerNotificationSettingFragment"
+        android:name="likelion.project.agijagi.buyermypage.BuyerNotificationSettingFragment"
         android:label="fragment_alarm"
-        tools:layout="@layout/fragment_alarm" >
+        tools:layout="@layout/fragment_buyer_notification_setting" >
         <action
-            android:id="@+id/action_alarmManagementFragment_to_buyerMypageFragment"
+            android:id="@+id/action_buyerNotificationSettingFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sellerNotificationSettingFragment"
+        android:name="likelion.project.agijagi.sellermypage.SellerNotificationSettingFragment"
+        android:label="fragment_seller_notification_setting"
+        tools:layout="@layout/fragment_seller_notification_setting" >
+        <action
+            android:id="@+id/action_sellerNotificationSettingFragment_to_sellerMypageFragment"
+            app:destination="@id/sellerMypageFragment" />
     </fragment>
 
 </navigation>

@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".buyermypage.ShippingAddFragment">
+    tools:context=".buyermypage.ShippingUpdateFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_shipping_add"
+        android:id="@+id/toolbar_shipping_update"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.AgijagiToolbar"
@@ -15,10 +15,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/arrow_back_24px"
-        app:title="배송지 등록" />
+        app:title="배송지 수정" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editinputlayout_shipping_add_title"
+        android:id="@+id/editinputlayout_shipping_update_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -26,10 +26,10 @@
         android:layout_marginEnd="16dp"
         app:boxStrokeColor="@color/jagi_brown"
         app:hintEnabled="false"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_shipping_add">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_shipping_update">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editinput_shipping_add_title"
+            android:id="@+id/editinput_shipping_update_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/narrow_box_rounded_button_stroke"
@@ -37,7 +37,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editinputlayout_shipping_add_address"
+        android:id="@+id/editinputlayout_shipping_update_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -45,10 +45,10 @@
         android:layout_marginEnd="16dp"
         app:boxStrokeColor="@color/jagi_brown"
         app:hintEnabled="false"
-        app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_add_title">
+        app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_update_title">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editinput_shipping_add_address"
+            android:id="@+id/editinput_shipping_update_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/narrow_box_rounded_button_stroke"
@@ -56,7 +56,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editinputlayout_shipping_add_address_detail"
+        android:id="@+id/editinputlayout_shipping_update_address_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -64,10 +64,10 @@
         android:layout_marginEnd="16dp"
         app:boxStrokeColor="@color/jagi_brown"
         app:hintEnabled="false"
-        app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_add_address">
+        app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_update_address">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editinput_shipping_add_address_detail"
+            android:id="@+id/editinput_shipping_update_address_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/narrow_box_rounded_button_stroke"
@@ -75,7 +75,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editinputlayout_shipping_add_recipient"
+        android:id="@+id/editinputlayout_shipping_update_recipient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -83,10 +83,10 @@
         android:layout_marginEnd="16dp"
         app:boxStrokeColor="@color/jagi_brown"
         app:hintEnabled="false"
-        app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_add_address_detail">
+        app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_update_address_detail">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editinput_shipping_add_recipient"
+            android:id="@+id/editinput_shipping_update_recipient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/narrow_box_rounded_button_stroke"
@@ -94,7 +94,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editinputlayout_shipping_add_recipient_phone"
+        android:id="@+id/editinputlayout_shipping_update_recipient_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -102,10 +102,10 @@
         android:layout_marginEnd="16dp"
         app:boxStrokeColor="@color/jagi_brown"
         app:hintEnabled="false"
-        app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_add_recipient">
+        app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_update_recipient">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editinput_shipping_add_recipient_phone"
+            android:id="@+id/editinput_shipping_update_recipient_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/narrow_box_rounded_button_stroke"
@@ -113,13 +113,14 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/checkBox_shipping_add_basic"
+        android:id="@+id/checkBox_shipping_update_basic"
         style="@style/CustomCheckBoxSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_add_recipient_phone" />
+        app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_update_recipient_phone" />
 
     <TextView
         android:id="@+id/textView2"
@@ -127,12 +128,12 @@
         android:layout_height="wrap_content"
         android:text="기본배송지로 등록하기"
         android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox_shipping_add_basic"
-        app:layout_constraintStart_toEndOf="@+id/checkBox_shipping_add_basic"
-        app:layout_constraintTop_toTopOf="@+id/checkBox_shipping_add_basic" />
+        app:layout_constraintBottom_toBottomOf="@+id/checkBox_shipping_update_basic"
+        app:layout_constraintStart_toEndOf="@+id/checkBox_shipping_update_basic"
+        app:layout_constraintTop_toTopOf="@+id/checkBox_shipping_update_basic" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_shipping_add_registration"
+        android:id="@+id/button_shipping_update_registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/wide_box_bottom_active"

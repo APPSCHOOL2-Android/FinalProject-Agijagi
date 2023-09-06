@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,10 @@ class ProductListAdapter(val context: Context) :
                 textViewProductListName.text = item.name
                 textViewProductListPrice.text = item.price
                 textViewProductListDate.text = item.date
+            }
+
+            productListBinding.root.setOnClickListener {
+                it.findNavController().navigate(R.id.action_productListFragment_to_sellerProductDetailFragment)
             }
         }
 

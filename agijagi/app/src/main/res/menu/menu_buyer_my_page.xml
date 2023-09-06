@@ -15,6 +15,6 @@
     <item
         android:icon="@drawable/shopping_bag_24px"
         android:title="Item"
-        android:id="@+id/menu_buyer_my_page_wish"
+        android:id="@+id/menu_buyer_my_page_shopping_bag"
         app:showAsAction="always" />
 </menu>

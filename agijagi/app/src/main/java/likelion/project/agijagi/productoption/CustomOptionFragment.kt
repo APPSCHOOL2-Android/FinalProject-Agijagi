@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentCustomOptionBinding
@@ -42,7 +43,22 @@ class CustomOptionFragment : Fragment() {
             }
         }
 
+        setShoppingBagButton()
+        setPurchaseButton()
+
         return customOptionBinding.root
+    }
+
+    private fun setShoppingBagButton() {
+        customOptionBinding.imageButtonCustomOptionShoppingBag.setOnClickListener {
+            findNavController().navigate(R.id.action_customOptionFragment_to_shoppingListFragment)
+        }
+    }
+
+    private fun setPurchaseButton() {
+        customOptionBinding.buttonCustomOptionPurchase.setOnClickListener {
+            findNavController().navigate(R.id.action_customOptionFragment_to_paymentFragment)
+        }
     }
 
 }
