@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentProductListBinding
 import likelion.project.agijagi.sellermypage.adapter.ProductListAdapter
 import likelion.project.agijagi.sellermypage.model.ProductListModel
@@ -42,6 +44,15 @@ class ProductListFragment : Fragment() {
         productListAdapter = ProductListAdapter(requireContext())
 
         binding.run {
+            toolbarProductList.setOnMenuItemClickListener {
+                when(it.itemId) {
+                    R.id.menu_product_list_add -> {
+                        findNavController().navigate(R.id.action_productListFragment_to_productAddFragment)
+                    }
+                }
+                false
+            }
+
             recyclerviewProductList.run {
                 adapter = productListAdapter
                 layoutManager = LinearLayoutManager(context)

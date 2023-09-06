@@ -1,14 +1,15 @@
 package likelion.project.agijagi.shopping
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemShoppingListBinding
 
-class ShoppingListAdapter() :
+class ShoppingListAdapter :
     ListAdapter<ShoppingListModel, ShoppingListAdapter.ShoppingListViewHolder>(diffUtil) {
 
     inner class ShoppingListViewHolder(val bind: ItemShoppingListBinding) :
@@ -19,6 +20,11 @@ class ShoppingListAdapter() :
                 textviewShoppingListItemBrand.text = item.brand
                 textviewShoppingListItemName.text = item.name
                 textviewShoppingListItemPrice.text = item.price
+            }
+
+            bind.buttonChangeOption.setOnClickListener {
+                it.findNavController()
+                    .navigate(R.id.action_shoppingListFragment_to_customOptionFragment)
             }
         }
     }
