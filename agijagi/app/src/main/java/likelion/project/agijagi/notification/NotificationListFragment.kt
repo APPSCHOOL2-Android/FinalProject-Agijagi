@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
+import likelion.project.agijagi.chatting.ChattingListFragment
 import likelion.project.agijagi.databinding.FragmentNotificationListBinding
 
 class NotificationListFragment : Fragment() {
@@ -104,6 +105,8 @@ class NotificationListFragment : Fragment() {
                 materialToolbarNotificationList.setNavigationIcon(R.drawable.arrow_back_24px)
 
                 // 체크박스 숨기기
+                notificationListAdapter.updateCheckbox(false)
+                notificationListAdapter.notifyDataSetChanged()
 
                 // 알림 없음 메시지
                 textViewNotificationListEmptyMsg.visibility =
@@ -116,12 +119,13 @@ class NotificationListFragment : Fragment() {
                 materialToolbarNotificationList.navigationIcon = null
 
                 // 체크 초기화
-//                for (data in dataSet) {
-//                    data.isCheck = false
-//                }
+                for (data in ChattingListFragment.dataSet) {
+                    data.isCheck = false
+                }
 
                 // 체크박스 보이기
-
+                notificationListAdapter.updateCheckbox(true)
+                notificationListAdapter.notifyDataSetChanged()
 
             }
         }

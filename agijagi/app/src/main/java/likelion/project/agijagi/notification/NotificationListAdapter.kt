@@ -10,12 +10,18 @@ import likelion.project.agijagi.databinding.ItemNotificationListBinding
 
 class NotificationListAdapter :
     ListAdapter<NotificationListModel, NotificationListAdapter.NotificationListViewHolder>(diffUtil) {
+    private var isTrashCan = false
 
     inner class NotificationListViewHolder(val bind: ItemNotificationListBinding) :
         RecyclerView.ViewHolder(bind.root) {
 
         fun bind(item: NotificationListModel) {
             with(bind) {
+                if (isTrashCan) {
+                    checkboxNotificationList.visibility = View.VISIBLE
+                } else {
+                    checkboxNotificationList.visibility = View.GONE
+                }
                 textViewNotificationListTitle.text = item.title
                 textViewNotificationListBody.text = item.content
                 imageViewNotificationListNew.visibility =
@@ -61,4 +67,7 @@ class NotificationListAdapter :
         }
     }
 
+    fun updateCheckbox(state: Boolean) {
+        isTrashCan = state
+    }
 }
