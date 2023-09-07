@@ -12,20 +12,4 @@ data class ProductAddModel(
     val date: String = "" // date
 ) {
     inner class OptionClass(val opName: String, val isCheck: Boolean, val opPrice: String)
-
-    // 개발용
-    fun debugData() {
-        val str: StringBuffer = StringBuffer()
-
-        str.appendLine("name: $name")
-        str.appendLine("price: $price")
-        str.appendLine("category: $category")
-        str.appendLine("ordermade: $ordermade")
-        str.appendLine("options.size: ${options.size}")
-        str.appendLine("detail: $detail")
-        str.appendLine("pictures.size: ${pictures.size}")
-        str.appendLine("plans.size: ${plans.size}")
-
-        println(str.toString())
-    }
 }

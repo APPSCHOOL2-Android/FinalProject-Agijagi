@@ -548,8 +548,6 @@ class ProductAddFragment : Fragment() {
 
 
                 // 서버 저장
-                // 디버그 찍어보기(개발용)
-                data.debugData()
 
                 findNavController().navigate(R.id.action_productAddFragment_to_productDetailPreviewFragment)
             }

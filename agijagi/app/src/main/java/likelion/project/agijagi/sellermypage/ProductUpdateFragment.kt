@@ -542,8 +542,6 @@ class ProductUpdateFragment : Fragment() {
 
 
                 // 서버 저장
-                // 디버그 찍어보기(개발용)
-                dataOrigin.debugData()
 
                 findNavController().navigate(R.id.action_productUpdateFragment_to_productDetailPreviewFragment)
             }
