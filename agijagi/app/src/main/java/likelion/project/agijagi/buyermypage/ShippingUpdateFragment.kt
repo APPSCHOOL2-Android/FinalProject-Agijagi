@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentShippingUpdateBinding
 
 class ShippingUpdateFragment : Fragment() {
@@ -24,8 +26,8 @@ class ShippingUpdateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.run {
-
+        binding.buttonShippingUpdateRegistration.setOnClickListener {
+            findNavController().navigate(R.id.action_shippingUpdateFragment_to_shippingManagementFragment)
         }
     }
 
