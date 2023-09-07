@@ -563,6 +563,11 @@ class ProductAddFragment : Fragment() {
             mainActivity.currentFocus!!.clearFocus()
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
 
 enum class ProductAddCategory(val idx: Int, val str: String) {

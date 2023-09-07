@@ -579,4 +579,9 @@ class ProductUpdateFragment : Fragment() {
 
         return data
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
