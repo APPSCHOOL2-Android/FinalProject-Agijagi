@@ -196,7 +196,7 @@ class SignupSellerFragment : Fragment() {
                             "tel" to fragmentSignupSellerBinding.editinputSignupSellerBusinessNumber.text.toString()
                         )
 
-                        db.collection("buyer").document(email)
+                        db.collection("seller").document(email)
                             .set(sellerInfo, SetOptions.merge())
                             .addOnSuccessListener { Log.d("firebase", "seller cloud firestore 등록 완료\n" +
                                     " authUID: ${user?.uid}")}

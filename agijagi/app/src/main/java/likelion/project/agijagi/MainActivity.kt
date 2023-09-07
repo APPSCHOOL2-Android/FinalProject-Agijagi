@@ -61,22 +61,6 @@ class MainActivity : AppCompatActivity() {
                         View.GONE
                     }
                 }
-
-                // if (destination.id == R.id.mypagefragment) {
-                val currentUser = FirebaseAuth.getInstance().currentUser
-
-                // 로그인이 되어있지 않은 경우
-                if (currentUser == null) {
-//                        findNavController().navigate(R.id.)
-
-                } else {
-                    // 로그인이 되어있는 경우
-                    // 여기서 사용자의 계정 타입을 확인하고 해당 프래그먼트로 이동 처리
-                    // 판매자 계정인지, 구매자 계정인지에 따라 분기 처리
-                    // 예: if문을 사용하여 sellerFragment 또는 buyerFragment로 이동
-                    // 사용자의 계정 타입을 확인하는 코드 추가 필요
-                }
-                //}
             }
         }
     }
