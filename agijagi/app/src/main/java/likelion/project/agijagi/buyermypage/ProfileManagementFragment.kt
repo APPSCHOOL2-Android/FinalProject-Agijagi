@@ -5,16 +5,40 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import likelion.project.agijagi.R
+import likelion.project.agijagi.databinding.FragmentProfileManagementBinding
 
 class ProfileManagementFragment : Fragment() {
+
+    private var _binding: FragmentProfileManagementBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_management, container, false)
+        _binding = FragmentProfileManagementBinding.inflate(inflater)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setEditButton()
+    }
+
+    private fun setEditButton() {
+        binding.buttonProfileManagementEdit.setOnClickListener {
+            // 유효성 검사 추가 해야 함
+            findNavController().navigate(R.id.action_profileManagementFragment_to_buyerMypageFragment)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

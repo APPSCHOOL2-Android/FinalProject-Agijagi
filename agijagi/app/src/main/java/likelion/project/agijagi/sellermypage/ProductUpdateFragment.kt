@@ -31,6 +31,7 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentProductUpdateBinding
 import likelion.project.agijagi.databinding.ItemProductAddAddPictureBinding
 import likelion.project.agijagi.databinding.ItemProductAddAddPlanBinding
+import likelion.project.agijagi.sellermypage.model.ProductUpdateModel
 import kotlin.concurrent.thread
 
 class ProductUpdateFragment : Fragment() {
@@ -541,8 +542,6 @@ class ProductUpdateFragment : Fragment() {
 
 
                 // 서버 저장
-                // 디버그 찍어보기(개발용)
-                dataOrigin.debugData()
 
                 findNavController().navigate(R.id.action_productUpdateFragment_to_productDetailPreviewFragment)
             }
@@ -578,5 +577,10 @@ class ProductUpdateFragment : Fragment() {
         }
 
         return data
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

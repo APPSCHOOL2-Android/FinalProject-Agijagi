@@ -423,6 +423,9 @@
         <action
             android:id="@+id/action_shippingManagementFragment_to_shippingAddFragment"
             app:destination="@id/shippingAddFragment" />
+        <action
+            android:id="@+id/action_shippingManagementFragment_to_shippingUpdateFragment"
+            app:destination="@id/shippingUpdateFragment" />
     </fragment>
     <fragment
         android:id="@+id/shippingAddFragment"
@@ -488,6 +491,15 @@
         <action
             android:id="@+id/action_sellerNotificationSettingFragment_to_sellerMypageFragment"
             app:destination="@id/sellerMypageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shippingUpdateFragment"
+        android:name="likelion.project.agijagi.buyermypage.ShippingUpdateFragment"
+        android:label="fragment_shipping_update"
+        tools:layout="@layout/fragment_shipping_update" >
+        <action
+            android:id="@+id/action_shippingUpdateFragment_to_shippingManagementFragment"
+            app:destination="@id/shippingManagementFragment" />
     </fragment>
 
     <fragment

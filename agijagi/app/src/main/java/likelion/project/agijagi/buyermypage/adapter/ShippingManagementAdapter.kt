@@ -8,6 +8,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.withContext
 import likelion.project.agijagi.R
 import likelion.project.agijagi.buyermypage.model.ShippingManagementModel
 import likelion.project.agijagi.databinding.ItemShippingManagementBinding
@@ -22,6 +24,14 @@ class ShippingManagementAdapter : ListAdapter<ShippingManagementModel, ShippingM
                 textViewShippingManagementTitle.text = item.title
                 textViewShippingManagementPhone.text = item.phone
                 textViewShippingManagementAddress.text = item.address
+
+                buttonShippingManagementModify.setOnClickListener {
+                    it.findNavController().navigate(R.id.action_shippingManagementFragment_to_shippingUpdateFragment)
+                }
+
+                buttonShippingManagementDelete.setOnClickListener {
+
+                }
             }
         }
 
