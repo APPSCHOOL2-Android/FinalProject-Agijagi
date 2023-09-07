@@ -61,7 +61,7 @@
                         android:id="@+id/editinput_signup_seller_registration_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="사업자등록번호"
+                        android:hint="사업자등록번호 ( 01 - 000 - 0000 )"
                         android:textColorHint="@color/transparency" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,7 +110,7 @@
                         android:id="@+id/editinput_signup_seller_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="비밀번호"
+                        android:hint="비밀번호 (공백 제외, 6 ~ 15 자)"
                         android:inputType="textPassword"
                         android:textColorHint="@color/transparency" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -161,7 +161,7 @@
                         android:id="@+id/editinput_signup_seller_business_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="사업장 전화번호"
+                        android:hint="사업장 전화번호 ( 010 - 0000 - 0000 )"
                         android:textColorHint="@color/transparency" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -194,7 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="4dp"
-                        android:text="등록증.pdf"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="14dp"
                         android:layout_below="@+id/textview_signup_seller_text"/>
