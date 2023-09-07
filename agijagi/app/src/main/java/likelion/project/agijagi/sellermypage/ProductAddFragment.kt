@@ -31,6 +31,7 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentProductAddBinding
 import likelion.project.agijagi.databinding.ItemProductAddAddPictureBinding
 import likelion.project.agijagi.databinding.ItemProductAddAddPlanBinding
+import likelion.project.agijagi.sellermypage.model.ProductAddModel
 import kotlin.concurrent.thread
 
 class ProductAddFragment : Fragment() {

@@ -1,6 +1,6 @@
-package likelion.project.agijagi.sellermypage
+package likelion.project.agijagi.sellermypage.model
 
-class ProductUpdateModel(
+data class ProductAddModel(
     var name: String = "",
     var price: String = "",
     var category: String = "",
@@ -9,7 +9,7 @@ class ProductUpdateModel(
     var detail: String = "",
     var pictures: ArrayList<String> = arrayListOf(), // Uri
     var plans: ArrayList<String> = arrayListOf(), // Uri
-    val date: String = "dd-MM-yyyy" // date
+    val date: String = "" // date
 ) {
     inner class OptionClass(val opName: String, val isCheck: Boolean, val opPrice: String)
 
