@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
 
         auth = FirebaseAuth.getInstance()
+        auth?.signOut()
 
         onSetUpNavigation()
         setup()

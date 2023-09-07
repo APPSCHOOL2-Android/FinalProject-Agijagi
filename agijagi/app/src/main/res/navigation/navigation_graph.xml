@@ -358,6 +358,9 @@
         android:name="likelion.project.agijagi.sellermypage.SellerMypageFragment"
         android:label="fragment_seller_mypage">
         <action
+            android:id="@+id/action_sellerMypageFragment_to_loginFragment"
+            app:destination="@+id/loginFragment"/>
+        <action
             android:id="@+id/action_sellerMypageFragment_to_productListFragment"
             app:destination="@id/productListFragment" />
         <action

@@ -33,6 +33,9 @@ class BuyerMypageFragment : Fragment() {
 
     lateinit var mainActivity: MainActivity
 
+    private var _name: String = ""
+    private var email: String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,6 +55,7 @@ class BuyerMypageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setup()
         if(view == _noLoginMyPageFragmentBinding?.root) {
             _noLoginMyPageFragmentBinding?.textviewMyPageLogin?.setOnClickListener {
                 login()
@@ -59,10 +63,30 @@ class BuyerMypageFragment : Fragment() {
         } else {
             setToolbarMenuItem()
             setBuyerMyPageMenu()
+            setName_Email()
+        }
+    }
 
-            _binding?.textviewBuyerMyPageLogout?.setOnClickListener {
-                logout()
+    private fun setName_Email() {
+        Log.d("email","현재 email: ${auth?.currentUser?.email.toString()}")
+        db.collection("user").document(auth?.currentUser?.email.toString())
+            .get()
+            .addOnSuccessListener {
+                _name = it.getString("name") ?: ""
+                email = it.getString("email") ?: ""
+                Log.d("textview", "현재 name: $_name")
+                Log.d("textview", "현재 email: $email")
+
+                // 데이터를 가져온 후 TextView 업데이트
+                updateTextViews()
             }
+    }
+
+    private fun updateTextViews() {
+        _binding?.run {
+            val name = "${_name}님 안녕하세요!"
+            textviewBuyerMyPageName.text = name
+            textviewBuyerMyPageEmail.text = email
         }
     }
 
@@ -72,6 +96,11 @@ class BuyerMypageFragment : Fragment() {
 
     private fun logout() {
         FirebaseAuth.getInstance().signOut()
+        findNavController().navigate(R.id.action_buyerMypageFragment_to_loginFragment)
+    }
+
+    private fun delete(){
+        FirebaseAuth.getInstance().currentUser?.delete()
         findNavController().navigate(R.id.action_buyerMypageFragment_to_loginFragment)
     }
 
@@ -111,7 +140,7 @@ class BuyerMypageFragment : Fragment() {
                     .setTitle("로그아웃")
                     .setMessage("로그아웃 하시겠습니까?")
                     .setPositiveButton("확인") { _: DialogInterface, _: Int ->
-
+                        logout()
                     }
                     .setNegativeButton("취소", null)
                     .show()
@@ -123,7 +152,7 @@ class BuyerMypageFragment : Fragment() {
                     .setTitle("회원탈퇴")
                     .setMessage("고길동님 정말 떠나실 건가요?\n너무 아쉬워요.")
                     .setPositiveButton("확인") { _: DialogInterface, _: Int ->
-
+                        delete()
                     }
                     .setNegativeButton("취소", null)
                     .show()
