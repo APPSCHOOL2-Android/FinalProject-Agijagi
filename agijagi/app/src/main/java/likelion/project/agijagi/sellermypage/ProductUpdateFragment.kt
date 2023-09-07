@@ -53,6 +53,7 @@ class ProductUpdateFragment : Fragment() {
     lateinit var albumActivityLauncherForPictures: ActivityResultLauncher<Intent>
     lateinit var albumActivityLauncherForPlans: ActivityResultLauncher<Intent>
     private val pictureList: ArrayList<Bitmap> = arrayListOf<Bitmap>()
+    private var pictureCheckIndex: Int = -1
     private val planList: ArrayList<Bitmap> = arrayListOf<Bitmap>()
 
     lateinit var callbackActionGranted: () -> Unit
@@ -268,8 +269,25 @@ class ProductUpdateFragment : Fragment() {
                 pictureIncludeList[i].buttonX.setOnClickListener {
                     if (i < pictureList.size) {
                         pictureList.removeAt(i)
+
+                        if (i == pictureCheckIndex) {
+                            pictureCheckIndex = -1
+                        } else if (i < pictureCheckIndex) {
+                            pictureCheckIndex -= 1
+                        }
                     }
                     resetPictureView()
+                }
+
+                // 체크박스 동작
+                pictureIncludeList[i].buttonCheckBox.setOnClickListener {
+                    it.isSelected = !it.isSelected
+                    if (it.isSelected) {
+                        if (0 <= pictureCheckIndex) {
+                            pictureIncludeList[pictureCheckIndex].buttonCheckBox.isSelected = false
+                        }
+                        pictureCheckIndex = i
+                    }
                 }
             }
 
@@ -281,7 +299,7 @@ class ProductUpdateFragment : Fragment() {
                 // 권한 확인 후 액션
                 callbackActionGranted = {
                     // 도면을 추가할 공간이 있는 지 확인
-                    if (4 <= pictureList.size) {
+                    if (4 <= planList.size) {
                         Snackbar.make(it, "최대 4장의 도면만 추가할 수 있습니다", Toast.LENGTH_SHORT).show()
                     } else {
                         val newIntent =
@@ -435,29 +453,35 @@ class ProductUpdateFragment : Fragment() {
     private fun resetPictureView() {
         binding.run {
             // 사진 테이블 6개
-            val pictureIncludeList = arrayListOf<ImageView>()
-            pictureIncludeList.add(includeProductUpdateAddPictureBox1.imageView)
-            pictureIncludeList.add(includeProductUpdateAddPictureBox2.imageView)
-            pictureIncludeList.add(includeProductUpdateAddPictureBox3.imageView)
-            pictureIncludeList.add(includeProductUpdateAddPictureBox4.imageView)
-            pictureIncludeList.add(includeProductUpdateAddPictureBox5.imageView)
-            pictureIncludeList.add(includeProductUpdateAddPictureBox6.imageView)
+            val pictureIncludeList = arrayListOf<ItemProductAddAddPictureBinding>()
+            pictureIncludeList.add(includeProductUpdateAddPictureBox1)
+            pictureIncludeList.add(includeProductUpdateAddPictureBox2)
+            pictureIncludeList.add(includeProductUpdateAddPictureBox3)
+            pictureIncludeList.add(includeProductUpdateAddPictureBox4)
+            pictureIncludeList.add(includeProductUpdateAddPictureBox5)
+            pictureIncludeList.add(includeProductUpdateAddPictureBox6)
 
-            val width = pictureIncludeList[0].width
+            val width = pictureIncludeList[0].imageView.width
             for (i in 0 until pictureIncludeList.size) {
                 if (i < pictureList.size) {
                     val bitmap = Bitmap.createScaledBitmap(pictureList[i], width, width, true)
-                    pictureIncludeList[i].setImageBitmap(bitmap)
+                    pictureIncludeList[i].imageView.setImageBitmap(bitmap)
+                    pictureIncludeList[i].buttonX.visibility = View.VISIBLE
+                    pictureIncludeList[i].buttonCheckBox.visibility = View.VISIBLE
                 } else {
-                    pictureIncludeList[i].setImageDrawable(mainActivity.getDrawable(R.drawable.agijagi_logo_vector_square))
+                    pictureIncludeList[i].imageView.setImageDrawable(mainActivity.getDrawable(R.drawable.agijagi_logo_vector_square))
+                    pictureIncludeList[i].buttonX.visibility = View.INVISIBLE
+                    pictureIncludeList[i].buttonCheckBox.visibility = View.INVISIBLE
                 }
+
+                pictureIncludeList[i].buttonCheckBox.isSelected = (pictureCheckIndex == i)
             }
         }
     }
 
     private fun resetPlanView() {
         binding.run {
-            // 사진 테이블 6개
+            // 도면 테이블 4개
             val planIncludeList = arrayListOf<ItemProductAddAddPlanBinding>()
             planIncludeList.add(includeProductUpdateAddPlanBox1)
             planIncludeList.add(includeProductUpdateAddPlanBox2)
