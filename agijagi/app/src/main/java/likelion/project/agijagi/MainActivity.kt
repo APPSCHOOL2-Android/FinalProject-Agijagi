@@ -2,6 +2,7 @@ package likelion.project.agijagi
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
@@ -14,7 +15,7 @@ import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.databinding.ActivityMainBinding
 
-class MainActivity() : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     lateinit var activityMainBinding: ActivityMainBinding
 
     private var auth: FirebaseAuth? = null
@@ -33,7 +34,7 @@ class MainActivity() : AppCompatActivity() {
         auth?.signOut()
 
         onSetUpNavigation()
-        setup()
+        handleOnBackPressed()
 
         activityMainBinding.run {
 
@@ -71,20 +72,26 @@ class MainActivity() : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        val navController = navHostFragment.navController
+    private fun handleOnBackPressed() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val navHostFragment =
+                    supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+                val navController = navHostFragment.navController
 
-        when (navController.currentDestination?.id) {
-            R.id.homeFragment,
-            R.id.categoryFragment,
-            R.id.orderFragment,
-            R.id.wishListFragment,
-            R.id.buyerMypageFragment,
-            R.id.sellerMypageFragment -> finish()
-            else -> super.onBackPressed()
+                when (navController.currentDestination?.id) {
+                    R.id.homeFragment,
+                    R.id.categoryFragment,
+                    R.id.orderFragment,
+                    R.id.wishListFragment,
+                    R.id.buyerMypageFragment,
+                    R.id.sellerMypageFragment -> finish()
+
+                    else -> onBackPressedDispatcher.onBackPressed()
+                }
+            }
         }
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 
     fun setup() {
