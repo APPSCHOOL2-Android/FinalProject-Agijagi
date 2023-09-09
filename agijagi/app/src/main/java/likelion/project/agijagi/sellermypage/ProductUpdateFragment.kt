@@ -550,7 +550,7 @@ class ProductUpdateFragment : Fragment() {
 
                 // 서버 저장
 
-                findNavController().navigate(R.id.action_productUpdateFragment_to_productDetailPreviewFragment)
+                findNavController().navigate(R.id.action_productUpdateFragment_to_productUpdateDetailPreviewFragment)
             }
         }
     }

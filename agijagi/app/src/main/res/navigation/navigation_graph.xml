@@ -241,8 +241,8 @@
         android:name="likelion.project.agijagi.sellermypage.ProductUpdateFragment"
         android:label="fragment_product_update">
         <action
-            android:id="@+id/action_productUpdateFragment_to_productDetailPreviewFragment"
-            app:destination="@id/productDetailPreviewFragment" />
+            android:id="@+id/action_productUpdateFragment_to_productUpdateDetailPreviewFragment"
+            app:destination="@id/productUpdateDetailPreviewFragment" />
     </fragment>
 
     <fragment
@@ -561,6 +561,15 @@
         <action
             android:id="@+id/action_signupSellerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productUpdateDetailPreviewFragment"
+        android:name="likelion.project.agijagi.sellermypage.ProductUpdateDetailPreviewFragment"
+        android:label="fragment_product_update_detail_preview"
+        tools:layout="@layout/fragment_product_update_detail_preview" >
+        <action
+            android:id="@+id/action_productUpdateDetailPreviewFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
     </fragment>
 
 </navigation>
