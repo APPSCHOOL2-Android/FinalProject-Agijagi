@@ -32,14 +32,21 @@ class ShippingAddFragment : Fragment() {
 
             }
         }
+        setToolbarItemAction()
         setShippingRegistrationButton()
 
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarShippingAdd.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setShippingRegistrationButton() {
         binding.buttonShippingAddRegistration.setOnClickListener {
             Snackbar.make(it, "배송지 등록이 왼료되었습니다.", Snackbar.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_shippingAddFragment_to_shippingManagementFragment)
+            findNavController().popBackStack()
         }
     }
 

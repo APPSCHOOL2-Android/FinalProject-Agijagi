@@ -26,13 +26,21 @@ class ProfileManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setToolbarItemAction()
         setEditButton()
     }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarProfileManagement.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
 
     private fun setEditButton() {
         binding.buttonProfileManagementEdit.setOnClickListener {
             // 유효성 검사 추가 해야 함
-            findNavController().navigate(R.id.action_profileManagementFragment_to_buyerMypageFragment)
+            findNavController().popBackStack()
         }
     }
 

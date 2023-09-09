@@ -42,7 +42,9 @@ class ShippingManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setToolbarItemAction()
         setShippingAddButton()
+
         shippingManagementAdapter = ShippingManagementAdapter()
 
         binding.run {
@@ -62,6 +64,18 @@ class ShippingManagementFragment : Fragment() {
             }
 
             shippingManagementAdapter.submitList(dataList)
+        }
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarShippingManagement.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun setShippingAddButton() {
+        binding.buttonShippingManagementAdd.setOnClickListener {
+            findNavController().navigate(R.id.action_shippingManagementFragment_to_shippingAddFragment)
         }
     }
 
@@ -89,9 +103,4 @@ class ShippingManagementFragment : Fragment() {
         }
     }
 
-    private fun setShippingAddButton() {
-        binding.buttonShippingManagementAdd.setOnClickListener {
-            findNavController().navigate(R.id.action_shippingManagementFragment_to_shippingAddFragment)
-        }
-    }
 }

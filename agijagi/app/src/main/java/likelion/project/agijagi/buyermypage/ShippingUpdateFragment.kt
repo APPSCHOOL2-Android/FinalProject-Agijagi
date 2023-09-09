@@ -26,8 +26,19 @@ class ShippingUpdateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setToolbarItemAction()
+        setRegistrationButton()
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarShippingUpdate.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun setRegistrationButton() {
         binding.buttonShippingUpdateRegistration.setOnClickListener {
-            findNavController().navigate(R.id.action_shippingUpdateFragment_to_shippingManagementFragment)
+            findNavController().popBackStack()
         }
     }
 

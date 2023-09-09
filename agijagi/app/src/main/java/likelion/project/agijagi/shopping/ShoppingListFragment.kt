@@ -36,6 +36,9 @@ class ShoppingListFragment : Fragment() {
         shoppingListAdapter = ShoppingListAdapter()
 
         shoppingListBinding.run {
+            toolbarShoppinglist.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
 
             recyclerviewShoppingList.run {
                 layoutManager = LinearLayoutManager(mainActivity)

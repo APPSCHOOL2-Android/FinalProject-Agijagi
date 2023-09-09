@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
 
     private fun setOrderMadeProductButton() {
         binding.linearlayoutHomeToOrderMadeCategory.setOnClickListener {
-            it.findNavController().navigate(R.id.action_homeFragment_to_orderMadeCategoryFragment)
+            findNavController().navigate(R.id.action_homeFragment_to_orderMadeCategoryFragment)
         }
     }
 
