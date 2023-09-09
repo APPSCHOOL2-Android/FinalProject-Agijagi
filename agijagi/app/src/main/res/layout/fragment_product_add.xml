@@ -110,6 +110,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
+
                 </LinearLayout>
 
                 <Space
@@ -148,7 +149,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
+
                 </LinearLayout>
+
             </LinearLayout>
 
             <Space
@@ -185,6 +188,7 @@
                         android:hint="상품명을 입력해주세요"
                         android:inputType="text"
                         android:maxLines="1" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -201,6 +205,7 @@
                         android:hint="가격을 입력해주세요"
                         android:inputType="number|numberDecimal"
                         android:maxLines="1" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -238,7 +243,6 @@
                         app:simpleItems="@array/product_add_select_ordermade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-
 
                 <TableLayout
                     android:id="@+id/layout_product_add_option"
@@ -292,6 +296,7 @@
                                 android:hint="추가 금액"
                                 android:inputType="number|numberDecimal"
                                 android:padding="0dp" />
+
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
@@ -326,6 +331,7 @@
                                 android:hint="추가 금액"
                                 android:inputType="number|numberDecimal"
                                 android:padding="0dp" />
+
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
@@ -346,6 +352,7 @@
                         android:gravity="start"
                         android:hint="상품 상세정보를 입력해주세요"
                         android:inputType="textMultiLine" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -449,7 +456,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
+
                 </LinearLayout>
+
             </LinearLayout>
 
             <Space
@@ -468,6 +477,7 @@
                 app:layout_constraintBottom_toBottomOf="parent" />
 
         </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>

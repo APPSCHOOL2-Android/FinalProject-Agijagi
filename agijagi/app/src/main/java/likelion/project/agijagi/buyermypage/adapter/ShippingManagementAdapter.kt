@@ -1,20 +1,19 @@
 package likelion.project.agijagi.buyermypage.adapter
 
-import android.graphics.Rect
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.withContext
 import likelion.project.agijagi.R
 import likelion.project.agijagi.buyermypage.model.ShippingManagementModel
 import likelion.project.agijagi.databinding.ItemShippingManagementBinding
 
-class ShippingManagementAdapter : ListAdapter<ShippingManagementModel, ShippingManagementAdapter.ShippingManagementViewHolder>(diffUtil) {
+class ShippingManagementAdapter :
+    ListAdapter<ShippingManagementModel, ShippingManagementAdapter.ShippingManagementViewHolder>(
+        diffUtil
+    ) {
 
     inner class ShippingManagementViewHolder(val shippingManagementBinding: ItemShippingManagementBinding) :
         RecyclerView.ViewHolder(shippingManagementBinding.root) {
@@ -26,7 +25,8 @@ class ShippingManagementAdapter : ListAdapter<ShippingManagementModel, ShippingM
                 textViewShippingManagementAddress.text = item.address
 
                 buttonShippingManagementModify.setOnClickListener {
-                    it.findNavController().navigate(R.id.action_shippingManagementFragment_to_shippingUpdateFragment)
+                    it.findNavController()
+                        .navigate(R.id.action_shippingManagementFragment_to_shippingUpdateFragment)
                 }
 
                 buttonShippingManagementDelete.setOnClickListener {
@@ -35,13 +35,20 @@ class ShippingManagementAdapter : ListAdapter<ShippingManagementModel, ShippingM
             }
         }
 
-        init{
+        init {
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShippingManagementViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ShippingManagementViewHolder {
         val itemShippingManagementBinding =
-            ItemShippingManagementBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemShippingManagementBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         val viewHolder = ShippingManagementViewHolder(itemShippingManagementBinding)
 
         return viewHolder
@@ -68,4 +75,5 @@ class ShippingManagementAdapter : ListAdapter<ShippingManagementModel, ShippingM
             }
         }
     }
+
 }

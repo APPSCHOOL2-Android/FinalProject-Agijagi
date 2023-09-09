@@ -35,7 +35,7 @@
         android:layout_height="0dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/layout_notificationList_bottomButton"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar_notification_List"/>
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar_notification_List" />
 
     <LinearLayout
         android:id="@+id/layout_notificationList_bottomButton"
@@ -58,7 +58,7 @@
 
         <Space
             android:layout_width="4dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_notificationList_delete"
@@ -70,4 +70,5 @@
             android:textColor="@color/jagi_hint_color" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

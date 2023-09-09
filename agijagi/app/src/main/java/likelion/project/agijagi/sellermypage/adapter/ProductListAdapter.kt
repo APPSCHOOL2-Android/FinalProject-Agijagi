@@ -36,7 +36,8 @@ class ProductListAdapter(val context: Context) :
             }
 
             productListBinding.root.setOnClickListener {
-                it.findNavController().navigate(R.id.action_productListFragment_to_sellerProductDetailFragment)
+                it.findNavController()
+                    .navigate(R.id.action_productListFragment_to_sellerProductDetailFragment)
             }
         }
 
@@ -82,4 +83,5 @@ class ProductListAdapter(val context: Context) :
             }
         }
     }
+
 }

@@ -1,10 +1,10 @@
 package likelion.project.agijagi.signup
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -27,9 +27,10 @@ class SignupGoogleSellerFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        _fragmentGoogleSignupSellerBinding = FragmentGoogleSignupSellerBinding.inflate(inflater, container, false)
+        _fragmentGoogleSignupSellerBinding =
+            FragmentGoogleSignupSellerBinding.inflate(inflater, container, false)
 
         return fragmentGoogleSignupSellerBinding.root
     }
@@ -40,7 +41,7 @@ class SignupGoogleSellerFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         setup()
 
-        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -55,4 +56,5 @@ class SignupGoogleSellerFragment : Fragment() {
         }
         db.firestoreSettings = settings
     }
+
 }

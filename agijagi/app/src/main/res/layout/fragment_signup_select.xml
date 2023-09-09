@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".signup.SignupSelectFragment"
     android:background="@color/jagi_ivory"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".signup.SignupSelectFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_signup_select_siginup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.AgijagiToolbar"
-        app:title="회원가입"
-        app:navigationIcon="@drawable/arrow_back_24px"/>
+        app:navigationIcon="@drawable/arrow_back_24px"
+        app:title="회원가입" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -43,8 +43,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="4">
+        android:layout_weight="4"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -54,78 +54,78 @@
                 android:id="@+id/layout_signup_select_seller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_centerHorizontal="true"
                 android:layout_marginStart="104dp"
                 android:layout_marginEnd="104dp"
+                android:background="@drawable/signup_box_rounded_selected_button"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="@drawable/signup_box_rounded_selected_button"
-                android:layout_centerHorizontal="true">
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/button_signup_select_seller"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="28dp"
                     android:layout_marginStart="104dp"
                     android:layout_marginEnd="104dp"
-                    android:src="@drawable/outline_storefront_24_nomal"
-                    android:layout_margin="28dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/outline_storefront_24_nomal" />
+
             </LinearLayout>
 
             <TextView
                 android:id="@+id/textview_signup_select_seller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@+id/layout_signup_select_seller"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
                 android:text="판매자"
-                android:textSize="20dp"
-                android:textStyle="bold"
                 android:textColor="@color/jagi_brown"
-                android:layout_marginTop="8dp"/>
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/layout_signup_select_buyer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_below="@+id/textview_signup_select_seller"
+                android:layout_centerHorizontal="true"
                 android:layout_marginStart="104dp"
-                android:layout_marginEnd="104dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginEnd="104dp"
+                android:background="@drawable/signup_box_rounded_selected_button"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="@drawable/signup_box_rounded_selected_button"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/textview_signup_select_seller">
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/button_signup_select_buyer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/outline_person_outline_24_nomal"
                     android:layout_margin="28dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/outline_person_outline_24_nomal" />
+
             </LinearLayout>
 
             <TextView
                 android:id="@+id/textview_signup_select_buyer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@+id/layout_signup_select_buyer"
-                android:text="구매자"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textColor="@color/jagi_brown"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
-                />
+                android:text="구매자"
+                android:textColor="@color/jagi_brown"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>
