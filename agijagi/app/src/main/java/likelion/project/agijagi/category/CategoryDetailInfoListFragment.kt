@@ -57,13 +57,18 @@ class CategoryDetailInfoListFragment : Fragment() {
     }
 
     private fun setToolbarMenuItem() {
-        fragmentCategoryDetailInfoListBinding.toolbarCategoryDetailInfoList.setOnMenuItemClickListener {
-            when(it.itemId) {
-                R.id.menu_category_shopping_list -> {
-                    findNavController().navigate(R.id.action_categoryDetailInfoListFragment_to_shoppingListFragment)
-                }
+        fragmentCategoryDetailInfoListBinding.toolbarCategoryDetailInfoList.run {
+            setNavigationOnClickListener {
+                findNavController().popBackStack()
             }
-            false
+            setOnMenuItemClickListener {
+                when(it.itemId) {
+                    R.id.menu_category_shopping_list -> {
+                        findNavController().navigate(R.id.action_categoryDetailInfoListFragment_to_shoppingListFragment)
+                    }
+                }
+                false
+            }
         }
     }
 }
