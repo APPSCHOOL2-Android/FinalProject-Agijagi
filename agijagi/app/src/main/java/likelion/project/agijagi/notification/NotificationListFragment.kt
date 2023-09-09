@@ -1,10 +1,10 @@
 package likelion.project.agijagi.notification
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import likelion.project.agijagi.MainActivity
@@ -43,7 +43,7 @@ class NotificationListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentNotificationListBinding.inflate(inflater)
         mainActivity = activity as MainActivity
         notificationListAdapter = NotificationListAdapter()
@@ -129,4 +129,5 @@ class NotificationListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

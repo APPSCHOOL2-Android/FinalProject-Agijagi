@@ -17,7 +17,6 @@
         app:navigationIcon="@drawable/arrow_back_24px"
         app:title="장바구니" />
 
-
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/checkbox_shopping_list_item"
         style="@style/CustomCheckBox"
@@ -28,7 +27,6 @@
         android:text="전체 선택"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_shoppinglist" />
-
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_all_delete"
@@ -94,6 +92,7 @@
                     android:layout_marginBottom="8dp"
                     android:text="159000원"
                     android:textSize="14sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -103,7 +102,6 @@
 
                 <TextView
                     android:id="@+id/textview_ship"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -124,6 +122,7 @@
                     android:textSize="14sp"
                     app:layout_constraintBottom_toTopOf="@id/line_12"
                     app:layout_constraintEnd_toEndOf="parent" />
+
             </LinearLayout>
 
             <View
@@ -176,8 +175,9 @@
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
                 android:textColor="@color/jagi_ivory"
                 app:layout_constraintBottom_toBottomOf="parent" />
-        </LinearLayout>
-    </ScrollView>
 
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,23 +1,20 @@
 package likelion.project.agijagi.sellermypage
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentOrderManagementBinding
 import likelion.project.agijagi.sellermypage.adapter.OrderManagementAdapter
 import likelion.project.agijagi.sellermypage.model.OrderManagementModel
-import likelion.project.agijagi.shopping.ShoppingListModel
 
 class OrderManagementFragment : Fragment() {
+
     private var _binding: FragmentOrderManagementBinding? = null
     private val binding get() = _binding!!
     lateinit var orderManagementAdapter: OrderManagementAdapter
@@ -72,4 +69,5 @@ class OrderManagementFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

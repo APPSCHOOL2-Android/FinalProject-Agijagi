@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:hint="검색어를 입력하세요"
                 android:inputType="text|textPersonName" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -60,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:isScrollContainer="true"
                 android:orientation="horizontal" />
+
         </LinearLayout>
 
     </LinearLayout>

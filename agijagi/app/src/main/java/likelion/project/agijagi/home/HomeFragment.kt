@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentHomeBinding
 
-
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
@@ -74,4 +73,5 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

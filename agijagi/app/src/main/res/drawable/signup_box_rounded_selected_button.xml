@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item android:state_selected="false">
         <shape android:shape="rectangle">
-            <solid android:color="@color/jagi_ivory"/>
+            <solid android:color="@color/jagi_ivory" />
             <size android:width="152dp" android:height="152dp" />
-            <corners android:radius="8dp"/>
-            <stroke android:width="3dp"  android:color="@color/jagi_brown"/>
+            <corners android:radius="8dp" />
+            <stroke android:width="3dp" android:color="@color/jagi_brown" />
         </shape>
     </item>
-
     <item android:state_selected="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/jagi_brown"/>
+            <solid android:color="@color/jagi_brown" />
             <size android:width="152dp" android:height="152dp" />
-            <corners android:radius="8dp"/>
-            <stroke android:width="3dp"  android:color="@color/jagi_brown"/>
+            <corners android:radius="8dp" />
+            <stroke android:width="3dp" android:color="@color/jagi_brown" />
         </shape>
     </item>
-
-
 </selector>
