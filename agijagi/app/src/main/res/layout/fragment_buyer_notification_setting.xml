@@ -49,6 +49,7 @@
                 android:text="주문, 배송, 반품, 교환, 취소"
                 android:textSize="15sp"
                 app:layout_constraintTop_toBottomOf="@id/textview_order_noti" />
+
         </LinearLayout>
 
         <com.google.android.material.materialswitch.MaterialSwitch
@@ -68,7 +69,6 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/line_1" />
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -100,6 +100,7 @@
                 android:layout_marginTop="4dp"
                 android:text="제작 진행 현황"
                 android:textSize="15sp" />
+
         </LinearLayout>
 
         <com.google.android.material.materialswitch.MaterialSwitch
@@ -151,6 +152,7 @@
                 android:text="문의 내역 확인"
                 android:textSize="15sp"
                 app:layout_constraintTop_toBottomOf="@id/textview_order_noti" />
+
         </LinearLayout>
 
         <com.google.android.material.materialswitch.MaterialSwitch

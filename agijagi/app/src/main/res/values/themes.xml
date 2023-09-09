@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.Agijagi" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -20,7 +20,6 @@
         <item name="colorOnPrimaryContainer">@color/jagi_brown</item>
         <!--체크박스 활성 시-->
         <item name="colorSecondaryContainer">@color/jagi_brown</item>
-
     </style>
 
     <style name="Theme.Agijagi" parent="Base.Theme.Agijagi" />

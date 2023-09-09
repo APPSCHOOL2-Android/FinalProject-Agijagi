@@ -61,6 +61,7 @@
                 android:text="배송 대기"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -154,7 +155,6 @@
                 android:src="@drawable/order_default_image" />
 
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="wrap_content"

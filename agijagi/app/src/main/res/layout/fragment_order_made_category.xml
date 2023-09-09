@@ -66,6 +66,7 @@
                                 android:src="@drawable/order_made_thumbnail" />
 
                         </androidx.cardview.widget.CardView>
+
                     </LinearLayout>
 
                     <TextView
@@ -114,6 +115,7 @@
                                 android:src="@drawable/order_made_plate_thumbnail" />
 
                         </androidx.cardview.widget.CardView>
+
                     </LinearLayout>
 
                     <TextView
