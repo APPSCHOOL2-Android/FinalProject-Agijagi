@@ -10,7 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentProductDetailPreviewBinding
 
-class ProductDetailPreviewFragment : Fragment() {
+class ProductUpdateDetailPreviewFragment : Fragment() {
 
     private var _binding: FragmentProductDetailPreviewBinding? = null
     private val binding get() = _binding!!
@@ -28,7 +28,7 @@ class ProductDetailPreviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setToolbarItemAction()
-        setProductRegistrationButton()
+        setProductUpdateButton()
     }
 
     private fun setToolbarItemAction() {
@@ -37,12 +37,12 @@ class ProductDetailPreviewFragment : Fragment() {
         }
     }
 
-    private fun setProductRegistrationButton() {
+    private fun setProductUpdateButton() {
         binding.buttonProductDetailPreviewProductRegistration.run {
-            text = "등록"
+            text = "수정"
             setOnClickListener {
-                Snackbar.make(it, "상품 등록이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_productDetailPreviewFragment_to_productListFragment)
+                Snackbar.make(it, "상품 수정이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_productUpdateDetailPreviewFragment_to_productListFragment)
             }
         }
     }
