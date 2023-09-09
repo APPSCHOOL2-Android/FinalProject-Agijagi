@@ -13,18 +13,27 @@
         android:layout_height="wrap_content"
         android:background="@color/jagi_white_30">
 
-        <ImageView
-            android:id="@+id/imageView_product_list_product"
-            android:layout_width="96dp"
-            android:layout_height="72dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_product_list_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:adjustViewBounds="true"
+            app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/order_default_image" />
+            app:strokeColor="@color/jagi_brown">
+
+            <ImageView
+                android:id="@+id/imageView_product_list_product"
+                android:layout_width="96dp"
+                android:layout_height="72dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/order_default_image" />
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/textView_product_list_brand"
@@ -34,7 +43,7 @@
             android:layout_marginTop="30dp"
             android:text="브랜드명"
             android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView_product_list_product"
+            app:layout_constraintStart_toEndOf="@+id/cardview_product_list_product"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
