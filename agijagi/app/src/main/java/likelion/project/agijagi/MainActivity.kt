@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         onSetUpNavigation()
         handleOnBackPressed()
+        setup()
 
         activityMainBinding.run {
 
