@@ -26,12 +26,19 @@ class StoreManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setToolbarItemAction()
         setEditButton()
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarStoreManagement.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setEditButton() {
         binding.buttonStoreManagementEdit.setOnClickListener {
-            findNavController().navigate(R.id.action_storeManagementFragment_to_sellerMypageFragment)
+            findNavController().popBackStack()
         }
     }
 

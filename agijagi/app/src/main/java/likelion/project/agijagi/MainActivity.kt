@@ -81,7 +81,8 @@ class MainActivity() : AppCompatActivity() {
             R.id.categoryFragment,
             R.id.orderFragment,
             R.id.wishListFragment,
-            R.id.buyerMypageFragment -> finish()
+            R.id.buyerMypageFragment,
+            R.id.sellerMypageFragment -> finish()
             else -> super.onBackPressed()
         }
     }

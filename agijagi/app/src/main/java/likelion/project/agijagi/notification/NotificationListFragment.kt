@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
@@ -65,14 +66,6 @@ class NotificationListFragment : Fragment() {
             }
             notificationListAdapter.submitList(dataSet)
 
-
-            materialToolbarNotificationList.run {
-                setOnMenuItemClickListener {
-                    changeView(false)
-                    false
-                }
-            }
-
             buttonNotificationListCancle.setOnClickListener {
                 changeView(true)
             }
@@ -83,7 +76,20 @@ class NotificationListFragment : Fragment() {
 
                 changeView(true)
             }
+        }
 
+        setToolbarItemAction()
+    }
+
+    private fun setToolbarItemAction() {
+        binding.materialToolbarNotificationList.run {
+            setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+            setOnMenuItemClickListener {
+                changeView(false)
+                false
+            }
         }
     }
 

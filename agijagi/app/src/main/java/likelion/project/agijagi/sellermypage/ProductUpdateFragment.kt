@@ -314,10 +314,17 @@ class ProductUpdateFragment : Fragment() {
             }
         }
 
+        setToolbarItemAction()
         setAlbumActivityLaunchers()
         resetPictureView()
         resetPlanView()
         setBottomButton()
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarProductUpdate.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     override fun onRequestPermissionsResult(

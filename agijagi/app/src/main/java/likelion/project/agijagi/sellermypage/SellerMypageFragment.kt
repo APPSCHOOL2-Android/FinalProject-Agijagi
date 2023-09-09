@@ -46,10 +46,10 @@ class SellerMypageFragment : Fragment() {
         setup()
         setToolbarMenuItem()
         setSellerMyPageMenu()
-        setName_Email()
+        setNameAndEmail()
     }
 
-    private fun setName_Email() {
+    private fun setNameAndEmail() {
         db.collection("user").document(auth?.currentUser?.email.toString())
             .get()
             .addOnSuccessListener {

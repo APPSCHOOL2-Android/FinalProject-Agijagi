@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
@@ -40,6 +41,9 @@ class OrderManagementFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setToolbarItemAction()
+
         orderManagementAdapter = OrderManagementAdapter(itemClick = { item ->
             val bundle = Bundle().apply {
                 putParcelable("orderManagementDetail", item)
@@ -55,6 +59,12 @@ class OrderManagementFragment : Fragment() {
                 adapter = orderManagementAdapter
             }
             orderManagementAdapter.submitList(dataSet)
+        }
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarOrderManagement.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
