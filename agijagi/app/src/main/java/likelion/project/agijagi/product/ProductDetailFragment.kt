@@ -27,19 +27,24 @@ class ProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setToolbarMenuItem()
+        setToolbarItemAction()
         setFavoriteButton()
         setPurchaseButton()
     }
 
-    private fun setToolbarMenuItem() {
-        binding.toolbarProductDetail.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.menu_product_detail_shopping -> {
-                    findNavController().navigate(R.id.action_productDetailFragment_to_shoppingListFragment)
-                }
+    private fun setToolbarItemAction() {
+        binding.toolbarProductDetail.run {
+            setNavigationOnClickListener {
+                findNavController().popBackStack()
             }
-            false
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.menu_product_detail_shopping -> {
+                        findNavController().navigate(R.id.action_productDetailFragment_to_shoppingListFragment)
+                    }
+                }
+                false
+            }
         }
     }
 

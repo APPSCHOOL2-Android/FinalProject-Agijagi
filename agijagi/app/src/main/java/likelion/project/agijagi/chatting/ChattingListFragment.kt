@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import likelion.project.agijagi.MainActivity
@@ -75,6 +76,10 @@ class ChattingListFragment : Fragment() {
 
 
             materialToolbarChattingList.run {
+                setNavigationOnClickListener {
+                    findNavController().popBackStack()
+                }
+
                 setOnMenuItemClickListener {
                     changeView(false)
                     false

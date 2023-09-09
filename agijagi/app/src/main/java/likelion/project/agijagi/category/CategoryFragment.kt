@@ -27,11 +27,11 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setToolbarMenuItem()
+        setToolbarItemAction()
         setCategoryMenuButton()
     }
 
-    private fun setToolbarMenuItem() {
+    private fun setToolbarItemAction() {
         binding.toolbarCategory.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_category_shopping_list -> {

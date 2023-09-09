@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import likelion.project.agijagi.R
@@ -33,7 +34,7 @@ class SignupSelectFragment : Fragment() {
 
             // toolbar back button
             toolbarSignupSelectSiginup.setNavigationOnClickListener {
-                view.findNavController().navigate(R.id.action_signupSelectFragment_to_loginFragment)
+                findNavController().popBackStack()
             }
 
             layoutSignupSelectSeller.setOnClickListener {

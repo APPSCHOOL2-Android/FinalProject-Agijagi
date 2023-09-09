@@ -1,12 +1,11 @@
 package likelion.project.agijagi.login
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -28,7 +27,7 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _fragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
 
         return fragmentLoginBinding.root
@@ -53,22 +52,22 @@ class LoginFragment : Fragment() {
                     editinputLoginEmail.text.toString().trim(),
                     editinputLoginPassword.text.toString().trim()
                 )?.addOnCompleteListener(requireActivity()) {
-                        if (it.isSuccessful) {
-                            // collection(user).document(email).get(is_seller): true -> seller , false -> buyer
-                            db.collection("user").document(editinputLoginEmail.text.toString()).get()
-                                .addOnSuccessListener {
-                                    if(it["is_seller"] == true) {
-                                        Snackbar.make(requireView(), "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
-                                        findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
-                                    } else {
-                                        Snackbar.make(requireView(), "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
-                                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                                    }
+                    if (it.isSuccessful) {
+                        // collection(user).document(email).get(is_seller): true -> seller , false -> buyer
+                        db.collection("user").document(editinputLoginEmail.text.toString()).get()
+                            .addOnSuccessListener {
+                                if (it["is_seller"] == true) {
+                                    findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
+                                    Snackbar.make(view, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                                    Snackbar.make(view, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                                 }
-                        } else {
-                            Snackbar.make(requireView(), "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
-                        }
+                            }
+                    } else {
+                        Snackbar.make(view, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                     }
+                }
             }
 
             // 회원 가입 버튼 클릭 시

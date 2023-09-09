@@ -9,6 +9,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import likelion.project.agijagi.R
@@ -50,9 +51,16 @@ class SearchFragment : Fragment() {
         searchAdapter = SearchAdapter()
         searchResultAdapter = SearchResultAdapter()
 
+        setToolbarItemAction()
         test()
         setRecyclerViewRecentSearches()
         setRecyclerViewSearchResult()
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarSearch.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun test() {

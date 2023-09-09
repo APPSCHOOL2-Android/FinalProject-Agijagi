@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentDeliveryTrackingBinding
@@ -27,10 +28,8 @@ class DeliveryTrackingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.run {
-            toolbarDeliveryTracking.run {
-                setNavigationOnClickListener {
-                    it.findNavController().navigate(R.id.action_deliveryTrackingFragment_to_orderFragment)
-                }
+            toolbarDeliveryTracking.setNavigationOnClickListener {
+                findNavController().popBackStack()
             }
 
             buttonDeliveryTrackingCourier.setOnClickListener {

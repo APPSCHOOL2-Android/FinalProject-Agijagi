@@ -33,6 +33,10 @@ class PaymentFragment : Fragment() {
         setShippingChangeButton()
 
         binding.run {
+            toolbarPayment.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+
             editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
 
             buttonPaymentCategoryCreditcard.run {

@@ -39,10 +39,17 @@ class CustomOptionFragment : Fragment() {
             }
         }
 
+        setToolbarItemAction()
         setShoppingBagButton()
         setPurchaseButton()
 
         return customOptionBinding.root
+    }
+
+    private fun setToolbarItemAction() {
+        customOptionBinding.toolbarReadyMadeOption.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setShoppingBagButton() {

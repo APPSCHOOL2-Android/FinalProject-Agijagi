@@ -20,10 +20,17 @@ class ReadyMadeOptionFragment : Fragment() {
     ): View? {
         _binding = FragmentReadyMadeOptionBinding.inflate(inflater)
 
+        setToolbarItemAction()
         setShoppingBagButton()
         setPurchaseButton()
 
         return binding.root
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarReadyMadeOption.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setShoppingBagButton() {

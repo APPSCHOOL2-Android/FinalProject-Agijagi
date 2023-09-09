@@ -2,10 +2,10 @@ package likelion.project.agijagi.sellermypage
 
 import android.graphics.Rect
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +32,7 @@ class ProductListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentProductListBinding.inflate(layoutInflater)
 
         return binding.root
@@ -44,14 +44,7 @@ class ProductListFragment : Fragment() {
         productListAdapter = ProductListAdapter(requireContext())
 
         binding.run {
-            toolbarProductList.setOnMenuItemClickListener {
-                when(it.itemId) {
-                    R.id.menu_product_list_add -> {
-                        findNavController().navigate(R.id.action_productListFragment_to_productAddFragment)
-                    }
-                }
-                false
-            }
+            setToolbarItemAction()
 
             recyclerviewProductList.run {
                 adapter = productListAdapter
@@ -68,6 +61,23 @@ class ProductListFragment : Fragment() {
             }
         }
     }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarProductList.run {
+            setNavigationOnClickListener {
+                findNavController().navigate(R.id.action_productListFragment_to_sellerMypageFragment)
+            }
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.menu_product_list_add -> {
+                        findNavController().navigate(R.id.action_productListFragment_to_productAddFragment)
+                    }
+                }
+                false
+            }
+        }
+    }
+
 
     inner class MarginItemDecoration(private val spaceSize: Int) : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
