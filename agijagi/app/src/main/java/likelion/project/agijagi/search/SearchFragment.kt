@@ -69,11 +69,21 @@ class SearchFragment : Fragment() {
             recyclerviewSearchSearchResult.visibility = GONE
             edittextSearch.run {
                 addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(p0: CharSequence?, start: Int, count: Int, after: Int) {
+                    override fun beforeTextChanged(
+                        p0: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
 
                     }
 
-                    override fun onTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {
+                    override fun onTextChanged(
+                        p0: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
                         if (start == 0 && count == 0) {
                             linearlayoutSearchRecentSearches.visibility = VISIBLE
                             recyclerviewSearchSearchResult.visibility = GONE

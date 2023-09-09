@@ -26,7 +26,11 @@ class SearchAdapter : ListAdapter<String, SearchAdapter.SearchViewHolder>(diffUt
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        val binding = ItemSearchRecentSearchesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemSearchRecentSearchesBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
 
         return SearchViewHolder(binding)
     }
@@ -46,4 +50,5 @@ class SearchAdapter : ListAdapter<String, SearchAdapter.SearchViewHolder>(diffUt
             }
         }
     }
+
 }

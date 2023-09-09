@@ -13,7 +13,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +23,7 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import likelion.project.agijagi.MainActivity
@@ -64,7 +64,7 @@ class ProductUpdateFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentProductUpdateBinding.inflate(inflater)
         mainActivity = activity as MainActivity
 
@@ -90,7 +90,7 @@ class ProductUpdateFragment : Fragment() {
             for (i in 0 until dataOrigin.pictures.size) {
                 val bitmap = imageDecode(Uri.parse(dataOrigin.pictures[i]))
                 if (bitmap != null) {
-                    pictureList.add(bitmap!!)
+                    pictureList.add(bitmap)
                 }
             }
         }
@@ -99,7 +99,7 @@ class ProductUpdateFragment : Fragment() {
             for (i in 0 until dataOrigin.plans.size) {
                 val bitmap = imageDecode(Uri.parse(dataOrigin.plans[i]))
                 if (bitmap != null) {
-                    planList.add(bitmap!!)
+                    planList.add(bitmap)
                 }
             }
         }
@@ -244,7 +244,7 @@ class ProductUpdateFragment : Fragment() {
                     } else {
                         val newIntent =
                             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        newIntent.setType("image/*")
+                        newIntent.type = "image/*"
                         val mimeType = arrayOf("image/*")
                         newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
                         albumActivityLauncherForPictures.launch(newIntent)
@@ -286,7 +286,7 @@ class ProductUpdateFragment : Fragment() {
                     } else {
                         val newIntent =
                             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        newIntent.setType("image/*")
+                        newIntent.type = "image/*"
                         val mimeType = arrayOf("image/*")
                         newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
                         albumActivityLauncherForPlans.launch(newIntent)
@@ -379,7 +379,7 @@ class ProductUpdateFragment : Fragment() {
                 // 가져온 이미지가 있다면 저장하고 화면에 보여줌
                 if (bitmap != null) {
                     // 이미지 추가
-                    pictureList.add(bitmap!!)
+                    pictureList.add(bitmap)
                     resetPictureView()
                     Snackbar.make(
                         binding.root,
@@ -405,7 +405,7 @@ class ProductUpdateFragment : Fragment() {
                 // 가져온 이미지가 있다면 저장하고 화면에 보여줌
                 if (bitmap != null) {
                     // 이미지 추가
-                    planList.add(bitmap!!)
+                    planList.add(bitmap)
                     resetPlanView()
                     Snackbar.make(
                         binding.root,
@@ -590,4 +590,5 @@ class ProductUpdateFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

@@ -14,6 +14,7 @@ import likelion.project.agijagi.sellermypage.model.OrderManagementModel
 
 
 class OrderManagementDetailFragment : Fragment() {
+
     private var _binding: FragmentOrderManagementDetailBinding? = null
     private val binding get() = _binding!!
     lateinit var mainActivity: MainActivity
@@ -51,6 +52,7 @@ class OrderManagementDetailFragment : Fragment() {
             findNavController().popBackStack()
         }
     }
+
     private fun setOrderRejectButton() {
         binding.buttonOrderReject.setOnClickListener {
             // 다이얼로그 커스텀 필요

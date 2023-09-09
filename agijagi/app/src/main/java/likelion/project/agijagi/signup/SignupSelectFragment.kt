@@ -1,12 +1,10 @@
 package likelion.project.agijagi.signup
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentSignupSelectBinding
@@ -21,9 +19,10 @@ class SignupSelectFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        _fragmentSignupSelectBinding = FragmentSignupSelectBinding.inflate(inflater, container, false)
+        _fragmentSignupSelectBinding =
+            FragmentSignupSelectBinding.inflate(inflater, container, false)
         return fragmentSignupSelectBinding.root
     }
 
@@ -39,7 +38,7 @@ class SignupSelectFragment : Fragment() {
 
             layoutSignupSelectSeller.setOnClickListener {
                 layoutSignupSelectSeller.isSelected = true
-                if(layoutSignupSelectSeller.isSelected == true) {
+                if (layoutSignupSelectSeller.isSelected == true) {
                     buttonSignupSelectSeller.setImageResource(R.drawable.outline_storefront_24_selected)
                 }
 
@@ -48,7 +47,7 @@ class SignupSelectFragment : Fragment() {
 
             layoutSignupSelectBuyer.setOnClickListener {
                 layoutSignupSelectBuyer.isSelected = true
-                if(layoutSignupSelectBuyer.isSelected == true) {
+                if (layoutSignupSelectBuyer.isSelected == true) {
                     buttonSignupSelectBuyer.setImageResource(R.drawable.outline_person_outline_24_selected)
                 }
 
@@ -62,4 +61,5 @@ class SignupSelectFragment : Fragment() {
         super.onDestroyView()
         _fragmentSignupSelectBinding = null
     }
+
 }
