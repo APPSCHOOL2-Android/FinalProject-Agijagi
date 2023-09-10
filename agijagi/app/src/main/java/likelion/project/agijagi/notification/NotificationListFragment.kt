@@ -56,7 +56,7 @@ class NotificationListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataSet.reverse()
+        getData()
 
         binding.run {
             // 초기화
@@ -88,7 +88,9 @@ class NotificationListFragment : Fragment() {
                     }
                 }
 
-                notificationListAdapter.notifyDataSetChanged()
+                if (!recyclerViewNotificationList.isComputingLayout) {
+                    notificationListAdapter.notifyDataSetChanged()
+                }
             }
 
             materialToolbarNotificationList.run {
@@ -104,8 +106,7 @@ class NotificationListFragment : Fragment() {
 
             buttonNotificationListDelete.setOnClickListener {
                 // 선택된 메뉴 지우기
-                // dataSet.removeIf {it.isCheck}
-
+                removeData()
                 changeView(true)
             }
 
@@ -137,8 +138,12 @@ class NotificationListFragment : Fragment() {
                 materialToolbarNotificationList.navigationIcon = null
 
                 // 체크 초기화
-                for (data in ChattingListFragment.dataSet) {
-                    data.isCheck = false
+                if (dataSet.size == 0) {
+                    setCheckBoxParentStete()
+                } else {
+                    for (data in dataSet) {
+                        data.isCheck = false
+                    }
                 }
 
                 // 체크박스 보이기
@@ -147,6 +152,15 @@ class NotificationListFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun getData() {
+        dataSet.reverse()
+    }
+
+    private fun removeData() {
+        // 연결 리스트 해제
+        dataSet.removeIf { it.isCheck }
     }
 
     private fun setCheckBoxParentStete() {
@@ -160,7 +174,7 @@ class NotificationListFragment : Fragment() {
 
             dataSet.size -> { // ALL
                 state = MaterialCheckBox.STATE_CHECKED
-                str = " 전체 선택 해제"
+                str = " 선택 해제"
             }
 
             else -> {
@@ -168,6 +182,7 @@ class NotificationListFragment : Fragment() {
                 str = " 전체 ${checkedCount}개"
             }
         }
+
         binding.checkboxNotificationListSelectAll.checkedState = state
         binding.checkboxNotificationListSelectAll.text = str
     }

@@ -34,8 +34,10 @@ class NotificationListAdapter :
                 // 현재~어제 날자까지는 별도로 표시. 그 이전은 날자로 표시.
                 textViewNotificationListDate.text = item.date
 
-                checkboxNotificationList.isChecked = item.isCheck
-                checkBoxParentSetting()
+                if (isTrashCan) {
+                    checkboxNotificationList.isChecked = item.isCheck
+                    checkBoxParentSetting()
+                }
             }
         }
     }
