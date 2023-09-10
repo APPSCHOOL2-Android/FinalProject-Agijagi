@@ -82,4 +82,5 @@
             android:textColor="@color/jagi_hint_color" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

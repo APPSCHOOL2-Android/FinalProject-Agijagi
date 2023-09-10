@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemProductListBinding
@@ -23,6 +24,10 @@ class ProductListAdapter(val context: Context) :
 
         fun bind(item: ProductListModel) {
             with(productListBinding) {
+                Glide.with(context)
+                    .load(item.img)
+                    .placeholder(R.drawable.order_default_image)
+                    .into(imageViewProductListProduct)
                 dropdownTextViewProductListStatus.setText(item.state, false)
                 textViewProductListBrand.text = item.brand
                 textViewProductListName.text = item.name
@@ -31,7 +36,8 @@ class ProductListAdapter(val context: Context) :
             }
 
             productListBinding.root.setOnClickListener {
-                it.findNavController().navigate(R.id.action_productListFragment_to_sellerProductDetailFragment)
+                it.findNavController()
+                    .navigate(R.id.action_productListFragment_to_sellerProductDetailFragment)
             }
         }
 
@@ -77,4 +83,5 @@ class ProductListAdapter(val context: Context) :
             }
         }
     }
+
 }

@@ -274,10 +274,17 @@ class ProductAddFragment : Fragment() {
             }
         }
 
+        setToolbarItemAction()
         setAlbumActivityLaunchers()
         resetPictureView()
         resetPlanView()
         setBottomButton()
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarProductAdd.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -590,6 +597,7 @@ class ProductAddFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }
 
 enum class ProductAddCategory(val idx: Int, val str: String) {

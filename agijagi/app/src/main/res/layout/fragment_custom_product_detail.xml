@@ -106,9 +106,7 @@
 
                     </LinearLayout>
 
-
                 </LinearLayout>
-
 
                 <View
                     android:id="@+id/view_custom_product_detail_divider_stick"

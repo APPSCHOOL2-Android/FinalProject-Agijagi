@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/narrow_box_rounded_button_stroke"
             android:hint="배송지명" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -53,6 +54,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/narrow_box_rounded_button_stroke"
             android:hint="배송지주소" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -72,6 +74,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/narrow_box_rounded_button_stroke"
             android:hint="상세주소" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -91,6 +94,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/narrow_box_rounded_button_stroke"
             android:hint="수령인" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -110,6 +114,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/narrow_box_rounded_button_stroke"
             android:hint="수령인 연락처" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.checkbox.MaterialCheckBox

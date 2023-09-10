@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/homeFragment"
         android:enabled="true"
         android:icon="@drawable/home_24px"
-        android:title="홈"/>
+        android:title="홈" />
+
     <item
         android:id="@+id/categoryFragment"
         android:enabled="true"
         android:icon="@drawable/menu_24px"
-        android:title="카테고리"
-        />
+        android:title="카테고리" />
+
     <item
         android:id="@+id/orderFragment"
         android:enabled="true"
         android:icon="@drawable/local_shipping_24px"
-        android:title="주문/배송"
-        />
+        android:title="주문/배송" />
+
     <item
         android:id="@+id/wishListFragment"
         android:enabled="true"
         android:icon="@drawable/favorite_24px"
         android:title="찜" />
+
     <item
         android:id="@+id/buyerMypageFragment"
         android:enabled="true"
         android:icon="@drawable/person_24px"
         android:title="내 정보"
         app:showAsAction="always" />
+
 </menu>

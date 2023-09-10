@@ -1,10 +1,10 @@
 package likelion.project.agijagi.wishlist
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
@@ -27,7 +27,7 @@ class WishListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         fragmentWishListBinding = FragmentWishListBinding.inflate(inflater)
         mainActivity = activity as MainActivity
         listAdapter = WishListAdapter()
@@ -46,4 +46,5 @@ class WishListFragment : Fragment() {
         }
         return fragmentWishListBinding.root
     }
+
 }

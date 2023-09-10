@@ -26,21 +26,26 @@ class SellerProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setToolbarMenuItem()
+        setToolbarItemAction()
     }
 
-    private fun setToolbarMenuItem() {
-        binding.toolbarSellerProductDetail.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.menu_product_detail_edit -> {
-                    findNavController().navigate(R.id.action_sellerProductDetailFragment_to_productUpdateFragment)
-                }
-
-                R.id.menu_product_detail_delete -> {
-
-                }
+    private fun setToolbarItemAction() {
+        binding.toolbarSellerProductDetail.run {
+            setNavigationOnClickListener {
+                findNavController().popBackStack()
             }
-            false
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.menu_product_detail_edit -> {
+                        findNavController().navigate(R.id.action_sellerProductDetailFragment_to_productUpdateFragment)
+                    }
+
+                    R.id.menu_product_detail_delete -> {
+
+                    }
+                }
+                false
+            }
         }
     }
 

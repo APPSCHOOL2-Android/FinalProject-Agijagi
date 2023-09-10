@@ -2,10 +2,10 @@ package likelion.project.agijagi.buyermypage
 
 import android.graphics.Rect
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +33,7 @@ class ShippingManagementFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentShippingManagementBinding.inflate(inflater)
 
         return binding.root
@@ -42,11 +42,13 @@ class ShippingManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setToolbarItemAction()
         setShippingAddButton()
+
         shippingManagementAdapter = ShippingManagementAdapter()
 
         binding.run {
-            
+
             recyclerviewShippingManagement.run {
                 adapter = shippingManagementAdapter
                 layoutManager = LinearLayoutManager(context)
@@ -62,6 +64,18 @@ class ShippingManagementFragment : Fragment() {
             }
 
             shippingManagementAdapter.submitList(dataList)
+        }
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarShippingManagement.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun setShippingAddButton() {
+        binding.buttonShippingManagementAdd.setOnClickListener {
+            findNavController().navigate(R.id.action_shippingManagementFragment_to_shippingAddFragment)
         }
     }
 
@@ -89,9 +103,4 @@ class ShippingManagementFragment : Fragment() {
         }
     }
 
-    private fun setShippingAddButton() {
-        binding.buttonShippingManagementAdd.setOnClickListener {
-            findNavController().navigate(R.id.action_shippingManagementFragment_to_shippingAddFragment)
-        }
-    }
 }

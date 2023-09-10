@@ -1,12 +1,12 @@
 package likelion.project.agijagi.productoption
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
@@ -19,7 +19,7 @@ class CustomOptionFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         customOptionBinding = FragmentCustomOptionBinding.inflate(inflater)
         mainActivity = activity as MainActivity
 
@@ -31,6 +31,7 @@ class CustomOptionFragment : Fragment() {
                         layoutCustomLetteringOption.isVisible = true
                         layoutCustomPrintOption.isGone = true
                     }
+
                     1 -> {
                         layoutCustomLetteringOption.isGone = true
                         layoutCustomPrintOption.isVisible = true
@@ -39,10 +40,17 @@ class CustomOptionFragment : Fragment() {
             }
         }
 
+        setToolbarItemAction()
         setShoppingBagButton()
         setPurchaseButton()
 
         return customOptionBinding.root
+    }
+
+    private fun setToolbarItemAction() {
+        customOptionBinding.toolbarReadyMadeOption.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setShoppingBagButton() {
