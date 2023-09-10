@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.checkbox.MaterialCheckBox
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
+import likelion.project.agijagi.chatting.ChattingListFragment
 import likelion.project.agijagi.databinding.FragmentNotificationListBinding
 
 class NotificationListFragment : Fragment() {
@@ -54,7 +57,7 @@ class NotificationListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataSet.reverse()
+        getData()
 
         binding.run {
             // 초기화
@@ -63,8 +66,40 @@ class NotificationListFragment : Fragment() {
             recyclerViewNotificationList.run {
                 layoutManager = LinearLayoutManager(mainActivity)
                 adapter = notificationListAdapter
+
+                addItemDecoration(
+                    MaterialDividerItemDecoration(
+                        context,
+                        MaterialDividerItemDecoration.VERTICAL
+                    )
+                )
             }
             notificationListAdapter.submitList(dataSet)
+            notificationListAdapter.setCheckBoxParentStete { setCheckBoxParentStete() }
+
+            // 전체 선택 버튼
+            checkboxNotificationListSelectAll.setOnCheckedChangeListener { compoundButton, b ->
+                when (checkboxNotificationListSelectAll.checkedState) {
+                    MaterialCheckBox.STATE_CHECKED -> {
+                        dataSet.forEach { it.isCheck = true }
+                    }
+
+                    MaterialCheckBox.STATE_UNCHECKED -> {
+                        dataSet.forEach { it.isCheck = false }
+                    }
+                }
+
+                if (!recyclerViewNotificationList.isComputingLayout) {
+                    notificationListAdapter.notifyDataSetChanged()
+                }
+            }
+
+            materialToolbarNotificationList.run {
+                setOnMenuItemClickListener {
+                    changeView(false)
+                    false
+                }
+            }
 
             buttonNotificationListCancle.setOnClickListener {
                 changeView(true)
@@ -72,8 +107,7 @@ class NotificationListFragment : Fragment() {
 
             buttonNotificationListDelete.setOnClickListener {
                 // 선택된 메뉴 지우기
-                // dataSet.removeIf {it.isCheck}
-
+                removeData()
                 changeView(true)
             }
         }
@@ -97,11 +131,14 @@ class NotificationListFragment : Fragment() {
         binding.run {
             if (isListView) {
                 layoutNotificationListBottomButton.visibility = View.GONE
+                checkboxNotificationListSelectAll.visibility = View.GONE
                 materialToolbarNotificationList.menu.findItem(R.id.menu_notification_list_delete).isVisible =
                     true
                 materialToolbarNotificationList.setNavigationIcon(R.drawable.arrow_back_24px)
 
                 // 체크박스 숨기기
+                notificationListAdapter.updateCheckbox(false)
+                notificationListAdapter.notifyDataSetChanged()
 
                 // 알림 없음 메시지
                 textViewNotificationListEmptyMsg.visibility =
@@ -109,20 +146,59 @@ class NotificationListFragment : Fragment() {
 
             } else {
                 layoutNotificationListBottomButton.visibility = View.VISIBLE
+                checkboxNotificationListSelectAll.visibility = View.VISIBLE
                 materialToolbarNotificationList.menu.findItem(R.id.menu_notification_list_delete).isVisible =
                     false
                 materialToolbarNotificationList.navigationIcon = null
 
                 // 체크 초기화
-//                for (data in dataSet) {
-//                    data.isCheck = false
-//                }
+                if (dataSet.size == 0) {
+                    setCheckBoxParentStete()
+                } else {
+                    for (data in dataSet) {
+                        data.isCheck = false
+                    }
+                }
 
                 // 체크박스 보이기
-
+                notificationListAdapter.updateCheckbox(true)
+                notificationListAdapter.notifyDataSetChanged()
 
             }
         }
+    }
+
+    private fun getData() {
+        dataSet.reverse()
+    }
+
+    private fun removeData() {
+        // 연결 리스트 해제
+        dataSet.removeIf { it.isCheck }
+    }
+
+    private fun setCheckBoxParentStete() {
+        val checkedCount = dataSet.filter { item -> item.isCheck }.size
+        var state = -1
+        var str: String = " 전체 선택"
+        when (checkedCount) {
+            0 -> {
+                state = MaterialCheckBox.STATE_UNCHECKED
+            }
+
+            dataSet.size -> { // ALL
+                state = MaterialCheckBox.STATE_CHECKED
+                str = " 선택 해제"
+            }
+
+            else -> {
+                state = MaterialCheckBox.STATE_INDETERMINATE
+                str = " 전체 ${checkedCount}개"
+            }
+        }
+
+        binding.checkboxNotificationListSelectAll.checkedState = state
+        binding.checkboxNotificationListSelectAll.text = str
     }
 
     override fun onDestroyView() {

@@ -10,12 +10,18 @@ import likelion.project.agijagi.databinding.ItemNotificationListBinding
 
 class NotificationListAdapter :
     ListAdapter<NotificationListModel, NotificationListAdapter.NotificationListViewHolder>(diffUtil) {
+    private var isTrashCan = false
+    private var checkBoxParentSetting: () -> Unit = {}
 
     inner class NotificationListViewHolder(val bind: ItemNotificationListBinding) :
         RecyclerView.ViewHolder(bind.root) {
 
         fun bind(item: NotificationListModel) {
             with(bind) {
+                val params = checkboxNotificationList.layoutParams
+                params.width = if (isTrashCan) ViewGroup.LayoutParams.WRAP_CONTENT else 0
+                checkboxNotificationList.layoutParams = params
+
                 textViewNotificationListTitle.text = item.title
                 textViewNotificationListBody.text = item.content
                 imageViewNotificationListNew.visibility =
@@ -27,6 +33,11 @@ class NotificationListAdapter :
                 // 오전 00:00
                 // 현재~어제 날자까지는 별도로 표시. 그 이전은 날자로 표시.
                 textViewNotificationListDate.text = item.date
+
+                if (isTrashCan) {
+                    checkboxNotificationList.isChecked = item.isCheck
+                    checkBoxParentSetting()
+                }
             }
         }
     }
@@ -41,6 +52,10 @@ class NotificationListAdapter :
 
     override fun onBindViewHolder(holder: NotificationListViewHolder, position: Int) {
         holder.bind(currentList[position])
+        holder.bind.checkboxNotificationList.setOnClickListener {
+            currentList[position].isCheck = !currentList[position].isCheck
+            checkBoxParentSetting()
+        }
     }
 
     companion object {
@@ -61,4 +76,11 @@ class NotificationListAdapter :
         }
     }
 
+    fun updateCheckbox(state: Boolean) {
+        isTrashCan = state
+    }
+
+    fun setCheckBoxParentStete(action: () -> Unit) {
+        checkBoxParentSetting = action
+    }
 }

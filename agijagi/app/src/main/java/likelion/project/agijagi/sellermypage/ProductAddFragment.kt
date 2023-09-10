@@ -18,7 +18,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.ImageView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -53,6 +52,7 @@ class ProductAddFragment : Fragment() {
     lateinit var albumActivityLauncherForPictures: ActivityResultLauncher<Intent>
     lateinit var albumActivityLauncherForPlans: ActivityResultLauncher<Intent>
     private val pictureList: ArrayList<Bitmap> = arrayListOf<Bitmap>()
+    private var pictureCheckIndex: Int = -1
     private val planList: ArrayList<Bitmap> = arrayListOf<Bitmap>()
 
     lateinit var callbackActionGranted: () -> Unit
@@ -207,11 +207,29 @@ class ProductAddFragment : Fragment() {
             pictureIncludeList.add(includeProductAddAddPictureBox6)
 
             for (i in 0 until pictureIncludeList.size) {
+                // X버튼 동작
                 pictureIncludeList[i].buttonX.setOnClickListener {
                     if (i < pictureList.size) {
                         pictureList.removeAt(i)
+
+                        if (i == pictureCheckIndex) {
+                            pictureCheckIndex = -1
+                        } else if (i < pictureCheckIndex) {
+                            pictureCheckIndex -= 1
+                        }
                     }
                     resetPictureView()
+                }
+
+                // 체크박스 동작
+                pictureIncludeList[i].buttonCheckBox.setOnClickListener {
+                    it.isSelected = !it.isSelected
+                    if (it.isSelected) {
+                        if (0 <= pictureCheckIndex) {
+                            pictureIncludeList[pictureCheckIndex].buttonCheckBox.isSelected = false
+                        }
+                        pictureCheckIndex = i
+                    }
                 }
             }
 
@@ -223,7 +241,7 @@ class ProductAddFragment : Fragment() {
                 // 권한 확인 후 액션
                 callbackActionGranted = {
                     // 도면을 추가할 공간이 있는 지 확인
-                    if (4 <= pictureList.size) {
+                    if (4 <= planList.size) {
                         Snackbar.make(it, "최대 4장의 도면만 추가할 수 있습니다", Toast.LENGTH_SHORT).show()
                     } else {
                         val newIntent =
@@ -340,7 +358,6 @@ class ProductAddFragment : Fragment() {
 
     // 사진,도면 추가를 위한 런쳐 셋팅
     fun setAlbumActivityLaunchers() {
-
         // 사진 추가
         albumActivityLauncherForPictures =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -420,29 +437,35 @@ class ProductAddFragment : Fragment() {
     private fun resetPictureView() {
         binding.run {
             // 사진 테이블 6개
-            val pictureIncludeList = arrayListOf<ImageView>()
-            pictureIncludeList.add(includeProductAddAddPictureBox1.imageView)
-            pictureIncludeList.add(includeProductAddAddPictureBox2.imageView)
-            pictureIncludeList.add(includeProductAddAddPictureBox3.imageView)
-            pictureIncludeList.add(includeProductAddAddPictureBox4.imageView)
-            pictureIncludeList.add(includeProductAddAddPictureBox5.imageView)
-            pictureIncludeList.add(includeProductAddAddPictureBox6.imageView)
+            val pictureIncludeList = arrayListOf<ItemProductAddAddPictureBinding>()
+            pictureIncludeList.add(includeProductAddAddPictureBox1)
+            pictureIncludeList.add(includeProductAddAddPictureBox2)
+            pictureIncludeList.add(includeProductAddAddPictureBox3)
+            pictureIncludeList.add(includeProductAddAddPictureBox4)
+            pictureIncludeList.add(includeProductAddAddPictureBox5)
+            pictureIncludeList.add(includeProductAddAddPictureBox6)
 
-            val width = pictureIncludeList[0].width
+            val width = pictureIncludeList[0].imageView.width
             for (i in 0 until pictureIncludeList.size) {
                 if (i < pictureList.size) {
                     val bitmap = Bitmap.createScaledBitmap(pictureList[i], width, width, true)
-                    pictureIncludeList[i].setImageBitmap(bitmap)
+                    pictureIncludeList[i].imageView.setImageBitmap(bitmap)
+                    pictureIncludeList[i].buttonX.visibility = View.VISIBLE
+                    pictureIncludeList[i].buttonCheckBox.visibility = View.VISIBLE
                 } else {
-                    pictureIncludeList[i].setImageDrawable(mainActivity.getDrawable(R.drawable.agijagi_logo_vector_square))
+                    pictureIncludeList[i].imageView.setImageDrawable(mainActivity.getDrawable(R.drawable.agijagi_logo_vector_square))
+                    pictureIncludeList[i].buttonX.visibility = View.INVISIBLE
+                    pictureIncludeList[i].buttonCheckBox.visibility = View.INVISIBLE
                 }
+
+                pictureIncludeList[i].buttonCheckBox.isSelected = (pictureCheckIndex == i)
             }
         }
     }
 
     private fun resetPlanView() {
         binding.run {
-            // 사진 테이블 6개
+            // 도면 테이블 4개
             val planIncludeList = arrayListOf<ItemProductAddAddPlanBinding>()
             planIncludeList.add(includeProductAddAddPlanBox1)
             planIncludeList.add(includeProductAddAddPlanBox2)
