@@ -1,4 +1,4 @@
-package likelion.project.agijagi.search
+package likelion.project.agijagi.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.databinding.ItemSearchRecentSearchesBinding
 import likelion.project.agijagi.search.SearchFragment.Companion.recentSearchesList
 
-class SearchAdapter : ListAdapter<String, SearchAdapter.SearchViewHolder>(diffUtil) {
+class RecentSearchAdapter : ListAdapter<String, RecentSearchAdapter.RecentSearchViewHolder>(diffUtil) {
 
-    inner class SearchViewHolder(private val binding: ItemSearchRecentSearchesBinding) :
+    inner class RecentSearchViewHolder(private val binding: ItemSearchRecentSearchesBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(recentSearch: String) {
@@ -24,17 +24,17 @@ class SearchAdapter : ListAdapter<String, SearchAdapter.SearchViewHolder>(diffUt
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentSearchViewHolder {
         val binding = ItemSearchRecentSearchesBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
 
-        return SearchViewHolder(binding)
+        return RecentSearchViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecentSearchViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 

@@ -14,13 +14,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentSearchBinding
+import likelion.project.agijagi.search.adapter.RecentSearchAdapter
+import likelion.project.agijagi.search.adapter.SearchResultAdapter
 
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    lateinit var searchAdapter: SearchAdapter
+    lateinit var recentSearchAdapter: RecentSearchAdapter
     lateinit var searchResultAdapter: SearchResultAdapter
 
     companion object {
@@ -48,7 +50,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchAdapter = SearchAdapter()
+        recentSearchAdapter = RecentSearchAdapter()
         searchResultAdapter = SearchResultAdapter()
 
         setToolbarItemAction()
@@ -67,6 +69,11 @@ class SearchFragment : Fragment() {
         binding.run {
             linearlayoutSearchRecentSearches.visibility = VISIBLE
             recyclerviewSearchSearchResult.visibility = GONE
+
+            textinputlayoutSearch.run {
+
+            }
+
             edittextSearch.run {
                 addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(
@@ -108,12 +115,12 @@ class SearchFragment : Fragment() {
 
     private fun setRecyclerViewRecentSearches() {
         binding.recyclerviewSearchRecentSearches.run {
-            adapter = searchAdapter
+            adapter = recentSearchAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true)
             (layoutManager as LinearLayoutManager).stackFromEnd = true
         }
 
-        searchAdapter.submitList(recentSearchesList)
+        recentSearchAdapter.submitList(recentSearchesList)
     }
 
     private fun setRecyclerViewSearchResult() {
