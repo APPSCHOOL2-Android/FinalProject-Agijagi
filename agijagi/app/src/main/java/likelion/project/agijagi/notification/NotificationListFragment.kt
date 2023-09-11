@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.android.material.snackbar.Snackbar
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.chatting.ChattingListFragment
@@ -23,22 +24,39 @@ class NotificationListFragment : Fragment() {
     lateinit var notificationListAdapter: NotificationListAdapter
 
     val dataSet = arrayListOf<NotificationListModel>().apply {
-        add(NotificationListModel("아기자기", "가입을 축하합니다!", "환영알림", "2023-08-15 22:10:10"))
-        add(NotificationListModel("판매자1", "제목1", "내용1", "2023-08-16 06:10:10", true, true))
+        add(
+            NotificationListModel(
+                "아기자기",
+                "가입을 축하합니다!",
+                "2023-08-15 22:10:10"
+            )
+        )
+        add(
+            NotificationListModel(
+                "판매자1",
+                "내용1",
+                "2023-08-16 06:10:10",
+                "message",
+                true,
+                true
+            )
+        )
         add(
             NotificationListModel(
                 "판매자2",
-                "긴제목 긴제목 긴제목 긴제목 긴제목 긴제목 긴제목",
-                "아주긴내용아주긴내용아주긴내용아주긴내용아주긴내용/n아주긴내용아주긴내용",
-                "2023-08-20 12:10:10"
+                "아주긴내용아주긴내용아주긴내용아주긴내용아주긴내용/n아주긴내용아주긴내용/n아주긴내용아주긴내용",
+                "2023-08-20 12:10:10",
+                "chat"
             )
         )
         add(
             NotificationListModel(
                 "Agijagi",
-                "도자기 입고 안내",
                 "이제 도자기를 주문할 수 있습니다.",
-                "2023-09-06 02:50:40", true, true
+                "2023-09-06 02:50:40",
+                "chat",
+                true,
+                true
             )
         )
     }
@@ -49,7 +67,7 @@ class NotificationListFragment : Fragment() {
     ): View {
         _binding = FragmentNotificationListBinding.inflate(inflater)
         mainActivity = activity as MainActivity
-        notificationListAdapter = NotificationListAdapter()
+        notificationListAdapter = NotificationListAdapter(mainActivity)
 
         return binding.root
     }
@@ -76,6 +94,11 @@ class NotificationListFragment : Fragment() {
             }
             notificationListAdapter.submitList(dataSet)
             notificationListAdapter.setCheckBoxParentStete { setCheckBoxParentStete() }
+            notificationListAdapter.setgoToChat { roomID ->
+                // 채팅방으로 이동하는 코드
+                //findNavController().findDestination("")
+                Snackbar.make(binding.root, "채팅방 이동: $roomID ", Snackbar.LENGTH_SHORT).show()
+            }
 
             // 전체 선택 버튼
             checkboxNotificationListSelectAll.setOnCheckedChangeListener { compoundButton, b ->
