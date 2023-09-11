@@ -111,7 +111,6 @@ class SearchFragment : Fragment() {
             adapter = searchAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true)
             (layoutManager as LinearLayoutManager).stackFromEnd = true
-
         }
 
         searchAdapter.submitList(recentSearchesList)

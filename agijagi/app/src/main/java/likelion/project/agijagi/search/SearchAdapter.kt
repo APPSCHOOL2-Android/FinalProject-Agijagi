@@ -18,8 +18,7 @@ class SearchAdapter : ListAdapter<String, SearchAdapter.SearchViewHolder>(diffUt
                 textviewRecentSearch.text = recentSearch
                 imageButtonDelete.setOnClickListener {
                     recentSearchesList.removeAt(adapterPosition)
-                    // notifyDataSetChanged() 사용 하지 않는 코드로 수정 필요
-                    notifyDataSetChanged()
+                    notifyItemRemoved(adapterPosition)
                 }
             }
         }
