@@ -13,8 +13,12 @@ class SearchAdapter : ListAdapter<String, SearchAdapter.SearchViewHolder>(diffUt
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(search: String) {
-            binding.textviewSearch.text = search
+            binding.run {
+                textviewSearch.text = search
+
+            }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
