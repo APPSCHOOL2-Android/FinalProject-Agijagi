@@ -3,6 +3,7 @@ package likelion.project.agijagi.search
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -15,7 +16,6 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentSearchBinding
 import likelion.project.agijagi.search.adapter.RecentSearchAdapter
 import likelion.project.agijagi.search.adapter.SearchAdapter
-import java.util.Locale
 
 class SearchFragment : Fragment() {
 
@@ -58,7 +58,7 @@ class SearchFragment : Fragment() {
         searchAdapter = SearchAdapter()
 
         setToolbarItemAction()
-        test()
+        updateSearchList()
         setRecyclerViewRecentSearches()
         setRecyclerViewSearch()
     }
@@ -68,12 +68,9 @@ class SearchFragment : Fragment() {
             findNavController().navigate(R.id.action_searchFragment_to_homeFragment)
         }
     }
-
-    private fun test() {
+    
+    private fun updateSearchList() {
         binding.run {
-//            linearlayoutSearchRecentSearches.visibility = VISIBLE
-//            recyclerviewSearch.visibility = GONE
-
             textinputlayoutSearch.run {
 
             }
