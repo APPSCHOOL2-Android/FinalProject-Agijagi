@@ -1,13 +1,12 @@
 package likelion.project.agijagi.search
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -61,9 +60,9 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun observeProductListAndFetchData() {
-        searchViewModel.productList.observe(viewLifecycleOwner) { productList ->
-            productNameAndBrandList = productList
+    private fun observeProductNameAndBrandList() {
+        searchViewModel.productNameAndBrand.observe(viewLifecycleOwner) { productNameAndBrand ->
+            productNameAndBrandList = productNameAndBrand
         }
 
         searchViewModel.getProductNameAndBrand()
@@ -76,53 +75,33 @@ class SearchFragment : Fragment() {
             }
 
             edittextSearch.run {
-                addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(
-                        p0: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
+                doAfterTextChanged {
+                    val searchText = it.toString()
+                    val searchList = mutableListOf<String>()
 
-                    }
+                    if (searchText.isNotBlank()) {
+                        linearlayoutSearchRecentSearches.visibility = GONE
+                        recyclerviewSearch.visibility = VISIBLE
+                        textviewSearchNoSearch.visibility = VISIBLE
 
-                    override fun onTextChanged(
-                        p0: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
+                        observeProductNameAndBrandList()
 
-                    }
-
-                    override fun afterTextChanged(editable: Editable?) {
-                        val searchText = editable.toString()
-                        val searchList = mutableListOf<String>()
-
-                        if (searchText.isNotBlank()) {
-                            linearlayoutSearchRecentSearches.visibility = GONE
-                            recyclerviewSearch.visibility = VISIBLE
-                            textviewSearchNoSearch.visibility = VISIBLE
-
-                            observeProductListAndFetchData()
-
-                            for (keyword in productNameAndBrandList) {
-                                if (keyword.contains(searchText)) {
-                                    searchList.add(keyword)
-                                    textviewSearchNoSearch.visibility = GONE
-                                }
-                                if (keyword !in productNameAndBrandList) {
-                                    textviewSearchNoSearch.visibility = VISIBLE
-                                }
-                                searchAdapter.submitList(searchList)
+                        for (keyword in productNameAndBrandList) {
+                            if (keyword.contains(searchText)) {
+                                searchList.add(keyword)
+                                textviewSearchNoSearch.visibility = GONE
                             }
-                        } else {
-                            linearlayoutSearchRecentSearches.visibility = VISIBLE
-                            recyclerviewSearch.visibility = GONE
-                            textviewSearchNoSearch.visibility = GONE
+                            if (keyword !in productNameAndBrandList) {
+                                textviewSearchNoSearch.visibility = VISIBLE
+                            }
+                            searchAdapter.submitList(searchList)
                         }
+                    } else {
+                        linearlayoutSearchRecentSearches.visibility = VISIBLE
+                        recyclerviewSearch.visibility = GONE
+                        textviewSearchNoSearch.visibility = GONE
                     }
-                })
+                }
 
                 setOnEditorActionListener { _, _, _ ->
                     recentSearchesList.add(text.toString())

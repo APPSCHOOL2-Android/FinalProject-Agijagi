@@ -9,15 +9,15 @@ import kotlinx.coroutines.launch
 import likelion.project.agijagi.search.repository.SearchRepository
 
 class SearchViewModel : ViewModel() {
-    private val repository = SearchRepository()
-    var productList = MutableLiveData<List<String>>()
+
+    private val searchRepository = SearchRepository()
+    var productNameAndBrand = MutableLiveData<List<String>>()
 
     fun getProductNameAndBrand() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val data = repository.getProductNameAndBrand()
-                productList.postValue(data)
-                Log.d("hyevm", data.toString())
+                val productNameAndBrandData = searchRepository.getProductNameAndBrand()
+                productNameAndBrand.postValue(productNameAndBrandData)
             } catch (e: Exception) {
                 Log.d("err", e.toString())
             }
