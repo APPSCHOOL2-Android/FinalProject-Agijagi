@@ -2,6 +2,8 @@ package likelion.project.agijagi.buyermypage
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.SystemClock
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +11,16 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.firestoreSettings
+import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.R
 import likelion.project.agijagi.buyermypage.adapter.ShippingManagementAdapter
 import likelion.project.agijagi.buyermypage.model.ShippingManagementModel
 import likelion.project.agijagi.databinding.FragmentShippingManagementBinding
+import kotlin.concurrent.thread
 
 class ShippingManagementFragment : Fragment() {
 
@@ -20,14 +28,11 @@ class ShippingManagementFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var shippingManagementAdapter: ShippingManagementAdapter
 
-    val dataList = arrayListOf<ShippingManagementModel>().apply {
-        add(ShippingManagementModel("집", "010-1111-2222", "서울시 마포구"))
-        add(ShippingManagementModel("회사", "1577-1577", "경기도 고양시"))
-        add(ShippingManagementModel("어느곳", "070-1577-1577", "경기도 용인시"))
-        add(ShippingManagementModel("다른수령지", "010-4684-1577", "서울"))
-        add(ShippingManagementModel("완전 다른수령지", "010-6342-8674", "서울시 어디구"))
-        add(ShippingManagementModel("또 다른수령지", "010-8549-1577", "서울"))
-        add(ShippingManagementModel("그리고 완전 다른수령지", "010-2454-8674", "서울시 어디구"))
+    private var auth: FirebaseAuth? = null
+    private lateinit var db: FirebaseFirestore
+
+    companion object {
+        val shippingManagementList = mutableListOf<ShippingManagementModel>()
     }
 
     override fun onCreateView(
@@ -35,6 +40,7 @@ class ShippingManagementFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentShippingManagementBinding.inflate(inflater)
+        auth = FirebaseAuth.getInstance()
 
         return binding.root
     }
@@ -42,8 +48,10 @@ class ShippingManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setup()
         setToolbarItemAction()
         setShippingAddButton()
+        getShippingData()
 
         shippingManagementAdapter = ShippingManagementAdapter()
 
@@ -55,16 +63,58 @@ class ShippingManagementFragment : Fragment() {
 
                 addItemDecoration(MarginItemDecoration(40))
             }
-
-            // dataList가 비어있을 때 보이도록
-            if (dataList.isEmpty()) {
-                textViewShippingManagemnetNull.visibility = View.VISIBLE
-            } else {
-                textViewShippingManagemnetNull.visibility = View.GONE
-            }
-
-            shippingManagementAdapter.submitList(dataList)
         }
+    }
+
+    // 배송지 데이터 불러오기
+    private fun getShippingData() {
+
+        val userEmail = auth?.currentUser?.email.toString()
+
+        // 리스트 초기화
+        shippingManagementList.clear()
+
+        db.collection("buyer").document(userEmail).collection("shipping_address")
+            .get().addOnSuccessListener {
+                Log.d("shippingList", "데이터 불러오기 성공")
+                for (shippingData in it) {
+                    val address = shippingData.getString("address") ?: ""
+                    val addressDetail = shippingData.getString("address_detail") ?: ""
+                    val basic = shippingData.getBoolean("basic") ?: false
+                    val title = shippingData.getString("shipping_name") ?: ""
+                    val recipientPhone = shippingData.getString("phone_number") ?: ""
+                    val recipient = shippingData.getString("recipient") ?: ""
+                    Log.d("shippingList", addressDetail)
+                    shippingManagementList.add(
+                        ShippingManagementModel(
+                            address,
+                            addressDetail,
+                            basic,
+                            title,
+                            recipientPhone,
+                            recipient
+                        )
+                    )
+                }
+                shippingManagementAdapter.submitList(shippingManagementList)
+                Log.d("shippingList", shippingManagementList.toString())
+
+                // dataList가 비어있을 때 보이도록
+                if (shippingManagementList.isEmpty()) {
+                    binding.textViewShippingManagemnetNull.visibility = View.VISIBLE
+                } else {
+                    binding.textViewShippingManagemnetNull.visibility = View.GONE
+                }
+            }
+    }
+
+    private fun setup() {
+        db = Firebase.firestore
+
+        val settings = firestoreSettings {
+            isPersistenceEnabled = true
+        }
+        db.firestoreSettings = settings
     }
 
     private fun setToolbarItemAction() {
