@@ -8,7 +8,7 @@
     tools:context=".sellermypage.SellerNotificationSettingFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_notification"
+        android:id="@+id/toolbar_seller_notification_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.AgijagiToolbar"
@@ -22,10 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_notification">
+        android:layout_marginTop="16dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -35,7 +32,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textview_contact_cs_noti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="상품문의"
@@ -47,12 +43,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="판매 중인 상품의 문의 내역"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/textview_contact_cs_noti" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
         <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch_seller_notification_setting_inquiry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -77,7 +73,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_notification">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_seller_notification_setting">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -87,7 +83,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textview_order_noti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="주문"
@@ -104,6 +99,7 @@
         </LinearLayout>
 
         <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch_seller_notification_setting_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -128,7 +124,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_notification">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_seller_notification_setting">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -138,7 +134,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textview_apply_detail_noti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="교환/취소"
@@ -150,12 +145,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="교환, 취소 신청 내역"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@id/textview_contact_cs_noti" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
         <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch_seller_notification_setting_exchange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
