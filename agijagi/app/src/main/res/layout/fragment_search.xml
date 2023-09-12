@@ -84,12 +84,5 @@
         android:layout_marginTop="16dp"
         android:visibility="gone" />
 
-    <!--    <androidx.recyclerview.widget.RecyclerView-->
-    <!--        android:id="@+id/recyclerview_search_search_result"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginHorizontal="12dp"-->
-    <!--        android:layout_marginTop="16dp" />-->
-
 </LinearLayout>
 
