@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_searchFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
     </fragment>
 
     <fragment
@@ -566,10 +569,16 @@
         android:id="@+id/productUpdateDetailPreviewFragment"
         android:name="likelion.project.agijagi.sellermypage.ProductUpdateDetailPreviewFragment"
         android:label="fragment_product_update_detail_preview"
-        tools:layout="@layout/fragment_product_update_detail_preview" >
+        tools:layout="@layout/fragment_product_detail_preview" >
         <action
             android:id="@+id/action_productUpdateDetailPreviewFragment_to_productListFragment"
             app:destination="@id/productListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="likelion.project.agijagi.search.SearchResultFragment"
+        android:label="fragment_search_result"
+        tools:layout="@layout/fragment_search_result" >
     </fragment>
 
 </navigation>
