@@ -1,4 +1,4 @@
-package likelion.project.agijagi.search
+package likelion.project.agijagi.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import likelion.project.agijagi.databinding.ItemSearchSearchResultBinding
+import likelion.project.agijagi.search.SearchResultModel
 
 class SearchResultAdapter :
     ListAdapter<SearchResultModel, SearchResultAdapter.SearchResultViewHolder>(diffUtil) {

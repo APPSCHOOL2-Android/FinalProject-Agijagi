@@ -6,6 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.firestoreSettings
+import com.google.firebase.ktx.Firebase
+import likelion.project.agijagi.UserEssential
 import likelion.project.agijagi.databinding.FragmentSellerNotificationSettingBinding
 
 class SellerNotificationSettingFragment : Fragment() {
@@ -26,11 +33,73 @@ class SellerNotificationSettingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setToolbarItemAction()
+        init()
+
+        binding.run {
+            switchSellerNotificationSettingInquiry.setOnCheckedChangeListener { compoundButton, check ->
+                updateSettings()
+            }
+            switchSellerNotificationSettingOrder.setOnCheckedChangeListener { compoundButton, check ->
+                updateSettings()
+            }
+            switchSellerNotificationSettingExchange.setOnCheckedChangeListener { compoundButton, check ->
+                updateSettings()
+            }
+        }
     }
 
     private fun setToolbarItemAction() {
-        binding.toolbarNotification.setNavigationOnClickListener {
+        binding.toolbarSellerNotificationSetting.setNavigationOnClickListener {
             findNavController().popBackStack()
+        }
+    }
+
+    private fun init() {
+        // download from server
+        UserEssential.db.collection("seller").document(UserEssential.roleId).get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    // 업데이트 성공 시 동작
+                    Snackbar.make(binding.root, "성공", Snackbar.LENGTH_SHORT).show()
+                    val data = it.result.data
+
+                    val map = data?.get("notif_setting") as MutableMap<String, Boolean>
+                    // 초기 설정
+                    binding.run {
+                        switchSellerNotificationSettingInquiry.isChecked = map["inquiry"]!!
+                        switchSellerNotificationSettingOrder.isChecked = map["order"]!!
+                        switchSellerNotificationSettingExchange.isChecked = map["exchange"]!!
+                    }
+                } else {
+                    // 통신 실패 시 동작
+                    Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun updateSettings() {
+        // update data
+        val (inquiry, order, exchange) = arrayOf(
+            binding.switchSellerNotificationSettingInquiry.isChecked,
+            binding.switchSellerNotificationSettingOrder.isChecked,
+            binding.switchSellerNotificationSettingExchange.isChecked
+        )
+
+        val user = UserEssential.db.collection("seller").document(UserEssential.roleId)
+        val value =
+            mutableMapOf<String, Boolean>(
+                "exchange" to exchange,
+                "inquiry" to inquiry,
+                "order" to order
+            )
+        user.update("notif_setting", value).addOnCompleteListener {
+            if (it.isSuccessful) {
+                // 업데이트 성공 시 동작
+                Snackbar.make(binding.root, "성공", Snackbar.LENGTH_SHORT).show()
+            } else {
+                // 통신 실패 시 동작
+                Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -39,5 +108,4 @@ class SellerNotificationSettingFragment : Fragment() {
 
         _binding = null
     }
-
 }
