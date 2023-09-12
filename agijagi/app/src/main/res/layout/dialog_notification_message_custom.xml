@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="?android:dialogPreferredPadding"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView_notification_dialog_customTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="title"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall" />
+
+    <TextView
+        android:id="@+id/textView_notification_dialog_subTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="date"
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+</LinearLayout>
