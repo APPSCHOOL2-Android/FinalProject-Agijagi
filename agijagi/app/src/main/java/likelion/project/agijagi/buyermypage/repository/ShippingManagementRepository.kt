@@ -2,7 +2,6 @@ package likelion.project.agijagi.buyermypage.repository
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import likelion.project.agijagi.UserEssential.Companion.auth
 
 class ShippingManagementRepository {
 

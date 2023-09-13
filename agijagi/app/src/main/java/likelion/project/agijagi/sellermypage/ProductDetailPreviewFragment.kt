@@ -9,8 +9,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import likelion.project.agijagi.R
-import likelion.project.agijagi.UserEssential.Companion.db
-import likelion.project.agijagi.UserEssential.Companion.getMillisec
+import likelion.project.agijagi.Essential.Companion.db
+import likelion.project.agijagi.Essential.Companion.getMilliSec
 import likelion.project.agijagi.databinding.FragmentProductDetailPreviewBinding
 
 class ProductDetailPreviewFragment : Fragment() {
@@ -50,7 +50,7 @@ class ProductDetailPreviewFragment : Fragment() {
         "price" to 40000,
         "sales_quantity" to 60,
         "seller_id" to "dsd45s6dfw55543fe",
-        "update_date" to getMillisec()
+        "update_date" to getMilliSec()
     )
 
     override fun onCreateView(
@@ -71,7 +71,7 @@ class ProductDetailPreviewFragment : Fragment() {
 
     private fun registerProductData() {
         db = FirebaseFirestore.getInstance()
-        db.collection("product").document(getMillisec()).set(productMap)
+        db.collection("product").document(getMilliSec()).set(productMap)
     }
 
     private fun setToolbarNavigationAction() {

@@ -7,12 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.firestoreSettings
-import com.google.firebase.ktx.Firebase
-import likelion.project.agijagi.UserEssential
+import likelion.project.agijagi.Essential
 import likelion.project.agijagi.databinding.FragmentSellerNotificationSettingBinding
 
 class SellerNotificationSettingFragment : Fragment() {
@@ -56,7 +51,7 @@ class SellerNotificationSettingFragment : Fragment() {
 
     private fun init() {
         // download from server
-        UserEssential.db.collection("seller").document(UserEssential.roleId).get()
+        Essential.db.collection("seller").document(Essential.roleId).get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     // 업데이트 성공 시 동작
@@ -85,7 +80,7 @@ class SellerNotificationSettingFragment : Fragment() {
             binding.switchSellerNotificationSettingExchange.isChecked
         )
 
-        val user = UserEssential.db.collection("seller").document(UserEssential.roleId)
+        val user = Essential.db.collection("seller").document(Essential.roleId)
         val value =
             mutableMapOf<String, Boolean>(
                 "exchange" to exchange,

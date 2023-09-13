@@ -13,18 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.R
-import likelion.project.agijagi.UserEssential
-import likelion.project.agijagi.UserEssential.Companion.db
-import likelion.project.agijagi.UserEssential.Companion.roleId
 import likelion.project.agijagi.databinding.FragmentShippingAddBinding
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class ShippingAddFragment : Fragment() {
 
