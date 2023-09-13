@@ -25,11 +25,13 @@ class BuyerMypageFragment : Fragment() {
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
 
-    private var _binding: FragmentBuyerMypageBinding? = null
-//    private val binding get() = _binding!!
+    private var _fragmentBuyerMypageBinding: FragmentBuyerMypageBinding? = null
+    private val fragmentBuyerMypageBinding get() = _fragmentBuyerMypageBinding!!
 
     private var _noLoginMyPageFragmentBinding : FragmentNoLoginMypageBinding? = null
-//    private val noLoginMyPageFragmentBinding get() = _noLoginMyPageFragmentBinding!!
+    private val noLoginMyPageFragmentBinding get() = _noLoginMyPageFragmentBinding!!
+
+    private val user = FirebaseAuth.getInstance().currentUser
 
     lateinit var mainActivity: MainActivity
 
@@ -42,14 +44,13 @@ class BuyerMypageFragment : Fragment() {
     ): View? {
 
         auth = FirebaseAuth.getInstance()
-        Log.d("auth","auth : ${auth?.currentUser}")
-        if (auth?.currentUser != null) {
-            _binding = FragmentBuyerMypageBinding.inflate(inflater,container,false)
+        if(user != null) {
+            _fragmentBuyerMypageBinding = FragmentBuyerMypageBinding.inflate(inflater,container,false)
             mainActivity = activity as MainActivity
-            return _binding?.root
+            return fragmentBuyerMypageBinding.root
         } else {
             _noLoginMyPageFragmentBinding = FragmentNoLoginMypageBinding.inflate(inflater,container,false)
-            return _noLoginMyPageFragmentBinding?.root
+            return noLoginMyPageFragmentBinding.root
         }
     }
 
@@ -63,11 +64,11 @@ class BuyerMypageFragment : Fragment() {
         } else {
             setToolbarMenuItem()
             setBuyerMyPageMenu()
-            setName_Email()
+            setNameEmail()
         }
     }
 
-    private fun setName_Email() {
+    private fun setNameEmail() {
         Log.d("email","현재 email: ${auth?.currentUser?.email.toString()}")
         db.collection("user").document(auth?.currentUser?.email.toString())
             .get()
@@ -83,10 +84,21 @@ class BuyerMypageFragment : Fragment() {
     }
 
     private fun updateTextViews() {
-        _binding?.run {
-            val name = "${_name}님 안녕하세요!"
-            textviewBuyerMyPageName.text = name
-            textviewBuyerMyPageEmail.text = email
+        fragmentBuyerMypageBinding.run {
+            if(user != null) {
+                val providerId = user.providerId
+
+                if (providerId == "google.com") {
+                    val name = "${auth?.currentUser?.displayName.toString()}님 안녕하세요!"
+                    textviewBuyerMyPageName.text = name
+                    textviewBuyerMyPageEmail.text = auth?.currentUser?.email.toString()
+
+                } else if (providerId == "firebase") {
+                    val name = "${_name}님 안녕하세요!"
+                    textviewBuyerMyPageName.text = name
+                    textviewBuyerMyPageEmail.text = email
+                }
+            }
         }
     }
 
@@ -95,8 +107,18 @@ class BuyerMypageFragment : Fragment() {
     }
 
     private fun logout() {
-        FirebaseAuth.getInstance().signOut()
-        findNavController().navigate(R.id.action_buyerMypageFragment_to_loginFragment)
+        if (user != null) {
+            val providerId = user.providerId
+
+            if (providerId == "google.com") {
+                Firebase.auth.signOut()
+                findNavController().navigate(R.id.action_buyerMypageFragment_to_loginFragment)
+
+            } else if (providerId == "firebase") {
+                FirebaseAuth.getInstance().signOut()
+                findNavController().navigate(R.id.action_buyerMypageFragment_to_loginFragment)
+            }
+        }
     }
 
     private fun delete(){
@@ -105,7 +127,7 @@ class BuyerMypageFragment : Fragment() {
     }
 
     private fun setToolbarMenuItem() {
-        _binding?.toolbarBuyerMyPage?.setOnMenuItemClickListener {
+        fragmentBuyerMypageBinding.toolbarBuyerMyPage?.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_buyer_my_page_chat -> {
                     findNavController().navigate(R.id.action_buyerMypageFragment_to_chattingListFragment)
@@ -121,7 +143,7 @@ class BuyerMypageFragment : Fragment() {
         }
     }
     private fun setBuyerMyPageMenu() {
-        _binding?.run {
+        fragmentBuyerMypageBinding.run {
             textviewBuyerMyPageProfileManagement.setOnClickListener {
                 findNavController().navigate(R.id.action_buyerMypageFragment_to_profileManagementFragment)
             }
@@ -162,7 +184,7 @@ class BuyerMypageFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _fragmentBuyerMypageBinding = null
         _noLoginMyPageFragmentBinding = null
     }
 

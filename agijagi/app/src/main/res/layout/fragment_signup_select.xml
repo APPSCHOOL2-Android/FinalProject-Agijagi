@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".signup.SignupSelectFragment"
+    tools:context=".signup.ui.SignupSelectFragment"
     android:background="@color/jagi_ivory"
     android:orientation="vertical">
 

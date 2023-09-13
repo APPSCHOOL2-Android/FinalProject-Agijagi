@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/jagi_ivory"
     android:orientation="vertical"
-    tools:context=".signup.SignupSellerFragment">
+    tools:context=".signup.ui.SignupSellerFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_signup_seller_toolbar"
@@ -38,15 +38,17 @@
                     android:id="@+id/editinputlayout_signup_seller_business_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/wide_box_rounded_stroke"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:hintEnabled="false"
+                    app:boxStrokeColor="@color/jagi_brown"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginBottom="1dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editinput_signup_seller_business_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="상호명"
-                        android:textColorHint="@color/transparency" />
+                        android:hint="상호명" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -54,15 +56,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false"
+                    app:boxStrokeColor="@color/jagi_brown"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editinput_signup_seller_registration_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="사업자등록번호 ( 01 - 000 - 0000 )"
-                        android:textColorHint="@color/transparency" />
+                        android:hint="사업자등록번호 ( 000 - 00 - 00000 )"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -70,15 +73,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false"
+                    app:boxStrokeColor="@color/jagi_brown"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editinput_signup_seller_representative_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="대표자명"
-                        android:textColorHint="@color/transparency" />
+                        android:hint="대표자명"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -86,7 +90,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false"
+                    app:boxStrokeColor="@color/jagi_brown"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -94,7 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="E-mail"
-                        android:textColorHint="@color/transparency" />
+                        android:inputType="textEmailAddress"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -104,6 +110,10 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/wide_box_rounded_stroke"
                     app:endIconMode="password_toggle"
+                    app:hintEnabled="false"
+                    app:boxStrokeColor="@color/jagi_brown"
+                    app:counterMaxLength="15"
+                    app:counterEnabled="true"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -111,8 +121,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="비밀번호 (공백 제외, 6 ~ 15 자)"
-                        android:inputType="textPassword"
-                        android:textColorHint="@color/transparency" />
+                        android:inputType="textPassword"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -120,8 +129,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
                     app:endIconMode="password_toggle"
+                    app:hintEnabled="false"
+                    app:boxStrokeColor="@color/jagi_brown"
+                    app:counterMaxLength="15"
+                    app:counterEnabled="true"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -129,8 +141,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="비밀번호 확인"
-                        android:inputType="textPassword"
-                        android:textColorHint="@color/transparency" />
+                        android:inputType="textPassword"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -138,15 +149,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false"
+                    app:boxStrokeColor="@color/jagi_brown"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editinput_signup_seller_business_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="사업장 주소"
-                        android:textColorHint="@color/transparency" />
+                        android:hint="사업장 주소"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -154,15 +166,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/wide_box_rounded_stroke"
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false"
+                    app:boxStrokeColor="@color/jagi_brown"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editinput_signup_seller_business_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="사업장 전화번호 ( 010 - 0000 - 0000 )"
-                        android:textColorHint="@color/transparency" />
+                        android:hint="사업장 전화번호 ( 010 - 0000 - 0000 )"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>

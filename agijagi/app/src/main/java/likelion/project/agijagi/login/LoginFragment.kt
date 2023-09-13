@@ -1,15 +1,23 @@
 package likelion.project.agijagi.login
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
@@ -18,6 +26,9 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
+    companion object {
+        const val RC_SIGN_IN = 100 // 원하는 값으로 설정할 수 있음
+    }
 
     private var _fragmentLoginBinding: FragmentLoginBinding? = null
     private val fragmentLoginBinding
@@ -40,11 +51,10 @@ class LoginFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         setup()
 
-
         fragmentLoginBinding.run {
             // 구글로그인으로 시작 클릭 시
             buttonLoginGoogleloginbutton.setOnClickListener {
-                Snackbar.make(requireView(), "아직 개발 중 입니다.", Toast.LENGTH_SHORT).show()
+                signInWithGoogle()
             }
 
             // 로그인 클릭 시 ( 자체 앱 )
@@ -53,22 +63,28 @@ class LoginFragment : Fragment() {
                     editinputLoginEmail.text.toString().trim(),
                     editinputLoginPassword.text.toString().trim()
                 )?.addOnCompleteListener(requireActivity()) {
-                        if (it.isSuccessful) {
-                            // collection(user).document(email).get(is_seller): true -> seller , false -> buyer
-                            db.collection("user").document(editinputLoginEmail.text.toString()).get()
-                                .addOnSuccessListener {
-                                    if(it["is_seller"] == true) {
-                                        Snackbar.make(requireView(), "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
-                                        findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
-                                    } else {
-                                        Snackbar.make(requireView(), "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
-                                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                                    }
+                    if (it.isSuccessful) {
+
+                        db.collection("user").document(auth?.currentUser?.uid.toString()).get()
+                            .addOnSuccessListener {
+
+                                if (it["is_seller"] == false) {
+                                    // auth?.currentUser?.uid.toString() == it.id 같은 값을 가진다
+                                    Log.d("getid", "get Uid: ${auth?.currentUser?.uid.toString()}")
+                                    showSnackBar("로그인에 성공하였습니다.")
+                                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                                } else if(it["is_seller"] == false){
+                                    Log.d("getid", "getid: ${it.id}")
+                                    showSnackBar("로그인에 성공하였습니다.")
+                                    findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
                                 }
-                        } else {
-                            Snackbar.make(requireView(), "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show()
-                        }
+                            }
+                    } else {
+                        showSnackBar("로그인에 실패하였습니다.")
                     }
+                }?.addOnFailureListener {
+                    showSnackBar("로그인에 실패하였습니다.")
+                }
             }
 
             // 회원 가입 버튼 클릭 시
@@ -76,6 +92,77 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_loginFragment_to_signupSelectFragment)
             }
         }
+    }
+
+    private fun signInWithGoogle() {
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        val googleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions)
+
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == Activity.RESULT_OK) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+                try {
+                    val account = task.getResult(ApiException::class.java)
+                    firebaseAuthWithGoogle(account)
+                } catch (e: ApiException) {
+                    showSnackBar("로그인에 실패하였습니다.")
+                }
+            } else {
+                showSnackBar("로그인에 실패하였습니다.")
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
+        val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
+        auth?.signInWithCredential(credential)
+            ?.addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
+                    val user = auth!!.currentUser
+                    // Firebase Firestore에서 정보 확인
+                    checkUserInfoInFirestore(user)
+                } else {
+                    // 로그인 실패 처리
+                    showSnackBar("로그인에 실패하였습니다.")
+                }
+            }
+    }
+
+    private fun checkUserInfoInFirestore(user: FirebaseUser?) {
+        if (user != null) {
+            db.collection("users")
+                // 문서 확인을 해야할 듯
+                .document(user.uid)
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    // name 이 널이 아니고 is_seller true or false 로 구분해야하는가 ?
+                    if (documentSnapshot["name"].toString().length >= 2 && documentSnapshot["is_seller"] == false) {
+                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                        showSnackBar("로그인에 성공하셨습니다.")
+                    } else if (documentSnapshot["name"].toString().length >= 2 && documentSnapshot["is_seller"] == true) {
+                        findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
+                        showSnackBar("로그인에 성공하셨습니다.")
+                    }
+                }
+        } else {
+            // 정보가 없는 경우 SignupSelectFragment로 이동
+            findNavController().navigate(R.id.action_loginFragment_to_signupSelectFragment)
+        }
+    }
+
+    private fun showSnackBar(message: String) {
+        Snackbar.make(fragmentLoginBinding.root, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

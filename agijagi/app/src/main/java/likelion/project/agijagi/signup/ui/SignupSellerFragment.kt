@@ -1,4 +1,4 @@
-package likelion.project.agijagi.signup
+package likelion.project.agijagi.signup.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -17,7 +17,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.R
-import likelion.project.agijagi.databinding.FragmentSignupBuyerBinding
 import likelion.project.agijagi.databinding.FragmentSignupSellerBinding
 import java.util.regex.Pattern
 
@@ -41,12 +40,16 @@ class SignupSellerFragment : Fragment() {
     private var businessNumberState = false
 
     private var buttonState = false
+
+    private var roleId = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        _fragmentSignupSellerBinding = FragmentSignupSellerBinding.inflate(inflater, container, false)
+        _fragmentSignupSellerBinding =
+            FragmentSignupSellerBinding.inflate(inflater, container, false)
 
         return fragmentSignupSellerBinding.root
     }
@@ -70,7 +73,7 @@ class SignupSellerFragment : Fragment() {
 
             // 사업자 등록번호
             editinputSignupSellerRegistrationNumber.doAfterTextChanged { registrationNumber ->
-                representativeNameState = registrationNumber.toString().isNotBlank()
+                registrationNumberState = registrationNumber.toString().isNotBlank()
                 setSignupButtonState(isValidSignupButton())
             }
 
@@ -124,18 +127,14 @@ class SignupSellerFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _fragmentSignupSellerBinding = null
-    }
-
-    private fun isValiedPassWord(){
+    private fun isValiedPassWord() {
         fragmentSignupSellerBinding.run {
-            passWordState = editinputSignupSellerPassword.text.toString() == editinputSignupSellerCheckPassword.text.toString() &&
-                    editinputSignupSellerPassword.text.toString().isNotBlank() &&
-                    editinputSignupSellerCheckPassword.text.toString().isNotBlank() &&
-                    editinputSignupSellerPassword.text.toString().length in (6..15) &&
-                    editinputSignupSellerCheckPassword.text.toString().length in (6..15)
+            passWordState =
+                editinputSignupSellerPassword.text.toString() == editinputSignupSellerCheckPassword.text.toString() &&
+                        editinputSignupSellerPassword.text.toString().isNotBlank() &&
+                        editinputSignupSellerCheckPassword.text.toString().isNotBlank() &&
+                        editinputSignupSellerPassword.text.toString().length in (6..15) &&
+                        editinputSignupSellerCheckPassword.text.toString().length in (6..15)
         }
     }
 
@@ -145,8 +144,8 @@ class SignupSellerFragment : Fragment() {
         return buttonState
     }
 
-    private fun setSignupButtonState(state: Boolean){
-        if(state) {
+    private fun setSignupButtonState(state: Boolean) {
+        if (state) {
             fragmentSignupSellerBinding.buttonSignupSellerComplete.isSelected = true
             fragmentSignupSellerBinding.buttonSignupSellerComplete.setTextColor(resources.getColor(R.color.white))
         } else {
@@ -157,61 +156,97 @@ class SignupSellerFragment : Fragment() {
     }
 
     private fun createUser(email: String, password: String) {
-        auth?.createUserWithEmailAndPassword(email, password)
-            ?.addOnCompleteListener { task ->
-                // 이메일 형식 체크
-                if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    if (task.isSuccessful) {
-                        Snackbar.make(requireView(), "회원가입 성공", Toast.LENGTH_SHORT).show()
-                        val user = auth?.currentUser
+        if (_fragmentSignupSellerBinding != null) {
 
-                        val userInfo = hashMapOf(
-                            "email" to email,
-                            "password" to password,
-                            "name" to fragmentSignupSellerBinding.editinputSignupSellerRepresentativeName.text.toString(),
-                            "google_login_check" to false,
-                            "email_notif" to false,
-                            "sms_notif" to false,
-                            "is_seller" to true
-                        )
+            auth?.createUserWithEmailAndPassword(email, password)
+                ?.addOnCompleteListener { task ->
+                    // 이메일 형식 체크
+                    if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        if (task.isSuccessful) {
+                            val user = auth?.currentUser
 
-                        db.collection("user").document(email)
-                            .set(userInfo, SetOptions.merge())
-                            .addOnSuccessListener { Log.d("firebase", "user cloud firestore 등록 완료\n" +
-                                    " authUID: ${user?.uid}")}
-                            .addOnFailureListener { e -> Log.w("firebase", "user cloud firestore 등록 실패", e)  }
+                            val sellerSetting = hashMapOf(
+                                "exchange" to false,
+                                "inquiry" to false,
+                                "order" to false
+                            )
 
-                        val sellerSetting = hashMapOf(
-                            "exchange" to false,
-                            "inquiry" to false,
-                            "order" to false
-                        )
+                            val sellerInfo = hashMapOf(
+                                "address" to fragmentSignupSellerBinding.editinputSignupSellerBusinessAddress.text.toString(),
+                                "br_cert" to "",
+                                "brn" to fragmentSignupSellerBinding.editinputSignupSellerRegistrationNumber.text.toString(),
+                                "bussiness_name" to fragmentSignupSellerBinding.editinputSignupSellerBusinessName.text.toString(),
+                                "notif_setting" to sellerSetting,
+                                "tel" to fragmentSignupSellerBinding.editinputSignupSellerBusinessNumber.text.toString(),
+                                "user_id" to user?.uid.toString()
+                            )
 
-                        val sellerInfo = hashMapOf(
-                            "address" to fragmentSignupSellerBinding.editinputSignupSellerBusinessAddress.text.toString(),
-                            "br_cert" to "",
-                            "brn" to fragmentSignupSellerBinding.editinputSignupSellerRegistrationNumber.text.toString(),
-                            "bussiness_name" to fragmentSignupSellerBinding.editinputSignupSellerBusinessName.text.toString(),
-                            "notif_setting" to sellerSetting,
-                            "tel" to fragmentSignupSellerBinding.editinputSignupSellerBusinessNumber.text.toString()
-                        )
+                            db.collection("seller")
+                                .add(sellerInfo)
+                                .addOnSuccessListener { documentReference ->
 
-                        db.collection("seller").document(email)
-                            .set(sellerInfo, SetOptions.merge())
-                            .addOnSuccessListener { Log.d("firebase", "seller cloud firestore 등록 완료\n" +
-                                    " authUID: ${user?.uid}")}
-                            .addOnFailureListener { e -> Log.w("firebase", "seller cloud firestore 등록 실패", e)  }
+                                    roleId = documentReference.id
+                                    Log.d("buyerFragment", "roleID: ${roleId}")
 
-                        findNavController().navigate(R.id.action_signupSellerFragment_to_loginFragment)
+                                    val userInfo = hashMapOf(
+                                        "email" to email,
+                                        "password" to password,
+                                        "name" to fragmentSignupSellerBinding.editinputSignupSellerRepresentativeName.text.toString(),
+                                        "google_login_check" to false,
+                                        "email_notif" to false,
+                                        "sms_notif" to false,
+                                        "is_seller" to true,
+                                        "role_id" to roleId
+                                    )
 
+                                    db.collection("user").document(user?.uid.toString())
+                                        .set(userInfo, SetOptions.merge())
+                                        .addOnSuccessListener {
+                                            Log.d(
+                                                "firebase",
+                                                "user cloud firestore 등록 완료\n authUID: ${user?.uid}"
+                                            )
+                                            Snackbar.make(
+                                                fragmentSignupSellerBinding.root,
+                                                "회원가입 성공",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            findNavController().navigate(R.id.action_signupSellerFragment_to_loginFragment)
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Log.w(
+                                                "firebase",
+                                                "user cloud firestore 등록 실패",
+                                                e
+                                            )
+                                        }
+                                }
+                        } else {
+                            Snackbar.make(
+                                fragmentSignupSellerBinding.root,
+                                "회원가입 실패",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     } else {
-                        Snackbar.make(requireView(), "회원가입 실패", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            fragmentSignupSellerBinding.root,
+                            "이메일 형식이 아닙니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        fragmentSignupSellerBinding.run {
+                            editinputSignupSellerEmail.requestFocus()
+                            editinputSignupSellerEmail.setText("")
+                        }
+
                     }
-                } else {
-                    Snackbar.make(requireView(), "이메일 형식이 아닙니다.", Toast.LENGTH_SHORT).show()
-                    fragmentSignupSellerBinding.editinputSignupSellerEmail.requestFocus()
                 }
-            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _fragmentSignupSellerBinding = null
     }
 
     private fun setup() {

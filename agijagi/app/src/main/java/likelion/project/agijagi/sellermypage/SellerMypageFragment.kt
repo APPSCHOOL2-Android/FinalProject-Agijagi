@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
@@ -23,22 +24,24 @@ class SellerMypageFragment : Fragment() {
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
 
-    private var _binding: FragmentSellerMypageBinding? = null
-    private val binding get() = _binding!!
+    private var _fragmentSellerMypageBinding: FragmentSellerMypageBinding? = null
+    private val fragmentSellerMypageBinding get() = _fragmentSellerMypageBinding!!
     private lateinit var mainActivity: MainActivity
 
     private var _name: String = ""
     private var email: String = ""
+
+    private val user = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         auth = FirebaseAuth.getInstance()
-        _binding = FragmentSellerMypageBinding.inflate(inflater,container,false)
+        _fragmentSellerMypageBinding = FragmentSellerMypageBinding.inflate(inflater,container,false)
         mainActivity = activity as MainActivity
 
-        return binding.root
+        return fragmentSellerMypageBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,10 +49,10 @@ class SellerMypageFragment : Fragment() {
         setup()
         setToolbarMenuItem()
         setSellerMyPageMenu()
-        setName_Email()
+        setNameEmail()
     }
 
-    private fun setName_Email() {
+    private fun setNameEmail() {
         db.collection("user").document(auth?.currentUser?.email.toString())
             .get()
             .addOnSuccessListener {
@@ -64,7 +67,7 @@ class SellerMypageFragment : Fragment() {
     }
 
     private fun updateTextViews() {
-        _binding?.run {
+        fragmentSellerMypageBinding.run {
             val name = "${_name}님 안녕하세요!"
             textviewSellerMyPageStoreName.text = name
             textviewSellerMyPageStoreEmail.text = email
@@ -72,8 +75,18 @@ class SellerMypageFragment : Fragment() {
     }
 
     private fun logout() {
-        FirebaseAuth.getInstance().signOut()
-        findNavController().navigate(R.id.action_sellerMypageFragment_to_loginFragment)
+        if (user != null) {
+            val providerId = user.providerId
+
+            if (providerId == "google.com") {
+                Firebase.auth.signOut()
+                findNavController().navigate(R.id.action_sellerMypageFragment_to_loginFragment)
+
+            } else if (providerId == "firebase") {
+                FirebaseAuth.getInstance().signOut()
+                findNavController().navigate(R.id.action_sellerMypageFragment_to_loginFragment)
+            }
+        }
     }
 
     private fun delete(){
@@ -82,7 +95,7 @@ class SellerMypageFragment : Fragment() {
     }
 
     private fun setToolbarMenuItem() {
-        binding.toolbarSellerMyPage.setOnMenuItemClickListener {
+        fragmentSellerMypageBinding.toolbarSellerMyPage.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_seller_my_page_chat -> {
                     findNavController().navigate(R.id.action_sellerMypageFragment_to_chattingListFragment)
@@ -97,7 +110,7 @@ class SellerMypageFragment : Fragment() {
     }
 
     private fun setSellerMyPageMenu() {
-        binding.run {
+        fragmentSellerMypageBinding.run {
             textviewSellerMyPageManagementMyStore.setOnClickListener {
                 findNavController().navigate(R.id.action_sellerMypageFragment_to_storeManagementFragment)
             }
@@ -149,7 +162,7 @@ class SellerMypageFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _fragmentSellerMypageBinding = null
     }
 
     private fun setup() {
