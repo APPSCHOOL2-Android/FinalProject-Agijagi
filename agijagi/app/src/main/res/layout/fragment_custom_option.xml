@@ -84,9 +84,7 @@
                     app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item"
                     app:layout_constraintTop_toBottomOf="@id/textview_shopping_list_item_name" />
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             <TextView
                 android:id="@+id/textview_custom_select"
@@ -125,7 +123,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/container_item" />
-
 
             <LinearLayout
                 android:id="@+id/layout_custom_lettering_option"
@@ -173,8 +170,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
-                    app:hintEnabled="false"
                     android:ems="1"
+                    app:hintEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textview_volume_text">
@@ -194,6 +191,7 @@
                     android:layout_marginTop="4dp"
                     android:text="다양한 위치에다가 하고싶으면 1:1 문의로 보내주세요"
                     android:textSize="12sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -303,11 +301,13 @@
                     android:id="@+id/edit_input_custom_option_volume_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="수량 선택" />
+                    android:hint="수량 선택"
+                    android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
+
     </ScrollView>
 
     <LinearLayout
@@ -342,4 +342,5 @@
             android:textSize="16dp" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

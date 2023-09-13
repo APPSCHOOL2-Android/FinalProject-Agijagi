@@ -23,9 +23,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentCustomOptionBinding
@@ -138,6 +135,9 @@ class CustomOptionFragment : Fragment() {
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 newIntent.setType("image/*")
                 val mimeType = arrayOf("image/*")
+                setToolbarItemAction()
+                setShoppingBagButton()
+                setPurchaseButton()
 
                 newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
                 backAlbumLauncher.launch(newIntent)
@@ -188,6 +188,12 @@ class CustomOptionFragment : Fragment() {
                 itemCustomOptionImage.setImageResource(R.drawable.right_side_no_stroke)
                 rightImageState = false
             }
+        }
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarReadyMadeOption.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

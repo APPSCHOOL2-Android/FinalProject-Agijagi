@@ -7,8 +7,7 @@
         android:enabled="true"
         android:icon="@drawable/search_24px"
         android:title="검색창"
-        app:showAsAction="ifRoom"
-        />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_home_shopping_list"

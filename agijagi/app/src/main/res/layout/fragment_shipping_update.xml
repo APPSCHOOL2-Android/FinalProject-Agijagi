@@ -24,7 +24,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        app:boxStrokeColor="@color/jagi_brown"
         app:hintEnabled="false"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_shipping_update">
 
@@ -32,8 +31,8 @@
             android:id="@+id/editinput_shipping_update_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/narrow_box_rounded_button_stroke"
             android:hint="배송지명" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -43,7 +42,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        app:boxStrokeColor="@color/jagi_brown"
         app:hintEnabled="false"
         app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_update_title">
 
@@ -51,8 +49,8 @@
             android:id="@+id/editinput_shipping_update_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/narrow_box_rounded_button_stroke"
             android:hint="배송지주소" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -62,7 +60,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        app:boxStrokeColor="@color/jagi_brown"
         app:hintEnabled="false"
         app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_update_address">
 
@@ -70,8 +67,8 @@
             android:id="@+id/editinput_shipping_update_address_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/narrow_box_rounded_button_stroke"
             android:hint="상세주소" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -81,7 +78,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        app:boxStrokeColor="@color/jagi_brown"
         app:hintEnabled="false"
         app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_update_address_detail">
 
@@ -89,8 +85,8 @@
             android:id="@+id/editinput_shipping_update_recipient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/narrow_box_rounded_button_stroke"
             android:hint="수령인" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -100,7 +96,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        app:boxStrokeColor="@color/jagi_brown"
         app:hintEnabled="false"
         app:layout_constraintTop_toBottomOf="@+id/editinputlayout_shipping_update_recipient">
 
@@ -108,8 +103,8 @@
             android:id="@+id/editinput_shipping_update_recipient_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/narrow_box_rounded_button_stroke"
             android:hint="수령인 연락처" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.checkbox.MaterialCheckBox
@@ -137,7 +132,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/wide_box_bottom_active"
-        android:text="등록"
+        android:text="수정"
         android:textColor="@color/jagi_hint_color"
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent" />

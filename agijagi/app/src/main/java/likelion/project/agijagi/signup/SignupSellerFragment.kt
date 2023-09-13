@@ -2,12 +2,12 @@ package likelion.project.agijagi.signup
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -17,7 +17,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.R
-import likelion.project.agijagi.databinding.FragmentSignupBuyerBinding
 import likelion.project.agijagi.databinding.FragmentSignupSellerBinding
 import java.util.regex.Pattern
 
@@ -44,9 +43,10 @@ class SignupSellerFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        _fragmentSignupSellerBinding = FragmentSignupSellerBinding.inflate(inflater, container, false)
+        _fragmentSignupSellerBinding =
+            FragmentSignupSellerBinding.inflate(inflater, container, false)
 
         return fragmentSignupSellerBinding.root
     }
@@ -59,7 +59,7 @@ class SignupSellerFragment : Fragment() {
 
         fragmentSignupSellerBinding.run {
             toolbarSignupSellerToolbar.setNavigationOnClickListener {
-                findNavController().navigate(R.id.action_signupSellerFragment_to_signupSelectFragment)
+                findNavController().popBackStack()
             }
 
             // 상호명
@@ -129,13 +129,14 @@ class SignupSellerFragment : Fragment() {
         _fragmentSignupSellerBinding = null
     }
 
-    private fun isValiedPassWord(){
+    private fun isValiedPassWord() {
         fragmentSignupSellerBinding.run {
-            passWordState = editinputSignupSellerPassword.text.toString() == editinputSignupSellerCheckPassword.text.toString() &&
-                    editinputSignupSellerPassword.text.toString().isNotBlank() &&
-                    editinputSignupSellerCheckPassword.text.toString().isNotBlank() &&
-                    editinputSignupSellerPassword.text.toString().length in (6..15) &&
-                    editinputSignupSellerCheckPassword.text.toString().length in (6..15)
+            passWordState =
+                editinputSignupSellerPassword.text.toString() == editinputSignupSellerCheckPassword.text.toString() &&
+                        editinputSignupSellerPassword.text.toString().isNotBlank() &&
+                        editinputSignupSellerCheckPassword.text.toString().isNotBlank() &&
+                        editinputSignupSellerPassword.text.toString().length in (6..15) &&
+                        editinputSignupSellerCheckPassword.text.toString().length in (6..15)
         }
     }
 
@@ -145,8 +146,8 @@ class SignupSellerFragment : Fragment() {
         return buttonState
     }
 
-    private fun setSignupButtonState(state: Boolean){
-        if(state) {
+    private fun setSignupButtonState(state: Boolean) {
+        if (state) {
             fragmentSignupSellerBinding.buttonSignupSellerComplete.isSelected = true
             fragmentSignupSellerBinding.buttonSignupSellerComplete.setTextColor(resources.getColor(R.color.white))
         } else {
@@ -177,9 +178,19 @@ class SignupSellerFragment : Fragment() {
 
                         db.collection("user").document(email)
                             .set(userInfo, SetOptions.merge())
-                            .addOnSuccessListener { Log.d("firebase", "user cloud firestore 등록 완료\n" +
-                                    " authUID: ${user?.uid}")}
-                            .addOnFailureListener { e -> Log.w("firebase", "user cloud firestore 등록 실패", e)  }
+                            .addOnSuccessListener {
+                                Log.d(
+                                    "firebase", "user cloud firestore 등록 완료\n" +
+                                            " authUID: ${user?.uid}"
+                                )
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(
+                                    "firebase",
+                                    "user cloud firestore 등록 실패",
+                                    e
+                                )
+                            }
 
                         val sellerSetting = hashMapOf(
                             "exchange" to false,
@@ -198,9 +209,19 @@ class SignupSellerFragment : Fragment() {
 
                         db.collection("seller").document(email)
                             .set(sellerInfo, SetOptions.merge())
-                            .addOnSuccessListener { Log.d("firebase", "seller cloud firestore 등록 완료\n" +
-                                    " authUID: ${user?.uid}")}
-                            .addOnFailureListener { e -> Log.w("firebase", "seller cloud firestore 등록 실패", e)  }
+                            .addOnSuccessListener {
+                                Log.d(
+                                    "firebase", "seller cloud firestore 등록 완료\n" +
+                                            " authUID: ${user?.uid}"
+                                )
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(
+                                    "firebase",
+                                    "seller cloud firestore 등록 실패",
+                                    e
+                                )
+                            }
 
                         findNavController().navigate(R.id.action_signupSellerFragment_to_loginFragment)
 
@@ -222,4 +243,5 @@ class SignupSellerFragment : Fragment() {
         }
         db.firestoreSettings = settings
     }
+
 }

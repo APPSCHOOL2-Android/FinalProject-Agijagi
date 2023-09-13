@@ -1,20 +1,18 @@
 package likelion.project.agijagi.category
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemCategoryDetailInfoListBinding
-import likelion.project.agijagi.databinding.ItemWishListBinding
 
-class CategoryDetailInfoListAdapter() :
-    ListAdapter<CategoryDetailInfoListModel, CategoryDetailInfoListAdapter.CategoryListViewHolder>(diffUtil) {
+class CategoryDetailInfoListAdapter :
+    ListAdapter<CategoryDetailInfoListModel, CategoryDetailInfoListAdapter.CategoryListViewHolder>(
+        diffUtil
+    ) {
 
     inner class CategoryListViewHolder(val bind: ItemCategoryDetailInfoListBinding) :
         RecyclerView.ViewHolder(bind.root) {
@@ -29,14 +27,19 @@ class CategoryDetailInfoListAdapter() :
             // 추후 기성품, 주문 제작 상품 구분 필요
             bind.root.setOnClickListener {
                 // 주문 제작 상품일 떄
-                it.findNavController().navigate(R.id.action_categoryDetailInfoListFragment_to_customProductDetailFragment)
+                it.findNavController()
+                    .navigate(R.id.action_categoryDetailInfoListFragment_to_customProductDetailFragment)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryListViewHolder {
         val itemCategoryDetailInfoListBinding =
-            ItemCategoryDetailInfoListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemCategoryDetailInfoListBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         val viewHolder = CategoryListViewHolder(itemCategoryDetailInfoListBinding)
 
         return viewHolder

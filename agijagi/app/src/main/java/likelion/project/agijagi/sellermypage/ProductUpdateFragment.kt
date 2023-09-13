@@ -13,7 +13,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +23,7 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import likelion.project.agijagi.MainActivity
@@ -53,6 +53,7 @@ class ProductUpdateFragment : Fragment() {
     lateinit var albumActivityLauncherForPictures: ActivityResultLauncher<Intent>
     lateinit var albumActivityLauncherForPlans: ActivityResultLauncher<Intent>
     private val pictureList: ArrayList<Bitmap> = arrayListOf<Bitmap>()
+    private var pictureCheckIndex: Int = -1
     private val planList: ArrayList<Bitmap> = arrayListOf<Bitmap>()
 
     lateinit var callbackActionGranted: () -> Unit
@@ -64,7 +65,7 @@ class ProductUpdateFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentProductUpdateBinding.inflate(inflater)
         mainActivity = activity as MainActivity
 
@@ -90,7 +91,7 @@ class ProductUpdateFragment : Fragment() {
             for (i in 0 until dataOrigin.pictures.size) {
                 val bitmap = imageDecode(Uri.parse(dataOrigin.pictures[i]))
                 if (bitmap != null) {
-                    pictureList.add(bitmap!!)
+                    pictureList.add(bitmap)
                 }
             }
         }
@@ -99,7 +100,7 @@ class ProductUpdateFragment : Fragment() {
             for (i in 0 until dataOrigin.plans.size) {
                 val bitmap = imageDecode(Uri.parse(dataOrigin.plans[i]))
                 if (bitmap != null) {
-                    planList.add(bitmap!!)
+                    planList.add(bitmap)
                 }
             }
         }
@@ -244,7 +245,7 @@ class ProductUpdateFragment : Fragment() {
                     } else {
                         val newIntent =
                             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        newIntent.setType("image/*")
+                        newIntent.type = "image/*"
                         val mimeType = arrayOf("image/*")
                         newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
                         albumActivityLauncherForPictures.launch(newIntent)
@@ -268,8 +269,25 @@ class ProductUpdateFragment : Fragment() {
                 pictureIncludeList[i].buttonX.setOnClickListener {
                     if (i < pictureList.size) {
                         pictureList.removeAt(i)
+
+                        if (i == pictureCheckIndex) {
+                            pictureCheckIndex = -1
+                        } else if (i < pictureCheckIndex) {
+                            pictureCheckIndex -= 1
+                        }
                     }
                     resetPictureView()
+                }
+
+                // 체크박스 동작
+                pictureIncludeList[i].buttonCheckBox.setOnClickListener {
+                    it.isSelected = !it.isSelected
+                    if (it.isSelected) {
+                        if (0 <= pictureCheckIndex) {
+                            pictureIncludeList[pictureCheckIndex].buttonCheckBox.isSelected = false
+                        }
+                        pictureCheckIndex = i
+                    }
                 }
             }
 
@@ -281,12 +299,12 @@ class ProductUpdateFragment : Fragment() {
                 // 권한 확인 후 액션
                 callbackActionGranted = {
                     // 도면을 추가할 공간이 있는 지 확인
-                    if (4 <= pictureList.size) {
+                    if (4 <= planList.size) {
                         Snackbar.make(it, "최대 4장의 도면만 추가할 수 있습니다", Toast.LENGTH_SHORT).show()
                     } else {
                         val newIntent =
                             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                        newIntent.setType("image/*")
+                        newIntent.type = "image/*"
                         val mimeType = arrayOf("image/*")
                         newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
                         albumActivityLauncherForPlans.launch(newIntent)
@@ -314,10 +332,17 @@ class ProductUpdateFragment : Fragment() {
             }
         }
 
+        setToolbarItemAction()
         setAlbumActivityLaunchers()
         resetPictureView()
         resetPlanView()
         setBottomButton()
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarProductUpdate.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -372,7 +397,7 @@ class ProductUpdateFragment : Fragment() {
                 // 가져온 이미지가 있다면 저장하고 화면에 보여줌
                 if (bitmap != null) {
                     // 이미지 추가
-                    pictureList.add(bitmap!!)
+                    pictureList.add(bitmap)
                     resetPictureView()
                     Snackbar.make(
                         binding.root,
@@ -398,7 +423,7 @@ class ProductUpdateFragment : Fragment() {
                 // 가져온 이미지가 있다면 저장하고 화면에 보여줌
                 if (bitmap != null) {
                     // 이미지 추가
-                    planList.add(bitmap!!)
+                    planList.add(bitmap)
                     resetPlanView()
                     Snackbar.make(
                         binding.root,
@@ -435,29 +460,35 @@ class ProductUpdateFragment : Fragment() {
     private fun resetPictureView() {
         binding.run {
             // 사진 테이블 6개
-            val pictureIncludeList = arrayListOf<ImageView>()
-            pictureIncludeList.add(includeProductUpdateAddPictureBox1.imageView)
-            pictureIncludeList.add(includeProductUpdateAddPictureBox2.imageView)
-            pictureIncludeList.add(includeProductUpdateAddPictureBox3.imageView)
-            pictureIncludeList.add(includeProductUpdateAddPictureBox4.imageView)
-            pictureIncludeList.add(includeProductUpdateAddPictureBox5.imageView)
-            pictureIncludeList.add(includeProductUpdateAddPictureBox6.imageView)
+            val pictureIncludeList = arrayListOf<ItemProductAddAddPictureBinding>()
+            pictureIncludeList.add(includeProductUpdateAddPictureBox1)
+            pictureIncludeList.add(includeProductUpdateAddPictureBox2)
+            pictureIncludeList.add(includeProductUpdateAddPictureBox3)
+            pictureIncludeList.add(includeProductUpdateAddPictureBox4)
+            pictureIncludeList.add(includeProductUpdateAddPictureBox5)
+            pictureIncludeList.add(includeProductUpdateAddPictureBox6)
 
-            val width = pictureIncludeList[0].width
+            val width = pictureIncludeList[0].imageView.width
             for (i in 0 until pictureIncludeList.size) {
                 if (i < pictureList.size) {
                     val bitmap = Bitmap.createScaledBitmap(pictureList[i], width, width, true)
-                    pictureIncludeList[i].setImageBitmap(bitmap)
+                    pictureIncludeList[i].imageView.setImageBitmap(bitmap)
+                    pictureIncludeList[i].buttonX.visibility = View.VISIBLE
+                    pictureIncludeList[i].buttonCheckBox.visibility = View.VISIBLE
                 } else {
-                    pictureIncludeList[i].setImageDrawable(mainActivity.getDrawable(R.drawable.agijagi_logo_vector_square))
+                    pictureIncludeList[i].imageView.setImageDrawable(mainActivity.getDrawable(R.drawable.agijagi_logo_vector_square))
+                    pictureIncludeList[i].buttonX.visibility = View.INVISIBLE
+                    pictureIncludeList[i].buttonCheckBox.visibility = View.INVISIBLE
                 }
+
+                pictureIncludeList[i].buttonCheckBox.isSelected = (pictureCheckIndex == i)
             }
         }
     }
 
     private fun resetPlanView() {
         binding.run {
-            // 사진 테이블 6개
+            // 도면 테이블 4개
             val planIncludeList = arrayListOf<ItemProductAddAddPlanBinding>()
             planIncludeList.add(includeProductUpdateAddPlanBox1)
             planIncludeList.add(includeProductUpdateAddPlanBox2)
@@ -543,7 +574,7 @@ class ProductUpdateFragment : Fragment() {
 
                 // 서버 저장
 
-                findNavController().navigate(R.id.action_productUpdateFragment_to_productDetailPreviewFragment)
+                findNavController().navigate(R.id.action_productUpdateFragment_to_productUpdateDetailPreviewFragment)
             }
         }
     }
@@ -583,4 +614,5 @@ class ProductUpdateFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

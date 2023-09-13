@@ -35,7 +35,7 @@ class SellerMypageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         auth = FirebaseAuth.getInstance()
-        _binding = FragmentSellerMypageBinding.inflate(inflater,container,false)
+        _binding = FragmentSellerMypageBinding.inflate(inflater, container, false)
         mainActivity = activity as MainActivity
 
         return binding.root
@@ -46,10 +46,10 @@ class SellerMypageFragment : Fragment() {
         setup()
         setToolbarMenuItem()
         setSellerMyPageMenu()
-        setName_Email()
+        setNameAndEmail()
     }
 
-    private fun setName_Email() {
+    private fun setNameAndEmail() {
         db.collection("user").document(auth?.currentUser?.email.toString())
             .get()
             .addOnSuccessListener {
@@ -76,7 +76,7 @@ class SellerMypageFragment : Fragment() {
         findNavController().navigate(R.id.action_sellerMypageFragment_to_loginFragment)
     }
 
-    private fun delete(){
+    private fun delete() {
         FirebaseAuth.getInstance().currentUser?.delete()
         findNavController().navigate(R.id.action_sellerMypageFragment_to_loginFragment)
     }
@@ -160,4 +160,5 @@ class SellerMypageFragment : Fragment() {
         }
         db.firestoreSettings = settings
     }
+
 }

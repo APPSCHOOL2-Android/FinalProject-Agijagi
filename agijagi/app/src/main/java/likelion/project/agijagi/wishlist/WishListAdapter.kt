@@ -1,10 +1,7 @@
 package likelion.project.agijagi.wishlist
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemWishListBinding
 
-class WishListAdapter() :
+class WishListAdapter :
     ListAdapter<WishListModel, WishListAdapter.ShoppingListViewHolder>(diffUtil) {
 
     inner class ShoppingListViewHolder(val bind: ItemWishListBinding) :
@@ -33,7 +30,8 @@ class WishListAdapter() :
                 // 추후 기성품, 주문 제작 상품 구분 필요
                 root.setOnClickListener {
                     // 기성품일 떄
-                    it.findNavController().navigate(R.id.action_wishListFragment_to_productDetailFragment)
+                    it.findNavController()
+                        .navigate(R.id.action_wishListFragment_to_productDetailFragment)
                 }
             }
         }

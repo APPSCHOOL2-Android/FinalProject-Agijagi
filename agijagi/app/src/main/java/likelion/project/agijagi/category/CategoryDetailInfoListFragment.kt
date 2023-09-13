@@ -1,21 +1,18 @@
 package likelion.project.agijagi.category
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentCategoryDetailInfoListBinding
-import likelion.project.agijagi.databinding.FragmentWishListBinding
-import likelion.project.agijagi.wishlist.WishListAdapter
-import likelion.project.agijagi.wishlist.WishListModel
-
 
 class CategoryDetailInfoListFragment : Fragment() {
+
     lateinit var fragmentCategoryDetailInfoListBinding: FragmentCategoryDetailInfoListBinding
     lateinit var mainActivity: MainActivity
     lateinit var listAdapter: CategoryDetailInfoListAdapter
@@ -31,8 +28,9 @@ class CategoryDetailInfoListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        fragmentCategoryDetailInfoListBinding = FragmentCategoryDetailInfoListBinding.inflate(inflater)
+    ): View {
+        fragmentCategoryDetailInfoListBinding =
+            FragmentCategoryDetailInfoListBinding.inflate(inflater)
         mainActivity = activity as MainActivity
 
         setToolbarMenuItem()
@@ -57,13 +55,19 @@ class CategoryDetailInfoListFragment : Fragment() {
     }
 
     private fun setToolbarMenuItem() {
-        fragmentCategoryDetailInfoListBinding.toolbarCategoryDetailInfoList.setOnMenuItemClickListener {
-            when(it.itemId) {
-                R.id.menu_category_shopping_list -> {
-                    findNavController().navigate(R.id.action_categoryDetailInfoListFragment_to_shoppingListFragment)
-                }
+        fragmentCategoryDetailInfoListBinding.toolbarCategoryDetailInfoList.run {
+            setNavigationOnClickListener {
+                findNavController().popBackStack()
             }
-            false
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.menu_category_shopping_list -> {
+                        findNavController().navigate(R.id.action_categoryDetailInfoListFragment_to_shoppingListFragment)
+                    }
+                }
+                false
+            }
         }
     }
+
 }

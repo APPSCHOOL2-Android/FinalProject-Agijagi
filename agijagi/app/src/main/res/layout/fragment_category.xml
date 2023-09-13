@@ -61,10 +61,11 @@
                                 android:id="@+id/imageview_category_image_one"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/all_thumbnail"
-                                android:scaleType="centerCrop"/>
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/all_thumbnail" />
 
                         </androidx.cardview.widget.CardView>
+
                     </LinearLayout>
 
                     <TextView
@@ -109,10 +110,11 @@
                                 android:id="@+id/imageview_category_image_two"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/plate_thumbnail"
-                                android:scaleType="centerCrop"/>
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/plate_thumbnail" />
 
                         </androidx.cardview.widget.CardView>
+
                     </LinearLayout>
 
                     <TextView
@@ -157,8 +159,8 @@
                                 android:id="@+id/imageview_category_image_three"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/cup_thumbnail"
-                                android:scaleType="centerCrop"/>
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/cup_thumbnail" />
 
                         </androidx.cardview.widget.CardView>
 
@@ -206,10 +208,11 @@
                                 android:id="@+id/imageview_category_image_four"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/bowl_thumbnail"
-                                android:scaleType="centerCrop"/>
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/bowl_thumbnail" />
 
                         </androidx.cardview.widget.CardView>
+
                     </LinearLayout>
 
                     <TextView
@@ -254,10 +257,11 @@
                                 android:id="@+id/linearlayout_category_image_five"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/order_made_thumbnail"
-                                android:scaleType="centerCrop"/>
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/order_made_thumbnail" />
 
                         </androidx.cardview.widget.CardView>
+
                     </LinearLayout>
 
                     <TextView

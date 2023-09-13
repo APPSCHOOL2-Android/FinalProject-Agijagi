@@ -1,6 +1,5 @@
 package likelion.project.agijagi.buyermypage.adapter
 
-import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,40 +7,63 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.withContext
 import likelion.project.agijagi.R
+import likelion.project.agijagi.buyermypage.ShippingManagementFragment.Companion.shippingManagementList
 import likelion.project.agijagi.buyermypage.model.ShippingManagementModel
+import likelion.project.agijagi.buyermypage.repository.ShippingManagementRepository
 import likelion.project.agijagi.databinding.ItemShippingManagementBinding
 
-class ShippingManagementAdapter : ListAdapter<ShippingManagementModel, ShippingManagementAdapter.ShippingManagementViewHolder>(diffUtil) {
+class ShippingManagementAdapter :
+    ListAdapter<ShippingManagementModel, ShippingManagementAdapter.ShippingManagementViewHolder>(
+        diffUtil
+    ) {
 
     inner class ShippingManagementViewHolder(val shippingManagementBinding: ItemShippingManagementBinding) :
         RecyclerView.ViewHolder(shippingManagementBinding.root) {
 
         fun bind(item: ShippingManagementModel) {
-            with(shippingManagementBinding) {
+            shippingManagementBinding.run{
                 textViewShippingManagementTitle.text = item.title
-                textViewShippingManagementPhone.text = item.phone
+                textViewShippingManagementPhone.text = item.recipientPhone
                 textViewShippingManagementAddress.text = item.address
+                textViewShippingManagementAddress2.text = item.addressDetail
+
+                if(item.basic){
+                    textViewShippingMamagementBasic.visibility = View.VISIBLE
+                } else{
+                    textViewShippingMamagementBasic.visibility = View.GONE
+                }
 
                 buttonShippingManagementModify.setOnClickListener {
-                    it.findNavController().navigate(R.id.action_shippingManagementFragment_to_shippingUpdateFragment)
+                    it.findNavController()
+                        .navigate(R.id.action_shippingManagementFragment_to_shippingUpdateFragment)
                 }
 
                 buttonShippingManagementDelete.setOnClickListener {
+                    // db 삭제
+                    val repository = ShippingManagementRepository()
+                    repository.deleteShippingAddress(shippingManagementList[adapterPosition].uid)
 
+                    shippingManagementList.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
                 }
             }
         }
 
-        init{
+        init {
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShippingManagementViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ShippingManagementViewHolder {
         val itemShippingManagementBinding =
-            ItemShippingManagementBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemShippingManagementBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         val viewHolder = ShippingManagementViewHolder(itemShippingManagementBinding)
 
         return viewHolder
@@ -68,4 +90,5 @@ class ShippingManagementAdapter : ListAdapter<ShippingManagementModel, ShippingM
             }
         }
     }
+
 }

@@ -37,7 +37,8 @@ class ChattingListAdapter :
                 textviewChattingListDate.text = item.date
 
                 root.setOnClickListener {
-                    it.findNavController().navigate(R.id.action_chattingListFragment_to_chattingRoomFragment)
+                    it.findNavController()
+                        .navigate(R.id.action_chattingListFragment_to_chattingRoomFragment)
                 }
             }
         }
@@ -76,4 +77,5 @@ class ChattingListAdapter :
     fun updateCheckbox(state: Boolean) {
         isTrashCan = state
     }
+
 }
