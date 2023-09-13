@@ -16,8 +16,9 @@ import likelion.project.agijagi.databinding.ItemNotificationListBinding
 class NotificationListAdapter(val context: Context) :
     ListAdapter<NotificationListModel, NotificationListAdapter.NotificationListViewHolder>(diffUtil) {
     private var isTrashCan = false
-    lateinit var checkBoxParentSetting: () -> Unit
-    lateinit var goToChat: (roomID: String) -> Unit
+    lateinit var actionCheckBoxParentState: () -> Unit
+    lateinit var actionGoToChat: (roomID: String) -> Unit
+    lateinit var actionUpdateIsRead: (notifID: String) -> Unit
 
     inner class NotificationListViewHolder(val bind: ItemNotificationListBinding) :
         RecyclerView.ViewHolder(bind.root) {
@@ -43,7 +44,7 @@ class NotificationListAdapter(val context: Context) :
 
                 if (isTrashCan) {
                     checkboxNotificationList.isChecked = item.isCheck
-                    checkBoxParentSetting?.invoke()
+                    actionCheckBoxParentState?.invoke()
                 }
 
                 // 아이템 클릭 시 동작 구현
@@ -54,6 +55,12 @@ class NotificationListAdapter(val context: Context) :
 
                         // 클릭 시 다이얼로그 생성
                         root.setOnClickListener {
+                            if(!item.isRead) {
+                                actionUpdateIsRead(item.id)
+                                item.isRead = true
+                                notifyDataSetChanged()
+                            }
+
                             // customTitle
                             val customTitle = View.inflate(
                                 context,
@@ -72,8 +79,6 @@ class NotificationListAdapter(val context: Context) :
                                 .setMessage(item.content)
                                 .setPositiveButton("확인") { dialog, which ->
                                     // Respond to positive button press
-                                    item.isRead = true
-                                    notifyDataSetChanged()
                                 }
                                 .show()
                         }
@@ -85,9 +90,13 @@ class NotificationListAdapter(val context: Context) :
 
                         // 클릭 시 채팅으로 이동
                         root.setOnClickListener {
-                            item.isRead = true
-                            notifyDataSetChanged()
-                            goToChat(item.content) //item.content == roomID
+                            if(!item.isRead) {
+                                actionUpdateIsRead(item.id)
+                                item.isRead = true
+                                notifyDataSetChanged()
+                            }
+
+                            actionGoToChat(item.content) //item.content == roomID
                         }
                     }
                 }
@@ -108,7 +117,7 @@ class NotificationListAdapter(val context: Context) :
         holder.bind(currentList[position])
         holder.bind.checkboxNotificationList.setOnClickListener {
             currentList[position].isCheck = !currentList[position].isCheck
-            checkBoxParentSetting()
+            actionCheckBoxParentState()
         }
     }
 
@@ -134,11 +143,15 @@ class NotificationListAdapter(val context: Context) :
         isTrashCan = state
     }
 
-    fun setCheckBoxParentStete(action: () -> Unit) {
-        checkBoxParentSetting = action
+    fun setCheckBoxParentState(action: () -> Unit) {
+        actionCheckBoxParentState = action
     }
 
-    fun setgoToChat(action: (roomID: String) -> Unit) {
-        goToChat = action
+    fun setGoToChat(action: (roomID: String) -> Unit) {
+        actionGoToChat = action
+    }
+
+    fun setUpdateIsRead(action: (notifID: String) -> Unit) {
+        actionUpdateIsRead = action
     }
 }
