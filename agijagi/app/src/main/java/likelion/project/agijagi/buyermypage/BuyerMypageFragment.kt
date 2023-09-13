@@ -126,7 +126,7 @@ class BuyerMypageFragment : Fragment() {
     }
 
     private fun setToolbarMenuItem() {
-        fragmentBuyerMypageBinding.toolbarBuyerMyPage?.setOnMenuItemClickListener {
+        fragmentBuyerMypageBinding.toolbarBuyerMyPage.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_buyer_my_page_chat -> {
                     findNavController().navigate(R.id.action_buyerMypageFragment_to_chattingListFragment)
@@ -162,7 +162,7 @@ class BuyerMypageFragment : Fragment() {
                 // 다이얼로그 커스텀 필요
                 MaterialAlertDialogBuilder(mainActivity)
                     .setTitle("로그아웃")
-                    .setMessage("로그아웃 하시겠습니까.")
+                    .setMessage("로그아웃 하겠습니다.")
                     .setPositiveButton("확인") { _: DialogInterface, _: Int ->
                         logout()
                     }
