@@ -73,7 +73,8 @@ class LoginFragment : Fragment() {
                                     Log.d("getid", "get Uid: ${auth?.currentUser?.uid.toString()}")
                                     showSnackBar("로그인에 성공하였습니다.")
                                     findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                                } else if(it["is_seller"] == false){
+
+                                } else if(it["is_seller"] == true){
                                     Log.d("getid", "getid: ${it.id}")
                                     showSnackBar("로그인에 성공하였습니다.")
                                     findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
