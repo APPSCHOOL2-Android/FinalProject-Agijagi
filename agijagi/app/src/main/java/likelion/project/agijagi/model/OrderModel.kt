@@ -4,8 +4,8 @@ data class OrderModel(
     var orderId: String,
     var prodInfo: ProdInfo,
     var date: String,
-    var deliveryFee: Long,
-    var orderNum: Long,
+    var deliveryFee: String,
+    var orderNum: String,
     var shippingAddress: MutableMap<String, String>,
     var state: String,
     var totalPrice: String,
@@ -17,7 +17,7 @@ data class ProdInfo(
     var count: Long,
     var diagram: ArrayList<String>,
     var option: String,
-    var price: Long
+    var price: String
 )
 
 
