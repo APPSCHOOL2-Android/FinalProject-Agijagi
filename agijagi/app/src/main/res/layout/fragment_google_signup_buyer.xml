@@ -6,71 +6,73 @@
     android:layout_height="match_parent"
     android:background="@color/jagi_ivory"
     android:orientation="vertical"
-    tools:context=".signup.SignupGoogleSellerFragment">
+    tools:context=".signup.ui.SignupGoogleBuyerFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_google_signup_seller_toolbar"
+        android:id="@+id/toolbar_google_signup_buyer_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.AgijagiToolbar"
         app:navigationIcon="@drawable/arrow_back_24px"
         app:title="회원가입" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/linearlayout_google_signup_seller_layout_inside"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="16dp"
             android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/editinputlayout_google_signup_buyer_nickname"
+            <LinearLayout
+                android:id="@+id/linearlayout_google_signup_buyer_layout_inside"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/wide_box_rounded_stroke"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editinput_google_signup_buyer_nickname"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editinputlayout_google_signup_buyer_nickname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="닉네임"
-                    android:textColorHint="@color/transparency" />
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false"
+                    app:boxStrokeColor="@color/jagi_brown"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="4"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editinput_google_signup_buyer_nickname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="닉네임"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_google_signup_seller_complete"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@drawable/wide_box_selected_active"
-                    android:text="가입하기"
-                    android:textColor="@color/jagi_hint_color"
-                    android:textSize="16dp" />
+                    android:layout_height="wrap_content">
 
-            </RelativeLayout>
-
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button_google_signup_buyer_complete"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="가입하기"
+                        android:textColor="@color/jagi_hint_color"
+                        android:textSize="16dp"
+                        android:background="@drawable/wide_box_selected_active"
+                        android:layout_alignParentBottom="true"/>
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
-
-    </LinearLayout>
 
 </LinearLayout>
