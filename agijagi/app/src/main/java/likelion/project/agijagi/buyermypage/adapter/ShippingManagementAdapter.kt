@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.R
 import likelion.project.agijagi.buyermypage.ShippingManagementFragment.Companion.shippingManagementList
 import likelion.project.agijagi.buyermypage.model.ShippingManagementModel
+import likelion.project.agijagi.buyermypage.repository.ShippingManagementRepository
 import likelion.project.agijagi.databinding.ItemShippingManagementBinding
 
 class ShippingManagementAdapter :
@@ -39,7 +40,9 @@ class ShippingManagementAdapter :
                 }
 
                 buttonShippingManagementDelete.setOnClickListener {
-                    // db 삭제 기능 추가
+                    // db 삭제
+                    val repository = ShippingManagementRepository()
+                    repository.deleteShippingAddress(shippingManagementList[adapterPosition].uid)
 
                     shippingManagementList.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)

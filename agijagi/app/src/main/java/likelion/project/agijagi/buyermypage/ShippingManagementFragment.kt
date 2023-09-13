@@ -16,7 +16,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.tasks.await
 import likelion.project.agijagi.R
+import likelion.project.agijagi.UserEssential.Companion.auth
+import likelion.project.agijagi.UserEssential.Companion.db
+import likelion.project.agijagi.UserEssential.Companion.roleId
 import likelion.project.agijagi.buyermypage.adapter.ShippingManagementAdapter
 import likelion.project.agijagi.buyermypage.model.ShippingManagementModel
 import likelion.project.agijagi.databinding.FragmentShippingManagementBinding
@@ -69,15 +73,51 @@ class ShippingManagementFragment : Fragment() {
     // 배송지 데이터 불러오기
     private fun getShippingData() {
 
-        val userEmail = auth?.currentUser?.email.toString()
+        val userUid = auth?.currentUser?.uid.toString()
 
         // 리스트 초기화
         shippingManagementList.clear()
 
-        db.collection("buyer").document(userEmail).collection("shipping_address")
+        // userEssential 사용 할 때 코드
+//        db.collection("buyer").document(roleId).collection("shipping_address")
+//            .get().addOnSuccessListener {
+//                Log.d("shippingList", "데이터 불러오기 성공")
+//                for (shippingData in it) {
+//                    val address = shippingData.getString("address") ?: ""
+//                    val addressDetail = shippingData.getString("address_detail") ?: ""
+//                    val basic = shippingData.getBoolean("basic") ?: false
+//                    val title = shippingData.getString("shipping_name") ?: ""
+//                    val recipientPhone = shippingData.getString("phone_number") ?: ""
+//                    val recipient = shippingData.getString("recipient") ?: ""
+//                    Log.d("shippingList", addressDetail)
+//                    shippingManagementList.add(
+//                        ShippingManagementModel(
+//                            address,
+//                            addressDetail,
+//                            basic,
+//                            title,
+//                            recipientPhone,
+//                            recipient
+//                        )
+//                    )
+//                }
+//                shippingManagementAdapter.submitList(shippingManagementList)
+//                Log.d("shippingList", shippingManagementList.toString())
+//
+//                // dataList가 비어있을 때 보이도록
+//                if (shippingManagementList.isEmpty()) {
+//                    binding.textViewShippingManagemnetNull.visibility = View.VISIBLE
+//                } else {
+//                    binding.textViewShippingManagemnetNull.visibility = View.GONE
+//                }
+//            }
+
+        // 테스트용 코드 (db, auth, setup 이랑 같이 지울코드)
+        db.collection("buyer").document(userUid).collection("shipping_address")
             .get().addOnSuccessListener {
                 Log.d("shippingList", "데이터 불러오기 성공")
                 for (shippingData in it) {
+                    val uid = shippingData.id
                     val address = shippingData.getString("address") ?: ""
                     val addressDetail = shippingData.getString("address_detail") ?: ""
                     val basic = shippingData.getBoolean("basic") ?: false
@@ -87,6 +127,7 @@ class ShippingManagementFragment : Fragment() {
                     Log.d("shippingList", addressDetail)
                     shippingManagementList.add(
                         ShippingManagementModel(
+                            uid,
                             address,
                             addressDetail,
                             basic,
