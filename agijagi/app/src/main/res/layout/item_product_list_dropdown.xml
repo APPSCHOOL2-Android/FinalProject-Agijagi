@@ -6,4 +6,4 @@
     android:includeFontPadding="false"
     android:padding="8dp"
     android:textSize="12sp"
-    android:textStyle="bold"/>
+    android:textStyle="bold" />

@@ -10,13 +10,13 @@
         android:id="@+id/toolbar_ready_made_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/Theme.AgijagiToolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:minHeight="?attr/actionBarSize"
-        app:title="주문"
-        android:theme="@style/Theme.AgijagiToolbar"
+        app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/arrow_back_24px"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:title="주문" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_item"
@@ -69,9 +69,7 @@
             app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item"
             app:layout_constraintTop_toBottomOf="@id/textview_shopping_list_item_name" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <View
         android:id="@+id/rectangle"
@@ -111,8 +109,8 @@
             android:layout_height="wrap_content"
             android:hint="수량 선택"
             android:textColorHint="@color/jagi_white_30" />
-    </com.google.android.material.textfield.TextInputLayout>
 
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

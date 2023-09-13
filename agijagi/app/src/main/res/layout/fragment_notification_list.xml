@@ -29,13 +29,25 @@
         app:layout_constraintBottom_toTopOf="@+id/layout_notificationList_bottomButton"
         app:layout_constraintTop_toBottomOf="@+id/materialToolbar_notification_List" />
 
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/checkbox_notificationList_selectAll"
+        style="@style/CustomCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:text="전체 선택"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView_notificationList"
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar_notification_List" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_notificationList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="8dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/layout_notificationList_bottomButton"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar_notification_List"/>
+        app:layout_constraintTop_toBottomOf="@+id/checkbox_notificationList_selectAll" />
 
     <LinearLayout
         android:id="@+id/layout_notificationList_bottomButton"
@@ -58,7 +70,7 @@
 
         <Space
             android:layout_width="4dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_notificationList_delete"
@@ -70,4 +82,5 @@
             android:textColor="@color/jagi_hint_color" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

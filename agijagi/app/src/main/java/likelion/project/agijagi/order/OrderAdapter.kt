@@ -1,6 +1,5 @@
 package likelion.project.agijagi.order
 
-
 import android.content.Context
 import android.content.DialogInterface
 import android.view.LayoutInflater
@@ -13,7 +12,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemOrderBinding
 
-class OrderAdapter(var context: Context) : ListAdapter<OrderModel, OrderAdapter.OrderViewHolder>(diffUtil) {
+class OrderAdapter(var context: Context) :
+    ListAdapter<OrderModel, OrderAdapter.OrderViewHolder>(diffUtil) {
 
     inner class OrderViewHolder(val orderBinding: ItemOrderBinding) :
         RecyclerView.ViewHolder(orderBinding.root) {
@@ -83,4 +83,5 @@ class OrderAdapter(var context: Context) : ListAdapter<OrderModel, OrderAdapter.
             }
         }
     }
+
 }

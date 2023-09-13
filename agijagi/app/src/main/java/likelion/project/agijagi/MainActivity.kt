@@ -2,9 +2,9 @@ package likelion.project.agijagi
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         installSplashScreen()
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         auth?.signOut()
 
         onSetUpNavigation()
+        handleOnBackPressed()
         setup()
 
         activityMainBinding.run {
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
+
         activityMainBinding.bottomNavigation.apply {
             setupWithNavController(navController)
 
@@ -55,7 +58,11 @@ class MainActivity : AppCompatActivity() {
             }
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 visibility = when (destination.id) {
-                    R.id.homeFragment, R.id.categoryFragment, R.id.orderFragment, R.id.wishListFragment, R.id.buyerMypageFragment -> {
+                    R.id.homeFragment,
+                    R.id.categoryFragment,
+                    R.id.orderFragment,
+                    R.id.wishListFragment,
+                    R.id.buyerMypageFragment -> {
                         View.VISIBLE
                     }
 
@@ -67,6 +74,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun handleOnBackPressed() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val navHostFragment =
+                    supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+                val navController = navHostFragment.navController
+
+                when (navController.currentDestination?.id) {
+                    R.id.homeFragment,
+                    R.id.categoryFragment,
+                    R.id.orderFragment,
+                    R.id.wishListFragment,
+                    R.id.buyerMypageFragment,
+                    R.id.sellerMypageFragment -> finish()
+
+                    else -> onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, callback)
+    }
 
     fun setup() {
         db = Firebase.firestore
@@ -76,4 +104,5 @@ class MainActivity : AppCompatActivity() {
         }
         db.firestoreSettings = settings
     }
+
 }

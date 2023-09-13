@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentCustomProductDetailBinding
@@ -28,21 +27,27 @@ class CustomProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setToolbarMenuItem()
+        setToolbarItemAction()
         setFloatingButton()
         setFloorPlanDownloadButton()
         setFavoriteButton()
         setPurchaseButton()
     }
 
-    private fun setToolbarMenuItem() {
-        binding.toolbarCustomProductDetail.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.menu_product_detail_shopping -> {
-                    findNavController().navigate(R.id.action_customProductDetailFragment_to_shoppingListFragment)
-                }
+    private fun setToolbarItemAction() {
+        binding.toolbarCustomProductDetail.run {
+            setNavigationOnClickListener {
+                findNavController().popBackStack()
+                // requireActivity().onBackPressed()
             }
-            false
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.menu_product_detail_shopping -> {
+                        findNavController().navigate(R.id.action_customProductDetailFragment_to_shoppingListFragment)
+                    }
+                }
+                false
+            }
         }
     }
 

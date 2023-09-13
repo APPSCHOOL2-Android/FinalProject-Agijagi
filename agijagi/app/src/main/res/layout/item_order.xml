@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
@@ -122,17 +121,15 @@
             android:layout_height="22dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="12dp"
-            android:text="1:1 채팅"
-            android:textColor="@color/jagi_brown"
+            android:background="@drawable/narrow_box_rounded_button_stroke"
             android:drawableStart="@drawable/order_chat_bubble_20px"
             android:paddingStart="10dp"
             android:paddingEnd="6dp"
-            android:background="@drawable/narrow_box_rounded_button_stroke"
+            android:text="1:1 채팅"
+            android:textColor="@color/jagi_brown"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </com.google.android.material.card.MaterialCardView>

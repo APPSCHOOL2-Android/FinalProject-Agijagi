@@ -2,10 +2,10 @@ package likelion.project.agijagi.sellermypage
 
 import android.graphics.Rect
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,18 +21,18 @@ class ProductListFragment : Fragment() {
     lateinit var productListAdapter: ProductListAdapter
 
     val dataList = arrayListOf<ProductListModel>().apply {
-        add(ProductListModel("품절", "고려", "고려청자", "145,000원", "23.07.07"))
-        add(ProductListModel("판매", "아기", "자기", "345,000원", "23.07.17"))
-        add(ProductListModel("판매", "자기", "아기", "645,000원", "23.07.18"))
-        add(ProductListModel("판매", "라이크", "라이언", "565,000원", "23.08.22"))
-        add(ProductListModel("품절", "라이언", "라이크", "945,000원", "23.08.25"))
-        add(ProductListModel("판매", "라이언", "라이크", "945,000원", "23.09.07"))
+        add(ProductListModel("품절", "고려", "고려청자", "145,000원", "23.07.07", R.drawable.all_thumbnail))
+        add(ProductListModel("판매", "아기", "자기", "345,000원", "23.07.17", R.drawable.bowl_thumbnail))
+        add(ProductListModel("판매", "자기", "아기", "645,000원", "23.07.18", R.drawable.order_made_cup_thumbnail))
+        add(ProductListModel("판매", "라이크", "라이언", "565,000원", "23.08.22", R.drawable.order_made_plate_thumbnail))
+        add(ProductListModel("품절", "라이언", "라이크", "945,000원", "23.08.25", R.drawable.order_made_thumbnail))
+        add(ProductListModel("판매", "라이언", "라이크", "945,000원", "23.09.07", R.drawable.cup_thumbnail))
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentProductListBinding.inflate(layoutInflater)
 
         return binding.root
@@ -44,14 +44,7 @@ class ProductListFragment : Fragment() {
         productListAdapter = ProductListAdapter(requireContext())
 
         binding.run {
-            toolbarProductList.setOnMenuItemClickListener {
-                when(it.itemId) {
-                    R.id.menu_product_list_add -> {
-                        findNavController().navigate(R.id.action_productListFragment_to_productAddFragment)
-                    }
-                }
-                false
-            }
+            setToolbarItemAction()
 
             recyclerviewProductList.run {
                 adapter = productListAdapter
@@ -68,6 +61,23 @@ class ProductListFragment : Fragment() {
             }
         }
     }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarProductList.run {
+            setNavigationOnClickListener {
+                findNavController().navigate(R.id.action_productListFragment_to_sellerMypageFragment)
+            }
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.menu_product_list_add -> {
+                        findNavController().navigate(R.id.action_productListFragment_to_productAddFragment)
+                    }
+                }
+                false
+            }
+        }
+    }
+
 
     inner class MarginItemDecoration(private val spaceSize: Int) : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
@@ -87,4 +97,5 @@ class ProductListFragment : Fragment() {
             }
         }
     }
+
 }

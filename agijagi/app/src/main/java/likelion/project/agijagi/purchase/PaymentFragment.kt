@@ -1,12 +1,11 @@
 package likelion.project.agijagi.purchase
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AutoCompleteTextView
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -21,7 +20,7 @@ class PaymentFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentPaymentBinding.inflate(inflater)
 
         return binding.root
@@ -33,6 +32,10 @@ class PaymentFragment : Fragment() {
         setShippingChangeButton()
 
         binding.run {
+            toolbarPayment.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+
             editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
 
             buttonPaymentCategoryCreditcard.run {
@@ -41,7 +44,7 @@ class PaymentFragment : Fragment() {
                     dropdownmenuPaymentCategory.run {
                         (editText as? MaterialAutoCompleteTextView)?.setSimpleItems(R.array.payment_card_category)
                     }
-                    dropdownTextViewPaymentCategory.run{
+                    dropdownTextViewPaymentCategory.run {
                         setText("")
                         hint = "카드사를 선택해주세요."
                     }
@@ -111,7 +114,8 @@ class PaymentFragment : Fragment() {
             }
 
             buttonPaymentPayment.setOnClickListener {
-                it.findNavController().navigate(R.id.action_paymentFragment_to_purchaseCompleteFragment)
+                it.findNavController()
+                    .navigate(R.id.action_paymentFragment_to_purchaseCompleteFragment)
             }
         }
     }

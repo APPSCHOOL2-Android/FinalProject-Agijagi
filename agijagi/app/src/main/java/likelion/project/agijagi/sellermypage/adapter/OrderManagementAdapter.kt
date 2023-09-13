@@ -6,10 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.databinding.ItemOrderManagementBinding
-import likelion.project.agijagi.databinding.ItemShoppingListBinding
 import likelion.project.agijagi.sellermypage.model.OrderManagementModel
-import likelion.project.agijagi.shopping.ShoppingListModel
-
 
 class OrderManagementAdapter(val itemClick: (OrderManagementModel) -> Unit) :
     ListAdapter<OrderManagementModel, OrderManagementAdapter.OrderManagementHolder>(diffUtil) {
@@ -61,4 +58,5 @@ class OrderManagementAdapter(val itemClick: (OrderManagementModel) -> Unit) :
             }
         }
     }
+
 }

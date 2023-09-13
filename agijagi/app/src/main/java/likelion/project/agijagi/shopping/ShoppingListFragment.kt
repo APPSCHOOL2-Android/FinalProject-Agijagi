@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import likelion.project.agijagi.MainActivity
-import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentShoppingListBinding
 
 class ShoppingListFragment : Fragment() {
@@ -36,6 +34,9 @@ class ShoppingListFragment : Fragment() {
         shoppingListAdapter = ShoppingListAdapter()
 
         shoppingListBinding.run {
+            toolbarShoppinglist.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
 
             recyclerviewShoppingList.run {
                 layoutManager = LinearLayoutManager(mainActivity)

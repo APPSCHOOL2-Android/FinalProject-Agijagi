@@ -31,6 +31,19 @@
             app:layout_constraintTop_toTopOf="@+id/checkBox_shipping_management_basic" />
 
         <TextView
+            android:id="@+id/textView_shipping_mamagement_basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기본배송지"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textColor="@color/jagi_carrot"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/checkBox_shipping_management_basic"
+            app:layout_constraintTop_toTopOf="@+id/checkBox_shipping_management_basic"
+            app:layout_constraintStart_toEndOf="@+id/textView_shipping_management_title"/>
+
+        <TextView
             android:id="@+id/textView_shipping_management_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

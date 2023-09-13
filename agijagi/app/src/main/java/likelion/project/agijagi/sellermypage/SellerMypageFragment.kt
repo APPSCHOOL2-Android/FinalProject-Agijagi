@@ -49,10 +49,10 @@ class SellerMypageFragment : Fragment() {
         setup()
         setToolbarMenuItem()
         setSellerMyPageMenu()
-        setNameEmail()
+        setNameAndEmail()
     }
 
-    private fun setNameEmail() {
+    private fun setNameAndEmail() {
         db.collection("user").document(auth?.currentUser?.email.toString())
             .get()
             .addOnSuccessListener {
@@ -89,7 +89,7 @@ class SellerMypageFragment : Fragment() {
         }
     }
 
-    private fun delete(){
+    private fun delete() {
         FirebaseAuth.getInstance().currentUser?.delete()
         findNavController().navigate(R.id.action_sellerMypageFragment_to_loginFragment)
     }
@@ -173,4 +173,5 @@ class SellerMypageFragment : Fragment() {
         }
         db.firestoreSettings = settings
     }
+
 }

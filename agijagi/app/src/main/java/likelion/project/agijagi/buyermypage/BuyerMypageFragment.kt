@@ -3,14 +3,13 @@ package likelion.project.agijagi.buyermypage
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
@@ -57,7 +56,7 @@ class BuyerMypageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setup()
-        if(view == _noLoginMyPageFragmentBinding?.root) {
+        if (view == _noLoginMyPageFragmentBinding?.root) {
             _noLoginMyPageFragmentBinding?.textviewMyPageLogin?.setOnClickListener {
                 login()
             }
@@ -121,7 +120,7 @@ class BuyerMypageFragment : Fragment() {
         }
     }
 
-    private fun delete(){
+    private fun delete() {
         FirebaseAuth.getInstance().currentUser?.delete()
         findNavController().navigate(R.id.action_buyerMypageFragment_to_loginFragment)
     }
@@ -132,9 +131,11 @@ class BuyerMypageFragment : Fragment() {
                 R.id.menu_buyer_my_page_chat -> {
                     findNavController().navigate(R.id.action_buyerMypageFragment_to_chattingListFragment)
                 }
+
                 R.id.menu_buyer_my_page_notify -> {
                     findNavController().navigate(R.id.action_buyerMypageFragment_to_notificationListFragment)
                 }
+
                 R.id.menu_buyer_my_page_shopping_bag -> {
                     findNavController().navigate(R.id.action_buyerMypageFragment_to_shoppingListFragment)
                 }
@@ -142,6 +143,7 @@ class BuyerMypageFragment : Fragment() {
             false
         }
     }
+
     private fun setBuyerMyPageMenu() {
         fragmentBuyerMypageBinding.run {
             textviewBuyerMyPageProfileManagement.setOnClickListener {

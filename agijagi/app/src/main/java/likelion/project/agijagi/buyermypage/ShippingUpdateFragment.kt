@@ -1,12 +1,11 @@
 package likelion.project.agijagi.buyermypage
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentShippingUpdateBinding
 
 class ShippingUpdateFragment : Fragment() {
@@ -17,7 +16,7 @@ class ShippingUpdateFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentShippingUpdateBinding.inflate(inflater)
 
         return binding.root
@@ -26,8 +25,19 @@ class ShippingUpdateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setToolbarItemAction()
+        setRegistrationButton()
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarShippingUpdate.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun setRegistrationButton() {
         binding.buttonShippingUpdateRegistration.setOnClickListener {
-            findNavController().navigate(R.id.action_shippingUpdateFragment_to_shippingManagementFragment)
+            findNavController().popBackStack()
         }
     }
 
@@ -35,4 +45,5 @@ class ShippingUpdateFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

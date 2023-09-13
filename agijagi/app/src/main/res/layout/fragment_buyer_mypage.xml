@@ -148,7 +148,7 @@
                 android:background="@drawable/line_1" />
 
         </LinearLayout>
-    </ScrollView>
 
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

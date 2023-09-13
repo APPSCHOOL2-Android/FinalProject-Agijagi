@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.AgijagiToolbar"
-
         app:navigationIcon="@drawable/arrow_back_24px" />
 
     <ScrollView
@@ -140,7 +139,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/wide_box_bottom_active"
-        android:text="등록"
         android:textColor="@color/jagi_hint_color"
         android:textSize="16dp" />
 

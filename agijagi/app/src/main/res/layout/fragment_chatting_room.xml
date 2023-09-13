@@ -52,6 +52,7 @@
                 android:layout_marginStart="4dp"
                 android:text="오전 10:02"
                 android:textSize="12sp" />
+
         </LinearLayout>
 
         <TextView
@@ -84,6 +85,7 @@
                 android:background="@drawable/chatting_message_box"
                 android:padding="8dp"
                 android:text="멋쟁이 사자처럼 부트캠프 프로젝트" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -123,6 +125,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/edittext_chatting_room"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/edittext_chatting_room" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
