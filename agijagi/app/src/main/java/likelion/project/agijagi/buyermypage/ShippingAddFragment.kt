@@ -18,6 +18,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.R
+import likelion.project.agijagi.UserEssential
+import likelion.project.agijagi.UserEssential.Companion.db
+import likelion.project.agijagi.UserEssential.Companion.roleId
 import likelion.project.agijagi.databinding.FragmentShippingAddBinding
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -137,22 +140,27 @@ class ShippingAddFragment : Fragment() {
                 "shipping_name" to title
             )
 
-            val userEmail = auth?.currentUser?.email.toString()
-            Log.d("shippingAdd", userEmail)
-            val addDate = SimpleDateFormat(
-                "yyMMddHHmmssSSS",
-                Locale.getDefault()
-            ).format(Date(System.currentTimeMillis()))
+            val userUid = auth?.currentUser?.uid.toString()
 
-            // 데이터저장
-            db.collection("buyer").document(userEmail)
-                .collection("shipping_address").document(addDate)
-                .set(shippingInfo)
+            // 데이터저장 테스트코드 (db, auth, setup 같이 지울코드)
+            db.collection("buyer").document(userUid)
+                .collection("shipping_address")
+                .add(shippingInfo)
                 .addOnCompleteListener {
                     Log.d("shippingAdd", "데이터저장 성공")
                 }.addOnFailureListener {
                     Log.d("shippingAdd", "데이터저장 실패")
                 }
+
+//            // 데이터저장 userEssential 사용코드
+//            db.collection("buyer").document(roleId)
+//                .collection("shipping_address")
+//                .add(shippingInfo)
+//                .addOnCompleteListener {
+//                    Log.d("shippingAdd", "데이터저장 성공")
+//                }.addOnFailureListener {
+//                    Log.d("shippingAdd", "데이터저장 실패")
+//                }
         }
     }
 
