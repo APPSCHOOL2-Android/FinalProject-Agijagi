@@ -431,6 +431,13 @@ class ProductAddFragment : Fragment() {
             }
         }
 
+        // 이미지 크기 제한
+        bitmap!!.apply {
+            if (1024 < width || 1024 < height) {
+                Snackbar.make(binding.root, "이미지 사이즈가 너무 큽니다", Snackbar.LENGTH_SHORT).show()
+                return null
+            }
+        }
         return bitmap
     }
 
