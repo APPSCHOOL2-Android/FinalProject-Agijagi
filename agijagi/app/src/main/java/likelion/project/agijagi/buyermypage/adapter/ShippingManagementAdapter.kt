@@ -1,13 +1,16 @@
 package likelion.project.agijagi.buyermypage.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.R
+import likelion.project.agijagi.buyermypage.ShippingManagementFragment.Companion.shippingManagementList
 import likelion.project.agijagi.buyermypage.model.ShippingManagementModel
+import likelion.project.agijagi.buyermypage.repository.ShippingManagementRepository
 import likelion.project.agijagi.databinding.ItemShippingManagementBinding
 
 class ShippingManagementAdapter :
@@ -19,10 +22,17 @@ class ShippingManagementAdapter :
         RecyclerView.ViewHolder(shippingManagementBinding.root) {
 
         fun bind(item: ShippingManagementModel) {
-            with(shippingManagementBinding) {
+            shippingManagementBinding.run{
                 textViewShippingManagementTitle.text = item.title
-                textViewShippingManagementPhone.text = item.phone
+                textViewShippingManagementPhone.text = item.recipientPhone
                 textViewShippingManagementAddress.text = item.address
+                textViewShippingManagementAddress2.text = item.addressDetail
+
+                if(item.basic){
+                    textViewShippingMamagementBasic.visibility = View.VISIBLE
+                } else{
+                    textViewShippingMamagementBasic.visibility = View.GONE
+                }
 
                 buttonShippingManagementModify.setOnClickListener {
                     it.findNavController()
@@ -30,7 +40,12 @@ class ShippingManagementAdapter :
                 }
 
                 buttonShippingManagementDelete.setOnClickListener {
+                    // db 삭제
+                    val repository = ShippingManagementRepository()
+                    repository.deleteShippingAddress(shippingManagementList[adapterPosition].uid)
 
+                    shippingManagementList.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
                 }
             }
         }
