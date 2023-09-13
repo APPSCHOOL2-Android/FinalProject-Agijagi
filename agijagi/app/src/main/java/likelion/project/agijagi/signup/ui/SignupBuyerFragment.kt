@@ -161,7 +161,9 @@ class SignupBuyerFragment : Fragment() {
                                         "email_notif" to false,
                                         "sms_notif" to false,
                                         "is_seller" to false,
-                                        "role_id" to roleId
+                                        "role_id" to roleId,
+                                        "new_chat_count" to 0,
+                                        "new_notif_count" to 0
                                     )
 
                                     db.collection("user").document(user?.uid.toString())
