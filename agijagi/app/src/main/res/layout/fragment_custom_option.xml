@@ -140,7 +140,6 @@
                     android:textSize="16sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/edit_input_layout_custom_option"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -151,7 +150,7 @@
                     app:layout_constraintTop_toBottomOf="@id/textview_volume_text">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_input_layout_custom_option_text"
+                        android:id="@+id/edit_input_custom_option_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="ex) 멋쟁이(초록) + 사자(주황) + 부트(검정)" />
@@ -167,7 +166,6 @@
                     android:textSize="16sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/edit_input_layout_custom_option_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -179,7 +177,7 @@
                     app:layout_constraintTop_toBottomOf="@id/textview_volume_text">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_input_layout_custom_option_location_text"
+                        android:id="@+id/edit_input_custom_option_location_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="ex) 왼쪽 위 + 오른쪽 위 + 오른쪽 아래" />
@@ -197,11 +195,11 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/layout_custom_print_option"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -214,7 +212,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="12dp"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal">
@@ -243,7 +241,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal">
@@ -289,7 +287,6 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_input_layout_custom_option_volume_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -301,7 +298,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textview_volume_text">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_input_layout_ready_made_option_text"
+                    android:id="@+id/edit_input_custom_option_volume_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="수량 선택"
