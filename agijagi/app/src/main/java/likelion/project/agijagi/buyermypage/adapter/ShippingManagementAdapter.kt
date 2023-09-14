@@ -1,5 +1,6 @@
 package likelion.project.agijagi.buyermypage.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,8 +40,11 @@ class ShippingManagementAdapter :
                 }
 
                 buttonShippingManagementModify.setOnClickListener {
+                    val bundle = Bundle().apply {
+                        putString("shippingUpdate", item.uid)
+                    }
                     it.findNavController()
-                        .navigate(R.id.action_shippingManagementFragment_to_shippingUpdateFragment)
+                        .navigate(R.id.action_shippingManagementFragment_to_shippingUpdateFragment, bundle)
                 }
 
                 buttonShippingManagementDelete.setOnClickListener {
