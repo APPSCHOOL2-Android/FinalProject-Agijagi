@@ -9,7 +9,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
@@ -34,9 +33,9 @@ class MainActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         auth?.signOut()
 
+        // setup()
         onSetUpNavigation()
         handleOnBackPressed()
-        setup()
 
         activityMainBinding.run {
 
@@ -89,7 +88,10 @@ class MainActivity : AppCompatActivity() {
                     R.id.buyerMypageFragment,
                     R.id.sellerMypageFragment -> finish()
 
-                    else -> onBackPressedDispatcher.onBackPressed()
+                    else -> {
+                        isEnabled = false
+                        onBackPressedDispatcher.onBackPressed()
+                    }
                 }
             }
         }
