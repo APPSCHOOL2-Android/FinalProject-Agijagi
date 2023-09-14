@@ -144,7 +144,7 @@ class SignupBuyerFragment : Fragment() {
                             val buyerInfo = hashMapOf(
                                 "nickname" to fragmentSignupBuyerBinding.editinputSignupBuyerNickname.text.toString(),
                                 "notif_setting" to notifSetting,
-                                "user_id" to user?.uid.toString()
+                                "basic" to ""
                             )
 
                             db.collection("buyer")

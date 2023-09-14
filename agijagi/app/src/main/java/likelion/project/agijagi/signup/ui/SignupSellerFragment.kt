@@ -178,7 +178,7 @@ class SignupSellerFragment : Fragment() {
                                 "bussiness_name" to fragmentSignupSellerBinding.editinputSignupSellerBusinessName.text.toString(),
                                 "notif_setting" to sellerSetting,
                                 "tel" to fragmentSignupSellerBinding.editinputSignupSellerBusinessNumber.text.toString(),
-                                "user_id" to user?.uid.toString()
+                                "basic" to ""
                             )
 
                             db.collection("seller")
@@ -187,6 +187,17 @@ class SignupSellerFragment : Fragment() {
 
                                     roleId = documentReference.id
                                     Log.d("buyerFragment", "roleID: ${roleId}")
+
+                                    val shipping_info = hashMapOf(
+                                        "address" to "",
+                                        "address_detail" to "",
+                                        "basic" to "",
+                                        "phone_number" to "",
+                                        "recipient" to "",
+                                        "shipping_name" to "",
+                                    )
+
+                                    db.collection("shipping_address").add(shipping_info)
 
                                     val userInfo = hashMapOf(
                                         "email" to email,
