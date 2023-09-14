@@ -7,13 +7,51 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FirebaseFirestore
 import likelion.project.agijagi.R
+import likelion.project.agijagi.UserEssential.Companion.db
+import likelion.project.agijagi.UserEssential.Companion.getMillisec
 import likelion.project.agijagi.databinding.FragmentProductDetailPreviewBinding
 
 class ProductDetailPreviewFragment : Fragment() {
 
     private var _binding: FragmentProductDetailPreviewBinding? = null
     private val binding get() = _binding!!
+
+    val customOptionInfo = hashMapOf(
+        "image_fee" to 5000,
+        "image_is_use" to true,
+        "lettering_fee" to 0,
+        "lettering_is_use" to false
+    )
+
+    val productMap = hashMapOf(
+        "brand" to "브랜드명2",
+        "category" to "카테고리명2",
+        "customOptionInfo" to customOptionInfo,
+        "detail" to "상세내용상세내용상세내용상세내용상세내용상세내용상세내용",
+        "floor_plan" to arrayListOf(
+            "floor_plan/aaaa",
+            "floor_plan/bbbb",
+            "floor_plan/cccc",
+            "floor_plan/dddd"
+        ),
+        "image" to arrayListOf(
+            "image/eeee",
+            "image/ffff",
+            "image/gggg",
+            "image/hhhh",
+            "image/iiii",
+            "image/jjjj"
+        ),
+        "is_custom" to true,
+        "name" to "상품명2",
+        "out_of_stock" to false,
+        "price" to 40000,
+        "sales_quantity" to 60,
+        "seller_id" to "dsd45s6dfw55543fe",
+        "update_date" to getMillisec()
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,20 +65,26 @@ class ProductDetailPreviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setToolbarItemAction()
-        setProductRegistrationButton()
+        setToolbarNavigationAction()
+        setupProductRegistrationButton()
     }
 
-    private fun setToolbarItemAction() {
+    private fun registerProductData() {
+        db = FirebaseFirestore.getInstance()
+        db.collection("product").document(getMillisec()).set(productMap)
+    }
+
+    private fun setToolbarNavigationAction() {
         binding.toolbarProductDetailPreview.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }
 
-    private fun setProductRegistrationButton() {
+    private fun setupProductRegistrationButton() {
         binding.buttonProductDetailPreviewProductRegistration.run {
             text = "등록"
             setOnClickListener {
+                registerProductData()
                 Snackbar.make(it, "상품 등록이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_productDetailPreviewFragment_to_productListFragment)
             }

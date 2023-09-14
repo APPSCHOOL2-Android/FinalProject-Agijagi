@@ -34,16 +34,17 @@
                 android:id="@+id/editinputlayout_signup_buyer_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/wide_box_rounded_stroke"
+                app:boxStrokeColor="@color/jagi_brown"
+                app:counterMaxLength="4"
+                app:counterEnabled="true"
+                app:endIconMode="clear_text"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editinput_signup_buyer_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="이름 ( 2~ 4 자 )"
-                    android:maxLength="4"
-                    android:textColorHint="@color/transparency" />
+                    android:hint="이름 ( 2~ 4 자 )"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,16 +53,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/wide_box_rounded_stroke"
+                app:boxStrokeColor="@color/jagi_brown"
+                app:counterMaxLength="9"
+                app:counterEnabled="true"
+                app:endIconMode="clear_text"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editinput_signup_buyer_nickname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="닉네임 ( 2 ~ 9 자 )"
-                    android:maxLength="9"
-                    android:textColorHint="@color/transparency" />
+                    android:hint="닉네임 ( 2 ~ 9 자 )"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,7 +72,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/wide_box_rounded_stroke"
+                app:boxStrokeColor="@color/jagi_brown"
+                app:endIconMode="clear_text"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -78,8 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="E-mail"
-                    android:inputType="textEmailAddress"
-                    android:textColorHint="@color/transparency" />
+                    android:inputType="textEmailAddress" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,8 +90,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/wide_box_rounded_stroke"
                 app:endIconMode="password_toggle"
+                app:boxStrokeColor="@color/jagi_brown"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -97,8 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="비밀번호 (공백제외, 6 ~ 15자)"
-                    android:inputType="textPassword"
-                    android:textColorHint="@color/transparency" />
+                    android:inputType="textPassword"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,8 +108,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/wide_box_rounded_stroke"
                 app:endIconMode="password_toggle"
+                app:boxStrokeColor="@color/jagi_brown"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -116,8 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="비밀번호 확인"
-                    android:inputType="textPassword"
-                    android:textColorHint="@color/transparency" />
+                    android:inputType="textPassword"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

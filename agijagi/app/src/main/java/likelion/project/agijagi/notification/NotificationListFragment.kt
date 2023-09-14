@@ -10,9 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.Filter
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.firestoreSettings
+import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
-import likelion.project.agijagi.chatting.ChattingListFragment
 import likelion.project.agijagi.databinding.FragmentNotificationListBinding
 
 class NotificationListFragment : Fragment() {
@@ -23,42 +27,17 @@ class NotificationListFragment : Fragment() {
     lateinit var mainActivity: MainActivity
     lateinit var notificationListAdapter: NotificationListAdapter
 
-    val dataSet = arrayListOf<NotificationListModel>().apply {
-        add(
-            NotificationListModel(
-                "아기자기",
-                "가입을 축하합니다!",
-                "2023-08-15 22:10:10"
-            )
-        )
-        add(
-            NotificationListModel(
-                "판매자1",
-                "내용1",
-                "2023-08-16 06:10:10",
-                "message",
-                true,
-                true
-            )
-        )
-        add(
-            NotificationListModel(
-                "판매자2",
-                "아주긴내용아주긴내용아주긴내용아주긴내용아주긴내용/n아주긴내용아주긴내용/n아주긴내용아주긴내용",
-                "2023-08-20 12:10:10",
-                "chat"
-            )
-        )
-        add(
-            NotificationListModel(
-                "Agijagi",
-                "이제 도자기를 주문할 수 있습니다.",
-                "2023-09-06 02:50:40",
-                "chat",
-                true,
-                true
-            )
-        )
+    private val dataSet = arrayListOf<NotificationListModel>()
+
+    // 임시 코드
+    lateinit var db: FirebaseFirestore
+    fun setup() {
+        db = Firebase.firestore
+
+        val settings = firestoreSettings {
+            isPersistenceEnabled = true
+        }
+        db.firestoreSettings = settings
     }
 
     override fun onCreateView(
@@ -75,6 +54,7 @@ class NotificationListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setup()
         getData()
 
         binding.run {
@@ -93,11 +73,15 @@ class NotificationListFragment : Fragment() {
                 )
             }
             notificationListAdapter.submitList(dataSet)
-            notificationListAdapter.setCheckBoxParentStete { setCheckBoxParentStete() }
-            notificationListAdapter.setgoToChat { roomID ->
+            notificationListAdapter.setCheckBoxParentState { setCheckBoxParentStete() }
+            notificationListAdapter.setGoToChat { roomID ->
                 // 채팅방으로 이동하는 코드
                 //findNavController().findDestination("")
                 Snackbar.make(binding.root, "채팅방 이동: $roomID ", Snackbar.LENGTH_SHORT).show()
+            }
+            notificationListAdapter.setUpdateIsRead { notifID ->
+                // is_read 필드를 true로 갱신한다
+                updateIsRead(notifID)
             }
 
             // 전체 선택 버튼
@@ -192,12 +176,91 @@ class NotificationListFragment : Fragment() {
     }
 
     private fun getData() {
-        dataSet.reverse()
+        val roleId = "testid" //테스트id
+
+        db.collection("notif_info")
+            .where(
+                Filter.and(
+                    Filter.equalTo("is_deleted", false),
+                    Filter.equalTo("receiver", roleId)
+                )
+            )
+            .get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Snackbar.make(binding.root, "성공", Snackbar.LENGTH_SHORT).show()
+
+                    dataSet.clear()
+
+                    val datas = it.result
+                    println("datas.size= ${datas.size()}") //2개가 정상
+
+                    for (data in datas) {
+                        val content = data.getString("content")!!
+                        val date = data.getString("date")!!
+                        val is_chat = data.getBoolean("is_chat")!!
+                        val is_read = data.getBoolean("is_read")!!
+                        val sender = data.getString("sender")!!
+
+                        val type =
+                            if (is_chat) NotificationType.NOTIF_CHAT else NotificationType.NOTIF_MESSAGE
+
+                        val model = NotificationListModel(
+                            data.id,
+                            sender,
+                            content,
+                            date,
+                            type.str,
+                            is_read
+                        )
+                        dataSet.add(model)
+                    }
+
+                    // 화면 갱신
+                    dataSet.sortByDescending { it.date }
+                    changeView(true)
+
+                } else {
+                    Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun updateIsRead(notifID: String) {
+        db.collection("notif_info").document(notifID)
+            .update("is_read", true)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Snackbar.make(binding.root, "성공", Snackbar.LENGTH_SHORT).show()
+
+                } else {
+                    Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
+                }
+            }
     }
 
     private fun removeData() {
         // 연결 리스트 해제
-        dataSet.removeIf { it.isCheck }
+        val tempList = dataSet.filter { it.isCheck }
+        dataSet.removeAll(tempList)
+
+        var ch = true
+        for (data in tempList) {
+            db.collection("notif_info").document(data.id)
+                .update("is_deleted", true)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                    } else {
+                        ch = false
+                    }
+                }
+        }
+
+        if (ch) {
+            Snackbar.make(binding.root, "성공", Snackbar.LENGTH_SHORT).show()
+        } else {
+            Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     private fun setCheckBoxParentStete() {

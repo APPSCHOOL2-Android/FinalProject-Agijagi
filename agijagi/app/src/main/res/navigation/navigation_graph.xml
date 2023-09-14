@@ -362,6 +362,12 @@
         <action
             android:id="@+id/action_signupSelectFragment_to_signupSellerFragment"
             app:destination="@id/signupSellerFragment" />
+        <action
+            android:id="@+id/action_signupSelectFragment_to_signupGoogleSellerFragment"
+            app:destination="@id/signupGoogleSellerFragment" />
+        <action
+            android:id="@+id/action_signupSelectFragment_to_signupGoogleBuyerFragment"
+            app:destination="@id/signupGoogleBuyerFragment" />
     </fragment>
 
     <fragment
@@ -555,7 +561,7 @@
 
     <fragment
         android:id="@+id/signupSellerFragment"
-        android:name="likelion.project.agijagi.signup.SignupSellerFragment"
+        android:name="likelion.project.agijagi.signup.ui.SignupSellerFragment"
         android:label="fragment_signup_seller"
         tools:layout="@layout/fragment_signup_seller">
         <action
@@ -580,5 +586,29 @@
         android:label="fragment_search_result"
         tools:layout="@layout/fragment_search_result" >
     </fragment>
+    <fragment
+        android:id="@+id/signupGoogleBuyerFragment"
+        android:name="likelion.project.agijagi.signup.ui.SignupGoogleBuyerFragment"
+        android:label="SignupGoogleBuyerFragment" >
+        <action
+            android:id="@+id/action_signupGoogleBuyerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signupGoogleBuyerFragment_to_signupSelectFragment"
+            app:destination="@id/signupSelectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupGoogleSellerFragment"
+        android:name="likelion.project.agijagi.signup.ui.SignupGoogleSellerFragment"
+        android:label="fragment_google_signup_seller"
+        tools:layout="@layout/fragment_google_signup_seller" >
+        <action
+            android:id="@+id/action_signupGoogleSellerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signupGoogleSellerFragment_to_signupSelectFragment"
+            app:destination="@id/signupSelectFragment" />
+    </fragment>
+
 
 </navigation>

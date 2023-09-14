@@ -1,9 +1,10 @@
 package likelion.project.agijagi.notification
 
 data class NotificationListModel(
+    var id: String, // 알림 pk
     var sender: String, //보낸 이
     var content: String, // 본문
-    var date: String, // 보낸 시간 (dd-MM-yyyy HH:mm:ss)
+    var date: String, // 보낸 시간 (yyMMddhhmmssSSS)
     var type: String = "message", // NotificationType.str
     var isRead: Boolean = false, // 확인 여부 (false: new!)
     var isCheck: Boolean = false // 삭제 시 사용

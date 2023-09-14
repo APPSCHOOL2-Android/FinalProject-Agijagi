@@ -33,9 +33,9 @@ class MainActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         auth?.signOut()
 
+        setup()
         onSetUpNavigation()
         handleOnBackPressed()
-        setup()
 
         activityMainBinding.run {
 
@@ -88,7 +88,10 @@ class MainActivity : AppCompatActivity() {
                     R.id.buyerMypageFragment,
                     R.id.sellerMypageFragment -> finish()
 
-                    else -> onBackPressedDispatcher.onBackPressed()
+                    else -> {
+                        isEnabled = false
+                        onBackPressedDispatcher.onBackPressed()
+                    }
                 }
             }
         }
