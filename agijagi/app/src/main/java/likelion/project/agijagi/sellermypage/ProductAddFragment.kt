@@ -22,6 +22,7 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -30,8 +31,9 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentProductAddBinding
 import likelion.project.agijagi.databinding.ItemProductAddAddPictureBinding
 import likelion.project.agijagi.databinding.ItemProductAddAddPlanBinding
-import likelion.project.agijagi.sellermypage.model.ProductAddModel
+import likelion.project.agijagi.model.ProductModel
 import kotlin.concurrent.thread
+
 
 class ProductAddFragment : Fragment() {
 
@@ -49,11 +51,15 @@ class ProductAddFragment : Fragment() {
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.ACCESS_MEDIA_LOCATION
     )
+
+    // 사진
     lateinit var albumActivityLauncherForPictures: ActivityResultLauncher<Intent>
-    lateinit var albumActivityLauncherForPlans: ActivityResultLauncher<Intent>
-    private val pictureList: ArrayList<Bitmap> = arrayListOf<Bitmap>()
+    private val pictureUriList: ArrayList<Uri> = arrayListOf<Uri>()
     private var pictureCheckIndex: Int = -1
-    private val planList: ArrayList<Bitmap> = arrayListOf<Bitmap>()
+
+    // 도면
+    lateinit var albumActivityLauncherForPlans: ActivityResultLauncher<Intent>
+    private val planUriList: ArrayList<Uri> = arrayListOf<Uri>()
 
     lateinit var callbackActionGranted: () -> Unit
     lateinit var callbackActionDenide: () -> Unit
@@ -181,7 +187,7 @@ class ProductAddFragment : Fragment() {
                 requestPermissions(permissionList, 0)
                 callbackActionGranted = {
                     // 사진을 추가할 공간이 있는 지 확인
-                    if (6 <= pictureList.size) {
+                    if (6 <= pictureUriList.size) {
                         Snackbar.make(it, "최대 6장의 사진만 추가할 수 있습니다", Toast.LENGTH_SHORT).show()
                     } else {
                         val newIntent =
@@ -209,8 +215,8 @@ class ProductAddFragment : Fragment() {
             for (i in 0 until pictureIncludeList.size) {
                 // X버튼 동작
                 pictureIncludeList[i].buttonX.setOnClickListener {
-                    if (i < pictureList.size) {
-                        pictureList.removeAt(i)
+                    if (i < pictureUriList.size) {
+                        pictureUriList.removeAt(i)
 
                         if (i == pictureCheckIndex) {
                             pictureCheckIndex = -1
@@ -241,7 +247,7 @@ class ProductAddFragment : Fragment() {
                 // 권한 확인 후 액션
                 callbackActionGranted = {
                     // 도면을 추가할 공간이 있는 지 확인
-                    if (4 <= planList.size) {
+                    if (4 <= planUriList.size) {
                         Snackbar.make(it, "최대 4장의 도면만 추가할 수 있습니다", Toast.LENGTH_SHORT).show()
                     } else {
                         val newIntent =
@@ -266,8 +272,8 @@ class ProductAddFragment : Fragment() {
 
             for (i in 0 until planIncludeList.size) {
                 planIncludeList[i].buttonX.setOnClickListener {
-                    if (i < planList.size) {
-                        planList.removeAt(i)
+                    if (i < planUriList.size) {
+                        planUriList.removeAt(i)
                     }
                     resetPlanView()
                 }
@@ -318,6 +324,16 @@ class ProductAddFragment : Fragment() {
                 }
             }
         }
+    }
+
+
+    // UI초기화
+    fun init() {
+
+    }
+
+    fun setUiFunction() {
+
     }
 
 
@@ -373,7 +389,7 @@ class ProductAddFragment : Fragment() {
                 // 가져온 이미지가 있다면 저장하고 화면에 보여줌
                 if (bitmap != null) {
                     // 이미지 추가
-                    pictureList.add(bitmap!!)
+                    pictureUriList.add(uri)
                     resetPictureView()
                     Snackbar.make(
                         binding.root,
@@ -399,7 +415,7 @@ class ProductAddFragment : Fragment() {
                 // 가져온 이미지가 있다면 저장하고 화면에 보여줌
                 if (bitmap != null) {
                     // 이미지 추가
-                    planList.add(bitmap!!)
+                    planUriList.add(uri)
                     resetPlanView()
                     Snackbar.make(
                         binding.root,
@@ -431,6 +447,13 @@ class ProductAddFragment : Fragment() {
             }
         }
 
+        // 이미지 크기 제한
+        bitmap!!.apply {
+            if (1024 < width || 1024 < height) {
+                Snackbar.make(binding.root, "이미지 사이즈가 너무 큽니다", Snackbar.LENGTH_SHORT).show()
+                return null
+            }
+        }
         return bitmap
     }
 
@@ -447,9 +470,10 @@ class ProductAddFragment : Fragment() {
 
             val width = pictureIncludeList[0].imageView.width
             for (i in 0 until pictureIncludeList.size) {
-                if (i < pictureList.size) {
-                    val bitmap = Bitmap.createScaledBitmap(pictureList[i], width, width, true)
-                    pictureIncludeList[i].imageView.setImageBitmap(bitmap)
+                if (i < pictureUriList.size) {
+                    val bitmap = imageDecode(pictureUriList[i])!!
+                    val crop = Bitmap.createScaledBitmap(bitmap, width, width, true)
+                    pictureIncludeList[i].imageView.setImageBitmap(crop)
                     pictureIncludeList[i].buttonX.visibility = View.VISIBLE
                     pictureIncludeList[i].buttonCheckBox.visibility = View.VISIBLE
                 } else {
@@ -474,15 +498,16 @@ class ProductAddFragment : Fragment() {
 
             val width = planIncludeList[0].imageView.width
             for (i in 0 until planIncludeList.size) {
-                if (i < planList.size) {
-                    val bitmap = Bitmap.createScaledBitmap(planList[i], width, width, true)
-                    planIncludeList[i].imageView.setImageBitmap(bitmap)
+                if (i < planUriList.size) {
+                    val bitmap = imageDecode(planUriList[i])!!
+                    val crop = Bitmap.createScaledBitmap(bitmap, width, width, true)
+                    planIncludeList[i].imageView.setImageBitmap(crop)
                     planIncludeList[i].root.visibility = View.VISIBLE
                 } else {
                     planIncludeList[i].root.visibility = View.INVISIBLE
                 }
             }
-            textViewSubtitle3.text = "( ${planList.size.toInt()} / 4 )"
+            textViewSubtitle3.text = "( ${planUriList.size.toInt()} / 4 )"
         }
     }
 
@@ -511,11 +536,14 @@ class ProductAddFragment : Fragment() {
                     return@setOnClickListener
                 }
 
-                val options = ArrayList<ProductAddModel.OptionClass>()
                 if (ordermadeIdx == ListView.INVALID_POSITION) {
                     Snackbar.make(it, "주문 제작 가능 여부를 선택하세요", Snackbar.LENGTH_SHORT).show()
                     return@setOnClickListener
-                } else if (ordermadeIdx == ProductAddSelectOrdermade.ORDER_POSSIBLE.idx) {
+                }
+
+                // 옵션 추가
+                val opMap = HashMap<String, String>()
+                if (ordermadeIdx == ProductAddSelectOrdermade.ORDER_POSSIBLE.idx) {
                     // 주문 제작 가능 옵션의 유효성 검사
                     var checkOption = false
                     if (checkBoxProductAddOption1.isChecked) {
@@ -526,10 +554,12 @@ class ProductAddFragment : Fragment() {
                             return@setOnClickListener
                         } else {
                             checkOption = true
-                            options.add(ProductAddModel().OptionClass("레터링", true, op1))
+                            opMap["lettering_fee"] = op1
+                            opMap["lettering_is_use"] = "true"
                         }
                     } else {
-                        options.add(ProductAddModel().OptionClass("레터링", false, ""))
+                        opMap["lettering_fee"] = ""
+                        opMap["lettering_is_use"] = "false"
                     }
                     if (checkBoxProductAddOption2.isChecked) {
                         val op2 = editinputlayoutProductAddOption2Price.text.toString()
@@ -539,10 +569,12 @@ class ProductAddFragment : Fragment() {
                             return@setOnClickListener
                         } else {
                             checkOption = true
-                            options.add(ProductAddModel().OptionClass("그림", true, op2))
+                            opMap["image_fee"] = op2
+                            opMap["image_is_use"] = "true"
                         }
                     } else {
-                        options.add(ProductAddModel().OptionClass("그림", false, ""))
+                        opMap["image_fee"] = ""
+                        opMap["image_is_use"] = "false"
                     }
 
                     if (!checkOption) {
@@ -551,35 +583,47 @@ class ProductAddFragment : Fragment() {
                     }
                 }
 
+                // 그 외 데이터
+                val category =
+                    (resources.getStringArray(R.array.product_add_category)
+                        .toList())[categoryIdx]!!
+                val isOrdermade = ordermadeIdx == ProductAddSelectOrdermade.ORDER_POSSIBLE.idx
+
+                val planUriString = ArrayList<String>()
+                planUriList.forEach { uri -> planUriString.add(uri.toString()) }
+
+                val pictureUriString = ArrayList<String>()
+                pictureUriString.forEach { uri -> pictureUriString.add(uri) }
+
+                val thumbnailPictureUriString =
+                    if (0 <= pictureCheckIndex && pictureCheckIndex < pictureUriString.size) pictureUriString[pictureCheckIndex]
+                    else ""
+
                 // 데이터 클래스 생성
-                val data = ProductAddModel().apply {
-                    this.name = name
-                    this.price = price
-                    this.category = (resources.getStringArray(R.array.product_add_category)
-                        .toList())[categoryIdx]
-                    this.ordermade = (resources.getStringArray(R.array.product_add_select_ordermade)
-                        .toList())[ordermadeIdx]
-                    this.options = options
-                    this.detail = editinputlayoutProductAddDetail.text.toString()
-                }
+                val data = ProductModel(
+                    "",
+                    "상호명",
+                    category,
+                    opMap,
+                    editinputlayoutProductAddDetail.text.toString(),
+                    planUriString,
+                    pictureUriString,
+                    isOrdermade,
+                    name,
+                    false,
+                    price,
+                    0, // 팔린 수량
+                    "셀러pk",
+                    thumbnailPictureUriString,
+                    ""
+                )
 
-
-                // 이미지 서버에 저장
-                //pictureList
-                //planList
-
-                // 상품 이미지 저장 후 Uri 리스트 저장
-                //data.pictures.add("Uri1")
-                //data.pictures.add("Uri2")
-
-                // 도면 이미지 저장 후 Uri 리스트 저장
-                //data.plans.add("Uri1")
-                //data.plans.add("Uri2")
-
-
-                // 서버 저장
-
-                findNavController().navigate(R.id.action_productAddFragment_to_productDetailPreviewFragment)
+                // 번들 생성, 전달
+                val bundle = bundleOf("productData" to data)
+                findNavController().navigate(
+                    R.id.action_productAddFragment_to_productDetailPreviewFragment,
+                    bundle
+                )
             }
         }
     }
@@ -598,14 +642,6 @@ class ProductAddFragment : Fragment() {
         _binding = null
     }
 
-}
-
-enum class ProductAddCategory(val idx: Int, val str: String) {
-    ALL(0, "ALL"),
-    PLATE(1, "Plate"),
-    CUP(2, "Cup"),
-    BOWL(3, "Bowl"),
-    ORDER_MADE(4, "Order made"),
 }
 
 enum class ProductAddSelectOrdermade(val idx: Int, val str: String) {
