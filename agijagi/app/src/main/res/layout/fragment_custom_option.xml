@@ -7,7 +7,7 @@
     tools:context=".productoption.CustomOptionFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_ready_made_option"
+        android:id="@+id/toolbar_custom_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
@@ -21,12 +21,11 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:descendantFocusability="blocksDescendants"
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/bottom_layout_check"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_ready_made_option">
+        app:layout_constraintTop_toBottomOf="@id/toolbar_custom_option">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,6 +85,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <View
+                android:id="@+id/rectangle_4"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginTop="16dp"
+                android:background="#E4E3E2" />
+
             <TextView
                 android:id="@+id/textview_custom_select"
                 android:layout_width="wrap_content"
@@ -103,12 +109,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                android:hint="커스텀 선택">
+                app:hintEnabled="false">
 
                 <AutoCompleteTextView
                     android:id="@+id/menu_custom_option_select_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="커스텀 선택"
                     android:inputType="none"
                     app:simpleItems="@array/custom_option_select" />
 
@@ -129,6 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                tools:visibility="visible"
                 android:visibility="gone">
 
                 <TextView
@@ -307,7 +315,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
-
     </ScrollView>
 
     <LinearLayout
