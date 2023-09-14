@@ -120,7 +120,6 @@ class ShippingManagementFragment : Fragment() {
                     val uid = shippingData.id
                     val address = shippingData.getString("address") ?: ""
                     val addressDetail = shippingData.getString("address_detail") ?: ""
-                    val basic = shippingData.getBoolean("basic") ?: false
                     val title = shippingData.getString("shipping_name") ?: ""
                     val recipientPhone = shippingData.getString("phone_number") ?: ""
                     val recipient = shippingData.getString("recipient") ?: ""
@@ -130,7 +129,6 @@ class ShippingManagementFragment : Fragment() {
                             uid,
                             address,
                             addressDetail,
-                            basic,
                             title,
                             recipientPhone,
                             recipient

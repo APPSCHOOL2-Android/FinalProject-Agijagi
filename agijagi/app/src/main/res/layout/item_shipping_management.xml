@@ -39,6 +39,7 @@
             android:textStyle="bold"
             android:textColor="@color/jagi_carrot"
             android:layout_marginStart="8dp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/checkBox_shipping_management_basic"
             app:layout_constraintTop_toTopOf="@+id/checkBox_shipping_management_basic"
             app:layout_constraintStart_toEndOf="@+id/textView_shipping_management_title"/>

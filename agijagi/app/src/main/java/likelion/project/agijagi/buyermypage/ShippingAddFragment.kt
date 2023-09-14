@@ -50,7 +50,7 @@ class ShippingAddFragment : Fragment() {
         setup()
         setToolbarItemAction()
         updateButtonStateAndAction()
-        setShippingRegistrationButton()
+//        setShippingRegistrationButton()
         setupTextChangeListeners()
 
     }
@@ -121,7 +121,7 @@ class ShippingAddFragment : Fragment() {
         }
     }
 
-    // 배송지 등록
+    // 데이터 저장
     private fun addShippingData() {
         binding.run {
             val title = editinputShippingAddTitle.text.toString()
@@ -133,7 +133,6 @@ class ShippingAddFragment : Fragment() {
 
             val shippingInfo = hashMapOf(
                 "address" to address,
-                "basic" to basic,
                 "address_detail" to addressDetail,
                 "phone_number" to recipientPhone,
                 "recipient" to recipient,
@@ -147,6 +146,10 @@ class ShippingAddFragment : Fragment() {
                 .collection("shipping_address")
                 .add(shippingInfo)
                 .addOnCompleteListener {
+                    val newShippingId = it.result.id
+                    if (basic) {
+                        updateBasicShippingAddress(newShippingId)
+                    }
                     Log.d("shippingAdd", "데이터저장 성공")
                 }.addOnFailureListener {
                     Log.d("shippingAdd", "데이터저장 실패")
@@ -157,11 +160,29 @@ class ShippingAddFragment : Fragment() {
 //                .collection("shipping_address")
 //                .add(shippingInfo)
 //                .addOnCompleteListener {
+//                    val newShippingId = it.result.id
+//                    if (basic) {
+//                        updateBasicShippingAddress(newShippingId)
+//                    }
 //                    Log.d("shippingAdd", "데이터저장 성공")
 //                }.addOnFailureListener {
 //                    Log.d("shippingAdd", "데이터저장 실패")
 //                }
         }
+    }
+
+    // 기본배송지 설정
+    private fun updateBasicShippingAddress(shippingId: String) {
+        val userUid = auth?.currentUser?.uid.toString()
+        val dbCollection = db.collection("buyer").document(userUid)
+
+        dbCollection.update("basic", shippingId)
+            .addOnSuccessListener {
+                Log.d("updateBasicShipping", "기본 배송지 업데이트 성공")
+            }
+            .addOnFailureListener {
+                Log.e("updateBasicShipping", "기본 배송지 업데이트 실패")
+            }
     }
 
     private fun setup() {
@@ -172,8 +193,6 @@ class ShippingAddFragment : Fragment() {
         }
         db.firestoreSettings = settings
     }
-
-
     private fun setToolbarItemAction() {
         binding.toolbarShippingAdd.setNavigationOnClickListener {
             findNavController().popBackStack()
