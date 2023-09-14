@@ -144,7 +144,7 @@ class SignupBuyerFragment : Fragment() {
                             val buyerInfo = hashMapOf(
                                 "nickname" to fragmentSignupBuyerBinding.editinputSignupBuyerNickname.text.toString(),
                                 "notif_setting" to notifSetting,
-                                "user_id" to user?.uid.toString()
+                                "basic" to ""
                             )
 
                             db.collection("buyer")
@@ -152,6 +152,17 @@ class SignupBuyerFragment : Fragment() {
                                 .addOnSuccessListener { documentReference ->
                                     roleId = documentReference.id
                                     Log.d("buyerFragment", "roleID: ${roleId}")
+
+                                    val shipping_info = hashMapOf(
+                                        "address" to "",
+                                        "address_detail" to "",
+                                        "phone_number" to "",
+                                        "recipient" to "",
+                                        "shipping_name" to "",
+                                    )
+
+                                    db.collection("shipping_address").add(shipping_info)
+
 
                                     val userInfo = hashMapOf(
                                         "email" to email,
