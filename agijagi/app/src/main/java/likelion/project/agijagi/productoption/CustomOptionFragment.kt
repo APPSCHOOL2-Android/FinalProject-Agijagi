@@ -79,6 +79,8 @@ class CustomOptionFragment : Fragment() {
         setPurchaseButton()
         // 장바구니 버튼
         setShoppingBagButton()
+        // 뒤로가기 버튼
+        setToolbarItemAction()
     }
 
     private fun setCustomOptions() {
@@ -135,9 +137,6 @@ class CustomOptionFragment : Fragment() {
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 newIntent.setType("image/*")
                 val mimeType = arrayOf("image/*")
-                setToolbarItemAction()
-                setShoppingBagButton()
-                setPurchaseButton()
 
                 newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
                 backAlbumLauncher.launch(newIntent)
@@ -192,7 +191,7 @@ class CustomOptionFragment : Fragment() {
     }
 
     private fun setToolbarItemAction() {
-        binding.toolbarReadyMadeOption.setNavigationOnClickListener {
+        binding.toolbarCustomOption.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
     }
