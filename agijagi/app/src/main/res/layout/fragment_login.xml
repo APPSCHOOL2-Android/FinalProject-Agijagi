@@ -8,6 +8,13 @@
     android:orientation="vertical"
     tools:context=".login.LoginFragment">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="로그인"
+        app:navigationIcon="@drawable/arrow_back_24px" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
