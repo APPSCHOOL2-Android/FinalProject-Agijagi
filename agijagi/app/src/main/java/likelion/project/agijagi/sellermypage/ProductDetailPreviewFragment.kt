@@ -1,6 +1,7 @@
 package likelion.project.agijagi.sellermypage
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +13,16 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.UserEssential.Companion.db
 import likelion.project.agijagi.UserEssential.Companion.getMillisec
 import likelion.project.agijagi.databinding.FragmentProductDetailPreviewBinding
+import likelion.project.agijagi.model.ProductModel
+import java.text.DecimalFormat
 
 class ProductDetailPreviewFragment : Fragment() {
 
     private var _binding: FragmentProductDetailPreviewBinding? = null
     private val binding get() = _binding!!
+
+    lateinit var product: ProductModel
+    val dec = DecimalFormat("#,###")
 
     val customOptionInfo = hashMapOf(
         "image_fee" to 5000,
@@ -65,8 +71,17 @@ class ProductDetailPreviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getProductDataFromArguments()
         setToolbarNavigationAction()
         setupProductRegistrationButton()
+    }
+
+    private fun getProductDataFromArguments() {
+        val bundle = arguments
+
+        if (bundle != null) {
+            product = bundle.getParcelable("productData")!!
+        }
     }
 
     private fun registerProductData() {
