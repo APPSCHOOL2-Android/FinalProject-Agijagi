@@ -177,8 +177,7 @@ class SignupSellerFragment : Fragment() {
                                 "brn" to fragmentSignupSellerBinding.editinputSignupSellerRegistrationNumber.text.toString(),
                                 "bussiness_name" to fragmentSignupSellerBinding.editinputSignupSellerBusinessName.text.toString(),
                                 "notif_setting" to sellerSetting,
-                                "tel" to fragmentSignupSellerBinding.editinputSignupSellerBusinessNumber.text.toString(),
-                                "basic" to ""
+                                "tel" to fragmentSignupSellerBinding.editinputSignupSellerBusinessNumber.text.toString()
                             )
 
                             db.collection("seller")
