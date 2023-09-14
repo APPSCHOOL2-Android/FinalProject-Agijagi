@@ -186,18 +186,7 @@ class SignupSellerFragment : Fragment() {
                                 .addOnSuccessListener { documentReference ->
 
                                     roleId = documentReference.id
-                                    Log.d("buyerFragment", "roleID: ${roleId}")
-
-                                    val shipping_info = hashMapOf(
-                                        "address" to "",
-                                        "address_detail" to "",
-                                        "basic" to "",
-                                        "phone_number" to "",
-                                        "recipient" to "",
-                                        "shipping_name" to "",
-                                    )
-
-                                    db.collection("shipping_address").add(shipping_info)
+                                    Log.d("sellerFragment", "roleID: ${roleId}")
 
                                     val userInfo = hashMapOf(
                                         "email" to email,
