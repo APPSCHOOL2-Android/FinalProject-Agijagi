@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         auth?.signOut()
 
-        // setup()
+        setup()
         onSetUpNavigation()
         handleOnBackPressed()
 
