@@ -9,18 +9,28 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.databinding.ActivityMainBinding
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     lateinit var activityMainBinding: ActivityMainBinding
 
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
+
+    companion object{
+        fun getMilliSec(): String {
+            val sdf = SimpleDateFormat("yyMMddhhmmssSSS", Locale.getDefault())
+
+            return sdf.format(Date(System.currentTimeMillis()))
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
