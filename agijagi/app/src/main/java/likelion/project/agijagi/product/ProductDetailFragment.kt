@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import likelion.project.agijagi.R
@@ -55,8 +56,9 @@ class ProductDetailFragment : Fragment() {
 
     private fun setPurchaseButton() {
         binding.buttonProductDetailPurchase.setOnClickListener {
+            val bundle = bundleOf("prodId" to "230915015451213")
             it.findNavController()
-                .navigate(R.id.action_productDetailFragment_to_readyMadeOptionFragment)
+                .navigate(R.id.action_productDetailFragment_to_readyMadeOptionFragment, bundle)
         }
     }
 
