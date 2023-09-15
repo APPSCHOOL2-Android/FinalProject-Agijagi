@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -38,7 +39,6 @@ class CustomProductDetailFragment : Fragment() {
         binding.toolbarCustomProductDetail.run {
             setNavigationOnClickListener {
                 findNavController().popBackStack()
-                // requireActivity().onBackPressed()
             }
             setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -72,8 +72,9 @@ class CustomProductDetailFragment : Fragment() {
 
     private fun setPurchaseButton() {
         binding.buttonCustomProductDetailPurchase.setOnClickListener {
+            val bundle = bundleOf("prodId" to "230915034613001")
             it.findNavController()
-                .navigate(R.id.action_customProductDetailFragment_to_customOptionFragment)
+                .navigate(R.id.action_customProductDetailFragment_to_customOptionFragment, bundle)
         }
     }
 
