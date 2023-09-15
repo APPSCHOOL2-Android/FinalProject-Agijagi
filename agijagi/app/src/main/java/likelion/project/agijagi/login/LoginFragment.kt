@@ -36,6 +36,8 @@ class LoginFragment : Fragment() {
 
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
+
+    private var buttonState = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,6 +54,10 @@ class LoginFragment : Fragment() {
         setup()
 
         fragmentLoginBinding.run {
+            toolbarLogin.setNavigationOnClickListener {
+                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            }
+
             // 구글로그인으로 시작 클릭 시
             buttonLoginGoogleloginbutton.setOnClickListener {
                 signInWithGoogle()
@@ -59,32 +65,13 @@ class LoginFragment : Fragment() {
 
             // 로그인 클릭 시 ( 자체 앱 )
             buttonLoginJagilogin.setOnClickListener {
-                auth?.signInWithEmailAndPassword(
-                    editinputLoginEmail.text.toString().trim(),
-                    editinputLoginPassword.text.toString().trim()
-                )?.addOnCompleteListener(requireActivity()) {
-                    if (it.isSuccessful) {
 
-                        db.collection("user").document(auth?.currentUser?.uid.toString()).get()
-                            .addOnSuccessListener {
-
-                                if (it["is_seller"] == false) {
-                                    // auth?.currentUser?.uid.toString() == it.id 같은 값을 가진다
-                                    Log.d("getid", "get Uid: ${auth?.currentUser?.uid.toString()}")
-                                    showSnackBar("로그인에 성공하였습니다.")
-                                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-
-                                } else if(it["is_seller"] == true){
-                                    Log.d("getid", "getid: ${it.id}")
-                                    showSnackBar("로그인에 성공하였습니다.")
-                                    findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
-                                }
-                            }
-                    } else {
-                        showSnackBar("로그인에 실패하였습니다.")
-                    }
-                }?.addOnFailureListener {
-                    showSnackBar("로그인에 실패하였습니다.")
+                if(editinputLoginEmail.text.toString().isNotBlank() && editinputLoginPassword.text.toString().isNotBlank()){
+                    createUser(
+                        email = editinputLoginEmail.text.toString().trim(),
+                        password = editinputLoginPassword.text.toString().trim())
+                } else {
+                    showSnackBar("정보를 기입해주세요.")
                 }
             }
 
@@ -94,6 +81,36 @@ class LoginFragment : Fragment() {
             }
         }
     }
+
+    private fun createUser(email: String, password: String){
+        auth?.signInWithEmailAndPassword(
+            email,password
+        )?.addOnCompleteListener(requireActivity()) {
+            if (it.isSuccessful) {
+
+                db.collection("user").document(auth?.currentUser?.uid.toString()).get()
+                    .addOnSuccessListener {
+
+                        if (it["is_seller"] == false) {
+                            // auth?.currentUser?.uid.toString() == it.id 같은 값을 가진다
+                            Log.d("getid", "get Uid: ${auth?.currentUser?.uid.toString()}")
+                            showSnackBar("로그인에 성공하였습니다.")
+                            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+
+                        } else if(it["is_seller"] == true){
+                            Log.d("getid", "getid: ${it.id}")
+                            showSnackBar("로그인에 성공하였습니다.")
+                            findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
+                        }
+                    }
+            } else {
+                showSnackBar("로그인에 실패하였습니다.")
+            }
+        }?.addOnFailureListener {
+            showSnackBar("로그인에 실패하였습니다.")
+        }
+    }
+
 
     private fun signInWithGoogle() {
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
