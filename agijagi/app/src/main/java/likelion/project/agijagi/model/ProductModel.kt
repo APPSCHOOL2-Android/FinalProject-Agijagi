@@ -14,7 +14,7 @@ data class ProductModel(
     var image: ArrayList<String>, // 사진 Uri <=6
     var isCustom: Boolean, // 커스텀 여부
     var name: String, // 상품 이름
-    var outOfStock: Boolean, // 재고 여부
+    var state: String, // 재고 여부 - 판매, 품절, 숨김
     var price: String, // 가격
     var salesQuantity: Long, // 팔린 수량
     var sellerId: String, // 판매자 Pk
