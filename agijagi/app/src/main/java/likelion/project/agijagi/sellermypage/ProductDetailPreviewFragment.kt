@@ -1,7 +1,6 @@
 package likelion.project.agijagi.sellermypage
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,6 +71,7 @@ class ProductDetailPreviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getProductDataFromArguments()
+        initViews()
         setToolbarNavigationAction()
         setupProductRegistrationButton()
     }
@@ -81,6 +81,27 @@ class ProductDetailPreviewFragment : Fragment() {
 
         if (bundle != null) {
             product = bundle.getParcelable("productData")!!
+        }
+    }
+
+    private fun initViews() {
+        binding.run {
+//            Glide.with(this@ProductDetailPreviewFragment).run {
+//                load(product.image[0]).into(imageviewProductDetailPreviewImage1)
+//                load(product.image[1]).into(imageviewProductPreviewDetailImage2)
+//                load(product.image[2]).into(imageviewProductPreviewDetailImage3)
+//                load(product.image[3]).into(imageviewProductPreviewDetailImage4)
+//                load(product.image[4]).into(imageviewProductPreviewDetailImage5)
+//                load(product.image[5]).into(imageviewProductPreviewDetailImage6)
+//                // 이미지 하나 더 추가
+//            }
+            textviewProductDetailPreviewBrand.text = product.brand
+            textviewProductDetailPreviewName.text = product.name
+            "${dec.format(product.price.toInt())}원".also {
+                textviewProductDetailPreviewPrice.text = it
+            }
+            textviewProductDetailPreviewInfoTitle.text = product.name
+            textviewProductDetailPreviewInfoDescription.text = product.detail
         }
     }
 
