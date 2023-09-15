@@ -9,8 +9,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import likelion.project.agijagi.MainActivity.Companion.getMilliSec
 import likelion.project.agijagi.R
-import likelion.project.agijagi.UserEssential.Companion.getMillisec
 import likelion.project.agijagi.databinding.FragmentProductDetailPreviewBinding
 import likelion.project.agijagi.model.ProductModel
 import java.text.DecimalFormat
@@ -105,10 +105,10 @@ class ProductDetailPreviewFragment : Fragment() {
             "sales_quantity" to product.salesQuantity,
             "seller_id" to product.sellerId,
             "thumbnail_image" to product.thumbnail_image,
-            "update_date" to getMillisec()
+            "update_date" to getMilliSec()
         )
 
-        db.collection("product").document(getMillisec()).set(productMap)
+        db.collection("product").document(getMilliSec()).set(productMap)
     }
 
     private fun setToolbarNavigationAction() {
