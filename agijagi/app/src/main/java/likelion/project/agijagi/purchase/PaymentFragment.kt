@@ -11,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentPaymentBinding
+import likelion.project.agijagi.model.ProdInfo
+import likelion.project.agijagi.sellermypage.model.OrderManagementModel
 
 class PaymentFragment : Fragment() {
 
@@ -30,6 +32,13 @@ class PaymentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setShippingChangeButton()
+
+        //todo 이전 페이지에서 정보를 받아 결제 버튼을 누르면 정보를 서버에 올려야 함
+
+        // customoption 페이지에서 데이터 가져오기
+        if (arguments?.getParcelable<ProdInfo>("prodInfo") != null) {
+            val item = arguments?.getParcelable<ProdInfo>("prodInfo")
+        }
 
         binding.run {
             toolbarPayment.setNavigationOnClickListener {

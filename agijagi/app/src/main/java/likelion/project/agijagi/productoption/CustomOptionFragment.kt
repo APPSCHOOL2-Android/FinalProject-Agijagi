@@ -23,9 +23,17 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentCustomOptionBinding
+import likelion.project.agijagi.model.ProdInfo
 
 class CustomOptionFragment : Fragment() {
     private var _binding: FragmentCustomOptionBinding? = null
@@ -90,7 +98,6 @@ class CustomOptionFragment : Fragment() {
                     MenuOption.MENU_LETTERING.idx -> {
                         lettering = true
                         image = false
-                        Log.d("Lettering", lettering.toString())
                         layoutCustomLetteringOption.isVisible = true
                         layoutCustomPrintOption.isGone = true
                     }
@@ -204,21 +211,30 @@ class CustomOptionFragment : Fragment() {
 
     private fun setPurchaseButton() {
         binding.run {
+            //todo id 받아서 브랜드 네임 가격을 입력 해야함
+            CoroutineScope(Dispatchers.IO).launch {
+                val db = Firebase.firestore
+                db.collection("product")
+                    .document("")
+            }
+
+            val count = editInputCustomOptionVolumeText.text.toString().toLong()
             buttonCustomOptionPurchase.setOnClickListener {
                 // 데이터가져오기
                 if (lettering) {
                     val customWord = editInputCustomOptionText.text.toString()
                     val customLocation = editInputCustomOptionLocationText.text.toString()
-                    val count = editInputCustomOptionVolumeText.text.toString().toInt()
-                    val letteringCustomOption = CustomOptionModel(
-                        "lettering",
+                    val letteringCustomOption = ProdInfo(
+                        "000001",
+                        count,
+                        arrayListOf(),
+                        "Lettering",
+                        "12341243원",
                         customWord,
-                        customLocation,
-                        null, null, null, null,
-                        count
+                        customLocation
                     )
                     val bundle = Bundle().apply {
-                        putParcelable("lettering", letteringCustomOption)
+                        putParcelable("prodInfo", letteringCustomOption)
                     }
                     findNavController().navigate(
                         R.id.action_customOptionFragment_to_paymentFragment,
@@ -235,20 +251,19 @@ class CustomOptionFragment : Fragment() {
                     val rightImage =
                         getImage(backImageState, binding.customOptionBack.itemCustomOptionImage)
                     binding.customOptionFront.itemCustomOptionImage
-                    val count = editInputCustomOptionVolumeText.text.toString().toInt()
 
-                    val imageCustomOption = CustomOptionModel(
-                        "image",
-                        null,
-                        null,
-                        frontImage,
-                        backImage,
-                        leftImage,
-                        rightImage,
-                        count
+                    val imageList = arrayListOf(frontImage, backImage, leftImage, rightImage)
+
+                    val imageCustomOption = ProdInfo(
+                        "000001",
+                        count,
+                        imageList,
+                        "Image",
+                        "12341243원",
+                        null, null
                     )
                     val bundle = Bundle().apply {
-                        putParcelable("image", imageCustomOption)
+                        putParcelable("prodInfo", imageCustomOption)
                     }
                     findNavController().navigate(
                         R.id.action_customOptionFragment_to_paymentFragment,
