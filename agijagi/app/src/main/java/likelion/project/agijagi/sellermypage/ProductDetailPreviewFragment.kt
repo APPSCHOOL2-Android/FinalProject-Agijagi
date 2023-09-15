@@ -7,11 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.R
-import likelion.project.agijagi.UserEssential.Companion.db
 import likelion.project.agijagi.UserEssential.Companion.getMillisec
 import likelion.project.agijagi.databinding.FragmentProductDetailPreviewBinding
 import likelion.project.agijagi.model.ProductModel
@@ -102,7 +100,7 @@ class ProductDetailPreviewFragment : Fragment() {
             ),
             "is_custom" to product.isCustom,
             "name" to product.name,
-            "out_of_stock" to product.outOfStock,
+            "out_of_stock" to product.state,
             "price" to product.price,
             "sales_quantity" to product.salesQuantity,
             "seller_id" to product.sellerId,
