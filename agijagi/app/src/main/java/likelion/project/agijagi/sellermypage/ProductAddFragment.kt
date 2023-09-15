@@ -610,7 +610,7 @@ class ProductAddFragment : Fragment() {
                     pictureUriString,
                     isOrdermade,
                     name,
-                    false,
+                    "판매",
                     price,
                     0, // 팔린 수량
                     "셀러pk",
