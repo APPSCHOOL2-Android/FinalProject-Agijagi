@@ -7,15 +7,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import likelion.project.agijagi.Essential
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.firestoreSettings
+import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.databinding.FragmentSellerNotificationSettingBinding
-import likelion.project.agijagi.model.SellerModel
 import likelion.project.agijagi.model.UserModel
 
 class SellerNotificationSettingFragment : Fragment() {
 
     private var _binding: FragmentSellerNotificationSettingBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +34,7 @@ class SellerNotificationSettingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setToolbarItemAction()
+        setup()
         init()
 
         binding.run {
@@ -51,9 +56,18 @@ class SellerNotificationSettingFragment : Fragment() {
         }
     }
 
+    fun setup() {
+        db = Firebase.firestore
+
+        val settings = firestoreSettings {
+            isPersistenceEnabled = true
+        }
+        db.firestoreSettings = settings
+    }
+
     private fun init() {
         // download from server
-        Essential.db.collection("seller").document(UserModel.roleId).get()
+        db.collection("seller").document(UserModel.roleId).get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     // 업데이트 성공 시 동작
@@ -82,7 +96,7 @@ class SellerNotificationSettingFragment : Fragment() {
             binding.switchSellerNotificationSettingExchange.isChecked
         )
 
-        val user = Essential.db.collection("seller").document(UserModel.roleId)
+        val user = db.collection("seller").document(UserModel.roleId)
         val value =
             mutableMapOf<String, Boolean>(
                 "exchange" to exchange,
