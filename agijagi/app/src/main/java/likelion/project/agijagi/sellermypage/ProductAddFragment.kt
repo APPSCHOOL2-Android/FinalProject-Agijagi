@@ -593,7 +593,7 @@ class ProductAddFragment : Fragment() {
                 planUriList.forEach { uri -> planUriString.add(uri.toString()) }
 
                 val pictureUriString = ArrayList<String>()
-                pictureUriString.forEach { uri -> pictureUriString.add(uri) }
+                pictureUriList.forEach { uri -> pictureUriString.add(uri.toString()) }
 
                 val thumbnailPictureUriString =
                     if (0 <= pictureCheckIndex && pictureCheckIndex < pictureUriString.size) pictureUriString[pictureCheckIndex]
