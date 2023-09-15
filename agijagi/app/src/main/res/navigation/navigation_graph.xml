@@ -350,7 +350,7 @@
 
     <fragment
         android:id="@+id/signupSelectFragment"
-        android:name="likelion.project.agijagi.signup.SignupSelectFragment"
+        android:name="likelion.project.agijagi.signup.ui.SignupSelectFragment"
         android:label="fragment_signup_select"
         tools:layout="@layout/fragment_signup_select">
         <action

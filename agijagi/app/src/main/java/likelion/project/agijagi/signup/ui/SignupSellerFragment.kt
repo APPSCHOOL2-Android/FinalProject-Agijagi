@@ -177,8 +177,7 @@ class SignupSellerFragment : Fragment() {
                                 "brn" to fragmentSignupSellerBinding.editinputSignupSellerRegistrationNumber.text.toString(),
                                 "bussiness_name" to fragmentSignupSellerBinding.editinputSignupSellerBusinessName.text.toString(),
                                 "notif_setting" to sellerSetting,
-                                "tel" to fragmentSignupSellerBinding.editinputSignupSellerBusinessNumber.text.toString(),
-                                "user_id" to user?.uid.toString()
+                                "tel" to fragmentSignupSellerBinding.editinputSignupSellerBusinessNumber.text.toString()
                             )
 
                             db.collection("seller")
@@ -186,7 +185,7 @@ class SignupSellerFragment : Fragment() {
                                 .addOnSuccessListener { documentReference ->
 
                                     roleId = documentReference.id
-                                    Log.d("buyerFragment", "roleID: ${roleId}")
+                                    Log.d("sellerFragment", "roleID: ${roleId}")
 
                                     val userInfo = hashMapOf(
                                         "email" to email,

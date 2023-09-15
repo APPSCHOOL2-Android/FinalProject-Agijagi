@@ -1,5 +1,6 @@
 package likelion.project.agijagi.buyermypage.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,26 +23,32 @@ class ShippingManagementAdapter :
         RecyclerView.ViewHolder(shippingManagementBinding.root) {
 
         fun bind(item: ShippingManagementModel) {
-            shippingManagementBinding.run{
+            shippingManagementBinding.run {
+                val repository = ShippingManagementRepository()
                 textViewShippingManagementTitle.text = item.title
                 textViewShippingManagementPhone.text = item.recipientPhone
                 textViewShippingManagementAddress.text = item.address
                 textViewShippingManagementAddress2.text = item.addressDetail
 
-                if(item.basic){
-                    textViewShippingMamagementBasic.visibility = View.VISIBLE
-                } else{
-                    textViewShippingMamagementBasic.visibility = View.GONE
+                // 기본배송지 텍스트뷰 표시
+                repository.getBasicShippingAddress { basicFieldValue ->
+                    if (basicFieldValue == item.uid) {
+                        textViewShippingMamagementBasic.visibility = View.VISIBLE
+                    } else {
+                        textViewShippingMamagementBasic.visibility = View.GONE
+                    }
                 }
 
                 buttonShippingManagementModify.setOnClickListener {
+                    val bundle = Bundle().apply {
+                        putString("shippingUpdate", item.uid)
+                    }
                     it.findNavController()
-                        .navigate(R.id.action_shippingManagementFragment_to_shippingUpdateFragment)
+                        .navigate(R.id.action_shippingManagementFragment_to_shippingUpdateFragment, bundle)
                 }
 
                 buttonShippingManagementDelete.setOnClickListener {
                     // db 삭제
-                    val repository = ShippingManagementRepository()
                     repository.deleteShippingAddress(shippingManagementList[adapterPosition].uid)
 
                     shippingManagementList.removeAt(adapterPosition)
