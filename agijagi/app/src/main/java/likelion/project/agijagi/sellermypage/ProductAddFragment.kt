@@ -593,7 +593,7 @@ class ProductAddFragment : Fragment() {
                 planUriList.forEach { uri -> planUriString.add(uri.toString()) }
 
                 val pictureUriString = ArrayList<String>()
-                pictureUriString.forEach { uri -> pictureUriString.add(uri) }
+                pictureUriList.forEach { uri -> pictureUriString.add(uri.toString()) }
 
                 val thumbnailPictureUriString =
                     if (0 <= pictureCheckIndex && pictureCheckIndex < pictureUriString.size) pictureUriString[pictureCheckIndex]
@@ -610,7 +610,7 @@ class ProductAddFragment : Fragment() {
                     pictureUriString,
                     isOrdermade,
                     name,
-                    false,
+                    "판매",
                     price,
                     0, // 팔린 수량
                     "셀러pk",
