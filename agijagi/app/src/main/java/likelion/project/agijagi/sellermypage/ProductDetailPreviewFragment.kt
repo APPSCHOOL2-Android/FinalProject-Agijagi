@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -52,15 +53,15 @@ class ProductDetailPreviewFragment : Fragment() {
 
     private fun initViews() {
         binding.run {
-//            Glide.with(this@ProductDetailPreviewFragment).run {
-//                load(product.image[0]).into(imageviewProductDetailPreviewImage1)
-//                load(product.image[1]).into(imageviewProductPreviewDetailImage2)
-//                load(product.image[2]).into(imageviewProductPreviewDetailImage3)
-//                load(product.image[3]).into(imageviewProductPreviewDetailImage4)
-//                load(product.image[4]).into(imageviewProductPreviewDetailImage5)
-//                load(product.image[5]).into(imageviewProductPreviewDetailImage6)
-//                // 이미지 하나 더 추가
-//            }
+            Glide.with(this@ProductDetailPreviewFragment).run {
+                load(product.thumbnail_image).into(imageviewProductDetailPreviewThumbnailImage)
+                load(product.image[0]).into(imageviewProductDetailPreviewImage1)
+                load(product.image[1]).into(imageviewProductPreviewDetailImage2)
+                load(product.image[2]).into(imageviewProductPreviewDetailImage3)
+                load(product.image[3]).into(imageviewProductPreviewDetailImage4)
+                load(product.image[4]).into(imageviewProductPreviewDetailImage5)
+                load(product.image[5]).into(imageviewProductPreviewDetailImage6)
+            }
             textviewProductDetailPreviewBrand.text = product.brand
             textviewProductDetailPreviewName.text = product.name
             "${dec.format(product.price.toInt())}원".also {
