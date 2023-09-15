@@ -9,6 +9,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import likelion.project.agijagi.Essential
 import likelion.project.agijagi.databinding.FragmentSellerNotificationSettingBinding
+import likelion.project.agijagi.model.SellerModel
+import likelion.project.agijagi.model.UserModel
 
 class SellerNotificationSettingFragment : Fragment() {
 
@@ -51,7 +53,7 @@ class SellerNotificationSettingFragment : Fragment() {
 
     private fun init() {
         // download from server
-        Essential.db.collection("seller").document(Essential.roleId).get()
+        Essential.db.collection("seller").document(UserModel.roleId).get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     // 업데이트 성공 시 동작
@@ -80,7 +82,7 @@ class SellerNotificationSettingFragment : Fragment() {
             binding.switchSellerNotificationSettingExchange.isChecked
         )
 
-        val user = Essential.db.collection("seller").document(Essential.roleId)
+        val user = Essential.db.collection("seller").document(UserModel.roleId)
         val value =
             mutableMapOf<String, Boolean>(
                 "exchange" to exchange,
