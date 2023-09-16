@@ -43,8 +43,7 @@ class ProductAddFragment : Fragment() {
 
     lateinit var imm: InputMethodManager
 
-    var categoryIdx: Int = -1
-    var ordermadeIdx: Int = -1
+    var categoryIdx: Int = ListView.INVALID_POSITION
 
     // 앨범에서 사진추가
     private val permissionList = arrayOf(
@@ -89,14 +88,6 @@ class ProductAddFragment : Fragment() {
 
         // 동작
         binding.run {
-            // 초기화
-            layoutProductAddOption.visibility = View.GONE
-            layoutProductAddAddPlan.visibility = View.GONE
-
-            categoryIdx = ListView.INVALID_POSITION
-            ordermadeIdx = ListView.INVALID_POSITION
-
-
             // 상품명
             editinputProductAddProductname.run {
                 setOnEditorActionListener { v, actionId, event ->
@@ -122,33 +113,21 @@ class ProductAddFragment : Fragment() {
                     categoryIdx = position
                     checkBottomButtonActive()
                     hideSoftKeyboard()
-                }
-            }
 
-            // 주문제작 가능 여부 선택
-            menuProductAddSelectOrdermade.run {
-                onItemClickListener = OnItemClickListener { parent, v, position, id ->
-                    ordermadeIdx = position
-                    checkBottomButtonActive()
-                    hideSoftKeyboard()
+                    if (categoryIdx == adapter.count - 1) {
+                        // Order made == 주문제작 가능
+                        layoutProductAddOption.visibility = View.VISIBLE
+                        layoutProductAddAddPlan.visibility = View.VISIBLE
 
-                    // R.array.product_add_category 참조
-                    when (position) {
-                        ProductAddSelectOrdermade.ORDER_POSSIBLE.idx -> {
-                            layoutProductAddOption.visibility = View.VISIBLE
-                            layoutProductAddAddPlan.visibility = View.VISIBLE
-
-                            // 초기화
-                            checkBoxProductAddOption1.isChecked = false
-                            checkBoxProductAddOption2.isChecked = false
-                            editinputlayoutProductAddOption1Price.text = null
-                            editinputlayoutProductAddOption2Price.text = null
-                        }
-
-                        ProductAddSelectOrdermade.ORDER_IMPOSSIBLE.idx -> {
-                            layoutProductAddOption.visibility = View.GONE
-                            layoutProductAddAddPlan.visibility = View.GONE
-                        }
+                        // 초기화
+                        checkBoxProductAddOption1.isChecked = false
+                        checkBoxProductAddOption2.isChecked = false
+                        editinputlayoutProductAddOption1Price.text = null
+                        editinputlayoutProductAddOption2Price.text = null
+                    } else {
+                        // Plate, Cup, Bowl
+                        layoutProductAddOption.visibility = View.GONE
+                        layoutProductAddAddPlan.visibility = View.GONE
                     }
                 }
             }
@@ -352,8 +331,6 @@ class ProductAddFragment : Fragment() {
                 checker = false
             } else if (categoryIdx == ListView.INVALID_POSITION) {
                 checker = false
-            } else if (ordermadeIdx == ListView.INVALID_POSITION) {
-                checker = false
             }
 
             // 버튼 활성화
@@ -536,14 +513,10 @@ class ProductAddFragment : Fragment() {
                     return@setOnClickListener
                 }
 
-                if (ordermadeIdx == ListView.INVALID_POSITION) {
-                    Snackbar.make(it, "주문 제작 가능 여부를 선택하세요", Snackbar.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-
                 // 옵션 추가
                 val opMap = HashMap<String, String>()
-                if (ordermadeIdx == ProductAddSelectOrdermade.ORDER_POSSIBLE.idx) {
+                val isOrdermade = categoryIdx == menuProductAddSelectCategory.adapter.count - 1
+                if (isOrdermade) {
                     // 주문 제작 가능 옵션의 유효성 검사
                     var checkOption = false
                     if (checkBoxProductAddOption1.isChecked) {
@@ -561,6 +534,7 @@ class ProductAddFragment : Fragment() {
                         opMap["lettering_fee"] = ""
                         opMap["lettering_is_use"] = "false"
                     }
+
                     if (checkBoxProductAddOption2.isChecked) {
                         val op2 = editinputlayoutProductAddOption2Price.text.toString()
                         if (op2.isEmpty() || op2 == "" || op2 == " ") {
@@ -584,10 +558,7 @@ class ProductAddFragment : Fragment() {
                 }
 
                 // 그 외 데이터
-                val category =
-                    (resources.getStringArray(R.array.product_add_category)
-                        .toList())[categoryIdx]!!
-                val isOrdermade = ordermadeIdx == ProductAddSelectOrdermade.ORDER_POSSIBLE.idx
+                val category = menuProductAddSelectCategory.adapter.getItem(categoryIdx).toString()
 
                 val planUriString = ArrayList<String>()
                 planUriList.forEach { uri -> planUriString.add(uri.toString()) }
@@ -642,9 +613,4 @@ class ProductAddFragment : Fragment() {
         _binding = null
     }
 
-}
-
-enum class ProductAddSelectOrdermade(val idx: Int, val str: String) {
-    ORDER_POSSIBLE(0, "주문 제작 가능"),
-    ORDER_IMPOSSIBLE(1, "주문 제작 불가능")
 }
