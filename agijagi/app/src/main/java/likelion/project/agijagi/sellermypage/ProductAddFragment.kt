@@ -41,27 +41,24 @@ class ProductAddFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var mainActivity: MainActivity
 
-    lateinit var imm: InputMethodManager
-
-    var categoryIdx: Int = ListView.INVALID_POSITION
+    private lateinit var imm: InputMethodManager
 
     // 앨범에서 사진추가
     private val permissionList = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.ACCESS_MEDIA_LOCATION
     )
+    lateinit var callbackActionGranted: () -> Unit
+    lateinit var callbackActionDenide: () -> Unit
 
+    var categoryIdx: Int = ListView.INVALID_POSITION
     // 사진
     lateinit var albumActivityLauncherForPictures: ActivityResultLauncher<Intent>
     private val pictureUriList: ArrayList<Uri> = arrayListOf<Uri>()
     private var pictureCheckIndex: Int = -1
-
     // 도면
     lateinit var albumActivityLauncherForPlans: ActivityResultLauncher<Intent>
     private val planUriList: ArrayList<Uri> = arrayListOf<Uri>()
-
-    lateinit var callbackActionGranted: () -> Unit
-    lateinit var callbackActionDenide: () -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,16 +83,68 @@ class ProductAddFragment : Fragment() {
             checkBottomButtonActive()
         }
 
-        // 동작
+        setToolbarItemAction()
+
+        // 이미지 가져오기 런쳐 등록
+        setAlbumActivityLaunchers()
+        // 입력 UI 동작 등록
+        setUiFunction()
+        // 하단 버튼 동작 등록
+        setBottomButton()
+        // 이미지 뷰 초기 설정
+        resetPictureView()
+        resetPlanView()
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarProductAdd.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        for (idx in 0 until permissions.size) {
+            // 현재 번째의 권한 이름을 가져온다.
+            val p1 = permissions[idx]
+            // 권한 허용 여부 값을 가져온다.
+            val g1 = grantResults[idx]
+
+            when (p1) {
+                Manifest.permission.READ_EXTERNAL_STORAGE -> {
+                    if (g1 == PackageManager.PERMISSION_GRANTED) {
+                        callbackActionGranted()
+                    } else {
+                        callbackActionDenide()
+                    }
+                }
+
+                Manifest.permission.ACCESS_MEDIA_LOCATION -> {
+                    if (g1 == PackageManager.PERMISSION_GRANTED) {
+                        callbackActionGranted()
+                    } else {
+                        callbackActionDenide()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setUiFunction() {
         binding.run {
             // 상품명
             editinputProductAddProductname.run {
                 setOnEditorActionListener { v, actionId, event ->
                     checkBottomButtonActive()
-                    // 가격 입력으로 이동
-                    editinputlayoutProductAddProductprice.requestFocus()
+                    hideSoftKeyboard()
                     false
                 }
+                clearFocus()
             }
 
             // 가격
@@ -174,6 +223,7 @@ class ProductAddFragment : Fragment() {
                         newIntent.setType("image/*")
                         val mimeType = arrayOf("image/*")
                         newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+                        newIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                         albumActivityLauncherForPictures.launch(newIntent)
                     }
                 }
@@ -234,6 +284,7 @@ class ProductAddFragment : Fragment() {
                         newIntent.setType("image/*")
                         val mimeType = arrayOf("image/*")
                         newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+                        newIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                         albumActivityLauncherForPlans.launch(newIntent)
                     }
                 }
@@ -258,61 +309,6 @@ class ProductAddFragment : Fragment() {
                 }
             }
         }
-
-        setToolbarItemAction()
-        setAlbumActivityLaunchers()
-        resetPictureView()
-        resetPlanView()
-        setBottomButton()
-    }
-
-    private fun setToolbarItemAction() {
-        binding.toolbarProductAdd.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray,
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        for (idx in 0 until permissions.size) {
-            // 현재 번째의 권한 이름을 가져온다.
-            val p1 = permissions[idx]
-            // 권한 허용 여부 값을 가져온다.
-            val g1 = grantResults[idx]
-
-            when (p1) {
-                Manifest.permission.READ_EXTERNAL_STORAGE -> {
-                    if (g1 == PackageManager.PERMISSION_GRANTED) {
-                        callbackActionGranted()
-                    } else {
-                        callbackActionDenide()
-                    }
-                }
-
-                Manifest.permission.ACCESS_MEDIA_LOCATION -> {
-                    if (g1 == PackageManager.PERMISSION_GRANTED) {
-                        callbackActionGranted()
-                    } else {
-                        callbackActionDenide()
-                    }
-                }
-            }
-        }
-    }
-
-
-    // UI초기화
-    fun init() {
-
-    }
-
-    fun setUiFunction() {
-
     }
 
 
@@ -466,7 +462,12 @@ class ProductAddFragment : Fragment() {
             for (i in 0 until pictureIncludeList.size) {
                 if (i < pictureUriList.size) {
                     val bitmap = imageDecode(pictureUriList[i])!!
-                    val crop = Bitmap.createScaledBitmap(bitmap, width, width, true)
+                    val crop = Bitmap.createScaledBitmap(
+                        bitmap,
+                        width,
+                        width,
+                        true
+                    ) // Error!!  java.lang.IllegalArgumentException: width and height must be > 0
                     pictureIncludeList[i].imageView.setImageBitmap(crop)
                     pictureIncludeList[i].buttonX.visibility = View.VISIBLE
                     pictureIncludeList[i].buttonCheckBox.visibility = View.VISIBLE
@@ -575,7 +576,8 @@ class ProductAddFragment : Fragment() {
                 }
 
                 // 그 외 데이터
-                val category = menuProductAddSelectCategory.adapter.getItem(categoryIdx).toString()
+                val category =
+                    menuProductAddSelectCategory.adapter.getItem(categoryIdx).toString()
 
                 val planUriString = ArrayList<String>()
                 planUriList.forEach { uri -> planUriString.add(uri.toString()) }
