@@ -1,43 +1,72 @@
 package likelion.project.agijagi.sellermypage.adapter
 
 import android.content.Context
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemProductListBinding
-import likelion.project.agijagi.sellermypage.model.ProductListModel
+import likelion.project.agijagi.model.ProductModel
+import likelion.project.agijagi.sellermypage.ProductListFragment
 
 class ProductListAdapter(val context: Context) :
-    ListAdapter<ProductListModel, ProductListAdapter.ProductListViewHolder>(diffUtil) {
+    ListAdapter<ProductModel, ProductListAdapter.ProductListViewHolder>(diffUtil) {
 
     val productStatusArray = context.resources.getStringArray(R.array.product_list_status)
 
     inner class ProductListViewHolder(val productListBinding: ItemProductListBinding) :
         RecyclerView.ViewHolder(productListBinding.root) {
 
-        fun bind(item: ProductListModel) {
+        fun bind(item: ProductModel) {
             with(productListBinding) {
-                Glide.with(context)
-                    .load(item.img)
-                    .placeholder(R.drawable.order_default_image)
-                    .into(imageViewProductListProduct)
+                item.thumbnail_image?.let { thumb ->
+                    if (thumb.isNotBlank()) {
+                        FirebaseStorage.getInstance().reference.child(thumb).downloadUrl.addOnSuccessListener {
+                            Glide.with(context)
+                                .load(it)
+                                .placeholder(R.drawable.order_default_image)
+                                .into(imageViewProductListProduct)
+                        }
+                    }
+                }
+
                 dropdownTextViewProductListStatus.setText(item.state, false)
+                dropdownTextViewProductListStatus.setOnItemClickListener { _, _, position, _ ->
+                    val productState = productStatusArray[position]
+                    item.state = productState
+                    ProductListFragment().updateProductState(item, productState)
+                }
+
                 textViewProductListBrand.text = item.brand
                 textViewProductListName.text = item.name
                 textViewProductListPrice.text = item.price
-                textViewProductListDate.text = item.date
+                textViewProductListDate.text = item.updateDate
             }
 
             productListBinding.root.setOnClickListener {
+                val bundle = Bundle().apply {
+                    putString("prodId", item.productId)
+                }
                 it.findNavController()
-                    .navigate(R.id.action_productListFragment_to_sellerProductDetailFragment)
+                    .navigate(
+                        R.id.action_productListFragment_to_sellerProductDetailFragment,
+                        bundle
+                    )
             }
         }
 
@@ -67,17 +96,17 @@ class ProductListAdapter(val context: Context) :
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<ProductListModel>() {
+        val diffUtil = object : DiffUtil.ItemCallback<ProductModel>() {
             override fun areItemsTheSame(
-                oldItem: ProductListModel,
-                newItem: ProductListModel
+                oldItem: ProductModel,
+                newItem: ProductModel
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: ProductListModel,
-                newItem: ProductListModel
+                oldItem: ProductModel,
+                newItem: ProductModel
             ): Boolean {
                 return oldItem == newItem
             }

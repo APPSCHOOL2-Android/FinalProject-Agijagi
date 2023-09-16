@@ -54,6 +54,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:22.1.1'
     implementation 'com.google.firebase:firebase-storage-ktx:20.2.1'
     implementation 'com.google.firebase:firebase-storage:20.2.1'
+    implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
 
     // Google Play services
     implementation 'com.google.gms:google-services:4.3.15'
@@ -76,4 +77,6 @@ dependencies {
     // Livedata
     implementation "androidx.lifecycle:lifecycle-livedata:2.6.2"
 
+    // Shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 }
