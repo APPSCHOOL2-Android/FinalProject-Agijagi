@@ -7,6 +7,7 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -90,7 +91,7 @@ class ProductDetailPreviewFragment : Fragment() {
         }
     }
 
-    private fun registerProductImages(productId: String) {
+    private fun uploadProductImages(productId: String) {
         val productThumbnailImageFileName = "productImage/$productId/thumbnail_${getMilliSec()}.jpg"
         storageRef.child(productThumbnailImageFileName).putFile(product.thumbnail_image.toUri())
             .addOnSuccessListener {
@@ -101,11 +102,28 @@ class ProductDetailPreviewFragment : Fragment() {
         product.image.take(product.image.size).forEach {
             val productImageFileName = "productImage/$productId/${getMilliSec()}.jpg"
             productImageFileNameList.add(productImageFileName)
-            storageRef.child(productImageFileName).putFile(it.toUri()).addOnCompleteListener {
-                registerProductData(productId)
+            storageRef.child(productImageFileName).putFile(it.toUri()).addOnSuccessListener {
+                uploadProductFloorPlans(productId)
             }
         }
         product.image = productImageFileNameList
+    }
+
+    private fun uploadProductFloorPlans(productId: String) {
+        if (!product.isCustom) {
+            registerProductData(productId)
+        } else {
+            val productFloorPlanFileNameList = arrayListOf<String>()
+            product.floorPlan.take(product.floorPlan.size).forEach {
+                val productFloorPlanFileName = "productFloorPlan/$productId/${getMilliSec()}.jpg"
+                productFloorPlanFileNameList.add(productFloorPlanFileName)
+                storageRef.child(productFloorPlanFileName).putFile(it.toUri())
+                    .addOnSuccessListener {
+                        registerProductData(productId)
+                    }
+            }
+            product.floorPlan = productFloorPlanFileNameList
+        }
     }
 
     private fun registerProductData(productId: String) {
@@ -133,7 +151,6 @@ class ProductDetailPreviewFragment : Fragment() {
             "thumbnail_image" to product.thumbnail_image,
             "update_date" to getMilliSec()
         )
-
         db.collection("product").document(productId).set(productMap)
     }
 
@@ -148,7 +165,7 @@ class ProductDetailPreviewFragment : Fragment() {
             text = "등록"
             setOnClickListener {
                 val productId = getMilliSec()
-                registerProductImages(productId)
+                uploadProductImages(productId)
                 Snackbar.make(it, "상품 등록이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_productDetailPreviewFragment_to_productListFragment)
             }
