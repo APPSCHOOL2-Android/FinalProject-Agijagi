@@ -9,10 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentProductListBinding
+import likelion.project.agijagi.model.ProductModel
 import likelion.project.agijagi.sellermypage.adapter.ProductListAdapter
-import likelion.project.agijagi.sellermypage.model.ProductListModel
 
 class ProductListFragment : Fragment() {
 
@@ -20,15 +27,12 @@ class ProductListFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var productListAdapter: ProductListAdapter
 
-    val dataList = arrayListOf<ProductListModel>().apply {
-        add(ProductListModel("품절", "고려", "고려청자", "145,000원", "23.07.07", R.drawable.all_thumbnail))
-        add(ProductListModel("판매", "아기", "자기", "345,000원", "23.07.17", R.drawable.bowl_thumbnail))
-        add(ProductListModel("판매", "자기", "아기", "645,000원", "23.07.18", R.drawable.order_made_cup_thumbnail))
-        add(ProductListModel("판매", "라이크", "라이언", "565,000원", "23.08.22", R.drawable.order_made_plate_thumbnail))
-        add(ProductListModel("품절", "라이언", "라이크", "945,000원", "23.08.25", R.drawable.order_made_thumbnail))
-        add(ProductListModel("판매", "라이언", "라이크", "945,000원", "23.09.07", R.drawable.cup_thumbnail))
+    val dataList = arrayListOf<ProductModel>().apply {
     }
 
+    val db = FirebaseFirestore.getInstance()
+    val auth = FirebaseAuth.getInstance()
+    val userUid = auth.currentUser?.uid.toString()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,9 +44,9 @@ class ProductListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         productListAdapter = ProductListAdapter(requireContext())
 
+        getProductData()
         binding.run {
             setToolbarItemAction()
 
@@ -51,15 +55,79 @@ class ProductListFragment : Fragment() {
                 layoutManager = LinearLayoutManager(context)
                 addItemDecoration(MarginItemDecoration(40))
             }
-            productListAdapter.submitList(dataList)
+        }
+    }
 
-            // dataList가 비어있을 때 보이도록
-            if (dataList.isEmpty()) {
-                textViewProductListEmpty.visibility = View.VISIBLE
-            } else {
-                textViewProductListEmpty.visibility = View.GONE
+    // 데이터 로딩 shimmer 라이브러리 사용
+    private fun showSampleData(isLoading: Boolean) {
+        if (isLoading) {
+            binding.shimmerProductList.startShimmer()
+            binding.shimmerProductList.visibility = View.VISIBLE
+            binding.recyclerviewProductList.visibility = View.GONE
+        } else {
+            binding.shimmerProductList.stopShimmer()
+            binding.shimmerProductList.visibility = View.GONE
+            binding.recyclerviewProductList.visibility = View.VISIBLE
+        }
+    }
+
+    // 배송지 데이터 불러오기
+    private fun getProductData() {
+        CoroutineScope(Dispatchers.IO).launch {
+            showSampleData(true)
+            // 리스트 초기화
+            dataList.clear()
+            var sellerId = ""
+
+            val querySnapshotId = db.collection("seller").whereEqualTo("user_id",userUid)
+                .get().await()
+            for (document in querySnapshotId) {
+                sellerId = document.id
+            }
+
+            val querySnapshot = db.collection("product").whereEqualTo("seller_id", sellerId)
+                .get().await()
+            for (document in querySnapshot) {
+                dataList.add(
+                    ProductModel(
+                        document.id,
+                        document.getString("brand") ?: "",
+                        document.getString("category") ?: "",
+                        document.get("customOptionInfo") as? HashMap<String, String> ?: HashMap(),
+                        document.getString("detail") ?: "",
+                        document.get("floorPlan") as? ArrayList<String> ?: ArrayList(),
+                        document.get("image") as? ArrayList<String> ?: ArrayList(),
+                        document.getBoolean("isCustom") ?: false,
+                        document.getString("name") ?: "",
+                        document.getString("state") ?: "",
+                        document.getString("price") ?: "",
+                        document.getLong("salesQuantity") ?: 0,
+                        document.getString("sellerId") ?: "",
+                        document.getString("thumbnail_image") ?: "",
+                        document.getString("updateDate") ?: "",
+                    )
+                )
+            }
+            // UI
+            withContext(Dispatchers.Main){
+                // dataList가 비어있을 때 보이도록
+                if (dataList.isEmpty()) {
+                    binding.textViewProductListEmpty.visibility = View.VISIBLE
+                } else {
+                    binding.textViewProductListEmpty.visibility = View.GONE
+                }
+
+                productListAdapter.submitList(dataList)
+                showSampleData(false)
             }
         }
+    }
+
+    // 상품리스트에서 상품상태 변경시 DB업데이트
+    fun updateProductState(productModel: ProductModel, productState: String) {
+        db.collection("product")
+            .document(productModel.productId)
+            .update("state", productState)
     }
 
     private fun setToolbarItemAction() {
@@ -77,7 +145,6 @@ class ProductListFragment : Fragment() {
             }
         }
     }
-
 
     inner class MarginItemDecoration(private val spaceSize: Int) : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
