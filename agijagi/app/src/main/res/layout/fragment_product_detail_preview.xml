@@ -91,7 +91,7 @@
                 android:textSize="12sp" />
 
             <ImageView
-                android:id="@+id/imageview_product_detail_preview_image1"
+                android:id="@+id/imageview_product_preview_detail_image1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -109,8 +109,8 @@
             <ImageView
                 android:id="@+id/imageview_product_preview_detail_image3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/product_detail_default_image" />
 
@@ -118,7 +118,7 @@
                 android:id="@+id/imageview_product_preview_detail_image4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/product_detail_default_image" />
 
@@ -126,7 +126,7 @@
                 android:id="@+id/imageview_product_preview_detail_image5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/product_detail_default_image" />
 
@@ -134,7 +134,7 @@
                 android:id="@+id/imageview_product_preview_detail_image6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/product_detail_default_image" />
 

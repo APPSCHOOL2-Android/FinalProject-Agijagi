@@ -1,15 +1,18 @@
 package likelion.project.agijagi.sellermypage
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import likelion.project.agijagi.MainActivity.Companion.getMilliSec
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentProductDetailPreviewBinding
@@ -23,7 +26,9 @@ class ProductDetailPreviewFragment : Fragment() {
 
     lateinit var product: ProductModel
     val dec = DecimalFormat("#,###")
+
     val db = Firebase.firestore
+    private val storageRef = Firebase.storage.reference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +60,7 @@ class ProductDetailPreviewFragment : Fragment() {
         binding.run {
             Glide.with(this@ProductDetailPreviewFragment).run {
                 load(product.thumbnail_image).into(imageviewProductDetailPreviewThumbnailImage)
-                load(product.image[0]).into(imageviewProductDetailPreviewImage1)
+                load(product.image[0]).into(imageviewProductPreviewDetailImage1)
                 load(product.image[1]).into(imageviewProductPreviewDetailImage2)
                 load(product.image[2]).into(imageviewProductPreviewDetailImage3)
                 load(product.image[3]).into(imageviewProductPreviewDetailImage4)
@@ -72,7 +77,25 @@ class ProductDetailPreviewFragment : Fragment() {
         }
     }
 
-    private fun registerProductData() {
+    private fun registerProductImages(productId: String) {
+        val productThumbnailImageFileName = "productImage/$productId/thumbnail_${getMilliSec()}.jpg"
+        storageRef.child(productThumbnailImageFileName).putFile(product.thumbnail_image.toUri()).addOnSuccessListener {
+            product.thumbnail_image = productThumbnailImageFileName
+        }
+
+        val productImageFileNameList = arrayListOf<String>()
+        product.image.forEach {
+            val productImageFileName = "productImage/$productId/${getMilliSec()}.jpg"
+            productImageFileNameList.add(productImageFileName)
+            storageRef.child(productImageFileName).putFile(it.toUri()).addOnCompleteListener {
+                registerProductData(productId)
+            }
+        }
+        product.image = productImageFileNameList
+    }
+
+    private fun registerProductData(productId: String) {
+        product.state = "판매"
         val customOptionInfo = hashMapOf(
             "image_fee" to product.customOptionInfo["image_fee"],
             "image_is_use" to product.customOptionInfo["image_is_use"],
@@ -91,17 +114,10 @@ class ProductDetailPreviewFragment : Fragment() {
                 "floor_plan/cccc",
                 "floor_plan/dddd"
             ),
-            "image" to arrayListOf(
-                "image/eeee",
-                "image/ffff",
-                "image/gggg",
-                "image/hhhh",
-                "image/iiii",
-                "image/jjjj"
-            ),
+            "image" to product.image,
             "is_custom" to product.isCustom,
             "name" to product.name,
-            "out_of_stock" to product.state,
+            "state" to product.state,
             "price" to product.price,
             "sales_quantity" to product.salesQuantity,
             "seller_id" to product.sellerId,
@@ -109,7 +125,7 @@ class ProductDetailPreviewFragment : Fragment() {
             "update_date" to getMilliSec()
         )
 
-        db.collection("product").document(getMilliSec()).set(productMap)
+        db.collection("product").document(productId).set(productMap)
     }
 
     private fun setToolbarNavigationAction() {
@@ -122,7 +138,8 @@ class ProductDetailPreviewFragment : Fragment() {
         binding.buttonProductDetailPreviewProductRegistration.run {
             text = "등록"
             setOnClickListener {
-                registerProductData()
+                val productId = getMilliSec()
+                registerProductImages(productId)
                 Snackbar.make(it, "상품 등록이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_productDetailPreviewFragment_to_productListFragment)
             }
