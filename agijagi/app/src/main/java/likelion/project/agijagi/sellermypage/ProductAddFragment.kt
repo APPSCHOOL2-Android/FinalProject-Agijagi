@@ -41,16 +41,17 @@ class ProductAddFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var mainActivity: MainActivity
 
-    lateinit var imm: InputMethodManager
-
-    var categoryIdx: Int = -1
-    var ordermadeIdx: Int = -1
+    private lateinit var imm: InputMethodManager
 
     // 앨범에서 사진추가
     private val permissionList = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.ACCESS_MEDIA_LOCATION
     )
+    lateinit var callbackActionGranted: () -> Unit
+    lateinit var callbackActionDenide: () -> Unit
+
+    var categoryIdx: Int = ListView.INVALID_POSITION
 
     // 사진
     lateinit var albumActivityLauncherForPictures: ActivityResultLauncher<Intent>
@@ -60,9 +61,6 @@ class ProductAddFragment : Fragment() {
     // 도면
     lateinit var albumActivityLauncherForPlans: ActivityResultLauncher<Intent>
     private val planUriList: ArrayList<Uri> = arrayListOf<Uri>()
-
-    lateinit var callbackActionGranted: () -> Unit
-    lateinit var callbackActionDenide: () -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,22 +85,64 @@ class ProductAddFragment : Fragment() {
             checkBottomButtonActive()
         }
 
-        // 동작
+        setToolbarItemAction()
+        // 이미지 가져오기 런쳐 등록
+        setAlbumActivityLaunchers()
+        // 입력 UI 동작 등록
+        setUiFunction()
+        // 하단 버튼 동작 등록
+        setBottomButton()
+        // 이미지 뷰 초기 설정
+        resetPictureView()
+        resetPlanView()
+    }
+
+    private fun setToolbarItemAction() {
+        binding.toolbarProductAdd.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        for (idx in 0 until permissions.size) {
+            // 현재 번째의 권한 이름을 가져온다.
+            val p1 = permissions[idx]
+            // 권한 허용 여부 값을 가져온다.
+            val g1 = grantResults[idx]
+
+            when (p1) {
+                Manifest.permission.READ_EXTERNAL_STORAGE -> {
+                    if (g1 == PackageManager.PERMISSION_GRANTED) {
+                        callbackActionGranted()
+                    } else {
+                        callbackActionDenide()
+                    }
+                }
+
+                Manifest.permission.ACCESS_MEDIA_LOCATION -> {
+                    if (g1 == PackageManager.PERMISSION_GRANTED) {
+                        callbackActionGranted()
+                    } else {
+                        callbackActionDenide()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setUiFunction() {
         binding.run {
-            // 초기화
-            layoutProductAddOption.visibility = View.GONE
-            layoutProductAddAddPlan.visibility = View.GONE
-
-            categoryIdx = ListView.INVALID_POSITION
-            ordermadeIdx = ListView.INVALID_POSITION
-
-
             // 상품명
             editinputProductAddProductname.run {
                 setOnEditorActionListener { v, actionId, event ->
                     checkBottomButtonActive()
-                    // 가격 입력으로 이동
-                    editinputlayoutProductAddProductprice.requestFocus()
+                    hideSoftKeyboard()
                     false
                 }
             }
@@ -122,33 +162,21 @@ class ProductAddFragment : Fragment() {
                     categoryIdx = position
                     checkBottomButtonActive()
                     hideSoftKeyboard()
-                }
-            }
 
-            // 주문제작 가능 여부 선택
-            menuProductAddSelectOrdermade.run {
-                onItemClickListener = OnItemClickListener { parent, v, position, id ->
-                    ordermadeIdx = position
-                    checkBottomButtonActive()
-                    hideSoftKeyboard()
+                    if (categoryIdx == adapter.count - 1) {
+                        // Order made == 주문제작 가능
+                        layoutProductAddOption.visibility = View.VISIBLE
+                        layoutProductAddAddPlan.visibility = View.VISIBLE
 
-                    // R.array.product_add_category 참조
-                    when (position) {
-                        ProductAddSelectOrdermade.ORDER_POSSIBLE.idx -> {
-                            layoutProductAddOption.visibility = View.VISIBLE
-                            layoutProductAddAddPlan.visibility = View.VISIBLE
-
-                            // 초기화
-                            checkBoxProductAddOption1.isChecked = false
-                            checkBoxProductAddOption2.isChecked = false
-                            editinputlayoutProductAddOption1Price.text = null
-                            editinputlayoutProductAddOption2Price.text = null
-                        }
-
-                        ProductAddSelectOrdermade.ORDER_IMPOSSIBLE.idx -> {
-                            layoutProductAddOption.visibility = View.GONE
-                            layoutProductAddAddPlan.visibility = View.GONE
-                        }
+                        // 초기화
+                        checkBoxProductAddOption1.isChecked = false
+                        checkBoxProductAddOption2.isChecked = false
+                        editinputlayoutProductAddOption1Price.text = null
+                        editinputlayoutProductAddOption2Price.text = null
+                    } else {
+                        // Plate, Cup, Bowl
+                        layoutProductAddOption.visibility = View.GONE
+                        layoutProductAddAddPlan.visibility = View.GONE
                     }
                 }
             }
@@ -195,6 +223,7 @@ class ProductAddFragment : Fragment() {
                         newIntent.setType("image/*")
                         val mimeType = arrayOf("image/*")
                         newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+                        newIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                         albumActivityLauncherForPictures.launch(newIntent)
                     }
                 }
@@ -255,6 +284,7 @@ class ProductAddFragment : Fragment() {
                         newIntent.setType("image/*")
                         val mimeType = arrayOf("image/*")
                         newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+                        newIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                         albumActivityLauncherForPlans.launch(newIntent)
                     }
                 }
@@ -279,61 +309,6 @@ class ProductAddFragment : Fragment() {
                 }
             }
         }
-
-        setToolbarItemAction()
-        setAlbumActivityLaunchers()
-        resetPictureView()
-        resetPlanView()
-        setBottomButton()
-    }
-
-    private fun setToolbarItemAction() {
-        binding.toolbarProductAdd.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray,
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        for (idx in 0 until permissions.size) {
-            // 현재 번째의 권한 이름을 가져온다.
-            val p1 = permissions[idx]
-            // 권한 허용 여부 값을 가져온다.
-            val g1 = grantResults[idx]
-
-            when (p1) {
-                Manifest.permission.READ_EXTERNAL_STORAGE -> {
-                    if (g1 == PackageManager.PERMISSION_GRANTED) {
-                        callbackActionGranted()
-                    } else {
-                        callbackActionDenide()
-                    }
-                }
-
-                Manifest.permission.ACCESS_MEDIA_LOCATION -> {
-                    if (g1 == PackageManager.PERMISSION_GRANTED) {
-                        callbackActionGranted()
-                    } else {
-                        callbackActionDenide()
-                    }
-                }
-            }
-        }
-    }
-
-
-    // UI초기화
-    fun init() {
-
-    }
-
-    fun setUiFunction() {
-
     }
 
 
@@ -351,8 +326,6 @@ class ProductAddFragment : Fragment() {
             } else if (price.isEmpty() || price == "" || price == " ") {
                 checker = false
             } else if (categoryIdx == ListView.INVALID_POSITION) {
-                checker = false
-            } else if (ordermadeIdx == ListView.INVALID_POSITION) {
                 checker = false
             }
 
@@ -377,53 +350,70 @@ class ProductAddFragment : Fragment() {
         // 사진 추가
         albumActivityLauncherForPictures =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
                 if (it?.resultCode != RESULT_OK) {
                     return@registerForActivityResult
                 }
-                val uri = (it.data?.data) ?: return@registerForActivityResult
+                val clipData = (it.data?.clipData) ?: return@registerForActivityResult
 
-                // 버젼별 이미지 디코드
-                val bitmap = imageDecode(uri)
+                for (i in 0 until clipData.itemCount) {
+                    if (6 <= pictureUriList.size) {
+                        break
+                    }
 
-                // 가져온 이미지가 있다면 저장하고 화면에 보여줌
-                if (bitmap != null) {
-                    // 이미지 추가
-                    pictureUriList.add(uri)
-                    resetPictureView()
-                    Snackbar.make(
-                        binding.root,
-                        "사진을 추가했습니다",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    val uri = it.data!!.clipData!!.getItemAt(i).uri
+
+                    // 버젼별 이미지 디코드
+                    val bitmap = imageDecode(uri)
+
+                    // 가져온 이미지가 있다면 저장하고 화면에 보여줌
+                    if (bitmap != null) {
+                        // 이미지 추가
+                        pictureUriList.add(uri)
+                    }
                 }
+
+                resetPictureView()
+                Snackbar.make(
+                    binding.root,
+                    "사진을 추가했습니다",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+
             }
 
         // 도면 추가
         albumActivityLauncherForPlans =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
                 if (it?.resultCode != RESULT_OK) {
                     return@registerForActivityResult
                 }
-                val uri = (it.data?.data) ?: return@registerForActivityResult
+                val clipData = (it.data?.clipData) ?: return@registerForActivityResult
 
-                // 버젼별 이미지 디코드
-                val bitmap = imageDecode(uri)
+                for (i in 0 until clipData.itemCount) {
+                    if (4 <= planUriList.size) {
+                        break
+                    }
 
-                // 가져온 이미지가 있다면 저장하고 화면에 보여줌
-                if (bitmap != null) {
-                    // 이미지 추가
-                    planUriList.add(uri)
-                    resetPlanView()
-                    Snackbar.make(
-                        binding.root,
-                        "도면을 추가했습니다",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    val uri = it.data!!.clipData!!.getItemAt(i).uri
+
+                    // 버젼별 이미지 디코드
+                    val bitmap = imageDecode(uri)
+
+                    // 가져온 이미지가 있다면 저장하고 화면에 보여줌
+                    if (bitmap != null) {
+                        // 이미지 추가
+                        planUriList.add(uri)
+                    }
                 }
+
+                resetPlanView()
+                Snackbar.make(
+                    binding.root,
+                    "도면을 추가했습니다",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
             }
     }
 
@@ -472,6 +462,7 @@ class ProductAddFragment : Fragment() {
             for (i in 0 until pictureIncludeList.size) {
                 if (i < pictureUriList.size) {
                     val bitmap = imageDecode(pictureUriList[i])!!
+                    // Error!!  java.lang.IllegalArgumentException: width and height must be > 0
                     val crop = Bitmap.createScaledBitmap(bitmap, width, width, true)
                     pictureIncludeList[i].imageView.setImageBitmap(crop)
                     pictureIncludeList[i].buttonX.visibility = View.VISIBLE
@@ -536,14 +527,10 @@ class ProductAddFragment : Fragment() {
                     return@setOnClickListener
                 }
 
-                if (ordermadeIdx == ListView.INVALID_POSITION) {
-                    Snackbar.make(it, "주문 제작 가능 여부를 선택하세요", Snackbar.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-
                 // 옵션 추가
                 val opMap = HashMap<String, String>()
-                if (ordermadeIdx == ProductAddSelectOrdermade.ORDER_POSSIBLE.idx) {
+                val isOrdermade = categoryIdx == menuProductAddSelectCategory.adapter.count - 1
+                if (isOrdermade) {
                     // 주문 제작 가능 옵션의 유효성 검사
                     var checkOption = false
                     if (checkBoxProductAddOption1.isChecked) {
@@ -561,6 +548,7 @@ class ProductAddFragment : Fragment() {
                         opMap["lettering_fee"] = ""
                         opMap["lettering_is_use"] = "false"
                     }
+
                     if (checkBoxProductAddOption2.isChecked) {
                         val op2 = editinputlayoutProductAddOption2Price.text.toString()
                         if (op2.isEmpty() || op2 == "" || op2 == " ") {
@@ -585,9 +573,7 @@ class ProductAddFragment : Fragment() {
 
                 // 그 외 데이터
                 val category =
-                    (resources.getStringArray(R.array.product_add_category)
-                        .toList())[categoryIdx]!!
-                val isOrdermade = ordermadeIdx == ProductAddSelectOrdermade.ORDER_POSSIBLE.idx
+                    menuProductAddSelectCategory.adapter.getItem(categoryIdx).toString()
 
                 val planUriString = ArrayList<String>()
                 planUriList.forEach { uri -> planUriString.add(uri.toString()) }
@@ -642,9 +628,4 @@ class ProductAddFragment : Fragment() {
         _binding = null
     }
 
-}
-
-enum class ProductAddSelectOrdermade(val idx: Int, val str: String) {
-    ORDER_POSSIBLE(0, "주문 제작 가능"),
-    ORDER_IMPOSSIBLE(1, "주문 제작 불가능")
 }
