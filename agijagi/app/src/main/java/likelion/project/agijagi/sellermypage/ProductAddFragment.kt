@@ -52,10 +52,12 @@ class ProductAddFragment : Fragment() {
     lateinit var callbackActionDenide: () -> Unit
 
     var categoryIdx: Int = ListView.INVALID_POSITION
+
     // 사진
     lateinit var albumActivityLauncherForPictures: ActivityResultLauncher<Intent>
     private val pictureUriList: ArrayList<Uri> = arrayListOf<Uri>()
     private var pictureCheckIndex: Int = -1
+
     // 도면
     lateinit var albumActivityLauncherForPlans: ActivityResultLauncher<Intent>
     private val planUriList: ArrayList<Uri> = arrayListOf<Uri>()
@@ -84,7 +86,6 @@ class ProductAddFragment : Fragment() {
         }
 
         setToolbarItemAction()
-
         // 이미지 가져오기 런쳐 등록
         setAlbumActivityLaunchers()
         // 입력 UI 동작 등록
@@ -144,7 +145,6 @@ class ProductAddFragment : Fragment() {
                     hideSoftKeyboard()
                     false
                 }
-                clearFocus()
             }
 
             // 가격
@@ -462,12 +462,8 @@ class ProductAddFragment : Fragment() {
             for (i in 0 until pictureIncludeList.size) {
                 if (i < pictureUriList.size) {
                     val bitmap = imageDecode(pictureUriList[i])!!
-                    val crop = Bitmap.createScaledBitmap(
-                        bitmap,
-                        width,
-                        width,
-                        true
-                    ) // Error!!  java.lang.IllegalArgumentException: width and height must be > 0
+                    // Error!!  java.lang.IllegalArgumentException: width and height must be > 0
+                    val crop = Bitmap.createScaledBitmap(bitmap, width, width, true)
                     pictureIncludeList[i].imageView.setImageBitmap(crop)
                     pictureIncludeList[i].buttonX.visibility = View.VISIBLE
                     pictureIncludeList[i].buttonCheckBox.visibility = View.VISIBLE
