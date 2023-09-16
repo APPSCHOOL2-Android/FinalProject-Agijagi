@@ -354,53 +354,70 @@ class ProductAddFragment : Fragment() {
         // 사진 추가
         albumActivityLauncherForPictures =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
                 if (it?.resultCode != RESULT_OK) {
                     return@registerForActivityResult
                 }
-                val uri = (it.data?.data) ?: return@registerForActivityResult
+                val clipData = (it.data?.clipData) ?: return@registerForActivityResult
 
-                // 버젼별 이미지 디코드
-                val bitmap = imageDecode(uri)
+                for (i in 0 until clipData.itemCount) {
+                    if (6 <= pictureUriList.size) {
+                        break
+                    }
 
-                // 가져온 이미지가 있다면 저장하고 화면에 보여줌
-                if (bitmap != null) {
-                    // 이미지 추가
-                    pictureUriList.add(uri)
-                    resetPictureView()
-                    Snackbar.make(
-                        binding.root,
-                        "사진을 추가했습니다",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    val uri = it.data!!.clipData!!.getItemAt(i).uri
+
+                    // 버젼별 이미지 디코드
+                    val bitmap = imageDecode(uri)
+
+                    // 가져온 이미지가 있다면 저장하고 화면에 보여줌
+                    if (bitmap != null) {
+                        // 이미지 추가
+                        pictureUriList.add(uri)
+                    }
                 }
+
+                resetPictureView()
+                Snackbar.make(
+                    binding.root,
+                    "사진을 추가했습니다",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+
             }
 
         // 도면 추가
         albumActivityLauncherForPlans =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
                 if (it?.resultCode != RESULT_OK) {
                     return@registerForActivityResult
                 }
-                val uri = (it.data?.data) ?: return@registerForActivityResult
+                val clipData = (it.data?.clipData) ?: return@registerForActivityResult
 
-                // 버젼별 이미지 디코드
-                val bitmap = imageDecode(uri)
+                for (i in 0 until clipData.itemCount) {
+                    if (4 <= planUriList.size) {
+                        break
+                    }
 
-                // 가져온 이미지가 있다면 저장하고 화면에 보여줌
-                if (bitmap != null) {
-                    // 이미지 추가
-                    planUriList.add(uri)
-                    resetPlanView()
-                    Snackbar.make(
-                        binding.root,
-                        "도면을 추가했습니다",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    val uri = it.data!!.clipData!!.getItemAt(i).uri
+
+                    // 버젼별 이미지 디코드
+                    val bitmap = imageDecode(uri)
+
+                    // 가져온 이미지가 있다면 저장하고 화면에 보여줌
+                    if (bitmap != null) {
+                        // 이미지 추가
+                        planUriList.add(uri)
+                    }
                 }
+
+                resetPlanView()
+                Snackbar.make(
+                    binding.root,
+                    "도면을 추가했습니다",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
             }
     }
 
