@@ -1,9 +1,9 @@
 package likelion.project.agijagi.sellermypage
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -58,15 +58,28 @@ class ProductDetailPreviewFragment : Fragment() {
 
     private fun initViews() {
         binding.run {
-            Glide.with(this@ProductDetailPreviewFragment).run {
-                load(product.thumbnail_image).into(imageviewProductDetailPreviewThumbnailImage)
-                load(product.image[0]).into(imageviewProductPreviewDetailImage1)
-                load(product.image[1]).into(imageviewProductPreviewDetailImage2)
-                load(product.image[2]).into(imageviewProductPreviewDetailImage3)
-                load(product.image[3]).into(imageviewProductPreviewDetailImage4)
-                load(product.image[4]).into(imageviewProductPreviewDetailImage5)
-                load(product.image[5]).into(imageviewProductPreviewDetailImage6)
+            Glide.with(this@ProductDetailPreviewFragment).load(product.thumbnail_image)
+                .into(imageviewProductDetailPreviewThumbnailImage)
+
+            val imageViews = listOf(
+                imageviewProductPreviewDetailImage1,
+                imageviewProductPreviewDetailImage2,
+                imageviewProductPreviewDetailImage3,
+                imageviewProductPreviewDetailImage4,
+                imageviewProductPreviewDetailImage5,
+                imageviewProductPreviewDetailImage6
+            )
+
+            product.image.take(imageViews.size).forEachIndexed { index, imageUrl ->
+                Glide.with(this@ProductDetailPreviewFragment)
+                    .load(imageUrl)
+                    .into(imageViews[index])
             }
+
+            imageViews.subList(product.image.size, imageViews.size).forEach { imageView ->
+                imageView.visibility = GONE
+            }
+
             textviewProductDetailPreviewBrand.text = product.brand
             textviewProductDetailPreviewName.text = product.name
             "${dec.format(product.price.toInt())}원".also {
@@ -79,12 +92,13 @@ class ProductDetailPreviewFragment : Fragment() {
 
     private fun registerProductImages(productId: String) {
         val productThumbnailImageFileName = "productImage/$productId/thumbnail_${getMilliSec()}.jpg"
-        storageRef.child(productThumbnailImageFileName).putFile(product.thumbnail_image.toUri()).addOnSuccessListener {
-            product.thumbnail_image = productThumbnailImageFileName
-        }
+        storageRef.child(productThumbnailImageFileName).putFile(product.thumbnail_image.toUri())
+            .addOnSuccessListener {
+                product.thumbnail_image = productThumbnailImageFileName
+            }
 
         val productImageFileNameList = arrayListOf<String>()
-        product.image.forEach {
+        product.image.take(product.image.size).forEach {
             val productImageFileName = "productImage/$productId/${getMilliSec()}.jpg"
             productImageFileNameList.add(productImageFileName)
             storageRef.child(productImageFileName).putFile(it.toUri()).addOnCompleteListener {
@@ -108,12 +122,7 @@ class ProductDetailPreviewFragment : Fragment() {
             "category" to product.category,
             "customOptionInfo" to customOptionInfo,
             "detail" to product.detail,
-            "floor_plan" to arrayListOf(
-                "floor_plan/aaaa",
-                "floor_plan/bbbb",
-                "floor_plan/cccc",
-                "floor_plan/dddd"
-            ),
+            "floor_plan" to product.floorPlan,
             "image" to product.image,
             "is_custom" to product.isCustom,
             "name" to product.name,
