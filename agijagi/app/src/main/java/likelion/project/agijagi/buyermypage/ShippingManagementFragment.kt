@@ -2,7 +2,6 @@ package likelion.project.agijagi.buyermypage
 
 import android.graphics.Rect
 import android.os.Bundle
-import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,15 +15,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.tasks.await
 import likelion.project.agijagi.R
-import likelion.project.agijagi.UserEssential.Companion.auth
-import likelion.project.agijagi.UserEssential.Companion.db
-import likelion.project.agijagi.UserEssential.Companion.roleId
 import likelion.project.agijagi.buyermypage.adapter.ShippingManagementAdapter
 import likelion.project.agijagi.buyermypage.model.ShippingManagementModel
 import likelion.project.agijagi.databinding.FragmentShippingManagementBinding
-import kotlin.concurrent.thread
 
 class ShippingManagementFragment : Fragment() {
 

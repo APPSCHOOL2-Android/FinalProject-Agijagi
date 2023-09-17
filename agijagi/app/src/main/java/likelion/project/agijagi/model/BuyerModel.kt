@@ -1,12 +1,12 @@
 package likelion.project.agijagi.model
 
-data class BuyerModel(
-    var shippingAddress: ShippingAddress,
-    val wish: ArrayList<String>,
-    var basic: String,
-    var nickname: String,
-    var notifSetting: MutableMap<String, Boolean>
-)
+object BuyerModel {
+    lateinit var shippingAddress: ShippingAddress
+    lateinit var wish: ArrayList<String>
+    var basic: String = ""
+    var nickname: String = ""
+    lateinit var notifSetting: MutableMap<String, Boolean>
+}
 
 data class ShippingAddress(
     var shippingAddressId: String,
