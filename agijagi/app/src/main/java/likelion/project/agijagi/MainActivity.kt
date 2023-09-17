@@ -14,7 +14,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.databinding.ActivityMainBinding
-import likelion.project.agijagi.product.test
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
