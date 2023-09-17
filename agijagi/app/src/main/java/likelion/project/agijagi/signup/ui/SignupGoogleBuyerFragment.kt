@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -31,7 +32,7 @@ class SignupGoogleBuyerFragment : Fragment() {
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
 
-    private val mAuth = auth?.currentUser
+    private val mAuth = Firebase.auth.currentUser
 
     private var nickNameState = false
 
@@ -42,7 +43,8 @@ class SignupGoogleBuyerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _fragmentGoogleSignupBuyerBinding = FragmentGoogleSignupBuyerBinding.inflate(inflater, container, false)
+        _fragmentGoogleSignupBuyerBinding =
+            FragmentGoogleSignupBuyerBinding.inflate(inflater, container, false)
 
         return fragmentGoogleSignupBuyerBinding.root
     }
@@ -54,7 +56,7 @@ class SignupGoogleBuyerFragment : Fragment() {
         setup()
 
         fragmentGoogleSignupBuyerBinding.run {
-            toolbarGoogleSignupBuyerToolbar.setNavigationOnClickListener{
+            toolbarGoogleSignupBuyerToolbar.setNavigationOnClickListener {
                 findNavController().navigate(R.id.action_signupGoogleBuyerFragment_to_signupSelectFragment)
             }
 
@@ -64,11 +66,10 @@ class SignupGoogleBuyerFragment : Fragment() {
             }
 
             buttonGoogleSignupBuyerComplete.setOnClickListener {
-                if(nickNameState == true) {
+                if (nickNameState == true) {
                     createUser()
                     showSnackBar("회원가입 성공했습니다.")
-                }
-                else {
+                } else {
                     showSnackBar("회원가입 실패했습니다.")
                 }
             }
@@ -76,17 +77,25 @@ class SignupGoogleBuyerFragment : Fragment() {
 
     }
 
-    private fun showSnackBar(message: String){
+    private fun showSnackBar(message: String) {
         Snackbar.make(requireView(), message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun setSignupButtonState(state: Boolean){
-        if(state) {
+    private fun setSignupButtonState(state: Boolean) {
+        if (state) {
             fragmentGoogleSignupBuyerBinding.buttonGoogleSignupBuyerComplete.isSelected = true
-            fragmentGoogleSignupBuyerBinding.buttonGoogleSignupBuyerComplete.setTextColor(resources.getColor(R.color.white))
+            fragmentGoogleSignupBuyerBinding.buttonGoogleSignupBuyerComplete.setTextColor(
+                resources.getColor(
+                    R.color.white
+                )
+            )
         } else {
             fragmentGoogleSignupBuyerBinding.buttonGoogleSignupBuyerComplete.isSelected = false
-            fragmentGoogleSignupBuyerBinding.buttonGoogleSignupBuyerComplete.setTextColor(resources.getColor(R.color.jagi_hint_color))
+            fragmentGoogleSignupBuyerBinding.buttonGoogleSignupBuyerComplete.setTextColor(
+                resources.getColor(
+                    R.color.jagi_hint_color
+                )
+            )
 
         }
     }
@@ -100,32 +109,44 @@ class SignupGoogleBuyerFragment : Fragment() {
 
         val buyerInfo = hashMapOf(
             "nickname" to fragmentGoogleSignupBuyerBinding.editinputGoogleSignupBuyerNickname.text.toString(),
-            "notif_setting" to notifSetting
+            "notif_setting" to notifSetting,
+            "basic" to ""
         )
 
         db.collection("buyer").add(buyerInfo).addOnSuccessListener {
             roleId = it.id
+
+            val shipping_info = hashMapOf(
+                "address" to "",
+                "address_detail" to "",
+                "phone_number" to "",
+                "recipient" to "",
+                "shipping_name" to "",
+            )
+
+            db.collection("shipping_address").add(shipping_info)
+
+            val userInfo = hashMapOf(
+                "email" to mAuth?.email.toString(),
+                "password" to "",
+                "name" to mAuth?.displayName.toString(),
+                "google_login_check" to true,
+                "email_notif" to false,
+                "sms_notif" to false,
+                "is_seller" to false,
+                "role_id" to roleId,
+                "new_chat_count" to 0,
+                "new_notif_count" to 0
+            )
+
+            db.collection("user").document(mAuth?.uid.toString())
+                .set(userInfo, SetOptions.merge())
+                .addOnSuccessListener {
+                    Log.d("firebase", "user cloud firestore 등록 완료\n authUID: ${mAuth?.uid}")
+                    findNavController().navigate(R.id.action_signupGoogleBuyerFragment_to_loginFragment)
+                }
+                .addOnFailureListener { e -> Log.w("firebase", "user cloud firestore 등록 실패", e) }
         }
-
-        val userInfo = hashMapOf(
-            "email" to mAuth?.email.toString(),
-            "password" to "",
-            "name" to mAuth?.displayName.toString(),
-            "google_login_check" to true,
-            "email_notif" to false,
-            "sms_notif" to false,
-            "is_seller" to false,
-            "role_id" to roleId
-        )
-
-        db.collection("user").document(mAuth?.uid.toString())
-            .set(userInfo, SetOptions.merge())
-            .addOnSuccessListener { Log.d("firebase", "user cloud firestore 등록 완료\n" +
-                    " authUID: ${mAuth?.uid}")}
-            .addOnFailureListener { e -> Log.w("firebase", "user cloud firestore 등록 실패", e)  }
-
-        findNavController().navigate(R.id.action_signupGoogleBuyerFragment_to_loginFragment)
-
     }
 
     override fun onDestroyView() {

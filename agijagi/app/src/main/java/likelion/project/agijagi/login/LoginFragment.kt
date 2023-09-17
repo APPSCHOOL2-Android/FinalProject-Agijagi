@@ -120,6 +120,8 @@ class LoginFragment : Fragment() {
 
         val googleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions)
 
+//        googleSignInClient.signOut()
+
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
@@ -134,9 +136,11 @@ class LoginFragment : Fragment() {
                     val account = task.getResult(ApiException::class.java)
                     firebaseAuthWithGoogle(account)
                 } catch (e: ApiException) {
+                    Log.d("login","error: ApiException")
                     showSnackBar("로그인에 실패하였습니다.")
                 }
             } else {
+                Log.d("login","error: requestCode Error")
                 showSnackBar("로그인에 실패하였습니다.")
             }
         }
@@ -152,6 +156,7 @@ class LoginFragment : Fragment() {
                     checkUserInfoInFirestore(user)
                 } else {
                     // 로그인 실패 처리
+                    Log.d("login","error: task  is fail")
                     showSnackBar("로그인에 실패하였습니다.")
                 }
             }
@@ -172,10 +177,12 @@ class LoginFragment : Fragment() {
                         findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
                         showSnackBar("로그인에 성공하셨습니다.")
                     }
+                    else {
+                        // 정보가 없는 경우 SignupSelectFragment로 이동
+                        findNavController().navigate(R.id.action_loginFragment_to_signupSelectFragment)
                 }
-        } else {
-            // 정보가 없는 경우 SignupSelectFragment로 이동
-            findNavController().navigate(R.id.action_loginFragment_to_signupSelectFragment)
+            }.addOnFailureListener {
+                    showSnackBar("로그인에 실패") }
         }
     }
 
