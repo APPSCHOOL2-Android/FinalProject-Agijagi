@@ -107,12 +107,13 @@
                             android:layout_height="wrap_content"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
-                            android:layout_marginBottom="16dp">
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginRight="4dp">
 
                             <LinearLayout
                                 android:id="@+id/linearlayout_home_button_one"
-                                android:layout_width="160dp"
-                                android:layout_height="112dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:background="@drawable/bestitem_box_rounded"
                                 android:clickable="true"
@@ -169,11 +170,12 @@
                             android:layout_height="wrap_content"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
-                            android:layout_marginBottom="16dp">
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginStart="4dp">
 
                             <LinearLayout
                                 android:id="@+id/linearlayout_home_button_two"
-                                android:layout_width="160dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="112dp"
                                 android:layout_centerHorizontal="true"
                                 android:background="@drawable/bestitem_box_rounded"
@@ -231,11 +233,12 @@
                             android:layout_height="wrap_content"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
-                            android:layout_marginBottom="16dp">
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginRight="4dp">
 
                             <LinearLayout
                                 android:id="@+id/linearlayout_home_button_three"
-                                android:layout_width="160dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="112dp"
                                 android:layout_centerHorizontal="true"
                                 android:background="@drawable/bestitem_box_rounded"
@@ -293,11 +296,12 @@
                             android:layout_height="wrap_content"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
-                            android:layout_marginBottom="16dp">
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginStart="4dp">
 
                             <LinearLayout
                                 android:id="@+id/linearlayout_home_button_four"
-                                android:layout_width="160dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="112dp"
                                 android:layout_centerHorizontal="true"
                                 android:background="@drawable/bestitem_box_rounded"
