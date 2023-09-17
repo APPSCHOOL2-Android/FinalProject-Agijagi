@@ -9,28 +9,32 @@
     tools:context=".signup.SignupBuyerFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_signup_seller_toolbar"
+        android:id="@+id/toolbar_signup_buyer_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.AgijagiToolbar"
         app:navigationIcon="@drawable/arrow_back_24px"
         app:title="회원가입" />
 
-        <ScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+        <LinearLayout
+            android:id="@+id/linearlayout_signup_buyer_layout_inside"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fillViewport="true"
-            android:scrollbars="none">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:orientation="vertical">
+
             <LinearLayout
-                android:id="@+id/linearlayout_signup_seller_layout_inside"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="64dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="vertical">
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/editinputlayout_signup_buyer_name"
                     android:layout_width="match_parent"
@@ -123,22 +127,21 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
-        </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_signup_buyer_complete"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@drawable/wide_box_selected_active"
-            android:text="가입하기"
-            android:textColor="@color/jagi_hint_color"
-            android:textSize="16dp" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_signup_buyer_complete"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/wide_box_selected_active"
+                    android:text="가입하기"
+                    android:textColor="@color/jagi_hint_color"
+                    android:textSize="16dp" />
+            </LinearLayout>
 
-
-
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
