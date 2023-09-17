@@ -56,7 +56,7 @@ class SignupBuyerFragment : Fragment() {
         setup()
 
         fragmentSignupBuyerBinding.run {
-            toolbarSignupSellerToolbar.setNavigationOnClickListener {
+            toolbarSignupBuyerToolbar.setNavigationOnClickListener {
                 findNavController().navigate(R.id.action_signupBuyerFragment_to_signupSelectFragment)
             }
 

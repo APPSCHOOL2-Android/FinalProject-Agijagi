@@ -236,14 +236,9 @@
                         android:background="@drawable/wide_box_selected_active"
                         android:layout_below="@+id/button_signup_seller_add_file"
                         android:layout_alignParentBottom="true"/>
-
-
                 </RelativeLayout>
 
             </LinearLayout>
         </LinearLayout>
-
-
-
     </ScrollView>
 </LinearLayout>
