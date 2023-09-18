@@ -23,6 +23,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
             android:src="@drawable/agijagi_logo_vector_square"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,6 +51,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
             android:src="@drawable/agijagi_logo_vector_square"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
