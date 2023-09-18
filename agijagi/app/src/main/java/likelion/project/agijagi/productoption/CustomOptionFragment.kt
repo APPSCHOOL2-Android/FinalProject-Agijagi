@@ -17,23 +17,19 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.drawToBitmap
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentCustomOptionBinding
 import likelion.project.agijagi.model.ProdInfo
+import likelion.project.agijagi.model.ProductModel
+import kotlin.math.log
 
 class CustomOptionFragment : Fragment() {
     private var _binding: FragmentCustomOptionBinding? = null
@@ -55,6 +51,9 @@ class CustomOptionFragment : Fragment() {
     private var backImageState = false
     private var leftImageState = false
     private var rightImageState = false
+
+    lateinit var productId: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,11 +67,17 @@ class CustomOptionFragment : Fragment() {
         leftAlbumLauncher = albumSetting(binding.customOptionLeft.itemCustomOptionImage)
         rightAlbumLauncher = albumSetting(binding.customOptionRight.itemCustomOptionImage)
 
+        // productDetailFragment 에서 Id 값을 받아옴
+        productId = arguments?.getString("prodId").toString()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 도자기 정보를 받아 출력
+        getData()
 
         // 커스텀 옵션 선택
         setCustomOptions()
@@ -89,6 +94,17 @@ class CustomOptionFragment : Fragment() {
         setShoppingBagButton()
         // 뒤로가기 버튼
         setToolbarItemAction()
+    }
+
+    private fun getData() {
+        val db = Firebase.firestore
+        db.collection("product")
+            .document(productId)
+            .get().addOnSuccessListener {
+                binding.textviewShoppingListItemBrand.text = it["brand"].toString()
+                binding.textviewShoppingListItemName.text = it["name"].toString()
+                binding.textviewShoppingListItemPrice.text = "${it["price"].toString()}원"
+            }
     }
 
     private fun setCustomOptions() {
@@ -211,21 +227,16 @@ class CustomOptionFragment : Fragment() {
 
     private fun setPurchaseButton() {
         binding.run {
-            //todo id 받아서 브랜드 네임 가격을 입력 해야함
-            CoroutineScope(Dispatchers.IO).launch {
-                val db = Firebase.firestore
-                db.collection("product")
-                    .document("")
-            }
 
-            val count = editInputCustomOptionVolumeText.text.toString().toLong()
             buttonCustomOptionPurchase.setOnClickListener {
+                val count = editInputCustomOptionVolumeText.text.toString().toLong()
                 // 데이터가져오기
+
                 if (lettering) {
                     val customWord = editInputCustomOptionText.text.toString()
                     val customLocation = editInputCustomOptionLocationText.text.toString()
                     val letteringCustomOption = ProdInfo(
-                        "000001",
+                        productId,
                         count,
                         arrayListOf(),
                         "Lettering",
@@ -251,11 +262,10 @@ class CustomOptionFragment : Fragment() {
                     val rightImage =
                         getImage(backImageState, binding.customOptionBack.itemCustomOptionImage)
                     binding.customOptionFront.itemCustomOptionImage
-
                     val imageList = arrayListOf(frontImage, backImage, leftImage, rightImage)
 
                     val imageCustomOption = ProdInfo(
-                        "000001",
+                        productId,
                         count,
                         imageList,
                         "Image",
