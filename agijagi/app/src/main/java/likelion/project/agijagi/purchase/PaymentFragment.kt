@@ -142,7 +142,10 @@ class PaymentFragment : Fragment() {
 
     private fun setShippingChangeButton() {
         binding.buttonPaymentShippingChange.setOnClickListener {
-            findNavController().navigate(R.id.action_paymentFragment_to_shippingManagementFragment)
+            val bundle = Bundle().apply {
+                putBoolean("payment_to_shippingManagement", true)
+            }
+            findNavController().navigate(R.id.action_paymentFragment_to_shippingManagementFragment, bundle)
         }
     }
 

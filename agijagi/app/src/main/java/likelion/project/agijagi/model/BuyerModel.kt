@@ -9,6 +9,7 @@ object BuyerModel {
 }
 
 data class ShippingAddress(
+    var shippingAddressChecked: Boolean, // 결제페이지 배송지 변경시 선택
     var shippingAddressId: String,
     var address: String,
     var addressDetail: String,

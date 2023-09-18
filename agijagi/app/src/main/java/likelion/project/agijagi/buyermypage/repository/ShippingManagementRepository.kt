@@ -38,19 +38,20 @@ class ShippingManagementRepository {
         shippingAddressRef.get()
             .addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot.exists()) {
-                    val title = documentSnapshot.getString("shipping_name").toString()
+                    val shipping_name = documentSnapshot.getString("shipping_name").toString()
                     val address = documentSnapshot.getString("address").toString()
                     val addressDetail = documentSnapshot.getString("address_detail").toString()
                     val recipient = documentSnapshot.getString("recipient").toString()
-                    val recipientPhone = documentSnapshot.getString("phone_number").toString()
+                    val phone_number = documentSnapshot.getString("phone_number").toString()
 
                     val shippingData = ShippingAddress(
+                        false,
                         shippingUpdateUid,
                         address,
                         addressDetail,
-                        recipientPhone,
+                        phone_number,
                         recipient,
-                        title
+                        shipping_name
                     )
 
                     onSuccess(shippingData)
