@@ -199,9 +199,33 @@ class LoginFragment : Fragment() {
                     // name 이 널이 아니고 is_seller true or false 로 구분해야하는가 ?
                     if (documentSnapshot["name"].toString().length >= 2 && documentSnapshot["is_seller"] == false) {
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+
+                        MainActivity.userModel.uid = auth?.currentUser?.uid.toString()
+                        MainActivity.userModel.email = documentSnapshot["email"].toString()
+                        MainActivity.userModel.emailNotif = documentSnapshot.getBoolean("emailNotif")
+                        MainActivity.userModel.googleLoginCheck = documentSnapshot.getBoolean("google_login_check")
+                        MainActivity.userModel.isSeller = documentSnapshot.getBoolean("is_seller")
+                        MainActivity.userModel.name = documentSnapshot["name"].toString()
+                        MainActivity.userModel.newChatCount = documentSnapshot["new_chat_count"].toString().toInt()
+                        MainActivity.userModel.newNotifCount = documentSnapshot["new_notif_count"].toString().toInt()
+                        MainActivity.userModel.password =  documentSnapshot["password"].toString()
+                        MainActivity.userModel.smsNotif = documentSnapshot.getBoolean("sms_notif")
+
                         showSnackBar("로그인에 성공하셨습니다.")
                     } else if (documentSnapshot["name"].toString().length >= 2 && documentSnapshot["is_seller"] == true) {
                         findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
+
+                        MainActivity.userModel.uid = auth?.currentUser?.uid.toString()
+                        MainActivity.userModel.email = documentSnapshot["email"].toString()
+                        MainActivity.userModel.emailNotif = documentSnapshot.getBoolean("emailNotif")
+                        MainActivity.userModel.googleLoginCheck = documentSnapshot.getBoolean("google_login_check")
+                        MainActivity.userModel.isSeller = documentSnapshot.getBoolean("is_seller")
+                        MainActivity.userModel.name = documentSnapshot["name"].toString()
+                        MainActivity.userModel.newChatCount = documentSnapshot["new_chat_count"].toString().toInt()
+                        MainActivity.userModel.newNotifCount = documentSnapshot["new_notif_count"].toString().toInt()
+                        MainActivity.userModel.password =  documentSnapshot["password"].toString()
+                        MainActivity.userModel.smsNotif = documentSnapshot.getBoolean("sms_notif")
+
                         showSnackBar("로그인에 성공하셨습니다.")
                     }
                     else {
