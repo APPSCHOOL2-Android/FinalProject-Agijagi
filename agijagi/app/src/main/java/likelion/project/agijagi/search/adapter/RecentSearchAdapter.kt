@@ -1,10 +1,14 @@
 package likelion.project.agijagi.search.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemSearchRecentSearchesBinding
 import likelion.project.agijagi.search.SearchFragment.Companion.recentSearchesList
 
@@ -16,6 +20,14 @@ class RecentSearchAdapter : ListAdapter<String, RecentSearchAdapter.RecentSearch
         fun bind(recentSearch: String) {
             binding.run {
                 textviewRecentSearch.text = recentSearch
+                root.setOnClickListener {
+                    val searchWord = textviewRecentSearch.text.toString()
+                    recentSearchesList.add(searchWord)
+                    val bundle = Bundle()
+                    bundle.putString("searchWord", searchWord)
+                    it.findNavController()
+                        .navigate(R.id.action_searchFragment_to_searchResultFragment, bundle)
+                }
                 imageButtonDelete.setOnClickListener {
                     recentSearchesList.removeAt(adapterPosition)
                     notifyItemRemoved(adapterPosition)

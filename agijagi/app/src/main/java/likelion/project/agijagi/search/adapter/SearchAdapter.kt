@@ -3,6 +3,7 @@ package likelion.project.agijagi.search.adapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,7 +12,7 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemSearchBinding
 import likelion.project.agijagi.search.SearchFragment.Companion.recentSearchesList
 
-class SearchAdapter : ListAdapter<String, SearchAdapter.SearchViewHolder>(diffUtil) {
+class SearchAdapter(val editTextSearch: EditText) : ListAdapter<String, SearchAdapter.SearchViewHolder>(diffUtil) {
 
     inner class SearchViewHolder(private val binding: ItemSearchBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -26,6 +27,8 @@ class SearchAdapter : ListAdapter<String, SearchAdapter.SearchViewHolder>(diffUt
                     bundle.putString("searchWord", searchWord)
                     it.findNavController()
                         .navigate(R.id.action_searchFragment_to_searchResultFragment, bundle)
+
+                    editTextSearch.text.clear()
                 }
             }
         }
