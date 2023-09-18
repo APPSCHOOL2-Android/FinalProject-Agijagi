@@ -125,7 +125,7 @@ class SignupSellerFragment : Fragment() {
                         password = editinputSignupSellerPassword.text.toString()
                     )
                 } else {
-                    Snackbar.make(fragmentSignupSellerBinding.root,"회원가입 실패했습니다.",Snackbar.LENGTH_SHORT).show()
+                    showSnackBar("회원가입 실패했습니다.")
                 }
             }
         }
@@ -211,11 +211,7 @@ class SignupSellerFragment : Fragment() {
                                                 "firebase",
                                                 "user cloud firestore 등록 완료\n authUID: ${user?.uid}"
                                             )
-                                            Snackbar.make(
-                                                fragmentSignupSellerBinding.root,
-                                                "회원가입 성공",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
+                                            showSnackBar("회원가입 성공했습니다.")
                                             findNavController().navigate(R.id.action_signupSellerFragment_to_loginFragment)
                                         }
                                         .addOnFailureListener { e ->
@@ -227,18 +223,10 @@ class SignupSellerFragment : Fragment() {
                                         }
                                 }
                         } else {
-                            Snackbar.make(
-                                fragmentSignupSellerBinding.root,
-                                "회원가입 실패",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            showSnackBar("회원가입 실패했습니다.")
                         }
                     } else {
-                        Snackbar.make(
-                            fragmentSignupSellerBinding.root,
-                            "이메일 형식이 아닙니다.",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showSnackBar("이메일 형식이 아닙니다.")
                         fragmentSignupSellerBinding.run {
                             editinputSignupSellerEmail.requestFocus()
                             editinputSignupSellerEmail.setText("")
@@ -246,6 +234,13 @@ class SignupSellerFragment : Fragment() {
                     }
                 }
         }
+    }
+
+    private fun showSnackBar(message: String){
+        Snackbar.make(
+            fragmentSignupSellerBinding.root, message, Toast.LENGTH_SHORT).apply {
+                anchorView = fragmentSignupSellerBinding.buttonSignupSellerComplete
+        }.show()
     }
 
     override fun onDestroyView() {

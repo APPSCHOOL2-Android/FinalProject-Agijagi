@@ -68,7 +68,6 @@ class SignupGoogleBuyerFragment : Fragment() {
             buttonGoogleSignupBuyerComplete.setOnClickListener {
                 if (nickNameState == true) {
                     createUser()
-                    showSnackBar("회원가입 성공했습니다.")
                 } else {
                     showSnackBar("회원가입 실패했습니다.")
                 }
@@ -78,7 +77,9 @@ class SignupGoogleBuyerFragment : Fragment() {
     }
 
     private fun showSnackBar(message: String) {
-        Snackbar.make(requireView(), message, Toast.LENGTH_SHORT).show()
+        Snackbar.make(fragmentGoogleSignupBuyerBinding.root, message, Toast.LENGTH_SHORT).apply {
+            anchorView = fragmentGoogleSignupBuyerBinding.buttonGoogleSignupBuyerComplete
+        }.show()
     }
 
     private fun setSignupButtonState(state: Boolean) {

@@ -97,7 +97,7 @@ class SignupBuyerFragment : Fragment() {
                         password = editinputSignupBuyerPassword.text.toString()
                     )
                 } else {
-                    Snackbar.make(fragmentSignupBuyerBinding.root,"정보를 기입해주세요.",Snackbar.LENGTH_SHORT).show()
+                    showSnackBar("정보를 기입해주세요.")
                 }
             }
         }
@@ -188,7 +188,7 @@ class SignupBuyerFragment : Fragment() {
                                                 "firebase",
                                                 "user cloud firestore 등록 완료\n authUID: ${user?.uid}"
                                             )
-                                            Snackbar.make(fragmentSignupBuyerBinding.root,"회원가입 성공했습니다.",Snackbar.LENGTH_SHORT).show()
+                                            showSnackBar("회원가입 성공했습니다.")
                                             findNavController().navigate(R.id.action_signupBuyerFragment_to_loginFragment)
                                         }
                                         .addOnFailureListener { e ->
@@ -201,10 +201,10 @@ class SignupBuyerFragment : Fragment() {
                                 }
 
                         } else {
-                            Snackbar.make(fragmentSignupBuyerBinding.root,"회원가입 실패했습니다.",Snackbar.LENGTH_SHORT).show()
+                            showSnackBar("회원가입 실패했습니다.")
                         }
                     } else {
-                        Snackbar.make(fragmentSignupBuyerBinding.root,"이메일 형식이 아닙니다.",Snackbar.LENGTH_SHORT).show()
+                        showSnackBar("이메일 형식이 아닙니다.")
                         fragmentSignupBuyerBinding.run {
                             editinputSignupBuyerEmail.requestFocus()
                             editinputSignupBuyerEmail.setText("")
@@ -212,8 +212,14 @@ class SignupBuyerFragment : Fragment() {
                     }
                 }
         } else {
-            Snackbar.make(fragmentSignupBuyerBinding.root,"회원가입 실패했습니다.",Snackbar.LENGTH_SHORT).show()
+            showSnackBar("회원가입 실패했습니다.")
         }
+    }
+
+    private fun showSnackBar(message: String) {
+        Snackbar.make(fragmentSignupBuyerBinding.root,message,Snackbar.LENGTH_SHORT).apply {
+            anchorView = fragmentSignupBuyerBinding.buttonSignupBuyerComplete
+        }.show()
     }
 
     override fun onDestroyView() {
