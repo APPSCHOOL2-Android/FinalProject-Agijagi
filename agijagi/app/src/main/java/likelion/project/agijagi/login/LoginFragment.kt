@@ -18,12 +18,15 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
+import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentLoginBinding
+import likelion.project.agijagi.model.UserModel
 
 class LoginFragment : Fragment() {
     companion object {
@@ -95,11 +98,35 @@ class LoginFragment : Fragment() {
                             // auth?.currentUser?.uid.toString() == it.id 같은 값을 가진다
                             Log.d("getid", "get Uid: ${auth?.currentUser?.uid.toString()}")
                             showSnackBar("로그인에 성공하였습니다.")
+
+                            MainActivity.userModel.uid = auth?.currentUser?.uid.toString()
+                            MainActivity.userModel.email = it["email"].toString()
+                            MainActivity.userModel.emailNotif = it.getBoolean("emailNotif")
+                            MainActivity.userModel.googleLoginCheck = it.getBoolean("google_login_check")
+                            MainActivity.userModel.isSeller = it.getBoolean("is_seller")
+                            MainActivity.userModel.name = it["name"].toString()
+                            MainActivity.userModel.newChatCount = it["new_chat_count"].toString().toInt()
+                            MainActivity.userModel.newNotifCount = it["new_notif_count"].toString().toInt()
+                            MainActivity.userModel.password =  it["password"].toString()
+                            MainActivity.userModel.smsNotif = it.getBoolean("sms_notif")
+
                             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
 
                         } else if(it["is_seller"] == true){
                             Log.d("getid", "getid: ${it.id}")
                             showSnackBar("로그인에 성공하였습니다.")
+
+                            MainActivity.userModel.uid = auth?.currentUser?.uid.toString()
+                            MainActivity.userModel.email = it["email"].toString()
+                            MainActivity.userModel.emailNotif = it.getBoolean("emailNotif")
+                            MainActivity.userModel.googleLoginCheck = it.getBoolean("google_login_check")
+                            MainActivity.userModel.isSeller = it.getBoolean("is_seller")
+                            MainActivity.userModel.name = it["name"].toString()
+                            MainActivity.userModel.newChatCount = it["new_chat_count"] as Int?
+                            MainActivity.userModel.newNotifCount = it["new_notif_count"] as Int?
+                            MainActivity.userModel.password =  it["password"].toString()
+                            MainActivity.userModel.smsNotif = it.getBoolean("sms_notif")
+
                             findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
                         }
                     }
@@ -172,9 +199,33 @@ class LoginFragment : Fragment() {
                     // name 이 널이 아니고 is_seller true or false 로 구분해야하는가 ?
                     if (documentSnapshot["name"].toString().length >= 2 && documentSnapshot["is_seller"] == false) {
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+
+                        MainActivity.userModel.uid = auth?.currentUser?.uid.toString()
+                        MainActivity.userModel.email = documentSnapshot["email"].toString()
+                        MainActivity.userModel.emailNotif = documentSnapshot.getBoolean("emailNotif")
+                        MainActivity.userModel.googleLoginCheck = documentSnapshot.getBoolean("google_login_check")
+                        MainActivity.userModel.isSeller = documentSnapshot.getBoolean("is_seller")
+                        MainActivity.userModel.name = documentSnapshot["name"].toString()
+                        MainActivity.userModel.newChatCount = documentSnapshot["new_chat_count"].toString().toInt()
+                        MainActivity.userModel.newNotifCount = documentSnapshot["new_notif_count"].toString().toInt()
+                        MainActivity.userModel.password =  documentSnapshot["password"].toString()
+                        MainActivity.userModel.smsNotif = documentSnapshot.getBoolean("sms_notif")
+
                         showSnackBar("로그인에 성공하셨습니다.")
                     } else if (documentSnapshot["name"].toString().length >= 2 && documentSnapshot["is_seller"] == true) {
                         findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
+
+                        MainActivity.userModel.uid = auth?.currentUser?.uid.toString()
+                        MainActivity.userModel.email = documentSnapshot["email"].toString()
+                        MainActivity.userModel.emailNotif = documentSnapshot.getBoolean("emailNotif")
+                        MainActivity.userModel.googleLoginCheck = documentSnapshot.getBoolean("google_login_check")
+                        MainActivity.userModel.isSeller = documentSnapshot.getBoolean("is_seller")
+                        MainActivity.userModel.name = documentSnapshot["name"].toString()
+                        MainActivity.userModel.newChatCount = documentSnapshot["new_chat_count"].toString().toInt()
+                        MainActivity.userModel.newNotifCount = documentSnapshot["new_notif_count"].toString().toInt()
+                        MainActivity.userModel.password =  documentSnapshot["password"].toString()
+                        MainActivity.userModel.smsNotif = documentSnapshot.getBoolean("sms_notif")
+
                         showSnackBar("로그인에 성공하셨습니다.")
                     }
                     else {

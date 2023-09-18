@@ -3,13 +3,13 @@ package likelion.project.agijagi.model
 object UserModel {
     var uid: String = ""
     var email: String = ""
-    var emailNotif: String = ""
-    var googleLoginCheck = false
-    var isSeller = false
+    var emailNotif: Boolean ?= false
+    var googleLoginCheck: Boolean ?= false
+    var isSeller:Boolean ?= false
     var name: String = ""
-    var newChatCount = -1
-    var newNotifCount = -1
+    var newChatCount :Int ? = 0
+    var newNotifCount :Int ?= -1
     var password: String = ""
     var roleId: String = ""
-    var smsNotif = false
+    var smsNotif:Boolean ?= false
 }
