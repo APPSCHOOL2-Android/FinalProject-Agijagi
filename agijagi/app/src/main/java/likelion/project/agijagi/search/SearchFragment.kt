@@ -6,9 +6,11 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import likelion.project.agijagi.R
@@ -46,7 +48,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recentSearchAdapter = RecentSearchAdapter()
-        searchAdapter = SearchAdapter()
+        searchAdapter = SearchAdapter(binding.edittextSearch)
 
         setToolbarNavigationAction()
         updateSearchListDisplay()
@@ -104,7 +106,13 @@ class SearchFragment : Fragment() {
                 }
 
                 setOnEditorActionListener { _, _, _ ->
-                    recentSearchesList.add(text.toString())
+                    val searchWord = text.toString()
+                    recentSearchesList.add(searchWord)
+                    val bundle = Bundle()
+                    bundle.putString("searchWord", searchWord)
+                    edittextSearch.text?.clear()
+                    findNavController()
+                        .navigate(R.id.action_searchFragment_to_searchResultFragment, bundle)
                     false
                 }
             }
