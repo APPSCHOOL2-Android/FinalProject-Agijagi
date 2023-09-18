@@ -119,10 +119,14 @@ class SignupSellerFragment : Fragment() {
             }
 
             buttonSignupSellerComplete.setOnClickListener {
-                createUser(
-                    email = editinputSignupSellerEmail.text.toString(),
-                    password = editinputSignupSellerPassword.text.toString()
-                )
+                if(buttonState == true) {
+                    createUser(
+                        email = editinputSignupSellerEmail.text.toString(),
+                        password = editinputSignupSellerPassword.text.toString()
+                    )
+                } else {
+                    Snackbar.make(fragmentSignupSellerBinding.root,"회원가입 실패했습니다.",Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -239,7 +243,6 @@ class SignupSellerFragment : Fragment() {
                             editinputSignupSellerEmail.requestFocus()
                             editinputSignupSellerEmail.setText("")
                         }
-
                     }
                 }
         }
