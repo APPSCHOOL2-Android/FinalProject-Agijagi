@@ -13,6 +13,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.databinding.ActivityMainBinding
+import likelion.project.agijagi.model.UserModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
 
     companion object{
+        var userModel= UserModel
+
         fun getMilliSec(): String {
             val sdf = SimpleDateFormat("yyMMddhhmmssSSS", Locale.getDefault())
 
