@@ -91,10 +91,14 @@ class SignupBuyerFragment : Fragment() {
             }
 
             buttonSignupBuyerComplete.setOnClickListener {
-                createUser(
-                    email = editinputSignupBuyerEmail.text.toString(),
-                    password = editinputSignupBuyerPassword.text.toString()
-                )
+                if(buttonState == true){
+                    createUser(
+                        email = editinputSignupBuyerEmail.text.toString(),
+                        password = editinputSignupBuyerPassword.text.toString()
+                    )
+                } else {
+                    Snackbar.make(fragmentSignupBuyerBinding.root,"정보를 기입해주세요.",Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -184,7 +188,7 @@ class SignupBuyerFragment : Fragment() {
                                                 "firebase",
                                                 "user cloud firestore 등록 완료\n authUID: ${user?.uid}"
                                             )
-                                            Snackbar.make(fragmentSignupBuyerBinding.root, "회원가입 성공했습니다.", Toast.LENGTH_SHORT).show()
+                                            Snackbar.make(fragmentSignupBuyerBinding.root,"회원가입 성공했습니다.",Snackbar.LENGTH_SHORT).show()
                                             findNavController().navigate(R.id.action_signupBuyerFragment_to_loginFragment)
                                         }
                                         .addOnFailureListener { e ->
@@ -197,16 +201,18 @@ class SignupBuyerFragment : Fragment() {
                                 }
 
                         } else {
-                            Snackbar.make(fragmentSignupBuyerBinding.root, "회원가입 실패했습니다.", Toast.LENGTH_SHORT).show()
+                            Snackbar.make(fragmentSignupBuyerBinding.root,"회원가입 실패했습니다.",Snackbar.LENGTH_SHORT).show()
                         }
                     } else {
-                        Snackbar.make(fragmentSignupBuyerBinding.root, "이메일 형식이 아닙니다.", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(fragmentSignupBuyerBinding.root,"이메일 형식이 아닙니다.",Snackbar.LENGTH_SHORT).show()
                         fragmentSignupBuyerBinding.run {
                             editinputSignupBuyerEmail.requestFocus()
                             editinputSignupBuyerEmail.setText("")
                         }
                     }
                 }
+        } else {
+            Snackbar.make(fragmentSignupBuyerBinding.root,"회원가입 실패했습니다.",Snackbar.LENGTH_SHORT).show()
         }
     }
 
