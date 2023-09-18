@@ -1,6 +1,7 @@
 package likelion.project.agijagi.product
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,8 @@ class ProductDetailFragment : Fragment() {
     val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
 
+    private val productId = "230916014552765"
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,9 +43,9 @@ class ProductDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         loadProductDataAndInitViews()
-        setToolbarItemAction()
-        setFavoriteButton()
-        setPurchaseButton()
+        setupToolbar()
+        setupFavoriteButton()
+        setupPurchaseButton()
     }
 
     private fun loadProductDataAndInitViews() {
@@ -67,13 +70,13 @@ class ProductDetailFragment : Fragment() {
 
             startShimmerAnimations(shimmerLayoutProductDetailThumbnailImage, shimmerLayoutImages)
 
-            db.collection("product").document("230916014552765").get().addOnSuccessListener {
-                val thumbnailImage = it.getString("thumbnail_image").toString()
-                val brand = it.getString("brand").toString()
-                val name = it.getString("name").toString()
-                val price = it.getString("price").toString()
-                val detail = it.getString("detail").toString()
-                val image = it.get("image") as ArrayList<*>
+            db.collection("product").document(productId).get().addOnSuccessListener {
+                val thumbnailImage = it["thumbnail_image"].toString()
+                val brand = it["brand"].toString()
+                val name = it["name"].toString()
+                val price = it["price"].toString()
+                val detail = it["detail"].toString()
+                val image = it["image"] as ArrayList<*>
 
                 storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { thumbnailUri ->
                     shimmerLayoutProductDetailThumbnailImage.stopShimmerAnimation()
@@ -137,7 +140,7 @@ class ProductDetailFragment : Fragment() {
         }
     }
 
-    private fun setToolbarItemAction() {
+    private fun setupToolbar() {
         binding.toolbarProductDetail.run {
             setNavigationOnClickListener {
                 findNavController().popBackStack()
@@ -153,15 +156,43 @@ class ProductDetailFragment : Fragment() {
         }
     }
 
-    private fun setFavoriteButton() {
-        binding.imageButtonProductDetailFavorite.setOnClickListener {
-            it.isSelected = it.isSelected != true
+    private fun setupFavoriteButton() {
+        val buyerId = "Ws3TxAyKAg6Xe5GVNwV4"
+        binding.imageButtonProductDetailFavorite.run {
+            db.collection("buyer")
+                .document(buyerId)
+                .collection("wish")
+                .get()
+                .addOnSuccessListener {
+                for (document in it) {
+                    if (document.id == productId) {
+                        this.isSelected = true
+                    }
+                }
+            }
+            setOnClickListener {
+                it.isSelected = it.isSelected != true
+                if (it.isSelected) {
+                    val prodId = hashMapOf("prodId" to productId)
+                    db.collection("buyer")
+                        .document(buyerId)
+                        .collection("wish")
+                        .document(productId)
+                        .set(prodId)
+                } else {
+                    db.collection("buyer")
+                        .document(buyerId)
+                        .collection("wish")
+                        .document(productId)
+                        .delete()
+                }
+            }
         }
     }
 
-    private fun setPurchaseButton() {
+    private fun setupPurchaseButton() {
         binding.buttonProductDetailPurchase.setOnClickListener {
-            val bundle = bundleOf("prodId" to "230915015451213")
+            val bundle = bundleOf("prodId" to productId)
             it.findNavController()
                 .navigate(R.id.action_productDetailFragment_to_readyMadeOptionFragment, bundle)
         }
