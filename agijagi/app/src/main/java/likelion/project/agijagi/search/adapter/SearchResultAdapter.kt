@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemSearchSearchResultBinding
 import likelion.project.agijagi.search.SearchResultModel
 
@@ -20,6 +21,7 @@ class SearchResultAdapter :
             binding.run {
                 Glide.with(itemView)
                     .load(item.prodImage)
+                    .placeholder(R.drawable.search_result_default_image)
                     .into(binding.imageviewSearchSearchResultImage)
                 textviewSearchSearchResultBrand.text = item.prodBrand
                 textviewSearchSearchResultName.text = item.prodName
@@ -37,9 +39,8 @@ class SearchResultAdapter :
             parent,
             false
         )
-        val viewHolder = SearchResultViewHolder(itemSearchSearchResultBinding)
 
-        return viewHolder
+        return SearchResultViewHolder(itemSearchSearchResultBinding)
     }
 
     override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
