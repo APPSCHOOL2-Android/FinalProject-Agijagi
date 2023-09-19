@@ -7,8 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.firestoreSettings
+import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
+import likelion.project.agijagi.category.adapter.CategoryDetailInfoListAdapter
+import likelion.project.agijagi.category.model.CategoryDetailInfoListModel
 import likelion.project.agijagi.databinding.FragmentCategoryDetailInfoListBinding
 
 class CategoryDetailInfoListFragment : Fragment() {
@@ -17,21 +24,23 @@ class CategoryDetailInfoListFragment : Fragment() {
     lateinit var mainActivity: MainActivity
     lateinit var listAdapter: CategoryDetailInfoListAdapter
 
-    val dataSet = arrayListOf<CategoryDetailInfoListModel>().apply {
-        add(CategoryDetailInfoListModel("김자기", "화려한 접시", "2억원"))
-        add(CategoryDetailInfoListModel("아기자기", "아름다운 접시", "2원"))
-        add(CategoryDetailInfoListModel("아기자기", "큰접시", "20.000,000원"))
-        add(CategoryDetailInfoListModel("아기자기", "부서진 접시", "20원"))
-        add(CategoryDetailInfoListModel("김자기", "아쉬운 접시", "2,001,402,414원"))
-    }
+    private var auth: FirebaseAuth? = null
+    private lateinit var db: FirebaseFirestore
+
+    var getBundle = ""
+    val dataList = mutableListOf<CategoryDetailInfoListModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        fragmentCategoryDetailInfoListBinding =
-            FragmentCategoryDetailInfoListBinding.inflate(inflater)
-        mainActivity = activity as MainActivity
+        fragmentCategoryDetailInfoListBinding = FragmentCategoryDetailInfoListBinding.inflate(inflater)
+
+        return fragmentCategoryDetailInfoListBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setToolbarMenuItem()
 
@@ -41,7 +50,8 @@ class CategoryDetailInfoListFragment : Fragment() {
             toolbarCategoryDetailInfoList.run {
 
                 // category 클릭 시 정보를 전달 받아서 title 변경 필요
-                title = ""
+                getBundle = arguments?.getString("category").toString()
+                title = getBundle
                 inflateMenu(R.menu.menu_category)
             }
 
@@ -49,9 +59,16 @@ class CategoryDetailInfoListFragment : Fragment() {
                 layoutManager = GridLayoutManager(context, 2)
                 adapter = listAdapter
             }
-            listAdapter.submitList(dataSet)
         }
-        return fragmentCategoryDetailInfoListBinding.root
+    }
+
+    private fun getCategoryList(category: String){
+        // is_custom 을 통해 order made인지 아닌지 분류
+        if(category == "All"){
+            db.collection("product")
+        } else {
+
+        }
     }
 
     private fun setToolbarMenuItem() {
@@ -70,4 +87,12 @@ class CategoryDetailInfoListFragment : Fragment() {
         }
     }
 
+    fun setup() {
+        db = Firebase.firestore
+
+        val settings = firestoreSettings {
+            isPersistenceEnabled = true
+        }
+        db.firestoreSettings = settings
+    }
 }

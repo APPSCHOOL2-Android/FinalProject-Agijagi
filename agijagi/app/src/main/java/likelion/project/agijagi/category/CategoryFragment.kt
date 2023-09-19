@@ -44,20 +44,22 @@ class CategoryFragment : Fragment() {
 
     private fun setCategoryMenuButton() {
         binding.run {
-            linearlayoutCategoryButtonOne.setOnClickListener { it.navigateToCategoryDetail() }
-            linearlayoutCategoryButtonTwo.setOnClickListener { it.navigateToCategoryDetail() }
-            linearlayoutCategoryButtonThree.setOnClickListener { it.navigateToCategoryDetail() }
-            linearlayoutCategoryButtonFour.setOnClickListener { it.navigateToCategoryDetail() }
-            linearlayoutCategoryButtonFive.setOnClickListener {
+            linearlayoutCategoryButtonAll.setOnClickListener { it.navigateToCategoryDetail("All") }
+            linearlayoutCategoryButtonPlate.setOnClickListener { it.navigateToCategoryDetail("Plate") }
+            linearlayoutCategoryButtonCup.setOnClickListener { it.navigateToCategoryDetail("Cup") }
+            linearlayoutCategoryButtonBowl.setOnClickListener { it.navigateToCategoryDetail("Bowl") }
+            linearlayoutCategoryButtonOrdermade.setOnClickListener {
                 it.findNavController()
                     .navigate(R.id.action_categoryFragment_to_orderMadeCategoryFragment)
             }
         }
     }
 
-    private fun View.navigateToCategoryDetail() {
+    private fun View.navigateToCategoryDetail(category: String) {
         binding.run {
-            findNavController().navigate(R.id.action_categoryFragment_to_categoryDetailInfoListFragment)
+            val bundle = Bundle()
+            bundle.putString("category", category)
+            findNavController().navigate(R.id.action_categoryFragment_to_categoryDetailInfoListFragment,bundle)
         }
     }
 

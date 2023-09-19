@@ -1,4 +1,4 @@
-package likelion.project.agijagi.category
+package likelion.project.agijagi.category.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.R
+import likelion.project.agijagi.category.model.CategoryDetailInfoListModel
 import likelion.project.agijagi.databinding.ItemCategoryDetailInfoListBinding
 
 class CategoryDetailInfoListAdapter :

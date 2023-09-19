@@ -48,16 +48,18 @@ class OrderMadeCategoryFragment : Fragment() {
 
     private fun setOrderMadeCategoryMenuButton() {
         binding.run {
-            linearlayoutOrderMadeCategoryButtonOne.setOnClickListener { it.navigateToCategoryDetail() }
-            linearlayoutOrderMadeCategoryButtonTwo.setOnClickListener { it.navigateToCategoryDetail() }
-            linearlayoutOrderMadeCategoryButtonThree.setOnClickListener { it.navigateToCategoryDetail() }
-            linearlayoutOrderMadeCategoryButtonFour.setOnClickListener { it.navigateToCategoryDetail() }
+            linearlayoutOrderMadeCategoryButtonAll.setOnClickListener { it.navigateToCategoryDetail("All") }
+            linearlayoutOrderMadeCategoryButtonPlate.setOnClickListener { it.navigateToCategoryDetail("Plate") }
+            linearlayoutOrderMadeCategoryButtonCup.setOnClickListener { it.navigateToCategoryDetail("Cup") }
+            linearlayoutOrderMadeCategoryButtonBowl.setOnClickListener { it.navigateToCategoryDetail("Bowl") }
         }
     }
 
-    private fun View.navigateToCategoryDetail() {
+    private fun View.navigateToCategoryDetail(category: String) {
         binding.run {
-            findNavController().navigate(R.id.action_orderMadeCategoryFragment_to_categoryDetailInfoListFragment)
+            val bundle = Bundle()
+            bundle.putString("category", category)
+            findNavController().navigate(R.id.action_orderMadeCategoryFragment_to_categoryDetailInfoListFragment, bundle)
         }
     }
 
