@@ -14,7 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_buyer_my_page"
         app:title="내 정보" />
 
     <TextView
@@ -64,15 +63,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatButton
+            <TextView
                 android:id="@+id/textview_my_page_login"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@color/jagi_ivory"
+                android:clickable="true"
                 android:text="로그인"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
+
+            <View
+                android:id="@+id/line_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/line_1" />
 
         </LinearLayout>
 
