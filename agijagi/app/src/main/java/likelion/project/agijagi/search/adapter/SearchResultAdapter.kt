@@ -19,7 +19,6 @@ class SearchResultAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: SearchResultModel) {
-
             binding.run {
                 Glide.with(itemView)
                     .load(item.prodImage)
@@ -31,8 +30,13 @@ class SearchResultAdapter :
                 root.setOnClickListener {
                     val bundle = Bundle()
                     bundle.putString("prodId", item.prodId)
-                    it.findNavController()
-                        .navigate(R.id.action_searchResultFragment_to_productDetailFragment, bundle)
+                    if (!item.prodIsCustom!!) {
+                        it.findNavController()
+                            .navigate(R.id.action_searchResultFragment_to_productDetailFragment, bundle)
+                    } else {
+                        it.findNavController()
+                            .navigate(R.id.action_searchResultFragment_to_customProductDetailFragment, bundle)
+                    }
                 }
             }
         }
