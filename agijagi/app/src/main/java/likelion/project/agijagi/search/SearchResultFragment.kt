@@ -1,6 +1,7 @@
 package likelion.project.agijagi.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import likelion.project.agijagi.databinding.FragmentSearchResultBinding
 import likelion.project.agijagi.search.adapter.SearchResultAdapter
 
@@ -22,7 +29,6 @@ class SearchResultFragment : Fragment() {
     private val ref = Firebase.firestore.collection("product")
 
     private lateinit var searchResultAdapter: SearchResultAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,33 +44,23 @@ class SearchResultFragment : Fragment() {
     }
 
     private fun getProductInfoBasedOnSearchResults() {
-        val searchResultList = mutableListOf<SearchResultModel>()
-        ref.run {
-            whereEqualTo("brand", getSearchWord())
-                .get()
-                .addOnSuccessListener {
-                    for (document in it) {
-                        val thumbnailImage = document.data["thumbnail_image"].toString()
-                        storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { uri ->
-                            val model = SearchResultModel(
-                                document.id,
-                                uri.toString(),
-                                document.data["brand"].toString(),
-                                document.data["name"].toString(),
-                                document.data["price"].toString()
-                            )
-                            searchResultList.add(model)
-                            setupRecyclerViewSearchResult(searchResultList)
-                        }
-                    }
-                }
+        binding.run {
+            shimmerFrameLayoutSearchResult.startShimmer()
+            recyclerviewSearchResult.visibility = View.GONE
+            ref.run {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val searchWord = getSearchWord()
+                    val searchResultList = mutableListOf<SearchResultModel>()
 
-            whereEqualTo("name", getSearchWord())
-                .get()
-                .addOnSuccessListener {
-                    for (document in it) {
-                        val thumbnailImage = document.data["thumbnail_image"].toString()
-                        storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { uri ->
+                    val brandQuery = async {
+                        val query = whereGreaterThanOrEqualTo("brand", searchWord)
+                            .whereLessThanOrEqualTo("brand", searchWord + "\uf8ff")
+                            .get()
+                            .await()
+
+                        for (document in query) {
+                            val thumbnailImage = document.data["thumbnail_image"].toString()
+                            val uri = storageRef.child(thumbnailImage).downloadUrl.await()
                             val model = SearchResultModel(
                                 document.id,
                                 uri.toString(),
@@ -73,10 +69,40 @@ class SearchResultFragment : Fragment() {
                                 document.data["price"].toString()
                             )
                             searchResultList.add(model)
-                            setupRecyclerViewSearchResult(searchResultList)
                         }
                     }
+
+                    val nameQuery = async {
+                        val query = whereGreaterThanOrEqualTo("name", searchWord)
+                            .whereLessThanOrEqualTo("name", searchWord + "\uf8ff")
+                            .get()
+                            .await()
+
+                        for (document in query) {
+                            val thumbnailImage = document.data["thumbnail_image"].toString()
+                            val uri = storageRef.child(thumbnailImage).downloadUrl.await()
+                            val model = SearchResultModel(
+                                document.id,
+                                uri.toString(),
+                                document.data["brand"].toString(),
+                                document.data["name"].toString(),
+                                document.data["price"].toString()
+                            )
+                            searchResultList.add(model)
+                        }
+                    }
+
+                    brandQuery.await()
+                    nameQuery.await()
+
+                    withContext(Dispatchers.Main) {
+                        setupRecyclerViewSearchResult(searchResultList)
+                        recyclerviewSearchResult.visibility = View.VISIBLE
+                        shimmerFrameLayoutSearchResult.visibility = View.GONE
+                    }
                 }
+                shimmerFrameLayoutSearchResult.stopShimmer()
+            }
         }
     }
 
