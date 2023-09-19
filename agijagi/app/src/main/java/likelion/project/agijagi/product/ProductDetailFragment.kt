@@ -1,7 +1,6 @@
 package likelion.project.agijagi.product
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,8 +27,6 @@ class ProductDetailFragment : Fragment() {
     val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
 
-    private val productId = "230916014552765"
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,13 +39,18 @@ class ProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadProductDataAndInitViews()
+        val productId = getProductId()
+
+        loadProductDataAndInitViews(productId)
         setupToolbar()
-        setupFavoriteButton()
-        setupPurchaseButton()
+        setupFavoriteButton(productId)
     }
 
-    private fun loadProductDataAndInitViews() {
+    private fun getProductId(): String {
+        return arguments?.getString("prodId").toString()
+    }
+
+    private fun loadProductDataAndInitViews(productId: String) {
         binding.run {
             val shimmerLayoutImages = listOf(
                 shimmerLayoutProductDetailImage1,
@@ -89,6 +91,7 @@ class ProductDetailFragment : Fragment() {
 
                     loadProductImages(image, shimmerLayoutImages, imageViews)
                 }
+                setupPurchaseButton(productId)
             }
         }
     }
@@ -156,7 +159,7 @@ class ProductDetailFragment : Fragment() {
         }
     }
 
-    private fun setupFavoriteButton() {
+    private fun setupFavoriteButton(productId: String) {
         val buyerId = "Ws3TxAyKAg6Xe5GVNwV4"
         binding.imageButtonProductDetailFavorite.run {
             db.collection("buyer")
@@ -164,12 +167,12 @@ class ProductDetailFragment : Fragment() {
                 .collection("wish")
                 .get()
                 .addOnSuccessListener {
-                for (document in it) {
-                    if (document.id == productId) {
-                        this.isSelected = true
+                    for (document in it) {
+                        if (document.id == productId) {
+                            this.isSelected = true
+                        }
                     }
                 }
-            }
             setOnClickListener {
                 it.isSelected = it.isSelected != true
                 if (it.isSelected) {
@@ -179,6 +182,7 @@ class ProductDetailFragment : Fragment() {
                         .collection("wish")
                         .document(productId)
                         .set(prodId)
+
                 } else {
                     db.collection("buyer")
                         .document(buyerId)
@@ -186,11 +190,12 @@ class ProductDetailFragment : Fragment() {
                         .document(productId)
                         .delete()
                 }
+
             }
         }
     }
 
-    private fun setupPurchaseButton() {
+    private fun setupPurchaseButton(productId: String) {
         binding.buttonProductDetailPurchase.setOnClickListener {
             val bundle = bundleOf("prodId" to productId)
             it.findNavController()
@@ -204,3 +209,4 @@ class ProductDetailFragment : Fragment() {
     }
 
 }
+

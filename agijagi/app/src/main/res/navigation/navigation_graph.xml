@@ -585,6 +585,12 @@
         android:name="likelion.project.agijagi.search.SearchResultFragment"
         android:label="fragment_search_result"
         tools:layout="@layout/fragment_search_result" >
+        <action
+            android:id="@+id/action_searchResultFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_searchResultFragment_to_customProductDetailFragment"
+            app:destination="@id/customProductDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/signupGoogleBuyerFragment"
