@@ -122,8 +122,8 @@ class LoginFragment : Fragment() {
                             MainActivity.userModel.googleLoginCheck = it.getBoolean("google_login_check")
                             MainActivity.userModel.isSeller = it.getBoolean("is_seller")
                             MainActivity.userModel.name = it["name"].toString()
-                            MainActivity.userModel.newChatCount = it["new_chat_count"] as Int?
-                            MainActivity.userModel.newNotifCount = it["new_notif_count"] as Int?
+                            MainActivity.userModel.newChatCount = it["new_chat_count"].toString().toInt()
+                            MainActivity.userModel.newNotifCount = it["new_notif_count"].toString().toInt()
                             MainActivity.userModel.password =  it["password"].toString()
                             MainActivity.userModel.smsNotif = it.getBoolean("sms_notif")
 
