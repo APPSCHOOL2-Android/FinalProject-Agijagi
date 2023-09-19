@@ -5,17 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentPaymentBinding
+import likelion.project.agijagi.model.OrderModel
+import likelion.project.agijagi.model.ProdInfo
+import likelion.project.agijagi.model.ProductModel
+import likelion.project.agijagi.sellermypage.model.OrderManagementModel
 
 class PaymentFragment : Fragment() {
 
     private var _binding: FragmentPaymentBinding? = null
     private val binding get() = _binding!!
+
+    lateinit var prodInfo: ProdInfo
+    lateinit var order: OrderModel
+
+    val db = Firebase.firestore
+    private val storageRef = Firebase.storage.reference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +45,14 @@ class PaymentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setShippingChangeButton()
+
+        //todo 이전 페이지에서 정보를 받아 결제 버튼을 누르면 정보를 서버에 올려야 함
+
+        // customoption 페이지에서 데이터 가져오기
+        if (arguments?.getParcelable<ProdInfo>("prodInfo") != null) {
+            prodInfo = arguments?.getParcelable("prodInfo")!!
+        }
+
 
         binding.run {
             toolbarPayment.setNavigationOnClickListener {
@@ -56,8 +79,6 @@ class PaymentFragment : Fragment() {
                         setText("")
                         hint = "할부기간"
                     }
-
-
 
                     editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
                 }
@@ -114,10 +135,61 @@ class PaymentFragment : Fragment() {
             }
 
             buttonPaymentPayment.setOnClickListener {
+                val orderId = MainActivity.getMilliSec()
+                uploadOrderFloorPlans(orderId)
+
                 it.findNavController()
                     .navigate(R.id.action_paymentFragment_to_purchaseCompleteFragment)
             }
         }
+    }
+
+    private fun uploadOrderFloorPlans(orderId: String) {
+        val productFloorPlanFileNameList = mutableMapOf<String, String?>()
+        prodInfo.diagram.forEach {
+            if (it.value != null) {
+                val orderFloorPlanFileName =
+                    "orderFloorPlan/$orderId/${MainActivity.getMilliSec()}.jpg"
+                productFloorPlanFileNameList[it.key] = orderFloorPlanFileName
+                storageRef.child(orderFloorPlanFileName).putFile(it.value!!.toUri())
+                    .addOnSuccessListener {
+                        registerOrderData(orderId)
+                    }
+            } else {
+                productFloorPlanFileNameList[it.key] = null
+            }
+        }
+        prodInfo.diagram = productFloorPlanFileNameList as HashMap<String, String?>
+    }
+
+    private fun registerOrderData(orderId: String) {
+        val shippingAddress = mutableMapOf<String, String>()
+
+        val orderMap = hashMapOf(
+            "orderId" to id,
+            "date" to id,
+            "deliveryFee" to "9000",
+            "orderNum" to id,
+            "shippingAddress" to shippingAddress,
+            "state" to "",
+            "totalPrice" to "150000",
+            "buyerId" to ""
+        )
+
+        val prodInfo = hashMapOf(
+            "prodInfoId" to prodInfo.prodInfoId,
+            "count" to prodInfo.count,
+            "option" to prodInfo.option,
+            "price" to prodInfo.price,
+            "diagram" to prodInfo.diagram,
+            "customWord" to prodInfo.customWord,
+            "customLocation" to prodInfo.customLocation
+        )
+
+        db.collection("order").document(orderId).set(orderMap)
+        db.collection("order").document(orderId).collection("prod_Info").document(orderId)
+            .set(prodInfo)
+        db.collection("seller").document()
     }
 
     // 버튼 누를시 글자색, 배경 변경
@@ -145,5 +217,8 @@ class PaymentFragment : Fragment() {
             findNavController().navigate(R.id.action_paymentFragment_to_shippingManagementFragment)
         }
     }
+
+    // 결제 상태 enum 클래스
+//    enum class
 
 }
