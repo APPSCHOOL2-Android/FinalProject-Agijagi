@@ -15,13 +15,15 @@ data class OrderModel(
     var totalPrice: String,
     var buyerId: String
 )
+
 @Parcelize
 data class ProdInfo(
+    var isCustom: Boolean,
     var prodInfoId: String,
     var count: Long,
-    var diagram: ArrayList<Bitmap?>,
+    var diagram: HashMap<String, String?>,
     var option: String,
     var price: String,
-    var customWord:String?,
-    var customLocation:String?
-): Parcelable
+    var customWord: String?,
+    var customLocation: String?
+) : Parcelable

@@ -24,11 +24,18 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentCustomOptionBinding
 import likelion.project.agijagi.model.ProdInfo
 import likelion.project.agijagi.model.ProductModel
+import java.io.ByteArrayOutputStream
 import kotlin.math.log
 
 class CustomOptionFragment : Fragment() {
@@ -52,7 +59,12 @@ class CustomOptionFragment : Fragment() {
     private var leftImageState = false
     private var rightImageState = false
 
-    lateinit var productId: String
+    private lateinit var productId: String
+
+    private var frontImage: String? = null
+    private var backImage: String? = null
+    private var leftImage: String? = null
+    private var rightImage: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,10 +74,10 @@ class CustomOptionFragment : Fragment() {
         mainActivity = activity as MainActivity
 
         // 앨범 설정
-        frontAlbumLauncher = albumSetting(binding.customOptionFront.itemCustomOptionImage)
-        backAlbumLauncher = albumSetting(binding.customOptionBack.itemCustomOptionImage)
-        leftAlbumLauncher = albumSetting(binding.customOptionLeft.itemCustomOptionImage)
-        rightAlbumLauncher = albumSetting(binding.customOptionRight.itemCustomOptionImage)
+        frontAlbumLauncher = albumSetting(binding.customOptionFront.itemCustomOptionImage, 1)
+        backAlbumLauncher = albumSetting(binding.customOptionBack.itemCustomOptionImage, 2)
+        leftAlbumLauncher = albumSetting(binding.customOptionLeft.itemCustomOptionImage, 3)
+        rightAlbumLauncher = albumSetting(binding.customOptionRight.itemCustomOptionImage, 4)
 
         // productDetailFragment 에서 Id 값을 받아옴
         productId = arguments?.getString("prodId").toString()
@@ -76,9 +88,6 @@ class CustomOptionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 도자기 정보를 받아 출력
-        getData()
-
         // 커스텀 옵션 선택
         setCustomOptions()
 
@@ -88,12 +97,8 @@ class CustomOptionFragment : Fragment() {
         setLeftCustomImage()
         setRightCustomImage()
 
-        // 구매버튼
-        setPurchaseButton()
-        // 장바구니 버튼
-        setShoppingBagButton()
-        // 뒤로가기 버튼
-        setToolbarItemAction()
+        // 도자기 정보를 받아 출력
+        getData()
     }
 
     private fun getData() {
@@ -105,6 +110,12 @@ class CustomOptionFragment : Fragment() {
                 binding.textviewShoppingListItemName.text = it["name"].toString()
                 binding.textviewShoppingListItemPrice.text = "${it["price"].toString()}원"
             }
+        // 구매버튼
+        setPurchaseButton()
+        // 장바구니 버튼
+        setShoppingBagButton()
+        // 뒤로가기 버튼
+        setToolbarItemAction()
     }
 
     private fun setCustomOptions() {
@@ -128,10 +139,6 @@ class CustomOptionFragment : Fragment() {
             }
         }
     }
-
-    private fun getImage(imageState: Boolean, imageView: ImageView) = if (imageState) {
-        imageView.drawable.toBitmap()
-    } else null
 
     private fun setFrontCustomImage() {
         binding.customOptionFront.run {
@@ -236,9 +243,10 @@ class CustomOptionFragment : Fragment() {
                     val customWord = editInputCustomOptionText.text.toString()
                     val customLocation = editInputCustomOptionLocationText.text.toString()
                     val letteringCustomOption = ProdInfo(
+                        true,
                         productId,
                         count,
-                        arrayListOf(),
+                        hashMapOf(),
                         "Lettering",
                         "12341243원",
                         customWord,
@@ -253,18 +261,14 @@ class CustomOptionFragment : Fragment() {
                     )
                 }
                 if (image) {
-                    val frontImage =
-                        getImage(frontImageState, binding.customOptionFront.itemCustomOptionImage)
-                    val backImage =
-                        getImage(backImageState, binding.customOptionBack.itemCustomOptionImage)
-                    val leftImage =
-                        getImage(backImageState, binding.customOptionBack.itemCustomOptionImage)
-                    val rightImage =
-                        getImage(backImageState, binding.customOptionBack.itemCustomOptionImage)
                     binding.customOptionFront.itemCustomOptionImage
-                    val imageList = arrayListOf(frontImage, backImage, leftImage, rightImage)
+                    val imageList = hashMapOf("frontImage" to frontImage,
+                        "backImage" to backImage,
+                        "leftImage" to leftImage,
+                        "rightImage" to rightImage)
 
                     val imageCustomOption = ProdInfo(
+                        true,
                         productId,
                         count,
                         imageList,
@@ -285,7 +289,7 @@ class CustomOptionFragment : Fragment() {
     }
 
     // 앨범 관련 설정
-    fun albumSetting(previewImageView: ImageView): ActivityResultLauncher<Intent> {
+    fun albumSetting(previewImageView: ImageView, side: Int): ActivityResultLauncher<Intent> {
         val albumContract = ActivityResultContracts.StartActivityForResult()
         val albumLauncher = registerForActivityResult(albumContract) {
 
@@ -293,6 +297,13 @@ class CustomOptionFragment : Fragment() {
                 // 선택한 이미지에 접근할 수 있는 Uri 객체를 추출한다.
                 if (it.data?.data != null) {
                     uploadUri = it.data?.data
+
+                    when (side) {
+                        1 -> frontImage = uploadUri.toString()
+                        2 -> backImage = uploadUri.toString()
+                        3 -> leftImage = uploadUri.toString()
+                        4 -> rightImage = uploadUri.toString()
+                    }
 
                     // 안드로이드 10 (Q) 이상이라면...
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
