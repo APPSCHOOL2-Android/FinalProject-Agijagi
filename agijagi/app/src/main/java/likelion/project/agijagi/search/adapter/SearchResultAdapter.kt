@@ -1,7 +1,9 @@
 package likelion.project.agijagi.search.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +28,12 @@ class SearchResultAdapter :
                 textviewSearchSearchResultBrand.text = item.prodBrand
                 textviewSearchSearchResultName.text = item.prodName
                 textviewSearchSearchResultPrice.text = item.prodPrice
+                root.setOnClickListener {
+                    val bundle = Bundle()
+                    bundle.putString("prodId", item.prodId)
+                    it.findNavController()
+                        .navigate(R.id.action_searchResultFragment_to_productDetailFragment, bundle)
+                }
             }
         }
     }
