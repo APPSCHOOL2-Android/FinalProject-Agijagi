@@ -79,7 +79,7 @@ class SearchFragment : Fragment() {
             edittextSearch.run {
                 doAfterTextChanged {
                     val searchText = it.toString()
-                    val searchList = mutableListOf<String>()
+                    val searchSet = mutableSetOf<String>()
 
                     if (searchText.isNotBlank()) {
                         linearlayoutSearchRecentSearches.visibility = GONE
@@ -90,13 +90,13 @@ class SearchFragment : Fragment() {
 
                         for (keyword in productNameAndBrandList) {
                             if (keyword.contains(searchText)) {
-                                searchList.add(keyword)
+                                searchSet.add(keyword)
                                 textviewSearchNoSearch.visibility = GONE
                             }
                             if (keyword !in productNameAndBrandList) {
                                 textviewSearchNoSearch.visibility = VISIBLE
                             }
-                            searchAdapter.submitList(searchList)
+                            searchAdapter.submitList(searchSet.toList())
                         }
                     } else {
                         linearlayoutSearchRecentSearches.visibility = VISIBLE
