@@ -29,8 +29,6 @@ class CustomProductDetailFragment : Fragment() {
     val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
 
-    private val productId = "230916022847183"
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,15 +41,21 @@ class CustomProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadCustomProductDataAndInitViews()
+        val productId = getCustomProductId()
+
+        loadCustomProductDataAndInitViews(productId)
         setupToolbar()
         setupFloatingButton()
         setupFloorPlanDownloadButton()
-        setupFavoriteButton()
-        setupPurchaseButton()
+        setupFavoriteButton(productId)
+        setupPurchaseButton(productId)
     }
 
-    private fun loadCustomProductDataAndInitViews() {
+    private fun getCustomProductId(): String {
+        return arguments?.getString("prodId").toString()
+    }
+
+    private fun loadCustomProductDataAndInitViews(productId: String) {
         binding.run {
             val shimmerLayoutImages = listOf(
                 shimmerLayoutCustomProductDetailImage1,
@@ -172,7 +176,7 @@ class CustomProductDetailFragment : Fragment() {
         }
     }
 
-    private fun setupFavoriteButton() {
+    private fun setupFavoriteButton(productId: String) {
         val buyerId = "Ws3TxAyKAg6Xe5GVNwV4"
         binding.imageButtonCustomProductDetailFavorite.run {
             db.collection("buyer")
@@ -206,7 +210,7 @@ class CustomProductDetailFragment : Fragment() {
         }
     }
 
-    private fun setupPurchaseButton() {
+    private fun setupPurchaseButton(productId: String) {
         binding.buttonCustomProductDetailPurchase.setOnClickListener {
             val bundle = bundleOf("prodId" to productId)
             it.findNavController()
