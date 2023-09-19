@@ -63,6 +63,7 @@ class SearchResultFragment : Fragment() {
                             val uri = storageRef.child(thumbnailImage).downloadUrl.await()
                             val model = SearchResultModel(
                                 document.id,
+                                document.getBoolean("is_custom"),
                                 uri.toString(),
                                 document.data["brand"].toString(),
                                 document.data["name"].toString(),
@@ -83,6 +84,7 @@ class SearchResultFragment : Fragment() {
                             val uri = storageRef.child(thumbnailImage).downloadUrl.await()
                             val model = SearchResultModel(
                                 document.id,
+                                document.getBoolean("is_custom"),
                                 uri.toString(),
                                 document.data["brand"].toString(),
                                 document.data["name"].toString(),
