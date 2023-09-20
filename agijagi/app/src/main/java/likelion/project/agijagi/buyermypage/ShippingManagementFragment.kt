@@ -19,6 +19,7 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.buyermypage.adapter.ShippingManagementAdapter
 import likelion.project.agijagi.buyermypage.model.ShippingManagementModel
 import likelion.project.agijagi.databinding.FragmentShippingManagementBinding
+import likelion.project.agijagi.model.ShippingAddress
 
 class ShippingManagementFragment : Fragment() {
 
@@ -26,11 +27,12 @@ class ShippingManagementFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var shippingManagementAdapter: ShippingManagementAdapter
 
-    private var auth: FirebaseAuth? = null
-    private lateinit var db: FirebaseFirestore
+    val auth = FirebaseAuth.getInstance()
+    val db = FirebaseFirestore.getInstance()
+    var showCheckBox: Boolean = false
 
     companion object {
-        val shippingManagementList = mutableListOf<ShippingManagementModel>()
+        val shippingManagementList = mutableListOf<ShippingAddress>()
     }
 
     override fun onCreateView(
@@ -38,7 +40,6 @@ class ShippingManagementFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentShippingManagementBinding.inflate(inflater)
-        auth = FirebaseAuth.getInstance()
 
         return binding.root
     }
@@ -46,12 +47,13 @@ class ShippingManagementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setup()
+        getShowCheckBoxState()
+        Log.d("pooooooooo", showCheckBox.toString())
         setToolbarItemAction()
         setShippingAddButton()
         getShippingData()
 
-        shippingManagementAdapter = ShippingManagementAdapter()
+        shippingManagementAdapter = ShippingManagementAdapter(showCheckBox)
 
         binding.run {
 
@@ -114,18 +116,19 @@ class ShippingManagementFragment : Fragment() {
                     val uid = shippingData.id
                     val address = shippingData.getString("address") ?: ""
                     val addressDetail = shippingData.getString("address_detail") ?: ""
-                    val title = shippingData.getString("shipping_name") ?: ""
-                    val recipientPhone = shippingData.getString("phone_number") ?: ""
+                    val shipping_name = shippingData.getString("shipping_name") ?: ""
+                    val phone_number = shippingData.getString("phone_number") ?: ""
                     val recipient = shippingData.getString("recipient") ?: ""
                     Log.d("shippingList", addressDetail)
                     shippingManagementList.add(
-                        ShippingManagementModel(
+                        ShippingAddress(
+                            false,
                             uid,
                             address,
                             addressDetail,
-                            title,
-                            recipientPhone,
-                            recipient
+                            phone_number,
+                            recipient,
+                            shipping_name
                         )
                     )
                 }
@@ -141,13 +144,11 @@ class ShippingManagementFragment : Fragment() {
             }
     }
 
-    private fun setup() {
-        db = Firebase.firestore
-
-        val settings = firestoreSettings {
-            isPersistenceEnabled = true
+    private fun getShowCheckBoxState(){
+        arguments?.getBoolean("payment_to_shippingManagement")?.let {
+            showCheckBox = it
+            if(showCheckBox) binding.toolbarShippingManagement.title = "배송지 변경"
         }
-        db.firestoreSettings = settings
     }
 
     private fun setToolbarItemAction() {

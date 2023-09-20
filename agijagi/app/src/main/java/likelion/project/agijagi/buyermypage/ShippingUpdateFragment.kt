@@ -148,6 +148,7 @@ class ShippingUpdateFragment : Fragment() {
             val basic = checkBoxShippingUpdateBasic.isChecked
 
             val shippingAddress = ShippingAddress(
+                false,
                 shippingUpdateUid,
                 address,
                 addressDetail,
