@@ -93,6 +93,15 @@ class ProductAddFragment : Fragment() {
             dataOrigin = ProductModel()
         }
 
+        dataOrigin.run {
+            // 썸네일 체크를 위한 인덱스 검색
+            if (thumbnail_image != "") {
+                pictureCheckIndex = image.indexOf(thumbnail_image)
+                if (pictureCheckIndex == -1)
+                    thumbnail_image = ""
+            }
+        }
+
         setUiInit()
         // 하단버튼 초기셋팅
         checkBottomButtonActive()
@@ -232,12 +241,6 @@ class ProductAddFragment : Fragment() {
                         // Order made == 주문제작 가능
                         layoutProductAddOption.visibility = View.VISIBLE
                         layoutProductAddAddPlan.visibility = View.VISIBLE
-
-                        // 초기화
-                        checkBoxProductAddOption1.isChecked = false
-                        checkBoxProductAddOption2.isChecked = false
-                        editinputlayoutProductAddOption1Price.text = null
-                        editinputlayoutProductAddOption2Price.text = null
                     } else {
                         // Plate, Cup, Bowl
                         layoutProductAddOption.visibility = View.GONE
@@ -625,7 +628,14 @@ class ProductAddFragment : Fragment() {
                         customOptionInfo["image_is_use"] = "false"
                         customOptionInfo["image_fee"] = ""
                     }
+
+                    // 선택된 썸네일
+                    thumbnail_image =
+                        if (0 <= pictureCheckIndex && pictureCheckIndex < image.size)
+                            image[pictureCheckIndex]
+                        else ""
                 }
+
 
                 // 번들 생성, 전달
                 val bundle = bundleOf("productData" to data)
