@@ -1,6 +1,7 @@
 package likelion.project.agijagi.sellermypage
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.google.firebase.storage.ktx.storage
 import io.supercharge.shimmerlayout.ShimmerLayout
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentSellerProductDetailBinding
+import likelion.project.agijagi.model.ProductModel
 import java.text.DecimalFormat
 
 class SellerProductDetailFragment : Fragment() {
@@ -25,6 +27,8 @@ class SellerProductDetailFragment : Fragment() {
 
     val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
+
+    lateinit var product: ProductModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,12 +75,25 @@ class SellerProductDetailFragment : Fragment() {
             startShimmerAnimations(shimmerLayoutSellerProductDetailThumbnailImage, shimmerLayoutImages)
 
             db.collection("product").document(productId).get().addOnSuccessListener {
-                val thumbnailImage = it.getString("thumbnail_image").toString()
-                val brand = it.getString("brand").toString()
-                val name = it.getString("name").toString()
-                val price = it.getString("price").toString()
-                val detail = it.getString("detail").toString()
-                val image = it.get("image") as ArrayList<*>
+                val thumbnailImage = it["thumbnail_image"].toString()
+                val brand = it["brand"].toString()
+                val name = it["name"].toString()
+                val price = it["price"].toString()
+                val detail = it["detail"].toString()
+                val image = it.get("image") as ArrayList<String>
+                val category = it["category"].toString()
+                val customOptionInfo = it.get("customOptionInfo") as HashMap<String, String>
+                val floorPlan = arrayListOf(
+                    "aa",
+                    "bb",
+                    "cc",
+                    "dd"
+                )
+                val isCustom = it.getBoolean("is_custom")!!
+                val salesQuantity = it["sales_quantity"].toString().toLong()
+                val sellerId = it["seller_id"].toString()
+                val state = it["state"].toString()
+                val updateDate = it["updateDate"].toString()
 
                 storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { thumbnailUri ->
                     shimmerLayoutSellerProductDetailThumbnailImage.stopShimmerAnimation()
@@ -88,6 +105,26 @@ class SellerProductDetailFragment : Fragment() {
                     displayProductInfo(brand, name, price, name, detail)
 
                     loadProductImages(image, shimmerLayoutImages, imageViews)
+
+                    product = ProductModel(
+                        productId,
+                        brand,
+                        category,
+                        customOptionInfo,
+                        detail,
+                        floorPlan,
+                        image,
+                        isCustom,
+                        name,
+                        state,
+                        price,
+                        salesQuantity,
+                        sellerId,
+                        thumbnailImage,
+                        updateDate
+                    )
+
+                    Log.d("prod", product.toString())
                 }
             }
         }
