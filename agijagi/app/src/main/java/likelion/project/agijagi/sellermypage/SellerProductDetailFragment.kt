@@ -38,11 +38,17 @@ class SellerProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadProductDataAndInitViews()
+        val productId = getProductId()
+
+        loadProductDataAndInitViews(productId)
         setupToolbar()
     }
 
-    private fun loadProductDataAndInitViews() {
+    private fun getProductId(): String {
+        return arguments?.getString("prodId").toString()
+    }
+
+    private fun loadProductDataAndInitViews(productId: String) {
         binding.run {
             val shimmerLayoutImages = listOf(
                 shimmerLayoutSellerProductDetailImage1,
@@ -64,7 +70,7 @@ class SellerProductDetailFragment : Fragment() {
 
             startShimmerAnimations(shimmerLayoutSellerProductDetailThumbnailImage, shimmerLayoutImages)
 
-            db.collection("product").document("230916094337474").get().addOnSuccessListener {
+            db.collection("product").document(productId).get().addOnSuccessListener {
                 val thumbnailImage = it.getString("thumbnail_image").toString()
                 val brand = it.getString("brand").toString()
                 val name = it.getString("name").toString()
