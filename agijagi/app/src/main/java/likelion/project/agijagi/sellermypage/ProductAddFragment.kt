@@ -420,17 +420,8 @@ class ProductAddFragment : Fragment() {
                     data.category == "" || data.category == " ")
 
             // 버튼 활성화
-            if (checker) {
-                buttonProductAddOk.setBackgroundResource(R.drawable.wide_box_bottom_active)
-                val colorInt = mainActivity.resources.getColor(R.color.jagi_ivory, null)
-                buttonProductAddOk.setTextColor(colorInt)
-                buttonProductAddOk.isClickable = true
-            } else {
-                buttonProductAddOk.setBackgroundResource(R.drawable.wide_box_bottom_inactive)
-                val colorInt = mainActivity.resources.getColor(R.color.jagi_ivory, null)
-                buttonProductAddOk.setTextColor(colorInt)
-                buttonProductAddOk.isClickable = false
-            }
+            buttonProductAddOk.isSelected = checker
+            buttonProductAddOk.isClickable = checker
         }
     }
 
