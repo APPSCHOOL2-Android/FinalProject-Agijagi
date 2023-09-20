@@ -61,6 +61,7 @@ class ShippingManagementAdapter(var showCheckBox: Boolean) :
 
                 checkBoxShippingManagementBasic.setOnClickListener {
                     handleCheckboxClick(adapterPosition)
+                    it.findNavController().previousBackStackEntry?.savedStateHandle?.set("changeShippingId",item.shippingAddressId)
                     it.findNavController().popBackStack()
                 }
 

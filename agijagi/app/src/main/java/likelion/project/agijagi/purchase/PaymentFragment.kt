@@ -36,6 +36,11 @@ class PaymentFragment : Fragment() {
                 findNavController().popBackStack()
             }
 
+            val changeId = findNavController().currentBackStackEntry?.savedStateHandle?.get<String>("changeShippingId")
+            if(changeId != null){
+                textViewPaymentShippingAddress1.text = changeId
+            }
+
             editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
 
             buttonPaymentCategoryCreditcard.run {
