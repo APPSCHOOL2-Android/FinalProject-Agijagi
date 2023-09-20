@@ -14,6 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_category"
         app:navigationIcon="@drawable/arrow_back_24px" />
 
     <androidx.recyclerview.widget.RecyclerView
