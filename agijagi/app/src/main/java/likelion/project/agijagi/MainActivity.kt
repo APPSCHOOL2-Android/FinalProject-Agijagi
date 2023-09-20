@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
 
     companion object{
-        var userModel= UserModel
 
         fun getMilliSec(): String {
             val sdf = SimpleDateFormat("yyMMddhhmmssSSS", Locale.getDefault())

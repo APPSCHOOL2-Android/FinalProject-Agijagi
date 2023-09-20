@@ -18,13 +18,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
-import likelion.project.agijagi.MainActivity
-import likelion.project.agijagi.MainActivity.Companion.userModel
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentLoginBinding
 import likelion.project.agijagi.model.UserModel
@@ -100,17 +97,17 @@ class LoginFragment : Fragment() {
                             Log.d("getid", "get Uid: ${auth?.currentUser?.uid.toString()}")
                             showSnackBar("로그인에 성공하였습니다.")
 
-                            userModel.uid = auth?.currentUser?.uid.toString()
-                            userModel.email = it["email"].toString()
-                            userModel.emailNotif = it.getBoolean("emailNotif")
-                            userModel.googleLoginCheck = it.getBoolean("google_login_check")
-                            userModel.isSeller = it.getBoolean("is_seller")
-                            userModel.name = it["name"].toString()
-                            userModel.newChatCount = it["new_chat_count"].toString().toInt()
-                            userModel.newNotifCount = it["new_notif_count"].toString().toInt()
-                            userModel.password =  it["password"].toString()
-                            userModel.roleId =  it["role_id"].toString()
-                            userModel.smsNotif = it.getBoolean("sms_notif")
+                            UserModel.uid = auth?.currentUser?.uid.toString()
+                            UserModel.email = it["email"].toString()
+                            UserModel.emailNotif = it.getBoolean("emailNotif")
+                            UserModel.googleLoginCheck = it.getBoolean("google_login_check")
+                            UserModel.isSeller = it.getBoolean("is_seller")
+                            UserModel.name = it["name"].toString()
+                            UserModel.newChatCount = it["new_chat_count"].toString().toInt()
+                            UserModel.newNotifCount = it["new_notif_count"].toString().toInt()
+                            UserModel.password =  it["password"].toString()
+                            UserModel.roleId =  it["role_id"].toString()
+                            UserModel.smsNotif = it.getBoolean("sms_notif")
 
                             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
 
@@ -118,17 +115,17 @@ class LoginFragment : Fragment() {
                             Log.d("getid", "getid: ${it.id}")
                             showSnackBar("로그인에 성공하였습니다.")
 
-                            userModel.uid = auth?.currentUser?.uid.toString()
-                            userModel.email = it["email"].toString()
-                            userModel.emailNotif = it.getBoolean("emailNotif")
-                            userModel.googleLoginCheck = it.getBoolean("google_login_check")
-                            userModel.isSeller = it.getBoolean("is_seller")
-                            userModel.name = it["name"].toString()
-                            userModel.newChatCount = it["new_chat_count"].toString().toInt()
-                            userModel.newNotifCount = it["new_notif_count"].toString().toInt()
-                            userModel.password =  it["password"].toString()
-                            userModel.roleId =  it["role_id"].toString()
-                            userModel.smsNotif = it.getBoolean("sms_notif")
+                            UserModel.uid = auth?.currentUser?.uid.toString()
+                            UserModel.email = it["email"].toString()
+                            UserModel.emailNotif = it.getBoolean("emailNotif")
+                            UserModel.googleLoginCheck = it.getBoolean("google_login_check")
+                            UserModel.isSeller = it.getBoolean("is_seller")
+                            UserModel.name = it["name"].toString()
+                            UserModel.newChatCount = it["new_chat_count"].toString().toInt()
+                            UserModel.newNotifCount = it["new_notif_count"].toString().toInt()
+                            UserModel.password =  it["password"].toString()
+                            UserModel.roleId =  it["role_id"].toString()
+                            UserModel.smsNotif = it.getBoolean("sms_notif")
 
                             findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
                         }
@@ -203,33 +200,33 @@ class LoginFragment : Fragment() {
                     if (it["name"].toString().length >= 2 && it["is_seller"] == false) {
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
 
-                        userModel.uid = auth?.currentUser?.uid.toString()
-                        userModel.email = it["email"].toString()
-                        userModel.emailNotif = it.getBoolean("emailNotif")
-                        userModel.googleLoginCheck = it.getBoolean("google_login_check")
-                        userModel.isSeller = it.getBoolean("is_seller")
-                        userModel.name = it["name"].toString()
-                        userModel.newChatCount = it["new_chat_count"].toString().toInt()
-                        userModel.newNotifCount = it["new_notif_count"].toString().toInt()
-                        userModel.password =  it["password"].toString()
-                        userModel.roleId =  it["role_id"].toString()
-                        userModel.smsNotif = it.getBoolean("sms_notif")
+                        UserModel.uid = auth?.currentUser?.uid.toString()
+                        UserModel.email = it["email"].toString()
+                        UserModel.emailNotif = it.getBoolean("emailNotif")
+                        UserModel.googleLoginCheck = it.getBoolean("google_login_check")
+                        UserModel.isSeller = it.getBoolean("is_seller")
+                        UserModel.name = it["name"].toString()
+                        UserModel.newChatCount = it["new_chat_count"].toString().toInt()
+                        UserModel.newNotifCount = it["new_notif_count"].toString().toInt()
+                        UserModel.password =  it["password"].toString()
+                        UserModel.roleId =  it["role_id"].toString()
+                        UserModel.smsNotif = it.getBoolean("sms_notif")
 
                         showSnackBar("로그인에 성공하셨습니다.")
                     } else if (it["name"].toString().length >= 2 && it["is_seller"] == true) {
                         findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
 
-                        userModel.uid = auth?.currentUser?.uid.toString()
-                        userModel.email = it["email"].toString()
-                        userModel.emailNotif = it.getBoolean("emailNotif")
-                        userModel.googleLoginCheck = it.getBoolean("google_login_check")
-                        userModel.isSeller = it.getBoolean("is_seller")
-                        userModel.name = it["name"].toString()
-                        userModel.newChatCount = it["new_chat_count"].toString().toInt()
-                        userModel.newNotifCount = it["new_notif_count"].toString().toInt()
-                        userModel.password =  it["password"].toString()
-                        userModel.roleId =  it["role_id"].toString()
-                        userModel.smsNotif = it.getBoolean("sms_notif")
+                        UserModel.uid = auth?.currentUser?.uid.toString()
+                        UserModel.email = it["email"].toString()
+                        UserModel.emailNotif = it.getBoolean("emailNotif")
+                        UserModel.googleLoginCheck = it.getBoolean("google_login_check")
+                        UserModel.isSeller = it.getBoolean("is_seller")
+                        UserModel.name = it["name"].toString()
+                        UserModel.newChatCount = it["new_chat_count"].toString().toInt()
+                        UserModel.newNotifCount = it["new_notif_count"].toString().toInt()
+                        UserModel.password =  it["password"].toString()
+                        UserModel.roleId =  it["role_id"].toString()
+                        UserModel.smsNotif = it.getBoolean("sms_notif")
 
                         showSnackBar("로그인에 성공하셨습니다.")
                     }
