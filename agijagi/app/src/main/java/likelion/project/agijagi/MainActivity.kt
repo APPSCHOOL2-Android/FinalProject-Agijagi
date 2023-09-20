@@ -1,10 +1,12 @@
 package likelion.project.agijagi
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -15,7 +17,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.databinding.ActivityMainBinding
-import likelion.project.agijagi.model.UserModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -34,11 +35,13 @@ class MainActivity : AppCompatActivity() {
             return sdf.format(Date(System.currentTimeMillis()))
         }
 
-        fun displayDialogUserNotLogin(context: Context) {
+        fun displayDialogUserNotLogin(context: Context, navController: NavController, destinationId: Int) {
             MaterialAlertDialogBuilder(context)
                 .setTitle("로그인으로 이동")
-                .setMessage("해당 서비스를 이용하시려면 로그인 해주세요")
-                .setPositiveButton("로그인", null)
+                .setMessage("해당 서비스를 이용하시려면 로그인 해주세요.")
+                .setPositiveButton("확인") { _: DialogInterface, _: Int ->
+                    navController.navigate(destinationId)
+                }
                 .setNegativeButton("취소", null)
                 .show()
         }

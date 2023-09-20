@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -28,8 +29,6 @@ class ProductDetailFragment : Fragment() {
 
     val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
-
-    val uid = UserModel.uid
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -153,8 +152,12 @@ class ProductDetailFragment : Fragment() {
                 findNavController().popBackStack()
             }
             setOnMenuItemClickListener {
-                if (uid == "") {
-                    displayDialogUserNotLogin(requireContext())
+                if (UserModel.uid == "") {
+                    displayDialogUserNotLogin(
+                        requireContext(),
+                        findNavController(),
+                        R.id.action_productDetailFragment_to_loginFragment
+                    )
                 } else {
                     when (it.itemId) {
                         R.id.menu_product_detail_shopping -> {
@@ -170,7 +173,7 @@ class ProductDetailFragment : Fragment() {
     private fun setupFavoriteButton(productId: String) {
         val buyerId = UserModel.roleId
         binding.imageButtonProductDetailFavorite.run {
-            if (uid != "") {
+            if (UserModel.uid != "") {
                 db.collection("buyer")
                     .document(buyerId)
                     .collection("wish")
@@ -185,8 +188,8 @@ class ProductDetailFragment : Fragment() {
             }
 
             setOnClickListener {
-                if (uid == "") {
-                    displayDialogUserNotLogin(requireContext())
+                if (UserModel.uid == "") {
+                    displayDialogUserNotLogin(requireContext(), findNavController(), R.id.action_productDetailFragment_to_loginFragment)
                 } else {
                     it.isSelected = it.isSelected != true
                     if (it.isSelected) {
@@ -210,8 +213,8 @@ class ProductDetailFragment : Fragment() {
 
     private fun setupPurchaseButton(productId: String) {
         binding.buttonProductDetailPurchase.setOnClickListener {
-            if (uid == "") {
-                displayDialogUserNotLogin(requireContext())
+            if (UserModel.uid == "") {
+                displayDialogUserNotLogin(requireContext(), findNavController(), R.id.action_productDetailFragment_to_loginFragment)
             } else {
                 val bundle = bundleOf("prodId" to productId)
                 it.findNavController()

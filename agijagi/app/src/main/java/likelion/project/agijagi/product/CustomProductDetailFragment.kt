@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
@@ -29,8 +30,6 @@ class CustomProductDetailFragment : Fragment() {
 
     val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
-
-    val uid = UserModel.uid
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -159,8 +158,12 @@ class CustomProductDetailFragment : Fragment() {
                 findNavController().popBackStack()
             }
             setOnMenuItemClickListener {
-                if (uid == "") {
-                    displayDialogUserNotLogin(requireContext())
+                if (UserModel.uid == "") {
+                    displayDialogUserNotLogin(
+                        requireContext(),
+                        findNavController(),
+                        R.id.action_customProductDetailFragment_to_loginFragment
+                    )
                 } else {
                     when (it.itemId) {
                         R.id.menu_product_detail_shopping -> {
@@ -175,10 +178,14 @@ class CustomProductDetailFragment : Fragment() {
 
     private fun setupFloatingButton() {
         binding.customFloatingButtonCustomProductDetailToChatting.customFloatingButtonLayout.setOnClickListener {
-            if (uid == "") {
-                displayDialogUserNotLogin(requireContext())
+            if (UserModel.uid == "") {
+                displayDialogUserNotLogin(
+                    requireContext(),
+                    findNavController(),
+                    R.id.action_customProductDetailFragment_to_loginFragment
+                )
             } else {
-                it.findNavController()
+                findNavController()
                     .navigate(R.id.action_customProductDetailFragment_to_chattingListFragment)
             }
         }
@@ -193,7 +200,7 @@ class CustomProductDetailFragment : Fragment() {
     private fun setupFavoriteButton(productId: String) {
         val buyerId = UserModel.roleId
         binding.imageButtonCustomProductDetailFavorite.run {
-            if (uid != "") {
+            if (UserModel.uid != "") {
                 db.collection("buyer")
                     .document(buyerId)
                     .collection("wish")
@@ -208,8 +215,12 @@ class CustomProductDetailFragment : Fragment() {
             }
 
             setOnClickListener {
-                if (uid == "") {
-                    displayDialogUserNotLogin(requireContext())
+                if (UserModel.uid == "") {
+                    displayDialogUserNotLogin(
+                        requireContext(),
+                        findNavController(),
+                        R.id.action_customProductDetailFragment_to_loginFragment
+                    )
                 } else {
                     it.isSelected = it.isSelected != true
                     if (it.isSelected) {
@@ -233,8 +244,12 @@ class CustomProductDetailFragment : Fragment() {
 
     private fun setupPurchaseButton(productId: String) {
         binding.buttonCustomProductDetailPurchase.setOnClickListener {
-            if (uid == "") {
-                displayDialogUserNotLogin(requireContext())
+            if (UserModel.uid == "") {
+                displayDialogUserNotLogin(
+                    requireContext(),
+                    findNavController(),
+                    R.id.action_customProductDetailFragment_to_loginFragment
+                )
             } else {
                 val bundle = bundleOf("prodId" to productId)
                 it.findNavController()
