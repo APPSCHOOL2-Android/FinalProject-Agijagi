@@ -451,7 +451,7 @@
                 android:id="@+id/button_product_add_ok"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/wide_box_bottom_inactive"
+                android:background="@drawable/wide_box_selected_active"
                 android:padding="8dp"
                 android:text="확인"
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
