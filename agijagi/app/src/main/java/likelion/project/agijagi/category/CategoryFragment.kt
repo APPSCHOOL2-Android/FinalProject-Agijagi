@@ -44,20 +44,24 @@ class CategoryFragment : Fragment() {
 
     private fun setCategoryMenuButton() {
         binding.run {
-            linearlayoutCategoryButtonOne.setOnClickListener { it.navigateToCategoryDetail() }
-            linearlayoutCategoryButtonTwo.setOnClickListener { it.navigateToCategoryDetail() }
-            linearlayoutCategoryButtonThree.setOnClickListener { it.navigateToCategoryDetail() }
-            linearlayoutCategoryButtonFour.setOnClickListener { it.navigateToCategoryDetail() }
-            linearlayoutCategoryButtonFive.setOnClickListener {
+            linearlayoutCategoryButtonAll.setOnClickListener { it.navigateToCategoryDetail("All",0) }
+            linearlayoutCategoryButtonPlate.setOnClickListener { it.navigateToCategoryDetail("Plate",-1) }
+            linearlayoutCategoryButtonCup.setOnClickListener { it.navigateToCategoryDetail("Cup",-1) }
+            linearlayoutCategoryButtonBowl.setOnClickListener { it.navigateToCategoryDetail("Bowl",-1) }
+            linearlayoutCategoryButtonOrdermade.setOnClickListener {
                 it.findNavController()
                     .navigate(R.id.action_categoryFragment_to_orderMadeCategoryFragment)
             }
         }
     }
 
-    private fun View.navigateToCategoryDetail() {
+    private fun View.navigateToCategoryDetail(category: String, is_custom: Int) {
+        // 0 == all , 1 == is_custom = true, -1 == is_custom = false
         binding.run {
-            findNavController().navigate(R.id.action_categoryFragment_to_categoryDetailInfoListFragment)
+            val bundle = Bundle()
+            bundle.putString("category", category)
+            bundle.putInt("is_custom",is_custom)
+            findNavController().navigate(R.id.action_categoryFragment_to_categoryDetailInfoListFragment,bundle)
         }
     }
 
