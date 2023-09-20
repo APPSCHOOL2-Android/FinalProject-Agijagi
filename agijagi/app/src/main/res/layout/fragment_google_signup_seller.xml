@@ -16,7 +16,6 @@
         app:navigationIcon="@drawable/arrow_back_24px"
         app:title="회원가입" />
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

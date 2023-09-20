@@ -59,7 +59,9 @@ class ProductDetailPreviewFragment : Fragment() {
 
     private fun initViews() {
         binding.run {
-            Glide.with(this@ProductDetailPreviewFragment).load(product.thumbnail_image)
+            Glide.with(this@ProductDetailPreviewFragment)
+                .load(product.thumbnail_image)
+                .placeholder(R.drawable.product_detail_default_image)
                 .into(imageviewProductDetailPreviewThumbnailImage)
 
             val imageViews = listOf(
@@ -74,6 +76,7 @@ class ProductDetailPreviewFragment : Fragment() {
             product.image.take(imageViews.size).forEachIndexed { index, imageUrl ->
                 Glide.with(this@ProductDetailPreviewFragment)
                     .load(imageUrl)
+                    .placeholder(R.drawable.product_detail_default_image)
                     .into(imageViews[index])
             }
 

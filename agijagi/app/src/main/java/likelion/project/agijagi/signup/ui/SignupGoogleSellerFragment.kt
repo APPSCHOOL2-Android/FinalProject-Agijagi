@@ -11,6 +11,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -27,7 +28,7 @@ class SignupGoogleSellerFragment : Fragment() {
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
 
-    private val mAuth = auth?.currentUser
+    private val mAuth = Firebase.auth.currentUser
 
     private var businessNameState = false
     private var representativeNameState = false
@@ -88,7 +89,6 @@ class SignupGoogleSellerFragment : Fragment() {
             buttonGoogleSignupSellerComplete.setOnClickListener {
                 if(buttonState == true) {
                     createUser()
-                    showSnackBar("회원가입 성공했습니다.")
                 }
                 else {
                     showSnackBar("회원가입 실패했습니다.")
@@ -99,7 +99,9 @@ class SignupGoogleSellerFragment : Fragment() {
     }
 
     private fun showSnackBar(message: String){
-        Snackbar.make(requireView(), message, Toast.LENGTH_SHORT).show()
+        Snackbar.make(fragmentGoogleSignupSellerBinding.root, message, Toast.LENGTH_SHORT).apply {
+            anchorView = fragmentGoogleSignupSellerBinding.buttonGoogleSignupSellerComplete
+        }.show()
     }
     private fun isValidSignupButton(): Boolean {
         buttonState = businessNameState && representativeNameState && registrationNumberState &&
@@ -134,28 +136,33 @@ class SignupGoogleSellerFragment : Fragment() {
             "tel" to fragmentGoogleSignupSellerBinding.editinputGoogleSignupSellerBusinessNumber.text.toString()
         )
 
-        db.collection("seller").add(sellerInfo).addOnSuccessListener {
+        db.collection("seller").add(sellerInfo)
+            .addOnSuccessListener {
             roleId = it.id
-        }
 
-        val userInfo = hashMapOf(
-            "email" to mAuth?.email.toString(),
-            "password" to "",
-            "name" to fragmentGoogleSignupSellerBinding.editinputGoogleSignupSellerRepresentativeName.text.toString(),
-            "google_login_check" to true,
-            "email_notif" to false,
-            "sms_notif" to false,
-            "is_seller" to true,
-            "role_id" to roleId
-        )
+                val userInfo = hashMapOf(
+                    "email" to mAuth?.email.toString(),
+                    "password" to "",
+                    "name" to fragmentGoogleSignupSellerBinding.editinputGoogleSignupSellerRepresentativeName.text.toString(),
+                    "google_login_check" to true,
+                    "email_notif" to false,
+                    "sms_notif" to false,
+                    "is_seller" to true,
+                    "role_id" to roleId,
+                    "new_chat_count" to 0,
+                    "new_notif_count" to 0
+                )
 
-        db.collection("user").document(mAuth?.uid.toString())
-            .set(userInfo, SetOptions.merge())
-            .addOnSuccessListener { Log.d("firebase", "user cloud firestore 등록 완료\n" +
-                    " authUID: ${mAuth?.uid}")}
-            .addOnFailureListener { e -> Log.w("firebase", "user cloud firestore 등록 실패", e)  }
-
-        findNavController().navigate(R.id.action_signupGoogleSellerFragment_to_loginFragment)
+                db.collection("user").document(mAuth?.uid.toString())
+                    .set(userInfo, SetOptions.merge())
+                    .addOnSuccessListener { Log.d("firebase", "user cloud firestore 등록 완료\n" +
+                            " authUID: ${mAuth?.uid}")
+                        findNavController().navigate(R.id.action_signupGoogleSellerFragment_to_loginFragment)}
+                    .addOnFailureListener { e -> Log.w("firebase", "user cloud firestore 등록 실패", e)  }
+            }
+            .addOnFailureListener {
+                showSnackBar("회원가입 실패")
+            }
 
     }
 

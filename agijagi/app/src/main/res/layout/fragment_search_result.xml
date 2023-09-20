@@ -22,4 +22,32 @@
         android:layout_marginHorizontal="12dp"
         android:layout_marginTop="16dp" />
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_frame_layout_search_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="16dp">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="2">
+
+            <include layout="@layout/item_search_result_shimmer" />
+
+            <include layout="@layout/item_search_result_shimmer" />
+
+            <include layout="@layout/item_search_result_shimmer" />
+
+            <include layout="@layout/item_search_result_shimmer" />
+
+            <include layout="@layout/item_search_result_shimmer" />
+
+            <include layout="@layout/item_search_result_shimmer" />
+
+        </GridLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
 </LinearLayout>
