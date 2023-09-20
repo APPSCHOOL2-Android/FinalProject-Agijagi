@@ -1,5 +1,6 @@
 package likelion.project.agijagi
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -31,6 +33,15 @@ class MainActivity : AppCompatActivity() {
             val sdf = SimpleDateFormat("yyMMddhhmmssSSS", Locale.getDefault())
 
             return sdf.format(Date(System.currentTimeMillis()))
+        }
+
+        fun displayDialogUserNotLogin(context: Context) {
+            MaterialAlertDialogBuilder(context)
+                .setTitle("로그인으로 이동")
+                .setMessage("해당 서비스를 이용하시려면 로그인 해주세요")
+                .setPositiveButton("로그인", null)
+                .setNegativeButton("취소", null)
+                .show()
         }
     }
 
