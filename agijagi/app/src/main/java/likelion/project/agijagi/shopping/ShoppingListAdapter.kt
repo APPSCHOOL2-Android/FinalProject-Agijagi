@@ -1,5 +1,6 @@
 package likelion.project.agijagi.shopping
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
@@ -9,17 +10,27 @@ import androidx.recyclerview.widget.RecyclerView
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemShoppingListBinding
 
-class ShoppingListAdapter :
+class ShoppingListAdapter(val context: Context) :
     ListAdapter<ShoppingListModel, ShoppingListAdapter.ShoppingListViewHolder>(diffUtil) {
+
+    lateinit var actionCheckBoxParentState: () -> Unit
 
     inner class ShoppingListViewHolder(val bind: ItemShoppingListBinding) :
         RecyclerView.ViewHolder(bind.root) {
 
         fun bind(item: ShoppingListModel) {
             with(bind) {
+                val params = checkboxShoppingListItem.layoutParams
+                checkboxShoppingListItem.layoutParams = params
+
+                checkboxShoppingListItem.isChecked = item.isCheck
+                actionCheckBoxParentState?.invoke()
+
                 textviewShoppingListItemBrand.text = item.brand
                 textviewShoppingListItemName.text = item.name
                 textviewShoppingListItemPrice.text = item.price
+
+
             }
 
             bind.buttonChangeOption.setOnClickListener {
@@ -30,15 +41,18 @@ class ShoppingListAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListViewHolder {
-        val itemShoppinglistBinding =
+        val itemShoppingListBinding =
             ItemShoppingListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val viewHolder = ShoppingListViewHolder(itemShoppinglistBinding)
 
-        return viewHolder
+        return ShoppingListViewHolder(itemShoppingListBinding)
     }
 
     override fun onBindViewHolder(holder: ShoppingListViewHolder, position: Int) {
         holder.bind(currentList[position])
+        holder.bind.checkboxShoppingListItem.setOnClickListener{
+            currentList[position].isCheck = !currentList[position].isCheck
+            actionCheckBoxParentState()
+        }
     }
 
     companion object {
@@ -59,4 +73,7 @@ class ShoppingListAdapter :
         }
     }
 
+    fun setCheckBoxParentState(action: () -> Unit) {
+        actionCheckBoxParentState = action
+    }
 }

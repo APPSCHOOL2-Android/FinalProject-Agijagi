@@ -7,16 +7,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.checkbox.MaterialCheckBox
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.databinding.FragmentShoppingListBinding
 
 class ShoppingListFragment : Fragment() {
 
-    lateinit var shoppingListBinding: FragmentShoppingListBinding
+    private var _binding: FragmentShoppingListBinding? = null
+    private val binding get() = _binding!!
     lateinit var mainActivity: MainActivity
     lateinit var shoppingListAdapter: ShoppingListAdapter
 
-    val dataSet = arrayListOf<ShoppingListModel>().apply {
+    private val dataSet = arrayListOf<ShoppingListModel>()
+        .apply {
         add(ShoppingListModel("김자기", "화려한 접시", "2억원"))
         add(ShoppingListModel("아기자기", "아름다운 접시", "2원"))
         add(ShoppingListModel("아기자기", "큰접시", "20.000,000원"))
@@ -29,22 +32,83 @@ class ShoppingListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        shoppingListBinding = FragmentShoppingListBinding.inflate(inflater)
+        _binding = FragmentShoppingListBinding.inflate(inflater)
         mainActivity = activity as MainActivity
-        shoppingListAdapter = ShoppingListAdapter()
+        shoppingListAdapter = ShoppingListAdapter(requireContext())
 
-        shoppingListBinding.run {
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        binding.run {
             toolbarShoppinglist.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
+            //
+            shoppingListAdapter.setCheckBoxParentState { setCheckBoxParentState() }
 
             recyclerviewShoppingList.run {
                 layoutManager = LinearLayoutManager(mainActivity)
                 adapter = shoppingListAdapter
             }
             shoppingListAdapter.submitList(dataSet)
+
+            // 체크 초기화
+            if (dataSet.size == 0) {
+                setCheckBoxParentState()
+            } else {
+                for (data in dataSet) {
+                    data.isCheck = false
+                }
+            }
+
+            // 전체 선택 버튼
+            checkboxShoppingListAllItem.setOnCheckedChangeListener { compoundButton, b ->
+                when (checkboxShoppingListAllItem.checkedState) {
+                    MaterialCheckBox.STATE_CHECKED -> {
+                        dataSet.forEach { it.isCheck = true }
+                    }
+
+                    MaterialCheckBox.STATE_UNCHECKED -> {
+                        dataSet.forEach { it.isCheck = false }
+                    }
+                }
+                if (!recyclerviewShoppingList.isComputingLayout) {
+                    shoppingListAdapter.notifyDataSetChanged()
+                }
+            }
         }
-        return shoppingListBinding.root
+    }
+
+    private fun setCheckBoxParentState() {
+        val checkedCount = dataSet.filter { item -> item.isCheck }.size
+        var state = -1
+        var str = " 전체 선택"
+        when (checkedCount) {
+            0 -> {
+                state = MaterialCheckBox.STATE_UNCHECKED
+            }
+
+            dataSet.size -> { // ALL
+                state = MaterialCheckBox.STATE_CHECKED
+                str = " 선택 해제"
+            }
+
+            else -> {
+                state = MaterialCheckBox.STATE_INDETERMINATE
+                str = " 전체 ${checkedCount}개"
+            }
+        }
+
+        binding.checkboxShoppingListAllItem.checkedState = state
+        binding.checkboxShoppingListAllItem.text = str
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
