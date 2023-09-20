@@ -57,11 +57,15 @@
         <item>새마을금고</item>
     </array>
 
-    <array name="product_add_category">
+    <array name="product_dropdown_select_category">
         <item>Plate</item>
         <item>Cup</item>
         <item>Bowl</item>
-        <item>Order made</item>
+    </array>
+
+    <array name="product_dropdown_select_isordermade">
+        <item>주문 제작 가능</item>
+        <item>주문 제작 불가능</item>
     </array>
 
     <array name="custom_option_select">

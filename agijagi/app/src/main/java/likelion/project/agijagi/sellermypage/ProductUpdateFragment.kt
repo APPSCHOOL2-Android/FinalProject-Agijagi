@@ -19,8 +19,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.ListView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -165,9 +164,12 @@ class ProductUpdateFragment : Fragment() {
                 menuProductUpdateSelectCategory.setText(data.category, false)
             }
 
-            // 옵션, 도면
-            val itemList = resources.getStringArray(R.array.product_add_category).toList()
-            if (data.category == itemList[itemList.size - 1]) {
+            // 주문제작 가능 여부 선택
+            val ordermadeItems =
+                resources.getStringArray(R.array.product_dropdown_select_isordermade)
+            val ordermadeStr = if (data.isCustom) ordermadeItems[0] else ordermadeItems[1]
+            menuProductUpdateSelectOrdermade.setText(ordermadeStr, false)
+            if (data.isCustom) {
                 layoutProductUpdateOption.visibility = View.VISIBLE
                 layoutProductUpdateAddPlan.visibility = View.VISIBLE
 
@@ -210,22 +212,61 @@ class ProductUpdateFragment : Fragment() {
                 }
             }
 
-            // 카테고리 선택
+            // 카테고리 선택 // Plate, Cup, Bowl
             menuProductUpdateSelectCategory.run {
-                onItemClickListener = AdapterView.OnItemClickListener { parent, v, position, id ->
-                    dataOrigin.category = adapter.getItem(position).toString()
+                setOnClickListener {
+                    if (text.isNotEmpty())
+                        (this.adapter as ArrayAdapter<String>?)?.filter?.filter(null)
+                }
+                setOnItemClickListener { adapterView, view, i, l ->
+                    dataOrigin.category = adapter.getItem(i).toString()
+                    hideSoftKeyboard()
+                }
+            }
+            inputlayoutProductUpdateSelectCategory.setEndIconOnClickListener {
+                menuProductUpdateSelectCategory.run {
+                    if (text.isNotEmpty())
+                        (adapter as ArrayAdapter<String>?)?.filter?.filter(
+                            null
+                        )
+                    showDropDown()
+                }
+            }
 
+            // 주문제작 가능 여부 선택 // 가능, 불가능
+            menuProductUpdateSelectOrdermade.run {
+                setOnClickListener {
+                    if (text.isNotEmpty())
+                        (this.adapter as ArrayAdapter<String>?)?.filter?.filter(null)
+                }
+                setOnItemClickListener { adapterView, view, i, l ->
                     hideSoftKeyboard()
 
-                    if (position == adapter.count - 1) {
-                        // Order made == 주문제작 가능
-                        layoutProductUpdateOption.visibility = View.VISIBLE
-                        layoutProductUpdateAddPlan.visibility = View.VISIBLE
-                    } else {
-                        // Plate, Cup, Bowl
-                        layoutProductUpdateOption.visibility = View.GONE
-                        layoutProductUpdateAddPlan.visibility = View.GONE
+                    val ordermadeItems =
+                        resources.getStringArray(R.array.product_dropdown_select_isordermade)
+
+                    when (adapter.getItem(i).toString()) {
+                        ordermadeItems[0] -> { // 주문 제작 가능
+                            dataOrigin.isCustom = true
+                            layoutProductUpdateOption.visibility = View.VISIBLE
+                            layoutProductUpdateAddPlan.visibility = View.VISIBLE
+                        }
+
+                        ordermadeItems[1] -> { // 주문 제작 불가능
+                            dataOrigin.isCustom = false
+                            layoutProductUpdateOption.visibility = View.GONE
+                            layoutProductUpdateAddPlan.visibility = View.GONE
+                        }
                     }
+                }
+            }
+            inputlayoutProductUpdateSelectOrdermade.setOnClickListener {
+                menuProductUpdateSelectOrdermade.run {
+                    if (text.isNotEmpty())
+                        (adapter as ArrayAdapter<String>?)?.filter?.filter(
+                            null
+                        )
+                    showDropDown()
                 }
             }
 
