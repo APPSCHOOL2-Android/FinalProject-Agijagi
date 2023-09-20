@@ -8,26 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
-import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.category.adapter.CategoryDetailInfoListAdapter
 import likelion.project.agijagi.category.model.CategoryDetailInfoListModel
 import likelion.project.agijagi.databinding.FragmentCategoryDetailInfoListBinding
-import likelion.project.agijagi.search.SearchResultModel
 
 class CategoryDetailInfoListFragment : Fragment() {
 
@@ -75,39 +63,44 @@ class CategoryDetailInfoListFragment : Fragment() {
 
             ref.run {
                 if (category == "All" && is_custom == 0) {
-                    whereEqualTo("state","판매")
-                    get()
-                        .addOnSuccessListener {
-                            setRecyclerCategoryList(it)
+                        get()
+                        .addOnSuccessListener { documents ->
+                            val filteredDocuments = documents.filter { it.getString("state") != "숨김" }
+                            setRecyclerCategoryList(filteredDocuments)
+                        }.addOnFailureListener {
+                            Log.d("category", "데이터")
                         }
                 } else if (category == "All" && is_custom == 1) {
                     whereEqualTo("is_custom", true)
-                        .whereEqualTo("state","판매")
                         .get()
-                        .addOnSuccessListener {
-                            setRecyclerCategoryList(it)
+                        .addOnSuccessListener { documents ->
+                            val filteredDocuments = documents.filter { it.getString("state") != "숨김" }
+                            setRecyclerCategoryList(filteredDocuments)
+                        }.addOnFailureListener {
+                            Log.d("category", "데이터")
                         }
                 } else if (category in categoryList && is_custom == -1) {
                     whereEqualTo("category", category)
                         .whereEqualTo("is_custom", false)
-                        .whereEqualTo("state","판매")
                         .get()
-                        .addOnSuccessListener {
-                            setRecyclerCategoryList(it)
+                        .addOnSuccessListener { documents ->
+                            val filteredDocuments = documents.filter { it.getString("state") != "숨김" }
+                            setRecyclerCategoryList(filteredDocuments)
+                        }.addOnFailureListener {
+                            Log.d("category", "데이터")
                         }
                 } else if (category in categoryList && is_custom == 1) {
                     whereEqualTo("category", category)
                         .whereEqualTo("is_custom", true)
-                        .whereEqualTo("state","판매")
                         .get()
-                        .addOnSuccessListener {
-                            setRecyclerCategoryList(it)
+                        .addOnSuccessListener { documents ->
+                            val filteredDocuments = documents.filter { it.getString("state") != "숨김" }
+                            setRecyclerCategoryList(filteredDocuments)
+
                         }.addOnFailureListener {
                             Log.d("category", "데이터")
                         }
-                } else {
-
-                }
+                } else {}
             }
         }
     }
@@ -146,7 +139,7 @@ class CategoryDetailInfoListFragment : Fragment() {
 
     }
 
-    private fun setRecyclerCategoryList(documents: QuerySnapshot) {
+    private fun setRecyclerCategoryList(documents: List<QueryDocumentSnapshot>) {
         for (document in documents) {
             Log.d("category", "document id: ${document.id}")
             try {
