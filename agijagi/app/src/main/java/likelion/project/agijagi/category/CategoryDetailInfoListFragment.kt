@@ -46,6 +46,8 @@ class CategoryDetailInfoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         categoryListAdapter = CategoryDetailInfoListAdapter()
         getCategory = arguments?.getString("category").toString()
         getIsCustom = arguments?.getInt("is_custom").toString().toInt()
@@ -60,7 +62,7 @@ class CategoryDetailInfoListFragment : Fragment() {
     private fun setCategoryList(category: String, is_custom: Int) {
         // is_custom 을 통해 order made인지 아닌지 분류
         fragmentCategoryDetailInfoListBinding.run {
-
+            dataList.clear()
             ref.run {
                 if (category == "All" && is_custom == 0) {
                         get()
