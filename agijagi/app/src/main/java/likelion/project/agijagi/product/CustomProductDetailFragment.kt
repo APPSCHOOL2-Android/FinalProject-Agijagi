@@ -1,7 +1,6 @@
 package likelion.project.agijagi.product
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import io.supercharge.shimmerlayout.ShimmerLayout
+import likelion.project.agijagi.MainActivity.Companion.displayDialogUserNotLogin
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentCustomProductDetailBinding
+import likelion.project.agijagi.model.UserModel
 import java.text.DecimalFormat
 
 class CustomProductDetailFragment : Fragment() {
@@ -28,6 +29,8 @@ class CustomProductDetailFragment : Fragment() {
 
     val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
+
+    val uid = UserModel.uid
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,7 +78,10 @@ class CustomProductDetailFragment : Fragment() {
                 imageviewCustomProductDetailImage6
             )
 
-            startShimmerAnimations(shimmerLayoutCustomProductDetailThumbnailImage, shimmerLayoutImages)
+            startShimmerAnimations(
+                shimmerLayoutCustomProductDetailThumbnailImage,
+                shimmerLayoutImages
+            )
 
             db.collection("product").document(productId).get().addOnSuccessListener {
                 val thumbnailImage = it["thumbnail_image"].toString()
@@ -153,9 +159,13 @@ class CustomProductDetailFragment : Fragment() {
                 findNavController().popBackStack()
             }
             setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.menu_product_detail_shopping -> {
-                        findNavController().navigate(R.id.action_customProductDetailFragment_to_shoppingListFragment)
+                if (uid == "") {
+                    displayDialogUserNotLogin(requireContext())
+                } else {
+                    when (it.itemId) {
+                        R.id.menu_product_detail_shopping -> {
+                            findNavController().navigate(R.id.action_customProductDetailFragment_to_shoppingListFragment)
+                        }
                     }
                 }
                 false
@@ -165,8 +175,12 @@ class CustomProductDetailFragment : Fragment() {
 
     private fun setupFloatingButton() {
         binding.customFloatingButtonCustomProductDetailToChatting.customFloatingButtonLayout.setOnClickListener {
-            it.findNavController()
-                .navigate(R.id.action_customProductDetailFragment_to_chattingListFragment)
+            if (uid == "") {
+                displayDialogUserNotLogin(requireContext())
+            } else {
+                it.findNavController()
+                    .navigate(R.id.action_customProductDetailFragment_to_chattingListFragment)
+            }
         }
     }
 
@@ -177,34 +191,41 @@ class CustomProductDetailFragment : Fragment() {
     }
 
     private fun setupFavoriteButton(productId: String) {
-        val buyerId = "Ws3TxAyKAg6Xe5GVNwV4"
+        val buyerId = UserModel.roleId
         binding.imageButtonCustomProductDetailFavorite.run {
-            db.collection("buyer")
-                .document(buyerId)
-                .collection("wish")
-                .get()
-                .addOnSuccessListener {
-                for (document in it) {
-                    if (document.id == productId) {
-                        this.isSelected = true
+            if (uid != "") {
+                db.collection("buyer")
+                    .document(buyerId)
+                    .collection("wish")
+                    .get()
+                    .addOnSuccessListener {
+                        for (document in it) {
+                            if (document.id == productId) {
+                                this.isSelected = true
+                            }
+                        }
                     }
-                }
             }
+
             setOnClickListener {
-                it.isSelected = it.isSelected != true
-                if (it.isSelected) {
-                    val product = hashMapOf("prodId" to productId)
-                    db.collection("buyer")
-                        .document(buyerId)
-                        .collection("wish")
-                        .document(productId)
-                        .set(product)
+                if (uid == "") {
+                    displayDialogUserNotLogin(requireContext())
                 } else {
-                    db.collection("buyer")
-                        .document(buyerId)
-                        .collection("wish")
-                        .document(productId)
-                        .delete()
+                    it.isSelected = it.isSelected != true
+                    if (it.isSelected) {
+                        val product = hashMapOf("prodId" to productId)
+                        db.collection("buyer")
+                            .document(buyerId)
+                            .collection("wish")
+                            .document(productId)
+                            .set(product)
+                    } else {
+                        db.collection("buyer")
+                            .document(buyerId)
+                            .collection("wish")
+                            .document(productId)
+                            .delete()
+                    }
                 }
             }
         }
@@ -212,9 +233,16 @@ class CustomProductDetailFragment : Fragment() {
 
     private fun setupPurchaseButton(productId: String) {
         binding.buttonCustomProductDetailPurchase.setOnClickListener {
-            val bundle = bundleOf("prodId" to productId)
-            it.findNavController()
-                .navigate(R.id.action_customProductDetailFragment_to_customOptionFragment, bundle)
+            if (uid == "") {
+                displayDialogUserNotLogin(requireContext())
+            } else {
+                val bundle = bundleOf("prodId" to productId)
+                it.findNavController()
+                    .navigate(
+                        R.id.action_customProductDetailFragment_to_customOptionFragment,
+                        bundle
+                    )
+            }
         }
     }
 
