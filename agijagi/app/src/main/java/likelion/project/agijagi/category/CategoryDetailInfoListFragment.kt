@@ -75,12 +75,14 @@ class CategoryDetailInfoListFragment : Fragment() {
 
             ref.run {
                 if (category == "All" && is_custom == 0) {
+                    whereEqualTo("state","판매")
                     get()
                         .addOnSuccessListener {
                             setRecyclerCategoryList(it)
                         }
                 } else if (category == "All" && is_custom == 1) {
                     whereEqualTo("is_custom", true)
+                        .whereEqualTo("state","판매")
                         .get()
                         .addOnSuccessListener {
                             setRecyclerCategoryList(it)
@@ -88,6 +90,7 @@ class CategoryDetailInfoListFragment : Fragment() {
                 } else if (category in categoryList && is_custom == -1) {
                     whereEqualTo("category", category)
                         .whereEqualTo("is_custom", false)
+                        .whereEqualTo("state","판매")
                         .get()
                         .addOnSuccessListener {
                             setRecyclerCategoryList(it)
@@ -95,6 +98,7 @@ class CategoryDetailInfoListFragment : Fragment() {
                 } else if (category in categoryList && is_custom == 1) {
                     whereEqualTo("category", category)
                         .whereEqualTo("is_custom", true)
+                        .whereEqualTo("state","판매")
                         .get()
                         .addOnSuccessListener {
                             setRecyclerCategoryList(it)
