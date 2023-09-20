@@ -589,7 +589,7 @@ class ProductUpdateFragment : Fragment() {
     // 수정하려는 상품 데이터 가져오기
     private fun getDataOrigin(): ProductModel {
         val bundle = arguments
-        val data = bundle?.getParcelable<ProductModel>("pruductData")
+        val data = bundle?.getParcelable<ProductModel>("productData")
         if (data == null) {
             Snackbar.make(binding.root, "번들 데이터가 없습니다!!", Snackbar.LENGTH_SHORT).show()
         }
