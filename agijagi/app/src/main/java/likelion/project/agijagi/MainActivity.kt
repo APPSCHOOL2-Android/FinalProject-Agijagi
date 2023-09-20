@@ -116,5 +116,4 @@ class MainActivity : AppCompatActivity() {
         }
         db.firestoreSettings = settings
     }
-
 }
