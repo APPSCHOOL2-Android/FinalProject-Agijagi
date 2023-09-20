@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentHomeBinding
+import likelion.project.agijagi.model.UserModel
 
 class HomeFragment : Fragment() {
 
@@ -29,7 +30,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("home", "uid: ${MainActivity.userModel.uid}\n name: ${MainActivity.userModel.name}")
+        Log.d("home", "uid: ${UserModel.uid}\n name: ${UserModel.name}")
 
         setToolbarMenuItem()
         setOrderMadeProductButton()
