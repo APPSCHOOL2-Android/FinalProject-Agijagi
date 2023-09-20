@@ -1,7 +1,6 @@
 package likelion.project.agijagi.product
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +14,9 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import io.supercharge.shimmerlayout.ShimmerLayout
 import likelion.project.agijagi.MainActivity.Companion.displayDialogUserNotLogin
-import likelion.project.agijagi.MainActivity.Companion.userModel
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentProductDetailBinding
+import likelion.project.agijagi.model.UserModel
 import java.text.DecimalFormat
 
 class ProductDetailFragment : Fragment() {
@@ -29,6 +28,8 @@ class ProductDetailFragment : Fragment() {
 
     val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
+
+    val uid = UserModel.uid
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -152,7 +153,7 @@ class ProductDetailFragment : Fragment() {
                 findNavController().popBackStack()
             }
             setOnMenuItemClickListener {
-                if (userModel.uid == "") {
+                if (uid == "") {
                     displayDialogUserNotLogin(requireContext())
                 } else {
                     when (it.itemId) {
@@ -167,9 +168,9 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun setupFavoriteButton(productId: String) {
-        val buyerId = "Ws3TxAyKAg6Xe5GVNwV4"
+        val buyerId = UserModel.roleId
         binding.imageButtonProductDetailFavorite.run {
-            if (userModel.uid != "") {
+            if (uid != "") {
                 db.collection("buyer")
                     .document(buyerId)
                     .collection("wish")
@@ -180,14 +181,11 @@ class ProductDetailFragment : Fragment() {
                                 this.isSelected = true
                             }
                         }
-                    }.addOnFailureListener {
-                        Log.d("hye", it.toString())
-                        Log.d("hye", userModel.roleId)
                     }
             }
 
             setOnClickListener {
-                if (userModel.uid == "") {
+                if (uid == "") {
                     displayDialogUserNotLogin(requireContext())
                 } else {
                     it.isSelected = it.isSelected != true
@@ -200,7 +198,7 @@ class ProductDetailFragment : Fragment() {
                             .set(prodId)
                     } else {
                         db.collection("buyer")
-                            .document(userModel.roleId)
+                            .document(buyerId)
                             .collection("wish")
                             .document(productId)
                             .delete()
@@ -212,7 +210,7 @@ class ProductDetailFragment : Fragment() {
 
     private fun setupPurchaseButton(productId: String) {
         binding.buttonProductDetailPurchase.setOnClickListener {
-            if (userModel.uid == "") {
+            if (uid == "") {
                 displayDialogUserNotLogin(requireContext())
             } else {
                 val bundle = bundleOf("prodId" to productId)
