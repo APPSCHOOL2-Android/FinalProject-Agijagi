@@ -11,6 +11,8 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -18,7 +20,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -33,7 +34,6 @@ import likelion.project.agijagi.databinding.ItemProductAddAddPictureBinding
 import likelion.project.agijagi.databinding.ItemProductAddAddPlanBinding
 import likelion.project.agijagi.model.ProductModel
 import kotlin.concurrent.thread
-
 
 class ProductAddFragment : Fragment() {
 
@@ -51,16 +51,13 @@ class ProductAddFragment : Fragment() {
     lateinit var callbackActionGranted: () -> Unit
     lateinit var callbackActionDenide: () -> Unit
 
-    var categoryIdx: Int = ListView.INVALID_POSITION
-
-    // 사진
+    // 사진, 도면 런쳐
     lateinit var albumActivityLauncherForPictures: ActivityResultLauncher<Intent>
-    private val pictureUriList: ArrayList<Uri> = arrayListOf<Uri>()
     private var pictureCheckIndex: Int = -1
-
-    // 도면
     lateinit var albumActivityLauncherForPlans: ActivityResultLauncher<Intent>
-    private val planUriList: ArrayList<Uri> = arrayListOf<Uri>()
+
+    // 새 판매글의 데이터
+    private lateinit var dataOrigin: ProductModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,8 +78,6 @@ class ProductAddFragment : Fragment() {
             // 키보드 해제
             imm = mainActivity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             hideSoftKeyboard()
-            // 하단버튼 초기셋팅
-            checkBottomButtonActive()
         }
 
         setToolbarItemAction()
@@ -92,9 +87,30 @@ class ProductAddFragment : Fragment() {
         setUiFunction()
         // 하단 버튼 동작 등록
         setBottomButton()
-        // 이미지 뷰 초기 설정
-        resetPictureView()
-        resetPlanView()
+
+        // UI 초기화
+        if (!this::dataOrigin.isInitialized) {
+            dataOrigin = ProductModel()
+        }
+
+        dataOrigin.run {
+            // 썸네일 체크를 위한 인덱스 검색
+            if (thumbnail_image != "") {
+                pictureCheckIndex = image.indexOf(thumbnail_image)
+                if (pictureCheckIndex == -1)
+                    thumbnail_image = ""
+            }
+        }
+
+        setUiInit()
+        // 하단버튼 초기셋팅
+        checkBottomButtonActive()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            // 이미지 뷰 초기 설정
+            resetPictureView()
+            resetPlanView()
+        }, 10)
     }
 
     private fun setToolbarItemAction() {
@@ -136,48 +152,107 @@ class ProductAddFragment : Fragment() {
         }
     }
 
+    private fun setUiInit() {
+        binding.run {
+            val data = dataOrigin
+
+            // 상품명
+            if (data.name != "") {
+                editinputProductAddProductname.setText(data.name)
+            }
+            // 가격
+            if (data.name != "") {
+                editinputlayoutProductAddProductprice.setText(data.name)
+            }
+            // 카테고리 선택
+            if (data.category != "") {
+                menuProductAddSelectCategory.setText(data.category, false)
+            }
+
+            // 옵션, 도면
+            val itemList = resources.getStringArray(R.array.product_add_category).toList()
+            if (data.category == itemList[itemList.size - 1]) {
+                layoutProductAddOption.visibility = View.VISIBLE
+                layoutProductAddAddPlan.visibility = View.VISIBLE
+
+                // 옵션1 체크박스, 가격
+                val op1 = data.customOptionInfo["lettering_is_use"].toBoolean()
+                checkBoxProductAddOption1.isChecked = op1
+                editinputlayoutProductAddOption1Price.setText(if (op1) data.customOptionInfo["lettering_fee"] else "")
+                // 옵션2 체크박스, 가격
+                val op2 = data.customOptionInfo["image_is_use"].toBoolean()
+                checkBoxProductAddOption2.isChecked = op2
+                editinputlayoutProductAddOption2Price.setText(if (op2) data.customOptionInfo["image_fee"] else "")
+            } else {
+                layoutProductAddOption.visibility = View.GONE
+                layoutProductAddAddPlan.visibility = View.GONE
+            }
+
+            // 상품 상세정보
+            if (data.detail != "") {
+                editinputlayoutProductAddDetail.setText(data.detail)
+            }
+        }
+    }
+
     private fun setUiFunction() {
         binding.run {
             // 상품명
             editinputProductAddProductname.run {
-                setOnEditorActionListener { v, actionId, event ->
-                    checkBottomButtonActive()
+                setOnEditorActionListener { textView, i, keyEvent ->
                     hideSoftKeyboard()
+                    checkBottomButtonActive()
                     false
+                }
+                setOnFocusChangeListener { view, b ->
+                    if (!b) {
+                        dataOrigin.name = text.toString()
+                        hideSoftKeyboard()
+                        checkBottomButtonActive()
+                    }
                 }
             }
 
             // 가격
             editinputlayoutProductAddProductprice.run {
-                setOnEditorActionListener { v, actionId, event ->
-                    checkBottomButtonActive()
+                setOnEditorActionListener { textView, i, keyEvent ->
                     hideSoftKeyboard()
+                    checkBottomButtonActive()
                     false
+                }
+                setOnFocusChangeListener { view, b ->
+                    if (!b) {
+                        dataOrigin.price = text.toString()
+                        hideSoftKeyboard()
+                        checkBottomButtonActive()
+                    }
                 }
             }
 
             // 카테고리 선택
             menuProductAddSelectCategory.run {
                 onItemClickListener = OnItemClickListener { parent, v, position, id ->
-                    categoryIdx = position
+                    dataOrigin.category = adapter.getItem(position).toString()
+
                     checkBottomButtonActive()
                     hideSoftKeyboard()
 
-                    if (categoryIdx == adapter.count - 1) {
+                    if (position == adapter.count - 1) {
                         // Order made == 주문제작 가능
                         layoutProductAddOption.visibility = View.VISIBLE
                         layoutProductAddAddPlan.visibility = View.VISIBLE
-
-                        // 초기화
-                        checkBoxProductAddOption1.isChecked = false
-                        checkBoxProductAddOption2.isChecked = false
-                        editinputlayoutProductAddOption1Price.text = null
-                        editinputlayoutProductAddOption2Price.text = null
                     } else {
                         // Plate, Cup, Bowl
                         layoutProductAddOption.visibility = View.GONE
                         layoutProductAddAddPlan.visibility = View.GONE
                     }
+                }
+            }
+
+            // 옵션1 체크박스
+            checkBoxProductAddOption1.run {
+                setOnCheckedChangeListener { compoundButton, b ->
+                    dataOrigin.customOptionInfo["lettering_is_use"] = b.toString()
                 }
             }
 
@@ -188,14 +263,32 @@ class ProductAddFragment : Fragment() {
                     hideSoftKeyboard()
                     false
                 }
+                setOnFocusChangeListener { view, b ->
+                    if (!b) {
+                        dataOrigin.customOptionInfo["lettering_fee"] = text.toString()
+                        hideSoftKeyboard()
+                    }
+                }
             }
 
+            // 옵션2 체크박스
+            checkBoxProductAddOption2.run {
+                setOnCheckedChangeListener { compoundButton, b ->
+                    dataOrigin.customOptionInfo["image_is_use"] = b.toString()
+                }
+            }
             // 옵션2 가격입력
             editinputlayoutProductAddOption2Price.run {
                 setOnEditorActionListener { v, actionId, event ->
                     checkBottomButtonActive()
                     hideSoftKeyboard()
                     false
+                }
+                setOnFocusChangeListener { view, b ->
+                    if (!b) {
+                        dataOrigin.customOptionInfo["image_fee"] = text.toString()
+                        hideSoftKeyboard()
+                    }
                 }
             }
 
@@ -206,6 +299,12 @@ class ProductAddFragment : Fragment() {
                     hideSoftKeyboard()
                     false
                 }
+                setOnFocusChangeListener { view, b ->
+                    if (!b) {
+                        dataOrigin.detail = text.toString()
+                        hideSoftKeyboard()
+                    }
+                }
             }
 
             // 사진추가 버튼
@@ -215,7 +314,7 @@ class ProductAddFragment : Fragment() {
                 requestPermissions(permissionList, 0)
                 callbackActionGranted = {
                     // 사진을 추가할 공간이 있는 지 확인
-                    if (6 <= pictureUriList.size) {
+                    if (6 <= dataOrigin.image.size) {
                         Snackbar.make(it, "최대 6장의 사진만 추가할 수 있습니다", Toast.LENGTH_SHORT).show()
                     } else {
                         val newIntent =
@@ -244,8 +343,8 @@ class ProductAddFragment : Fragment() {
             for (i in 0 until pictureIncludeList.size) {
                 // X버튼 동작
                 pictureIncludeList[i].buttonX.setOnClickListener {
-                    if (i < pictureUriList.size) {
-                        pictureUriList.removeAt(i)
+                    if (i < dataOrigin.image.size) {
+                        dataOrigin.image.removeAt(i)
 
                         if (i == pictureCheckIndex) {
                             pictureCheckIndex = -1
@@ -276,7 +375,7 @@ class ProductAddFragment : Fragment() {
                 // 권한 확인 후 액션
                 callbackActionGranted = {
                     // 도면을 추가할 공간이 있는 지 확인
-                    if (4 <= planUriList.size) {
+                    if (4 <= dataOrigin.floorPlan.size) {
                         Snackbar.make(it, "최대 4장의 도면만 추가할 수 있습니다", Toast.LENGTH_SHORT).show()
                     } else {
                         val newIntent =
@@ -302,8 +401,8 @@ class ProductAddFragment : Fragment() {
 
             for (i in 0 until planIncludeList.size) {
                 planIncludeList[i].buttonX.setOnClickListener {
-                    if (i < planUriList.size) {
-                        planUriList.removeAt(i)
+                    if (i < dataOrigin.floorPlan.size) {
+                        dataOrigin.floorPlan.removeAt(i)
                     }
                     resetPlanView()
                 }
@@ -313,40 +412,25 @@ class ProductAddFragment : Fragment() {
 
 
     // 하단 버튼 활성 체크
-    // 상품명, 가격, 카테고리, 주문제작가능여부 4가지만 확인해서 버튼을 활성화한다.
+    // 상품명, 가격, 카테고리만 확인해서 버튼을 활성화한다.
     // 유효성 검사는 별개로, 하단 버튼을 클릭 시 검사한다.
     private fun checkBottomButtonActive() {
         binding.run {
-            var checker = true
+            val data = dataOrigin
 
-            val name = editinputProductAddProductname.text.toString()
-            val price = editinputlayoutProductAddProductprice.text.toString()
-            if (name.isEmpty() || name == "" || name == " ") {
-                checker = false
-            } else if (price.isEmpty() || price == "" || price == " ") {
-                checker = false
-            } else if (categoryIdx == ListView.INVALID_POSITION) {
-                checker = false
-            }
+            val checker = !(data.name == "" || data.name == " " ||
+                    data.price == "" || data.price == " " ||
+                    data.category == "" || data.category == " ")
 
             // 버튼 활성화
-            if (checker) {
-                buttonProductAddOk.setBackgroundResource(R.drawable.wide_box_bottom_active)
-                val colorInt = mainActivity.resources.getColor(R.color.jagi_ivory, null)
-                buttonProductAddOk.setTextColor(colorInt)
-                buttonProductAddOk.isClickable = true
-            } else {
-                buttonProductAddOk.setBackgroundResource(R.drawable.wide_box_bottom_inactive)
-                val colorInt = mainActivity.resources.getColor(R.color.jagi_ivory, null)
-                buttonProductAddOk.setTextColor(colorInt)
-                buttonProductAddOk.isClickable = false
-            }
+            buttonProductAddOk.isSelected = checker
+            buttonProductAddOk.isClickable = checker
         }
     }
 
 
     // 사진,도면 추가를 위한 런쳐 셋팅
-    fun setAlbumActivityLaunchers() {
+    private fun setAlbumActivityLaunchers() {
         // 사진 추가
         albumActivityLauncherForPictures =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -356,7 +440,7 @@ class ProductAddFragment : Fragment() {
                 val clipData = (it.data?.clipData) ?: return@registerForActivityResult
 
                 for (i in 0 until clipData.itemCount) {
-                    if (6 <= pictureUriList.size) {
+                    if (6 <= dataOrigin.image.size) {
                         break
                     }
 
@@ -368,7 +452,7 @@ class ProductAddFragment : Fragment() {
                     // 가져온 이미지가 있다면 저장하고 화면에 보여줌
                     if (bitmap != null) {
                         // 이미지 추가
-                        pictureUriList.add(uri)
+                        dataOrigin.image.add(uri.toString())
                     }
                 }
 
@@ -391,7 +475,7 @@ class ProductAddFragment : Fragment() {
                 val clipData = (it.data?.clipData) ?: return@registerForActivityResult
 
                 for (i in 0 until clipData.itemCount) {
-                    if (4 <= planUriList.size) {
+                    if (4 <= dataOrigin.floorPlan.size) {
                         break
                     }
 
@@ -403,7 +487,7 @@ class ProductAddFragment : Fragment() {
                     // 가져온 이미지가 있다면 저장하고 화면에 보여줌
                     if (bitmap != null) {
                         // 이미지 추가
-                        planUriList.add(uri)
+                        dataOrigin.floorPlan.add(uri.toString())
                     }
                 }
 
@@ -460,9 +544,8 @@ class ProductAddFragment : Fragment() {
 
             val width = pictureIncludeList[0].imageView.width
             for (i in 0 until pictureIncludeList.size) {
-                if (i < pictureUriList.size) {
-                    val bitmap = imageDecode(pictureUriList[i])!!
-                    // Error!!  java.lang.IllegalArgumentException: width and height must be > 0
+                if (i < dataOrigin.image.size) {
+                    val bitmap = imageDecode(Uri.parse(dataOrigin.image[i]))!!
                     val crop = Bitmap.createScaledBitmap(bitmap, width, width, true)
                     pictureIncludeList[i].imageView.setImageBitmap(crop)
                     pictureIncludeList[i].buttonX.visibility = View.VISIBLE
@@ -489,8 +572,8 @@ class ProductAddFragment : Fragment() {
 
             val width = planIncludeList[0].imageView.width
             for (i in 0 until planIncludeList.size) {
-                if (i < planUriList.size) {
-                    val bitmap = imageDecode(planUriList[i])!!
+                if (i < dataOrigin.floorPlan.size) {
+                    val bitmap = imageDecode(Uri.parse(dataOrigin.floorPlan[i]))!!
                     val crop = Bitmap.createScaledBitmap(bitmap, width, width, true)
                     planIncludeList[i].imageView.setImageBitmap(crop)
                     planIncludeList[i].root.visibility = View.VISIBLE
@@ -498,7 +581,7 @@ class ProductAddFragment : Fragment() {
                     planIncludeList[i].root.visibility = View.INVISIBLE
                 }
             }
-            textViewSubtitle3.text = "( ${planUriList.size.toInt()} / 4 )"
+            textViewSubtitle3.text = "( ${dataOrigin.floorPlan.size.toInt()} / 4 )"
         }
     }
 
@@ -510,99 +593,49 @@ class ProductAddFragment : Fragment() {
         binding.run {
             // 하단 버튼 클릭
             buttonProductAddOk.setOnClickListener {
-                val name = editinputProductAddProductname.text.toString()
-                if (name.isEmpty() || name == "" || name == " ") {
-                    Snackbar.make(it, "상품명을 입력하세요", Snackbar.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-
-                val price = editinputlayoutProductAddProductprice.text.toString()
-                if (price.isEmpty() || price == "" || price == " ") {
-                    Snackbar.make(it, "상품가격을 입력하세요", Snackbar.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-
-                if (categoryIdx == ListView.INVALID_POSITION) {
-                    Snackbar.make(it, "카테고리를 선택하세요", Snackbar.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-
-                // 옵션 추가
-                val opMap = HashMap<String, String>()
-                val isOrdermade = categoryIdx == menuProductAddSelectCategory.adapter.count - 1
-                if (isOrdermade) {
-                    // 주문 제작 가능 옵션의 유효성 검사
-                    var checkOption = false
-                    if (checkBoxProductAddOption1.isChecked) {
-                        val op1 = editinputlayoutProductAddOption1Price.text.toString()
-                        if (op1.isEmpty() || op1 == "" || op1 == " ") {
-                            Snackbar.make(it, "선택한 옵션의 가격을 입력하세요", Snackbar.LENGTH_SHORT)
-                                .show()
-                            return@setOnClickListener
-                        } else {
-                            checkOption = true
-                            opMap["lettering_fee"] = op1
-                            opMap["lettering_is_use"] = "true"
-                        }
-                    } else {
-                        opMap["lettering_fee"] = ""
-                        opMap["lettering_is_use"] = "false"
-                    }
-
-                    if (checkBoxProductAddOption2.isChecked) {
-                        val op2 = editinputlayoutProductAddOption2Price.text.toString()
-                        if (op2.isEmpty() || op2 == "" || op2 == " ") {
-                            Snackbar.make(it, "선택한 옵션의 가격을 입력하세요", Snackbar.LENGTH_SHORT)
-                                .show()
-                            return@setOnClickListener
-                        } else {
-                            checkOption = true
-                            opMap["image_fee"] = op2
-                            opMap["image_is_use"] = "true"
-                        }
-                    } else {
-                        opMap["image_fee"] = ""
-                        opMap["image_is_use"] = "false"
-                    }
-
-                    if (!checkOption) {
-                        Snackbar.make(it, "옵션을 하나 이상 추가하세요", Snackbar.LENGTH_SHORT).show()
+                val data = dataOrigin
+                data.run {
+                    if (name == "" || name == " ") {
+                        Snackbar.make(it, "상품명을 입력하세요", Snackbar.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
+                    if (price == "" || price == " ") {
+                        Snackbar.make(it, "상품가격을 입력하세요", Snackbar.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+                    if (category == "") {
+                        Snackbar.make(it, "카테고리를 선택하세요", Snackbar.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+
+                    // 주문 제작 가능 옵션의 유효성 검사
+                    if (isCustom) {
+                        if (customOptionInfo["lettering_is_use"] == "true" && customOptionInfo["lettering_fee"] == "") {
+                            Snackbar.make(it, "선택한 옵션의 가격을 입력하세요", Snackbar.LENGTH_SHORT).show()
+                            return@setOnClickListener
+                        }
+                        if (customOptionInfo["image_is_use"] == "true" && customOptionInfo["image_fee"] == "") {
+                            Snackbar.make(it, "선택한 옵션의 가격을 입력하세요", Snackbar.LENGTH_SHORT).show()
+                            return@setOnClickListener
+                        }
+                        if (customOptionInfo["lettering_is_use"] == "false" && customOptionInfo["image_is_use"] == "false") {
+                            Snackbar.make(it, "옵션을 하나 이상 추가하세요", Snackbar.LENGTH_SHORT).show()
+                            return@setOnClickListener
+                        }
+                    } else {
+                        customOptionInfo["lettering_is_use"] = "false"
+                        customOptionInfo["lettering_fee"] = ""
+                        customOptionInfo["image_is_use"] = "false"
+                        customOptionInfo["image_fee"] = ""
+                    }
+
+                    // 선택된 썸네일
+                    thumbnail_image =
+                        if (0 <= pictureCheckIndex && pictureCheckIndex < image.size)
+                            image[pictureCheckIndex]
+                        else ""
                 }
 
-                // 그 외 데이터
-                val category =
-                    menuProductAddSelectCategory.adapter.getItem(categoryIdx).toString()
-
-                val planUriString = ArrayList<String>()
-                planUriList.forEach { uri -> planUriString.add(uri.toString()) }
-
-                val pictureUriString = ArrayList<String>()
-                pictureUriList.forEach { uri -> pictureUriString.add(uri.toString()) }
-
-                val thumbnailPictureUriString =
-                    if (0 <= pictureCheckIndex && pictureCheckIndex < pictureUriString.size) pictureUriString[pictureCheckIndex]
-                    else ""
-
-                // 데이터 클래스 생성
-                val data = ProductModel(
-                    "",
-                    "상호명",
-                    category,
-                    opMap,
-                    editinputlayoutProductAddDetail.text.toString(),
-                    planUriString,
-                    pictureUriString,
-                    isOrdermade,
-                    name,
-                    "판매",
-                    price,
-                    0, // 팔린 수량
-                    "셀러pk",
-                    thumbnailPictureUriString,
-                    ""
-                )
 
                 // 번들 생성, 전달
                 val bundle = bundleOf("productData" to data)
