@@ -66,6 +66,8 @@ class CustomOptionFragment : Fragment() {
     private var leftImage: String? = null
     private var rightImage: String? = null
 
+    private var db = Firebase.firestore
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -102,7 +104,6 @@ class CustomOptionFragment : Fragment() {
     }
 
     private fun getData() {
-        val db = Firebase.firestore
         db.collection("product")
             .document(productId)
             .get().addOnSuccessListener {
@@ -238,7 +239,12 @@ class CustomOptionFragment : Fragment() {
             buttonCustomOptionPurchase.setOnClickListener {
                 val count = editInputCustomOptionVolumeText.text.toString().toLong()
                 // 데이터가져오기
-
+                var price = ""
+                db.collection("product")
+                    .document(productId)
+                    .get().addOnSuccessListener {
+                        price = it["price"].toString()
+                    }
                 if (lettering) {
                     val customWord = editInputCustomOptionText.text.toString()
                     val customLocation = editInputCustomOptionLocationText.text.toString()
@@ -248,7 +254,7 @@ class CustomOptionFragment : Fragment() {
                         count,
                         hashMapOf(),
                         "Lettering",
-                        "12341243원",
+                        price,
                         customWord,
                         customLocation
                     )
@@ -262,10 +268,12 @@ class CustomOptionFragment : Fragment() {
                 }
                 if (image) {
                     binding.customOptionFront.itemCustomOptionImage
-                    val imageList = hashMapOf("frontImage" to frontImage,
+                    val imageList = hashMapOf(
+                        "frontImage" to frontImage,
                         "backImage" to backImage,
                         "leftImage" to leftImage,
-                        "rightImage" to rightImage)
+                        "rightImage" to rightImage
+                    )
 
                     val imageCustomOption = ProdInfo(
                         true,
@@ -273,7 +281,7 @@ class CustomOptionFragment : Fragment() {
                         count,
                         imageList,
                         "Image",
-                        "12341243원",
+                        price,
                         null, null
                     )
                     val bundle = Bundle().apply {
