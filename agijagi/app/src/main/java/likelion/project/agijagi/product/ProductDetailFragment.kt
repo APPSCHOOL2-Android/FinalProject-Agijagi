@@ -79,7 +79,7 @@ class ProductDetailFragment : Fragment() {
                 val thumbnailImage = it["thumbnail_image"].toString()
                 val brand = it["brand"].toString()
                 val name = it["name"].toString()
-                val price = it["price"].toString()
+                val price = "${dec.format(it["price"].toString().toLong())}원"
                 val detail = it["detail"].toString()
                 val image = it["image"] as ArrayList<*>
 
