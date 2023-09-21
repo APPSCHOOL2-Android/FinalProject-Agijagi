@@ -1,6 +1,7 @@
 package likelion.project.agijagi.sellermypage
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.google.firebase.storage.ktx.storage
 import io.supercharge.shimmerlayout.ShimmerLayout
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentSellerProductDetailBinding
+import likelion.project.agijagi.model.ProductModel
 import java.text.DecimalFormat
 
 class SellerProductDetailFragment : Fragment() {
@@ -25,6 +27,8 @@ class SellerProductDetailFragment : Fragment() {
 
     val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
+
+    private var product: ProductModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,11 +42,17 @@ class SellerProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadProductDataAndInitViews()
+        val productId = getProductId()
+
+        loadProductDataAndInitViews(productId)
         setupToolbar()
     }
 
-    private fun loadProductDataAndInitViews() {
+    private fun getProductId(): String {
+        return arguments?.getString("prodId").toString()
+    }
+
+    private fun loadProductDataAndInitViews(productId: String) {
         binding.run {
             val shimmerLayoutImages = listOf(
                 shimmerLayoutSellerProductDetailImage1,
@@ -62,26 +72,57 @@ class SellerProductDetailFragment : Fragment() {
                 imageviewSellerProductDetailImage6
             )
 
-            startShimmerAnimations(shimmerLayoutSellerProductDetailThumbnailImage, shimmerLayoutImages)
+            startShimmerAnimations(
+                shimmerLayoutSellerProductDetailThumbnailImage,
+                shimmerLayoutImages
+            )
 
-            db.collection("product").document("230916094337474").get().addOnSuccessListener {
-                val thumbnailImage = it.getString("thumbnail_image").toString()
-                val brand = it.getString("brand").toString()
-                val name = it.getString("name").toString()
-                val price = it.getString("price").toString()
-                val detail = it.getString("detail").toString()
-                val image = it.get("image") as ArrayList<*>
+            db.collection("product").document(productId).get().addOnSuccessListener {
+                val thumbnailImage = it["thumbnail_image"].toString()
+                val brand = it["brand"].toString()
+                val name = it["name"].toString()
+                val price = it["price"].toString()
+                val detail = it["detail"].toString()
+                val image = it.get("image") as ArrayList<String>
+                val category = it["category"].toString()
+                val customOptionInfo = it.get("customOptionInfo") as HashMap<String, String>
+                val floorPlan = it.get("floor_plan") as ArrayList<String>
+                val isCustom = it.getBoolean("is_custom")!!
+                val salesQuantity = it["sales_quantity"].toString().toLong()
+                val sellerId = it["seller_id"].toString()
+                val state = it["state"].toString()
+                val updateDate = it["updateDate"].toString()
+
+                product = ProductModel(
+                    productId,
+                    brand,
+                    category,
+                    customOptionInfo,
+                    detail,
+                    floorPlan,
+                    image,
+                    isCustom,
+                    name,
+                    state,
+                    price,
+                    salesQuantity,
+                    sellerId,
+                    thumbnailImage,
+                    updateDate
+                )
 
                 storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { thumbnailUri ->
-                    shimmerLayoutSellerProductDetailThumbnailImage.stopShimmerAnimation()
-                    Glide.with(this@SellerProductDetailFragment)
-                        .load(thumbnailUri)
-                        .placeholder(R.drawable.product_detail_default_image)
-                        .into(imageviewSellerProductDetailThumbnailImage)
+                    binding.run {
+                        shimmerLayoutSellerProductDetailThumbnailImage.stopShimmerAnimation()
+                        Glide.with(this@SellerProductDetailFragment)
+                            .load(thumbnailUri)
+                            .placeholder(R.drawable.product_detail_default_image)
+                            .into(imageviewSellerProductDetailThumbnailImage)
 
-                    displayProductInfo(brand, name, price, name, detail)
+                        displayProductInfo(brand, name, price, name, detail)
 
-                    loadProductImages(image, shimmerLayoutImages, imageViews)
+                        loadProductImages(image, shimmerLayoutImages, imageViews)
+                    }
                 }
             }
         }
@@ -118,10 +159,12 @@ class SellerProductDetailFragment : Fragment() {
         shimmerLayoutImages: List<ShimmerLayout>,
         imageViews: List<ImageView>
     ) {
+        val imageUriString = ArrayList<String>()
         for (idx in 0 until image.size) {
             storageRef.child(image[idx].toString()).downloadUrl.addOnSuccessListener { imageUri ->
                 shimmerLayoutImages[idx].stopShimmerAnimation()
-
+                imageUriString.add(imageUri.toString())
+                Log.d("hye1", imageUriString.toString())
                 Glide.with(this@SellerProductDetailFragment)
                     .load(imageUri)
                     .placeholder(R.drawable.product_detail_default_image)
@@ -142,7 +185,12 @@ class SellerProductDetailFragment : Fragment() {
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.menu_product_detail_edit -> {
-                        findNavController().navigate(R.id.action_sellerProductDetailFragment_to_productUpdateFragment)
+                        val bundle = Bundle()
+                        bundle.putParcelable("productData", product)
+                        findNavController().navigate(
+                            R.id.action_sellerProductDetailFragment_to_productUpdateFragment,
+                            bundle
+                        )
                     }
 
                     R.id.menu_product_detail_delete -> {

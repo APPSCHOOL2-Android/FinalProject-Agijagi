@@ -86,7 +86,7 @@ class ProductDetailPreviewFragment : Fragment() {
 
             textviewProductDetailPreviewBrand.text = product.brand
             textviewProductDetailPreviewName.text = product.name
-            "${dec.format(product.price.toInt())}원".also {
+            "${dec.format(product.price.toLong())}원".also {
                 textviewProductDetailPreviewPrice.text = it
             }
             textviewProductDetailPreviewInfoTitle.text = product.name
