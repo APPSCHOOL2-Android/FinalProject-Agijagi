@@ -82,7 +82,6 @@ class CategoryDetailInfoListFragment : Fragment() {
                             Log.d("category", "데이터")
                         }
                 } else if (category == "All" && is_custom == 1) {
-
                     whereEqualTo("is_custom", true)
                         .get()
                         .addOnSuccessListener { documents ->

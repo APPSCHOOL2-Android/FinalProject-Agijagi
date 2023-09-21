@@ -50,9 +50,6 @@ class PaymentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        db.collection("user").document(UserModel.uid).get().addOnSuccessListener {
-            order.buyerId = it.getString("roleId").toString()
-        }
 
         setShippingChangeButton()
 
@@ -182,6 +179,16 @@ class PaymentFragment : Fragment() {
         }
     }
 
+    private fun showNoShippingDataMessage() {
+        binding.run {
+            textViewPaymentShippingAddressNull.visibility = View.VISIBLE
+            textViewPaymentShippingName.visibility = View.GONE
+            textViewPaymentShippingAddress1.visibility = View.GONE
+            textViewPaymentShippingAddress2.visibility = View.GONE
+            textViewPaymentShippingPhone.visibility = View.GONE
+        }
+    }
+
 
     // 배송지 정보 가져오기
     private fun getShippingAddress() {
@@ -189,30 +196,39 @@ class PaymentFragment : Fragment() {
         // 기본 배송지
         if (!shippingViewState) {
             shippingManagementRepository.getBasicShippingAddress { basicFieldValue ->
-                shippingManagementRepository.getShippingData(basicFieldValue,
-                    onSuccess = { shippingData ->
-                        shippingData?.let { data ->
-                            order.shippingAddress = hashMapOf(
-                                "address" to data.address,
-                                "address_detail" to data.addressDetail,
-                                "phone_number" to data.phoneNumber,
-                                "recipent" to data.recipient
-                            )
+                // 기본배송지 설정되어있지 않을 때
+                if(basicFieldValue == ""){
+                    showNoShippingDataMessage()
+                    showSampleData(false)
+                }
+                else {
+                    shippingManagementRepository.getShippingData(basicFieldValue,
+                        onSuccess = { shippingData ->
+                            shippingData?.let { data ->
+                                order.shippingAddress = hashMapOf(
+                                    "address" to data.address,
+                                    "address_detail" to data.addressDetail,
+                                    "phone_number" to data.phoneNumber,
+                                    "recipient" to data.recipient
+                                )
 
-                            binding.run {
-                                textViewPaymentShippingName.text = data.shippingName
-                                textViewPaymentShippingAddress1.text = data.address
-                                textViewPaymentShippingAddress2.text = data.addressDetail
-                                textViewPaymentShippingPhone.text = data.phoneNumber
+                                binding.run {
+                                    textViewPaymentShippingName.text = data.shippingName
+                                    textViewPaymentShippingAddress1.text = data.address
+                                    textViewPaymentShippingAddress2.text = data.addressDetail
+                                    textViewPaymentShippingPhone.text = data.phoneNumber
+                                }
+
+                                showSampleData(false)
+                            } ?: run {
+                                // 데이터가 null인 경우 처리
+                                Log.e("paymentFragment", "해당 배송지 데이터 없음")
+                                showNoShippingDataMessage()
+                                showSampleData(false)
                             }
-
-                            showSampleData(false)
-                        } ?: run {
-                            // 데이터가 null인 경우 처리
-                            Log.e("paymentFragment", "해당 배송지 데이터 없음")
                         }
-                    }
-                )
+                    )
+                }
             }
         } else { // 배송지 변경으로 가져온 배송지
             shippingManagementRepository.getShippingData(changeId,
@@ -222,7 +238,7 @@ class PaymentFragment : Fragment() {
                             "address" to data.address,
                             "address_detail" to data.addressDetail,
                             "phone_number" to data.phoneNumber,
-                            "recipent" to data.recipient
+                            "recipient" to data.recipient
                         )
                         binding.run {
                             textViewPaymentShippingName.text = data.shippingName
@@ -233,6 +249,8 @@ class PaymentFragment : Fragment() {
                     } ?: run {
                         // 데이터가 null인 경우 처리
                         Log.e("paymentFragment", "해당 배송지 데이터 없음")
+                        showNoShippingDataMessage()
+                        showSampleData(false)
                     }
 
                     showSampleData(false)
@@ -250,19 +268,19 @@ class PaymentFragment : Fragment() {
         order.totalPrice = (productPrice + order.deliveryFee.toLong()).toString()
 
         binding.run {
-            "${dec.format(productPrice.toInt())}원".also {
+            "${dec.format(productPrice)}원".also {
                 textViewPaymentAmountValue.text = it
             }
 
-            "${dec.format(order.deliveryFee.toInt())}원".also {
+            "${dec.format(order.deliveryFee.toLong())}원".also {
                 textViewPaymentShippingFeeValue.text = it
             }
 
-            "${dec.format(order.totalPrice.toInt())}원".also {
+            "${dec.format(order.totalPrice.toLong())}원".also {
                 textViewPaymentTotalMountValue.text = it
             }
 
-            "${dec.format(order.totalPrice.toInt())}원 결제하기".also {
+            "${dec.format(order.totalPrice.toLong())}원 결제하기".also {
                 buttonPaymentPayment.text = it
             }
         }
@@ -295,6 +313,7 @@ class PaymentFragment : Fragment() {
     }
 
     private fun registerOrderData(orderDate: String) {
+        binding.progressBarPaymentLoading.visibility = View.VISIBLE
         // 주문번호 랜덤 2자리
         val randomChars = (1..2)
             .map { ('a'..'z').toList() + ('A'..'Z').toList() + ('0'..'9').toList() }
@@ -304,6 +323,7 @@ class PaymentFragment : Fragment() {
             .joinToString("")
         order.orderNum = orderDate + randomChars
         order.state = "제작 대기"
+        order.buyerId = UserModel.roleId
 
         val orderMap = hashMapOf(
             "date" to orderDate,
@@ -331,8 +351,6 @@ class PaymentFragment : Fragment() {
             prodInfoMap["count"] = prodInfo.count
         }
 
-        binding.progressBarPaymentLoading.visibility = View.VISIBLE
-
         // 주문정보 저장
         db.collection("order").add(orderMap).addOnCompleteListener {
             order.orderId = it.result.id
@@ -352,7 +370,11 @@ class PaymentFragment : Fragment() {
                                 binding.progressBarPaymentLoading.visibility = View.GONE
 
                                 val bundle = Bundle().apply {
-                                    putString("orderId", order.orderId)
+                                    putString("orderId", order.orderNum)
+                                    putString("orderRecipient", order.shippingAddress["recipient"])
+                                    putString("orderMobile", order.shippingAddress["phone_number"])
+                                    putString("orderAddress", order.shippingAddress["address"])
+                                    putString("orderAddress_detail", order.shippingAddress["address_detail"])
                                 }
 
                                 findNavController()

@@ -57,7 +57,7 @@ class SignupGoogleBuyerFragment : Fragment() {
 
         fragmentGoogleSignupBuyerBinding.run {
             toolbarGoogleSignupBuyerToolbar.setNavigationOnClickListener {
-                findNavController().navigate(R.id.action_signupGoogleBuyerFragment_to_signupSelectFragment)
+                findNavController().popBackStack()
             }
 
             editinputGoogleSignupBuyerNickname.doAfterTextChanged { nickname ->

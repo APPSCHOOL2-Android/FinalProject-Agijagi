@@ -20,6 +20,7 @@ import likelion.project.agijagi.buyermypage.adapter.ShippingManagementAdapter
 import likelion.project.agijagi.buyermypage.model.ShippingManagementModel
 import likelion.project.agijagi.databinding.FragmentShippingManagementBinding
 import likelion.project.agijagi.model.ShippingAddress
+import likelion.project.agijagi.model.UserModel
 
 class ShippingManagementFragment : Fragment() {
 
@@ -27,7 +28,6 @@ class ShippingManagementFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var shippingManagementAdapter: ShippingManagementAdapter
 
-    val auth = FirebaseAuth.getInstance()
     val db = FirebaseFirestore.getInstance()
     var showCheckBox: Boolean = false
 
@@ -69,7 +69,7 @@ class ShippingManagementFragment : Fragment() {
     // 배송지 데이터 불러오기
     private fun getShippingData() {
 
-        val userUid = auth?.currentUser?.uid.toString()
+        val userUid = UserModel.roleId
 
         // 리스트 초기화
         shippingManagementList.clear()

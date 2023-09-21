@@ -66,6 +66,8 @@ class CustomOptionFragment : Fragment() {
     private var leftImage: String? = null
     private var rightImage: String? = null
 
+    private var db = Firebase.firestore
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -102,7 +104,6 @@ class CustomOptionFragment : Fragment() {
     }
 
     private fun getData() {
-        val db = Firebase.firestore
         db.collection("product")
             .document(productId)
             .get().addOnSuccessListener {
@@ -239,51 +240,58 @@ class CustomOptionFragment : Fragment() {
                 val count = editInputCustomOptionVolumeText.text.toString().toLong()
                 // 데이터가져오기
 
-                if (lettering) {
-                    val customWord = editInputCustomOptionText.text.toString()
-                    val customLocation = editInputCustomOptionLocationText.text.toString()
-                    val letteringCustomOption = ProdInfo(
-                        true,
-                        productId,
-                        count,
-                        hashMapOf(),
-                        "Lettering",
-                        "12341243원",
-                        customWord,
-                        customLocation
-                    )
-                    val bundle = Bundle().apply {
-                        putParcelable("prodInfo", letteringCustomOption)
-                    }
-                    findNavController().navigate(
-                        R.id.action_customOptionFragment_to_paymentFragment,
-                        bundle
-                    )
-                }
-                if (image) {
-                    binding.customOptionFront.itemCustomOptionImage
-                    val imageList = hashMapOf("frontImage" to frontImage,
-                        "backImage" to backImage,
-                        "leftImage" to leftImage,
-                        "rightImage" to rightImage)
+                db.collection("product")
+                    .document(productId)
+                    .get().addOnSuccessListener {
+                        var price = it["price"].toString()
+                        if (lettering) {
+                            val customWord = editInputCustomOptionText.text.toString()
+                            val customLocation = editInputCustomOptionLocationText.text.toString()
+                            val letteringCustomOption = ProdInfo(
+                                true,
+                                productId,
+                                count,
+                                hashMapOf(),
+                                "Lettering",
+                                price,
+                                customWord,
+                                customLocation
+                            )
+                            val bundle = Bundle().apply {
+                                putParcelable("prodInfo", letteringCustomOption)
+                            }
+                            findNavController().navigate(
+                                R.id.action_customOptionFragment_to_paymentFragment,
+                                bundle
+                            )
+                        }
+                        if (image) {
+                            binding.customOptionFront.itemCustomOptionImage
+                            val imageList = hashMapOf(
+                                "frontImage" to frontImage,
+                                "backImage" to backImage,
+                                "leftImage" to leftImage,
+                                "rightImage" to rightImage
+                            )
 
-                    val imageCustomOption = ProdInfo(
-                        true,
-                        productId,
-                        count,
-                        imageList,
-                        "Image",
-                        "12341243원",
-                        null, null
-                    )
-                    val bundle = Bundle().apply {
-                        putParcelable("prodInfo", imageCustomOption)
+                            val imageCustomOption = ProdInfo(
+                                true,
+                                productId,
+                                count,
+                                imageList,
+                                "Image",
+                                price,
+                                null, null
+                            )
+                            val bundle = Bundle().apply {
+                                putParcelable("prodInfo", imageCustomOption)
+                            }
+                            findNavController().navigate(
+                                R.id.action_customOptionFragment_to_paymentFragment,
+                                bundle
+                            )
+                        }
                     }
-                    findNavController().navigate(
-                        R.id.action_customOptionFragment_to_paymentFragment,
-                        bundle
-                    )
-                }
             }
         }
     }

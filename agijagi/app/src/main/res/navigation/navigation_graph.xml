@@ -546,7 +546,9 @@
             app:destination="@id/signupSelectFragment" />
         <action
             android:id="@+id/action_signupBuyerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -581,7 +583,9 @@
             app:destination="@id/signupSelectFragment" />
         <action
             android:id="@+id/action_signupSellerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/productUpdateDetailPreviewFragment"
@@ -610,7 +614,9 @@
         android:label="SignupGoogleBuyerFragment" >
         <action
             android:id="@+id/action_signupGoogleBuyerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_signupGoogleBuyerFragment_to_signupSelectFragment"
             app:destination="@id/signupSelectFragment" />
@@ -622,7 +628,9 @@
         tools:layout="@layout/fragment_google_signup_seller" >
         <action
             android:id="@+id/action_signupGoogleSellerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_signupGoogleSellerFragment_to_signupSelectFragment"
             app:destination="@id/signupSelectFragment" />

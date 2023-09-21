@@ -18,21 +18,20 @@ import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentShippingAddBinding
+import likelion.project.agijagi.model.UserModel
 
 class ShippingAddFragment : Fragment() {
 
     private var _binding: FragmentShippingAddBinding? = null
     private val binding get() = _binding!!
 
-    private var auth: FirebaseAuth? = null
-    private lateinit var db: FirebaseFirestore
+    val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentShippingAddBinding.inflate(inflater)
-        auth = FirebaseAuth.getInstance()
 
         return binding.root
     }
@@ -40,7 +39,6 @@ class ShippingAddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setup()
         setToolbarItemAction()
         updateButtonStateAndAction()
 //        setShippingRegistrationButton()
@@ -132,7 +130,7 @@ class ShippingAddFragment : Fragment() {
                 "shipping_name" to title
             )
 
-            val userUid = auth?.currentUser?.uid.toString()
+            val userUid = UserModel.roleId
 
             // 데이터저장 테스트코드 (db, auth, setup 같이 지울코드)
             db.collection("buyer").document(userUid)
@@ -166,7 +164,7 @@ class ShippingAddFragment : Fragment() {
 
     // 기본배송지 설정
     private fun updateBasicShippingAddress(shippingId: String) {
-        val userUid = auth?.currentUser?.uid.toString()
+        val userUid = UserModel.roleId
         val dbCollection = db.collection("buyer").document(userUid)
 
         dbCollection.update("basic", shippingId)
@@ -178,14 +176,6 @@ class ShippingAddFragment : Fragment() {
             }
     }
 
-    private fun setup() {
-        db = Firebase.firestore
-
-        val settings = firestoreSettings {
-            isPersistenceEnabled = true
-        }
-        db.firestoreSettings = settings
-    }
     private fun setToolbarItemAction() {
         binding.toolbarShippingAdd.setNavigationOnClickListener {
             findNavController().popBackStack()

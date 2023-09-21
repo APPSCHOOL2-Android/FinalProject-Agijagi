@@ -62,7 +62,7 @@ class SignupSellerFragment : Fragment() {
 
         fragmentSignupSellerBinding.run {
             toolbarSignupSellerToolbar.setNavigationOnClickListener {
-                findNavController().navigate(R.id.action_signupSellerFragment_to_signupSelectFragment)
+                findNavController().popBackStack()
             }
 
             // 상호명
