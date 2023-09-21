@@ -56,7 +56,7 @@ class LoginFragment : Fragment() {
 
         fragmentLoginBinding.run {
             toolbarLogin.setNavigationOnClickListener {
-                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                findNavController().popBackStack()
             }
 
             // 구글로그인으로 시작 클릭 시
@@ -109,7 +109,7 @@ class LoginFragment : Fragment() {
                             UserModel.roleId =  it["role_id"].toString()
                             UserModel.smsNotif = it.getBoolean("sms_notif")
 
-                            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                            findNavController().popBackStack()
 
                         } else if(it["is_seller"] == true){
                             Log.d("getid", "getid: ${it.id}")

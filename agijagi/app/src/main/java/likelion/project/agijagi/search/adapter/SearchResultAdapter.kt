@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemSearchSearchResultBinding
 import likelion.project.agijagi.search.SearchResultModel
+import java.text.DecimalFormat
 
 class SearchResultAdapter :
     ListAdapter<SearchResultModel, SearchResultAdapter.SearchResultViewHolder>(diffUtil) {
@@ -20,13 +21,14 @@ class SearchResultAdapter :
 
         fun bind(item: SearchResultModel) {
             binding.run {
+                val dec = DecimalFormat("#,###")
                 Glide.with(itemView)
                     .load(item.prodImage)
                     .placeholder(R.drawable.search_result_default_image)
                     .into(binding.imageviewSearchSearchResultImage)
                 textviewSearchSearchResultBrand.text = item.prodBrand
                 textviewSearchSearchResultName.text = item.prodName
-                textviewSearchSearchResultPrice.text = item.prodPrice
+                textviewSearchSearchResultPrice.text = "${dec.format(item.prodPrice.toLong())}원"
                 root.setOnClickListener {
                     val bundle = Bundle()
                     bundle.putString("prodId", item.prodId)

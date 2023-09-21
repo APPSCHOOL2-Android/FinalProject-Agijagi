@@ -110,6 +110,9 @@
         <action
             android:id="@+id/action_customProductDetailFragment_to_categoryDetailInfoListFragment"
             app:destination="@id/categoryDetailInfoListFragment" />
+        <action
+            android:id="@+id/action_customProductDetailFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -146,6 +149,9 @@
         <action
             android:id="@+id/action_productDetailFragment_to_categoryDetailInfoListFragment"
             app:destination="@id/categoryDetailInfoListFragment" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -557,6 +563,12 @@
         <action
             android:id="@+id/action_loginFragment_to_signupSelectFragment"
             app:destination="@id/signupSelectFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_customProductDetailFragment"
+            app:destination="@id/customProductDetailFragment" />
     </fragment>
 
     <fragment
