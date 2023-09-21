@@ -45,7 +45,7 @@ class SignupSelectFragment : Fragment() {
 
             // toolbar back button
             toolbarSignupSelectSiginup.setNavigationOnClickListener {
-                view.findNavController().navigate(R.id.action_signupSelectFragment_to_loginFragment)
+                findNavController().popBackStack()
             }
 
             layoutSignupSelectBuyer.setOnClickListener {
