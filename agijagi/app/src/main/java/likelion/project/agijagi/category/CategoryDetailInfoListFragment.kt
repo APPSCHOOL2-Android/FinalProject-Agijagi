@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.launch
 import likelion.project.agijagi.R
 import likelion.project.agijagi.category.adapter.CategoryDetailInfoListAdapter
 import likelion.project.agijagi.category.model.CategoryDetailInfoListModel
@@ -63,46 +65,76 @@ class CategoryDetailInfoListFragment : Fragment() {
         // is_custom 을 통해 order made인지 아닌지 분류
         fragmentCategoryDetailInfoListBinding.run {
             dataList.clear()
+
             ref.run {
+//                showTravelData(true)
                 if (category == "All" && is_custom == 0) {
-                        get()
+
+                    get()
                         .addOnSuccessListener { documents ->
-                            val filteredDocuments = documents.filter { it.getString("state") != "숨김" }
-                            setRecyclerCategoryList(filteredDocuments)
-                        }.addOnFailureListener {
-                            Log.d("category", "데이터")
-                        }
-                } else if (category == "All" && is_custom == 1) {
-                    whereEqualTo("is_custom", true)
-                        .get()
-                        .addOnSuccessListener { documents ->
-                            val filteredDocuments = documents.filter { it.getString("state") != "숨김" }
-                            setRecyclerCategoryList(filteredDocuments)
-                        }.addOnFailureListener {
-                            Log.d("category", "데이터")
-                        }
-                } else if (category in categoryList && is_custom == -1) {
-                    whereEqualTo("category", category)
-                        .whereEqualTo("is_custom", false)
-                        .get()
-                        .addOnSuccessListener { documents ->
-                            val filteredDocuments = documents.filter { it.getString("state") != "숨김" }
-                            setRecyclerCategoryList(filteredDocuments)
-                        }.addOnFailureListener {
-                            Log.d("category", "데이터")
-                        }
-                } else if (category in categoryList && is_custom == 1) {
-                    whereEqualTo("category", category)
-                        .whereEqualTo("is_custom", true)
-                        .get()
-                        .addOnSuccessListener { documents ->
-                            val filteredDocuments = documents.filter { it.getString("state") != "숨김" }
+                            val filteredDocuments =
+                                documents.filter { it.getString("state") != "숨김" }
                             setRecyclerCategoryList(filteredDocuments)
 
                         }.addOnFailureListener {
                             Log.d("category", "데이터")
                         }
-                } else {}
+                } else if (category == "All" && is_custom == 1) {
+
+                    whereEqualTo("is_custom", true)
+                        .get()
+                        .addOnSuccessListener { documents ->
+                            val filteredDocuments =
+                                documents.filter { it.getString("state") != "숨김" }
+                            setRecyclerCategoryList(filteredDocuments)
+
+                        }.addOnFailureListener {
+                            Log.d("category", "데이터")
+                        }
+                } else if (category in categoryList && is_custom == -1) {
+
+                    whereEqualTo("category", category)
+                        .whereEqualTo("is_custom", false)
+                        .get()
+                        .addOnSuccessListener { documents ->
+                            val filteredDocuments =
+                                documents.filter { it.getString("state") != "숨김" }
+                            setRecyclerCategoryList(filteredDocuments)
+
+                        }.addOnFailureListener {
+                            Log.d("category", "데이터")
+                        }
+                } else if (category in categoryList && is_custom == 1) {
+
+                    whereEqualTo("category", category)
+                        .whereEqualTo("is_custom", true)
+                        .get()
+                        .addOnSuccessListener { documents ->
+                            val filteredDocuments =
+                                documents.filter { it.getString("state") != "숨김" }
+                            setRecyclerCategoryList(filteredDocuments)
+
+                        }.addOnFailureListener {
+                            Log.d("category", "데이터")
+                        }
+                } else { }
+                showTravelData(false)
+            }
+        }
+
+    }
+    private fun showTravelData(isLoading: Boolean) {
+        if (isLoading) {
+            fragmentCategoryDetailInfoListBinding.run {
+                shimmerFrameLayoutCategoryList.startShimmer()
+                shimmerFrameLayoutCategoryList.visibility = View.VISIBLE
+                recyclerviewCategoryDetailInfoList.visibility = View.GONE
+            }
+        } else {
+            fragmentCategoryDetailInfoListBinding.run {
+                shimmerFrameLayoutCategoryList.stopShimmer()
+                shimmerFrameLayoutCategoryList.visibility = View.GONE
+                recyclerviewCategoryDetailInfoList.visibility = View.VISIBLE
             }
         }
     }
