@@ -35,6 +35,7 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentCustomOptionBinding
 import likelion.project.agijagi.model.ProdInfo
 import likelion.project.agijagi.model.ProductModel
+import likelion.project.agijagi.model.UserModel
 import java.io.ByteArrayOutputStream
 import kotlin.math.log
 
@@ -65,6 +66,8 @@ class CustomOptionFragment : Fragment() {
     private var backImage: String? = null
     private var leftImage: String? = null
     private var rightImage: String? = null
+
+    private val db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,7 +105,6 @@ class CustomOptionFragment : Fragment() {
     }
 
     private fun getData() {
-        val db = Firebase.firestore
         db.collection("product")
             .document(productId)
             .get().addOnSuccessListener {
@@ -226,29 +228,23 @@ class CustomOptionFragment : Fragment() {
         }
     }
 
-    private fun setShoppingBagButton() {
-        binding.imageButtonCustomOptionShoppingBag.setOnClickListener {
-            findNavController().navigate(R.id.action_customOptionFragment_to_shoppingListFragment)
-        }
-    }
-
     private fun setPurchaseButton() {
         binding.run {
 
             buttonCustomOptionPurchase.setOnClickListener {
                 val count = editInputCustomOptionVolumeText.text.toString().toLong()
                 // 데이터가져오기
-
+                val customWord = editInputCustomOptionText.text.toString()
+                val customLocation = editInputCustomOptionLocationText.text.toString()
                 if (lettering) {
-                    val customWord = editInputCustomOptionText.text.toString()
-                    val customLocation = editInputCustomOptionLocationText.text.toString()
+
                     val letteringCustomOption = ProdInfo(
                         true,
                         productId,
                         count,
                         hashMapOf(),
                         "Lettering",
-                        "12341243원",
+                        "12341243",
                         customWord,
                         customLocation
                     )
@@ -261,11 +257,12 @@ class CustomOptionFragment : Fragment() {
                     )
                 }
                 if (image) {
-                    binding.customOptionFront.itemCustomOptionImage
-                    val imageList = hashMapOf("frontImage" to frontImage,
+                    val imageList = hashMapOf(
+                        "frontImage" to frontImage,
                         "backImage" to backImage,
                         "leftImage" to leftImage,
-                        "rightImage" to rightImage)
+                        "rightImage" to rightImage
+                    )
 
                     val imageCustomOption = ProdInfo(
                         true,
@@ -273,7 +270,7 @@ class CustomOptionFragment : Fragment() {
                         count,
                         imageList,
                         "Image",
-                        "12341243원",
+                        "12341243",
                         null, null
                     )
                     val bundle = Bundle().apply {
@@ -341,6 +338,17 @@ class CustomOptionFragment : Fragment() {
         }
 
         return albumLauncher
+    }
+
+    private fun setShoppingBagButton() {
+        binding.imageButtonCustomOptionShoppingBag.setOnClickListener {
+            // 유저 id를 가져와서 shoppingList에 productId를 추가해준다.
+            db.collection("buyer").document(UserModel.roleId)
+                .collection("shopping_list").document().set()
+
+            // 스낵바 띄워 확인 -> 장바구니화면으로 이미있으면  이미 있는상품이라고 알려줌
+            findNavController().navigate(R.id.action_customOptionFragment_to_shoppingListFragment)
+        }
     }
 
     override fun onDestroyView() {
