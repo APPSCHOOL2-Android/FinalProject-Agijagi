@@ -46,7 +46,6 @@ class ProductDetailFragment : Fragment() {
 
         val productId = getProductId()
 
-        Log.d("hye", productId)
         loadProductDataAndInitViews(productId)
         setupToolbar()
         setupFavoriteButton(productId)

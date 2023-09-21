@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -45,12 +46,12 @@ class CustomProductDetailFragment : Fragment() {
 
         val productId = getCustomProductId()
 
-        loadCustomProductDataAndInitViews(productId)
         setupToolbar()
         setupFloatingButton()
         setupFloorPlanDownloadButton()
         setupFavoriteButton(productId)
-        setupPurchaseButton(productId)
+        loadCustomProductDataAndInitViews(productId)
+
     }
 
     private fun getCustomProductId(): String {
@@ -59,6 +60,8 @@ class CustomProductDetailFragment : Fragment() {
 
     private fun loadCustomProductDataAndInitViews(productId: String) {
         binding.run {
+
+
             val shimmerLayoutImages = listOf(
                 shimmerLayoutCustomProductDetailImage1,
                 shimmerLayoutCustomProductDetailImage2,
@@ -82,6 +85,7 @@ class CustomProductDetailFragment : Fragment() {
                 shimmerLayoutImages
             )
 
+
             db.collection("product").document(productId).get().addOnSuccessListener {
                 val thumbnailImage = it["thumbnail_image"].toString()
                 val brand = it["brand"].toString()
@@ -89,6 +93,7 @@ class CustomProductDetailFragment : Fragment() {
                 val price = "${dec.format(it["price"].toString().toLong())}원"
                 val detail = it["detail"].toString()
                 val image = it["image"] as ArrayList<*>
+                val state = it["state"].toString()
 
                 storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { thumbnailUri ->
                     shimmerLayoutCustomProductDetailThumbnailImage.stopShimmerAnimation()
@@ -100,6 +105,8 @@ class CustomProductDetailFragment : Fragment() {
                     displayProductInfo(brand, name, price, name, detail)
 
                     loadProductImages(image, shimmerLayoutImages, imageViews)
+
+                    setupPurchaseButton(productId, state)
                 }
             }
         }
@@ -242,21 +249,30 @@ class CustomProductDetailFragment : Fragment() {
         }
     }
 
-    private fun setupPurchaseButton(productId: String) {
-        binding.buttonCustomProductDetailPurchase.setOnClickListener {
-            if (UserModel.uid == "") {
-                displayDialogUserNotLogin(
-                    requireContext(),
-                    findNavController(),
-                    R.id.action_customProductDetailFragment_to_loginFragment
-                )
-            } else {
-                val bundle = bundleOf("prodId" to productId)
-                it.findNavController()
-                    .navigate(
-                        R.id.action_customProductDetailFragment_to_customOptionFragment,
-                        bundle
+    private fun setupPurchaseButton(productId: String, state: String) {
+        binding.buttonCustomProductDetailPurchase.run {
+            if (state == "품절") {
+                setBackgroundResource(R.drawable.wide_box_rounded_purchase_button_inactive)
+                setTextColor(ContextCompat.getColor(context, R.color.jagi_black_42))
+                text = "품절"
+            }
+            setOnClickListener {
+                if (state == "품절") {
+                    Snackbar.make(binding.root, "품절된 상품입니다.", Snackbar.LENGTH_SHORT).show()
+                } else if (UserModel.uid == "") {
+                    displayDialogUserNotLogin(
+                        requireContext(),
+                        findNavController(),
+                        R.id.action_customProductDetailFragment_to_loginFragment
                     )
+                } else {
+                    val bundle = bundleOf("prodId" to productId)
+                    it.findNavController()
+                        .navigate(
+                            R.id.action_customProductDetailFragment_to_customOptionFragment,
+                            bundle
+                        )
+                }
             }
         }
     }
