@@ -24,7 +24,7 @@ class CategoryDetailInfoListAdapter :
             with(bind) {
                 Glide.with(itemView)
                     .load(item.thumbnail)
-                    .placeholder(R.drawable.search_result_default_image)
+                    .placeholder(R.drawable.category_list_item_default_image)
                     .into(bind.imageviewCategoryDetailInfoListPhoto)
 
                 textviewCategoryDetailInfoBrand.text = item.brand
