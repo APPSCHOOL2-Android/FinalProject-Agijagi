@@ -15,6 +15,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,12 +24,18 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
+import likelion.project.agijagi.category.model.CategoryDetailInfoListModel
 import likelion.project.agijagi.databinding.FragmentProductUpdateBinding
 import likelion.project.agijagi.databinding.ItemProductAddAddPictureBinding
 import likelion.project.agijagi.databinding.ItemProductAddAddPlanBinding
@@ -58,6 +65,9 @@ class ProductUpdateFragment : Fragment() {
 
     // 수정할 판매글의 데이터
     private lateinit var dataOrigin: ProductModel
+
+    // 이미지 가져올 DB
+    private val storageRef = Firebase.storage.reference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -506,6 +516,34 @@ class ProductUpdateFragment : Fragment() {
         return bitmap
     }
 
+    /*
+    이미지를 수정한다.
+    미리보기 한다.
+    이미지를 스토리지에 업로드 한다.
+    그런데, 뭐가 어떻게 바뀌었는 지는 모른다...
+    그래서 다 올려야 한다?
+    그럼 스토리지 용량초과로 터진다...
+    중복 데이터도 겁나 많아짐.
+    그래서 위치를 바꾸는 경우엔,,, 아 아니다.
+
+    */
+    private fun downloadProductImageUri(
+        fileName: String,
+        action_success: (Uri) -> Unit,
+        action_fail: () -> Unit = {}
+    ) {
+        storageRef.child(fileName).downloadUrl.addOnCompleteListener {
+            if (it.isSuccessful) {
+                action_success(it.result)
+            } else {
+                Log.e("StorageException", it.exception.toString())
+                action_fail()
+            }
+        }
+    }
+
+    // asd@asd.asd 123456
+
     private fun resetPictureView() {
         binding.run {
             // 사진 테이블 6개
@@ -520,9 +558,21 @@ class ProductUpdateFragment : Fragment() {
             val width = pictureIncludeList[0].imageView.width
             for (i in 0 until pictureIncludeList.size) {
                 if (i < dataOrigin.image.size) {
-                    val bitmap = imageDecode(Uri.parse(dataOrigin.image[i]))!!
-                    val crop = Bitmap.createScaledBitmap(bitmap, width, width, true)
-                    pictureIncludeList[i].imageView.setImageBitmap(crop)
+                    if (dataOrigin.image[i].startsWith("productImage/")
+                    ) {
+                        downloadProductImageUri(dataOrigin.image[i], {
+                            Glide.with(binding.root)
+                                .load(it)
+                                .placeholder(R.drawable.search_result_default_image)
+                                .centerCrop()
+                                .into(pictureIncludeList[i].imageView)
+                        })
+                    } else {
+                        val bitmap = imageDecode(Uri.parse(dataOrigin.image[i]))!!
+                        val crop = Bitmap.createScaledBitmap(bitmap, width, width, true)
+                        pictureIncludeList[i].imageView.setImageBitmap(crop)
+                    }
+
                     pictureIncludeList[i].buttonX.visibility = View.VISIBLE
                     pictureIncludeList[i].buttonCheckBox.visibility = View.VISIBLE
                 } else {
@@ -548,9 +598,21 @@ class ProductUpdateFragment : Fragment() {
             val width = planIncludeList[0].imageView.width
             for (i in 0 until planIncludeList.size) {
                 if (i < dataOrigin.floorPlan.size) {
-                    val bitmap = imageDecode(Uri.parse(dataOrigin.floorPlan[i]))!!
-                    val crop = Bitmap.createScaledBitmap(bitmap, width, width, true)
-                    planIncludeList[i].imageView.setImageBitmap(crop)
+                    if (dataOrigin.floorPlan[i].startsWith("productFloorPlan/")
+                    ) {
+                        downloadProductImageUri(dataOrigin.image[i], {
+                            Glide.with(binding.root)
+                                .load(it)
+                                .placeholder(R.drawable.search_result_default_image)
+                                .centerCrop()
+                                .into(planIncludeList[i].imageView)
+                        })
+                    } else {
+                        val bitmap = imageDecode(Uri.parse(dataOrigin.floorPlan[i]))!!
+                        val crop = Bitmap.createScaledBitmap(bitmap, width, width, true)
+                        planIncludeList[i].imageView.setImageBitmap(crop)
+                    }
+
                     planIncludeList[i].root.visibility = View.VISIBLE
                 } else {
                     planIncludeList[i].root.visibility = View.INVISIBLE
