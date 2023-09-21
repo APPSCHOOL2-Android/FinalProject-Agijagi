@@ -1,6 +1,7 @@
 package likelion.project.agijagi.product
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -45,7 +47,6 @@ class ProductDetailFragment : Fragment() {
         val productId = getProductId()
 
         loadProductDataAndInitViews(productId)
-        setupToolbar()
         setupFavoriteButton(productId)
     }
 
@@ -82,6 +83,7 @@ class ProductDetailFragment : Fragment() {
                 val price = "${dec.format(it["price"].toString().toLong())}원"
                 val detail = it["detail"].toString()
                 val image = it["image"] as ArrayList<*>
+                val state = it["state"].toString()
 
                 storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { thumbnailUri ->
                     shimmerLayoutProductDetailThumbnailImage.stopShimmerAnimation()
@@ -92,9 +94,8 @@ class ProductDetailFragment : Fragment() {
 
                     displayProductInfo(brand, name, price, name, detail)
 
-                    loadProductImages(image, shimmerLayoutImages, imageViews)
+                    loadProductImages(image, shimmerLayoutImages, imageViews, productId, state)
                 }
-                setupPurchaseButton(productId)
             }
         }
     }
@@ -128,7 +129,9 @@ class ProductDetailFragment : Fragment() {
     private fun loadProductImages(
         image: ArrayList<*>,
         shimmerLayoutImages: List<ShimmerLayout>,
-        imageViews: List<ImageView>
+        imageViews: List<ImageView>,
+        productId: String,
+        state: String
     ) {
         for (idx in 0 until image.size) {
             storageRef.child(image[idx].toString()).downloadUrl.addOnSuccessListener { imageUri ->
@@ -138,6 +141,9 @@ class ProductDetailFragment : Fragment() {
                     .load(imageUri)
                     .placeholder(R.drawable.product_detail_default_image)
                     .into(imageViews[idx])
+
+                setupToolbar()
+                setupPurchaseButton(productId, state)
             }
         }
 
@@ -189,7 +195,11 @@ class ProductDetailFragment : Fragment() {
 
             setOnClickListener {
                 if (UserModel.uid == "") {
-                    displayDialogUserNotLogin(requireContext(), findNavController(), R.id.action_productDetailFragment_to_loginFragment)
+                    displayDialogUserNotLogin(
+                        requireContext(),
+                        findNavController(),
+                        R.id.action_productDetailFragment_to_loginFragment
+                    )
                 } else {
                     it.isSelected = it.isSelected != true
                     if (it.isSelected) {
@@ -211,14 +221,26 @@ class ProductDetailFragment : Fragment() {
         }
     }
 
-    private fun setupPurchaseButton(productId: String) {
-        binding.buttonProductDetailPurchase.setOnClickListener {
-            if (UserModel.uid == "") {
-                displayDialogUserNotLogin(requireContext(), findNavController(), R.id.action_productDetailFragment_to_loginFragment)
-            } else {
-                val bundle = bundleOf("prodId" to productId)
-                it.findNavController()
-                    .navigate(R.id.action_productDetailFragment_to_readyMadeOptionFragment, bundle)
+    private fun setupPurchaseButton(productId: String, state: String) {
+        binding.buttonProductDetailPurchase.run {
+            if (state == "품절") {
+                setBackgroundResource(R.drawable.wide_box_rounded_purchase_button_inactive)
+                text = "품절"
+            }
+            setOnClickListener {
+                if (state == "품절") {
+                    Snackbar.make(binding.root, "품절된 상품입니다.", Snackbar.LENGTH_SHORT).show()
+                } else if (UserModel.uid == "") {
+                    displayDialogUserNotLogin(
+                        requireContext(),
+                        findNavController(),
+                        R.id.action_productDetailFragment_to_loginFragment
+                    )
+                } else {
+                    val bundle = bundleOf("prodId" to productId)
+                    it.findNavController()
+                        .navigate(R.id.action_productDetailFragment_to_readyMadeOptionFragment, bundle)
+                }
             }
         }
     }
