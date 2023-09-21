@@ -1,6 +1,7 @@
 package likelion.project.agijagi.purchase
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,8 @@ class PurchaseCompleteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getPurchaseData()
+
         binding.run {
             buttonPurchaseComplete.setOnClickListener {
                 it.findNavController()
@@ -33,5 +36,25 @@ class PurchaseCompleteFragment : Fragment() {
             }
         }
     }
+
+    // bundle로 넘겨받은 주소uid
+    private fun getPurchaseData() {
+        val orderId = arguments?.getString("orderId").toString()
+        val orderRecipient = arguments?.getString("orderRecipient").toString()
+        val orderMobile = arguments?.getString("orderMobile").toString()
+        val orderAddress = arguments?.getString("orderAddress").toString()
+        val orderAddressDetail = arguments?.getString("orderAddress_detail").toString()
+
+        binding.run {
+            textViewPurchaseCompleteOrderNumberValue.text = orderId
+            textViewPurchaseCompleteCustomerName.text = orderRecipient
+            textViewPurchaseCompleteCustomerPhone.text = orderMobile
+            textViewPurchaseCompleteShippingAddressValue.text = orderAddress
+            textViewPurchaseCompleteShippingAddressDetailValue.text = orderAddressDetail
+        }
+
+
+    }
+
 
 }

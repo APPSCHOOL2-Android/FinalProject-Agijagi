@@ -196,7 +196,7 @@ class PaymentFragment : Fragment() {
                                 "address" to data.address,
                                 "address_detail" to data.addressDetail,
                                 "phone_number" to data.phoneNumber,
-                                "recipent" to data.recipient
+                                "recipient" to data.recipient
                             )
 
                             binding.run {
@@ -222,7 +222,7 @@ class PaymentFragment : Fragment() {
                             "address" to data.address,
                             "address_detail" to data.addressDetail,
                             "phone_number" to data.phoneNumber,
-                            "recipent" to data.recipient
+                            "recipient" to data.recipient
                         )
                         binding.run {
                             textViewPaymentShippingName.text = data.shippingName
@@ -250,19 +250,19 @@ class PaymentFragment : Fragment() {
         order.totalPrice = (productPrice + order.deliveryFee.toLong()).toString()
 
         binding.run {
-            "${dec.format(productPrice.toInt())}원".also {
+            "${dec.format(productPrice)}원".also {
                 textViewPaymentAmountValue.text = it
             }
 
-            "${dec.format(order.deliveryFee.toInt())}원".also {
+            "${dec.format(order.deliveryFee.toLong())}원".also {
                 textViewPaymentShippingFeeValue.text = it
             }
 
-            "${dec.format(order.totalPrice.toInt())}원".also {
+            "${dec.format(order.totalPrice.toLong())}원".also {
                 textViewPaymentTotalMountValue.text = it
             }
 
-            "${dec.format(order.totalPrice.toInt())}원 결제하기".also {
+            "${dec.format(order.totalPrice.toLong())}원 결제하기".also {
                 buttonPaymentPayment.text = it
             }
         }
@@ -353,6 +353,10 @@ class PaymentFragment : Fragment() {
 
                                 val bundle = Bundle().apply {
                                     putString("orderId", order.orderId)
+                                    putString("orderRecipient", order.shippingAddress["recipient"])
+                                    putString("orderMobile", order.shippingAddress["phone_number"])
+                                    putString("orderAddress", order.shippingAddress["address"])
+                                    putString("orderAddress_detail", order.shippingAddress["address_detail"])
                                 }
 
                                 findNavController()
