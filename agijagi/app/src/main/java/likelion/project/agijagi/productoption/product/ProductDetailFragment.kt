@@ -1,11 +1,11 @@
-package likelion.project.agijagi.product
+package likelion.project.agijagi.productoption.product
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -16,20 +16,15 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import io.supercharge.shimmerlayout.ShimmerLayout
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
 import likelion.project.agijagi.MainActivity.Companion.displayDialogUserNotLogin
 import likelion.project.agijagi.R
-import likelion.project.agijagi.databinding.FragmentCustomProductDetailBinding
+import likelion.project.agijagi.databinding.FragmentProductDetailBinding
 import likelion.project.agijagi.model.UserModel
 import java.text.DecimalFormat
 
-class CustomProductDetailFragment : Fragment() {
+class ProductDetailFragment : Fragment() {
 
-    private var _binding: FragmentCustomProductDetailBinding? = null
+    private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
 
     val dec = DecimalFormat("#,###")
@@ -41,7 +36,7 @@ class CustomProductDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCustomProductDetailBinding.inflate(inflater)
+        _binding = FragmentProductDetailBinding.inflate(inflater)
 
         return binding.root
     }
@@ -49,45 +44,37 @@ class CustomProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val productId = getCustomProductId()
+        val productId = getProductId()
 
-        loadCustomProductDataAndInitViews(productId)
-        setupFloorPlanDownloadButton()
+        loadProductDataAndInitViews(productId)
         setupFavoriteButton(productId)
-
     }
 
-    private fun getCustomProductId(): String {
+    private fun getProductId(): String {
         return arguments?.getString("prodId").toString()
     }
 
-    private fun loadCustomProductDataAndInitViews(productId: String) {
+    private fun loadProductDataAndInitViews(productId: String) {
         binding.run {
-
-
             val shimmerLayoutImages = listOf(
-                shimmerLayoutCustomProductDetailImage1,
-                shimmerLayoutCustomProductDetailImage2,
-                shimmerLayoutCustomProductDetailImage3,
-                shimmerLayoutCustomProductDetailImage4,
-                shimmerLayoutCustomProductDetailImage5,
-                shimmerLayoutCustomProductDetailImage6
+                shimmerLayoutProductDetailImage1,
+                shimmerLayoutProductDetailImage2,
+                shimmerLayoutProductDetailImage3,
+                shimmerLayoutProductDetailImage4,
+                shimmerLayoutProductDetailImage5,
+                shimmerLayoutProductDetailImage6
             )
 
             val imageViews = listOf(
-                imageviewCustomProductDetailImage1,
-                imageviewCustomProductDetailImage2,
-                imageviewCustomProductDetailImage3,
-                imageviewCustomProductDetailImage4,
-                imageviewCustomProductDetailImage5,
-                imageviewCustomProductDetailImage6
+                imageviewProductDetailImage1,
+                imageviewProductDetailImage2,
+                imageviewProductDetailImage3,
+                imageviewProductDetailImage4,
+                imageviewProductDetailImage5,
+                imageviewProductDetailImage6
             )
 
-            startShimmerAnimations(
-                shimmerLayoutCustomProductDetailThumbnailImage,
-                shimmerLayoutImages
-            )
-
+            startShimmerAnimations(shimmerLayoutProductDetailThumbnailImage, shimmerLayoutImages)
 
             db.collection("product").document(productId).get().addOnSuccessListener {
                 val thumbnailImage = it["thumbnail_image"].toString()
@@ -99,11 +86,11 @@ class CustomProductDetailFragment : Fragment() {
                 val state = it["state"].toString()
 
                 storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { thumbnailUri ->
-                    shimmerLayoutCustomProductDetailThumbnailImage.stopShimmerAnimation()
-                    Glide.with(this@CustomProductDetailFragment)
+                    shimmerLayoutProductDetailThumbnailImage.stopShimmerAnimation()
+                    Glide.with(this@ProductDetailFragment)
                         .load(thumbnailUri)
                         .placeholder(R.drawable.product_detail_default_image)
-                        .into(imageviewCustomProductDetailThumbnailImage)
+                        .into(imageviewProductDetailThumbnailImage)
 
                     displayProductInfo(brand, name, price, name, detail)
 
@@ -131,11 +118,11 @@ class CustomProductDetailFragment : Fragment() {
         detail: String
     ) {
         binding.run {
-            textviewCustomProductDetailBrand.text = brand
-            textviewCustomProductDetailName.text = name
-            textviewCustomProductDetailPrice.text = price
-            textviewCustomProductDetailInfoTitle.text = title
-            textviewCustomProductDetailInfoDescription.text = detail
+            textviewProductDetailBrand.text = brand
+            textviewProductDetailName.text = name
+            textviewProductDetailPrice.text = price
+            textviewProductDetailInfoTitle.text = title
+            textviewProductDetailInfoDescription.text = detail
         }
     }
 
@@ -150,14 +137,13 @@ class CustomProductDetailFragment : Fragment() {
             storageRef.child(image[idx].toString()).downloadUrl.addOnSuccessListener { imageUri ->
                 shimmerLayoutImages[idx].stopShimmerAnimation()
 
-                Glide.with(this@CustomProductDetailFragment)
+                Glide.with(this@ProductDetailFragment)
                     .load(imageUri)
                     .placeholder(R.drawable.product_detail_default_image)
                     .into(imageViews[idx])
 
-                setupPurchaseButton(productId, state)
                 setupToolbar()
-                setupFloatingButton()
+                setupPurchaseButton(productId, state)
             }
         }
 
@@ -167,7 +153,7 @@ class CustomProductDetailFragment : Fragment() {
     }
 
     private fun setupToolbar() {
-        binding.toolbarCustomProductDetail.run {
+        binding.toolbarProductDetail.run {
             setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
@@ -176,12 +162,12 @@ class CustomProductDetailFragment : Fragment() {
                     displayDialogUserNotLogin(
                         requireContext(),
                         findNavController(),
-                        R.id.action_customProductDetailFragment_to_loginFragment
+                        R.id.action_productDetailFragment_to_loginFragment
                     )
                 } else {
                     when (it.itemId) {
                         R.id.menu_product_detail_shopping -> {
-                            findNavController().navigate(R.id.action_customProductDetailFragment_to_shoppingListFragment)
+                            findNavController().navigate(R.id.action_productDetailFragment_to_shoppingListFragment)
                         }
                     }
                 }
@@ -190,30 +176,9 @@ class CustomProductDetailFragment : Fragment() {
         }
     }
 
-    private fun setupFloatingButton() {
-        binding.customFloatingButtonCustomProductDetailToChatting.customFloatingButtonLayout.setOnClickListener {
-            if (UserModel.uid == "") {
-                displayDialogUserNotLogin(
-                    requireContext(),
-                    findNavController(),
-                    R.id.action_customProductDetailFragment_to_loginFragment
-                )
-            } else {
-                findNavController()
-                    .navigate(R.id.action_customProductDetailFragment_to_chattingListFragment)
-            }
-        }
-    }
-
-    private fun setupFloorPlanDownloadButton() {
-        binding.buttonCustomProductDetailDownloadFloorPlan.setOnClickListener {
-            Snackbar.make(it, "도면 다운로드가 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
-        }
-    }
-
     private fun setupFavoriteButton(productId: String) {
         val buyerId = UserModel.roleId
-        binding.imageButtonCustomProductDetailFavorite.run {
+        binding.imageButtonProductDetailFavorite.run {
             if (UserModel.uid != "") {
                 db.collection("buyer")
                     .document(buyerId)
@@ -233,17 +198,17 @@ class CustomProductDetailFragment : Fragment() {
                     displayDialogUserNotLogin(
                         requireContext(),
                         findNavController(),
-                        R.id.action_customProductDetailFragment_to_loginFragment
+                        R.id.action_productDetailFragment_to_loginFragment
                     )
                 } else {
                     it.isSelected = it.isSelected != true
                     if (it.isSelected) {
-                        val product = hashMapOf("prodId" to productId)
+                        val prodId = hashMapOf("prodId" to productId)
                         db.collection("buyer")
                             .document(buyerId)
                             .collection("wish")
                             .document(productId)
-                            .set(product)
+                            .set(prodId)
                     } else {
                         db.collection("buyer")
                             .document(buyerId)
@@ -257,10 +222,9 @@ class CustomProductDetailFragment : Fragment() {
     }
 
     private fun setupPurchaseButton(productId: String, state: String) {
-        binding.buttonCustomProductDetailPurchase.run {
+        binding.buttonProductDetailPurchase.run {
             if (state == "품절") {
                 setBackgroundResource(R.drawable.wide_box_rounded_purchase_button_inactive)
-                setTextColor(ContextCompat.getColor(context, R.color.jagi_black_42))
                 text = "품절"
             }
             setOnClickListener {
@@ -270,15 +234,12 @@ class CustomProductDetailFragment : Fragment() {
                     displayDialogUserNotLogin(
                         requireContext(),
                         findNavController(),
-                        R.id.action_customProductDetailFragment_to_loginFragment
+                        R.id.action_productDetailFragment_to_loginFragment
                     )
                 } else {
                     val bundle = bundleOf("prodId" to productId)
                     it.findNavController()
-                        .navigate(
-                            R.id.action_customProductDetailFragment_to_customOptionFragment,
-                            bundle
-                        )
+                        .navigate(R.id.action_productDetailFragment_to_readyMadeOptionFragment, bundle)
                 }
             }
         }
@@ -290,3 +251,4 @@ class CustomProductDetailFragment : Fragment() {
     }
 
 }
+

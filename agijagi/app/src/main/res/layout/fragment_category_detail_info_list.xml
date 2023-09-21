@@ -15,27 +15,18 @@
         android:theme="@style/Theme.AgijagiToolbar"
         app:menu="@menu/menu_category"
         app:navigationIcon="@drawable/arrow_back_24px" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_category_detail_info_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"/>
-
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_frame_layout_category_list"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="16dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp">
 
         <GridLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnCount="2">
+            android:layout_height="match_parent"
+            android:columnCount="1">
 
             <include layout="@layout/item_category_list_shimmer"/>
 
@@ -45,12 +36,19 @@
 
             <include layout="@layout/item_category_list_shimmer" />
 
-            <include layout="@layout/item_category_list_shimmer" />
-
-            <include layout="@layout/item_category_list_shimmer" />
 
         </GridLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_category_detail_info_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"/>
+
+
 
 </LinearLayout>
