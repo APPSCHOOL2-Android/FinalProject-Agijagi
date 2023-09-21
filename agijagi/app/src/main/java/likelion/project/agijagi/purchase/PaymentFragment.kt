@@ -1,6 +1,7 @@
 package likelion.project.agijagi.purchase
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +16,12 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
+import likelion.project.agijagi.buyermypage.repository.ShippingManagementRepository
 import likelion.project.agijagi.databinding.FragmentPaymentBinding
 import likelion.project.agijagi.model.OrderModel
 import likelion.project.agijagi.model.ProdInfo
-import likelion.project.agijagi.model.ProductModel
-import likelion.project.agijagi.sellermypage.model.OrderManagementModel
+import likelion.project.agijagi.model.UserModel
+import java.text.DecimalFormat
 
 class PaymentFragment : Fragment() {
 
@@ -27,10 +29,14 @@ class PaymentFragment : Fragment() {
     private val binding get() = _binding!!
 
     lateinit var prodInfo: ProdInfo
-    lateinit var order: OrderModel
+    var order: OrderModel = OrderModel("",null,"","","", mutableMapOf(),"","","")
+    lateinit var changeId: String
+    val dec = DecimalFormat("#,###")
+    var shippingViewState = false
 
     val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
+    private val shippingManagementRepository = ShippingManagementRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,24 +50,34 @@ class PaymentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        db.collection("user").document(UserModel.uid).get().addOnSuccessListener {
+            order.buyerId = it.getString("roleId").toString()
+        }
+
         setShippingChangeButton()
+
 
         //todo 이전 페이지에서 정보를 받아 결제 버튼을 누르면 정보를 서버에 올려야 함
 
         // customoption 페이지에서 데이터 가져오기
         if (arguments?.getParcelable<ProdInfo>("prodInfo") != null) {
             prodInfo = arguments?.getParcelable("prodInfo")!!
+            setPriceTextView()
         }
 
+        // 배송지 변경시 가져온 배송지 ID
+        if (findNavController().currentBackStackEntry?.savedStateHandle?.get<String>("changeShippingId") != null) {
+            changeId =
+                findNavController().currentBackStackEntry?.savedStateHandle?.get<String>("changeShippingId")
+                    .toString()
+            shippingViewState = true
+        }
+
+        getShippingAddress()
 
         binding.run {
             toolbarPayment.setNavigationOnClickListener {
                 findNavController().popBackStack()
-            }
-
-            val changeId = findNavController().currentBackStackEntry?.savedStateHandle?.get<String>("changeShippingId")
-            if(changeId != null){
-                textViewPaymentShippingAddress1.text = changeId
             }
 
             editinputlayoutPaymentCategoryDetail.visibility = View.INVISIBLE
@@ -140,25 +156,136 @@ class PaymentFragment : Fragment() {
             }
 
             buttonPaymentPayment.setOnClickListener {
-                val orderId = MainActivity.getMilliSec()
-                uploadOrderFloorPlans(orderId)
-
-                it.findNavController()
-                    .navigate(R.id.action_paymentFragment_to_purchaseCompleteFragment)
+                val orderDate = MainActivity.getMilliSec()
+                if (prodInfo.option == "Image") {
+                    uploadOrderFloorPlans(orderDate)
+                }
+                if (prodInfo.option == "Lettering") {
+                    registerOrderData(orderDate)
+                }
+//                it.findNavController()
+//                    .navigate(R.id.action_paymentFragment_to_purchaseCompleteFragment, bundle)
             }
         }
     }
 
-    private fun uploadOrderFloorPlans(orderId: String) {
+    // 데이터 로딩 shimmer 라이브러리 사용
+    private fun showSampleData(isLoading: Boolean) {
+        if (isLoading) {
+            binding.shimmerPaymentShippingAddress.startShimmer()
+            binding.shimmerPaymentShippingAddress.visibility = View.VISIBLE
+            binding.constraintPaymentShippingAddress.visibility = View.GONE
+        } else {
+            binding.shimmerPaymentShippingAddress.stopShimmer()
+            binding.shimmerPaymentShippingAddress.visibility = View.GONE
+            binding.constraintPaymentShippingAddress.visibility = View.VISIBLE
+        }
+    }
+
+
+    // 배송지 정보 가져오기
+    private fun getShippingAddress() {
+        showSampleData(true)
+        // 기본 배송지
+        if (!shippingViewState) {
+            shippingManagementRepository.getBasicShippingAddress { basicFieldValue ->
+                shippingManagementRepository.getShippingData(basicFieldValue,
+                    onSuccess = { shippingData ->
+                        shippingData?.let { data ->
+                            order.shippingAddress = hashMapOf(
+                                "address" to data.address,
+                                "address_detail" to data.addressDetail,
+                                "phone_number" to data.phoneNumber,
+                                "recipent" to data.recipient
+                            )
+
+                            binding.run {
+                                textViewPaymentShippingName.text = data.shippingName
+                                textViewPaymentShippingAddress1.text = data.address
+                                textViewPaymentShippingAddress2.text = data.addressDetail
+                                textViewPaymentShippingPhone.text = data.phoneNumber
+                            }
+
+                            showSampleData(false)
+                        } ?: run {
+                            // 데이터가 null인 경우 처리
+                            Log.e("paymentFragment", "해당 배송지 데이터 없음")
+                        }
+                    }
+                )
+            }
+        } else { // 배송지 변경으로 가져온 배송지
+            shippingManagementRepository.getShippingData(changeId,
+                onSuccess = { shippingData ->
+                    shippingData?.let { data ->
+                        order.shippingAddress = hashMapOf(
+                            "address" to data.address,
+                            "address_detail" to data.addressDetail,
+                            "phone_number" to data.phoneNumber,
+                            "recipent" to data.recipient
+                        )
+                        binding.run {
+                            textViewPaymentShippingName.text = data.shippingName
+                            textViewPaymentShippingAddress1.text = data.address
+                            textViewPaymentShippingAddress2.text = data.addressDetail
+                            textViewPaymentShippingPhone.text = data.phoneNumber
+                        }
+                    } ?: run {
+                        // 데이터가 null인 경우 처리
+                        Log.e("paymentFragment", "해당 배송지 데이터 없음")
+                    }
+
+                    showSampleData(false)
+                }
+            )
+        }
+    }
+
+    private fun setPriceTextView() {
+        // 배송비
+        order.deliveryFee = 3000.toString()
+        // 상품 총 가격
+        val productPrice = prodInfo.price.toLong() * prodInfo.count
+        // 총 가격
+        order.totalPrice = (productPrice + order.deliveryFee.toLong()).toString()
+
+        binding.run {
+            "${dec.format(productPrice.toInt())}원".also {
+                textViewPaymentAmountValue.text = it
+            }
+
+            "${dec.format(order.deliveryFee.toInt())}원".also {
+                textViewPaymentShippingFeeValue.text = it
+            }
+
+            "${dec.format(order.totalPrice.toInt())}원".also {
+                textViewPaymentTotalMountValue.text = it
+            }
+
+            "${dec.format(order.totalPrice.toInt())}원 결제하기".also {
+                buttonPaymentPayment.text = it
+            }
+        }
+
+    }
+
+    private fun uploadOrderFloorPlans(orderDate: String) {
         val productFloorPlanFileNameList = mutableMapOf<String, String?>()
+
+        var successfulUploads = 0
+        val totalUploads = prodInfo.diagram.size
         prodInfo.diagram.forEach {
             if (it.value != null) {
                 val orderFloorPlanFileName =
-                    "orderFloorPlan/$orderId/${MainActivity.getMilliSec()}.jpg"
+                    "orderFloorPlan/$orderDate/${MainActivity.getMilliSec()}.jpg"
                 productFloorPlanFileNameList[it.key] = orderFloorPlanFileName
                 storageRef.child(orderFloorPlanFileName).putFile(it.value!!.toUri())
                     .addOnSuccessListener {
-                        registerOrderData(orderId)
+                        successfulUploads++
+
+                        if(successfulUploads == totalUploads) {
+                            registerOrderData(orderDate)
+                        }
                     }
             } else {
                 productFloorPlanFileNameList[it.key] = null
@@ -167,34 +294,75 @@ class PaymentFragment : Fragment() {
         prodInfo.diagram = productFloorPlanFileNameList as HashMap<String, String?>
     }
 
-    private fun registerOrderData(orderId: String) {
-        val shippingAddress = mutableMapOf<String, String>()
+    private fun registerOrderData(orderDate: String) {
+        // 주문번호 랜덤 2자리
+        val randomChars = (1..2)
+            .map { ('a'..'z').toList() + ('A'..'Z').toList() + ('0'..'9').toList() }
+            .flatten()
+            .shuffled()
+            .take(2)
+            .joinToString("")
+        order.orderNum = orderDate + randomChars
+        order.state = "제작 대기"
 
         val orderMap = hashMapOf(
-            "orderId" to id,
-            "date" to id,
-            "deliveryFee" to "9000",
-            "orderNum" to id,
-            "shippingAddress" to shippingAddress,
-            "state" to "",
-            "totalPrice" to "150000",
-            "buyerId" to ""
+            "date" to orderDate,
+            "deliveryFee" to order.deliveryFee,
+            "orderNum" to order.orderNum, // 15자리
+            "shippingAddress" to order.shippingAddress,
+            "state" to order.state,
+            "totalPrice" to order.totalPrice,
+            "buyerId" to order.buyerId
         )
 
-        val prodInfo = hashMapOf(
-            "prodInfoId" to prodInfo.prodInfoId,
-            "count" to prodInfo.count,
-            "option" to prodInfo.option,
-            "price" to prodInfo.price,
-            "diagram" to prodInfo.diagram,
-            "customWord" to prodInfo.customWord,
-            "customLocation" to prodInfo.customLocation
-        )
+        val prodInfoMap = hashMapOf<String, Any?>()
+        // 커스텀 상품 일때
+        if (prodInfo.isCustom) {
+            prodInfoMap["prodInfoId"] = prodInfo.prodInfoId
+            prodInfoMap["count"] = prodInfo.count
+            prodInfoMap["option"] = prodInfo.option
+            prodInfoMap["price"] = prodInfo.price
+            prodInfoMap["diagram"] = prodInfo.diagram
+            prodInfoMap["customWord"] = prodInfo.customWord
+            prodInfoMap["customLocation"] = prodInfo.customLocation
+        } else{
+            // 기성품 일때
+            prodInfoMap["prodInfoId"] = prodInfo.prodInfoId
+            prodInfoMap["count"] = prodInfo.count
+        }
 
-        db.collection("order").document(orderId).set(orderMap)
-        db.collection("order").document(orderId).collection("prod_Info").document(orderId)
-            .set(prodInfo)
-        db.collection("seller").document()
+        binding.progressBarPaymentLoading.visibility = View.VISIBLE
+
+        // 주문정보 저장
+        db.collection("order").add(orderMap).addOnCompleteListener {
+            order.orderId = it.result.id
+
+            // 주문정보 - 상품정보 저장
+            db.collection("order").document(it.result.id).collection("prod_Info").document(orderDate)
+                .set(prodInfoMap).addOnSuccessListener {
+
+                    // 상품정보의 salesQuantity 가져오기
+                    db.collection("product").document(prodInfo.prodInfoId).get().addOnSuccessListener { documentSnapshot ->
+                        val salesQuantity = documentSnapshot.getLong("sales_quantity")
+
+                        // 상품정보 salesQuantity 업데이트
+                        if (salesQuantity != null) {
+
+                            db.collection("product").document(prodInfo.prodInfoId).update("sales_quantity",salesQuantity.plus(1L)).addOnSuccessListener {
+                                binding.progressBarPaymentLoading.visibility = View.GONE
+
+                                val bundle = Bundle().apply {
+                                    putString("orderId", order.orderId)
+                                }
+
+                                findNavController()
+                                    .navigate(R.id.action_paymentFragment_to_purchaseCompleteFragment, bundle)
+                            }
+                        }
+                    }
+                }
+        }
+
     }
 
     // 버튼 누를시 글자색, 배경 변경
@@ -222,7 +390,10 @@ class PaymentFragment : Fragment() {
             val bundle = Bundle().apply {
                 putBoolean("payment_to_shippingManagement", true)
             }
-            findNavController().navigate(R.id.action_paymentFragment_to_shippingManagementFragment, bundle)
+            findNavController().navigate(
+                R.id.action_paymentFragment_to_shippingManagementFragment,
+                bundle
+            )
         }
     }
 
