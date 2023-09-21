@@ -1,12 +1,11 @@
 package likelion.project.agijagi.model
 
-import android.graphics.Bitmap
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 data class OrderModel(
     var orderId: String,
-    var prodInfo: ProdInfo,
+    var prodInfo: ProdInfo?,
     var date: String,
     var deliveryFee: String,
     var orderNum: String,
