@@ -11,6 +11,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentBuyerMypageBinding
+import likelion.project.agijagi.model.BuyerModel
 import likelion.project.agijagi.model.UserModel
 
 class BuyerMypageFragment : Fragment() {
@@ -37,7 +38,7 @@ class BuyerMypageFragment : Fragment() {
 
     private fun updateTextViews() {
         binding.run {
-            val name = "${UserModel.name}님 안녕하세요!"
+            val name = "${BuyerModel.nickname}님 안녕하세요!"
             textviewBuyerMyPageName.text = name
             val email = UserModel.email
             textviewBuyerMyPageEmail.text = email
@@ -104,7 +105,7 @@ class BuyerMypageFragment : Fragment() {
             textviewBuyerMyPageQuit.setOnClickListener {
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle("회원탈퇴")
-                    .setMessage("${UserModel.name}님 정말 떠나실 건가요?\n너무 아쉬워요.")
+                    .setMessage("${BuyerModel.nickname}님 정말 떠나실 건가요?\n너무 아쉬워요.")
                     .setPositiveButton("확인") { _: DialogInterface, _: Int ->
                         delete()
                     }
