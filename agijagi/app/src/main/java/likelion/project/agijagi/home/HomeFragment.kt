@@ -45,7 +45,15 @@ class HomeFragment : Fragment() {
                 }
 
                 R.id.menu_home_shopping_list -> {
-                    findNavController().navigate(R.id.action_homeFragment_to_shoppingListFragment)
+                    if (UserModel.uid == "") {
+                        MainActivity.displayDialogUserNotLogin(
+                            requireContext(),
+                            findNavController(),
+                            R.id.action_homeFragment_to_loginFragment
+                        )
+                    } else {
+                        findNavController().navigate(R.id.action_homeFragment_to_shoppingListFragment)
+                    }
                 }
             }
             false

@@ -17,6 +17,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.databinding.ActivityMainBinding
+import likelion.project.agijagi.model.UserModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
 
-    companion object{
+    companion object {
 
         fun getMilliSec(): String {
             val sdf = SimpleDateFormat("yyMMddhhmmssSSS", Locale.getDefault())
@@ -35,7 +36,11 @@ class MainActivity : AppCompatActivity() {
             return sdf.format(Date(System.currentTimeMillis()))
         }
 
-        fun displayDialogUserNotLogin(context: Context, navController: NavController, destinationId: Int) {
+        fun displayDialogUserNotLogin(
+            context: Context,
+            navController: NavController,
+            destinationId: Int
+        ) {
             MaterialAlertDialogBuilder(context)
                 .setTitle("로그인으로 이동")
                 .setMessage("해당 서비스를 이용하시려면 로그인 해주세요.")
@@ -60,9 +65,6 @@ class MainActivity : AppCompatActivity() {
         onSetUpNavigation()
         handleOnBackPressed()
 
-        activityMainBinding.run {
-
-        }
     }
 
     private fun onSetUpNavigation() {
@@ -74,6 +76,18 @@ class MainActivity : AppCompatActivity() {
             setupWithNavController(navController)
 
             setOnItemSelectedListener { item ->
+                if (UserModel.uid == "" && (item.itemId == R.id.orderFragment ||
+                            item.itemId == R.id.wishListFragment ||
+                            item.itemId == R.id.buyerMypageFragment)
+                ) {
+                    displayDialogUserNotLogin(
+                        this@MainActivity,
+                        navController,
+                        R.id.loginFragment
+                    )
+                    return@setOnItemSelectedListener false
+                }
+
                 NavigationUI.onNavDestinationSelected(item, navController)
                 navController.popBackStack(item.itemId, inclusive = false)
                 true
