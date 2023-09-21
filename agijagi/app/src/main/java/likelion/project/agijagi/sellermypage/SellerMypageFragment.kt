@@ -2,7 +2,6 @@ package likelion.project.agijagi.sellermypage
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,91 +10,57 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
-import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentSellerMypageBinding
+import likelion.project.agijagi.model.SellerModel
+import likelion.project.agijagi.model.UserModel
 
 class SellerMypageFragment : Fragment() {
 
-    private var auth: FirebaseAuth? = null
-    private lateinit var db: FirebaseFirestore
-
-    private var _fragmentSellerMypageBinding: FragmentSellerMypageBinding? = null
-    private val fragmentSellerMypageBinding get() = _fragmentSellerMypageBinding!!
-    private lateinit var mainActivity: MainActivity
-
-    private var _name: String = ""
-    private var email: String = ""
-
-    private val user = FirebaseAuth.getInstance().currentUser
+    private var _binding: FragmentSellerMypageBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        auth = FirebaseAuth.getInstance()
-        _fragmentSellerMypageBinding = FragmentSellerMypageBinding.inflate(inflater,container,false)
-        mainActivity = activity as MainActivity
+        _binding = FragmentSellerMypageBinding.inflate(inflater)
 
-        return fragmentSellerMypageBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setup()
+
+        updateTextViews()
         setToolbarMenuItem()
         setSellerMyPageMenu()
-        setNameAndEmail()
-    }
-
-    private fun setNameAndEmail() {
-        db.collection("user").document(auth?.currentUser?.email.toString())
-            .get()
-            .addOnSuccessListener {
-                _name = it.getString("name") ?: ""
-                email = it.getString("email") ?: ""
-                Log.d("textview", "현재 name: $_name")
-                Log.d("textview", "현재 email: $email")
-
-                // 데이터를 가져온 후 TextView 업데이트
-                updateTextViews()
-            }
     }
 
     private fun updateTextViews() {
-        fragmentSellerMypageBinding.run {
-            val name = "${_name}님 안녕하세요!"
+        binding.run {
+            val name = "${SellerModel.businessName}님 안녕하세요!"
             textviewSellerMyPageStoreName.text = name
+            val email = UserModel.email
             textviewSellerMyPageStoreEmail.text = email
         }
     }
 
     private fun logout() {
-        if (user != null) {
-            val providerId = user.providerId
-
-            if (providerId == "google.com") {
-                Firebase.auth.signOut()
-                findNavController().navigate(R.id.action_sellerMypageFragment_to_loginFragment)
-
-            } else if (providerId == "firebase") {
-                FirebaseAuth.getInstance().signOut()
-                findNavController().navigate(R.id.action_sellerMypageFragment_to_loginFragment)
-            }
-        }
+        UserModel.clearData()
+        Firebase.auth.signOut()
+        findNavController().navigate(R.id.action_sellerMypageFragment_to_loginFragment)
     }
 
     private fun delete() {
+        UserModel.clearData()
         FirebaseAuth.getInstance().currentUser?.delete()
         findNavController().navigate(R.id.action_sellerMypageFragment_to_loginFragment)
     }
 
     private fun setToolbarMenuItem() {
-        fragmentSellerMypageBinding.toolbarSellerMyPage.setOnMenuItemClickListener {
+        binding.toolbarSellerMyPage.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_seller_my_page_chat -> {
                     findNavController().navigate(R.id.action_sellerMypageFragment_to_chattingListFragment)
@@ -110,7 +75,7 @@ class SellerMypageFragment : Fragment() {
     }
 
     private fun setSellerMyPageMenu() {
-        fragmentSellerMypageBinding.run {
+        binding.run {
             textviewSellerMyPageManagementMyStore.setOnClickListener {
                 findNavController().navigate(R.id.action_sellerMypageFragment_to_storeManagementFragment)
             }
@@ -135,10 +100,9 @@ class SellerMypageFragment : Fragment() {
             }
 
             textviewSellerMyPageLogout.setOnClickListener {
-                // 다이얼로그 커스텀 필요
-                MaterialAlertDialogBuilder(mainActivity)
+                MaterialAlertDialogBuilder(requireContext())
                     .setTitle("로그아웃")
-                    .setMessage("로그아웃 하겠습니다.")
+                    .setMessage("로그아웃 합니다.")
                     .setPositiveButton("확인") { _: DialogInterface, _: Int ->
                         logout()
                     }
@@ -147,10 +111,9 @@ class SellerMypageFragment : Fragment() {
             }
 
             textviewSellerMyPageQuit.setOnClickListener {
-                // 다이얼로그 커스텀 필요
-                MaterialAlertDialogBuilder(mainActivity)
+                MaterialAlertDialogBuilder(requireContext())
                     .setTitle("회원탈퇴")
-                    .setMessage("고길동님 정말 떠나실 건가요?\n너무 아쉬워요.")
+                    .setMessage("${SellerModel.businessName}님 정말 떠나실 건가요?\n너무 아쉬워요.")
                     .setPositiveButton("확인") { _: DialogInterface, _: Int ->
                         delete()
                     }
@@ -162,16 +125,7 @@ class SellerMypageFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _fragmentSellerMypageBinding = null
-    }
-
-    private fun setup() {
-        db = Firebase.firestore
-
-        val settings = firestoreSettings {
-            isPersistenceEnabled = true
-        }
-        db.firestoreSettings = settings
+        _binding = null
     }
 
 }
