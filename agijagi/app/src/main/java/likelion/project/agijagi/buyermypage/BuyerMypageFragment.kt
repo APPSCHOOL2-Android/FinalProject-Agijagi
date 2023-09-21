@@ -37,7 +37,7 @@ class BuyerMypageFragment : Fragment() {
 
     private fun updateTextViews() {
         binding.run {
-            val name = "${UserModel.name}님 안녕하세요!"
+            val name = "${BuyerModel.nickname}님 안녕하세요!"
             textviewBuyerMyPageName.text = name
             val email = UserModel.email
             textviewBuyerMyPageEmail.text = email
