@@ -47,7 +47,6 @@ class ProductDetailFragment : Fragment() {
         val productId = getProductId()
 
         loadProductDataAndInitViews(productId)
-        setupToolbar()
         setupFavoriteButton(productId)
     }
 
@@ -95,9 +94,7 @@ class ProductDetailFragment : Fragment() {
 
                     displayProductInfo(brand, name, price, name, detail)
 
-                    loadProductImages(image, shimmerLayoutImages, imageViews)
-
-                    setupPurchaseButton(productId, state)
+                    loadProductImages(image, shimmerLayoutImages, imageViews, productId, state)
                 }
             }
         }
@@ -132,7 +129,9 @@ class ProductDetailFragment : Fragment() {
     private fun loadProductImages(
         image: ArrayList<*>,
         shimmerLayoutImages: List<ShimmerLayout>,
-        imageViews: List<ImageView>
+        imageViews: List<ImageView>,
+        productId: String,
+        state: String
     ) {
         for (idx in 0 until image.size) {
             storageRef.child(image[idx].toString()).downloadUrl.addOnSuccessListener { imageUri ->
@@ -142,6 +141,9 @@ class ProductDetailFragment : Fragment() {
                     .load(imageUri)
                     .placeholder(R.drawable.product_detail_default_image)
                     .into(imageViews[idx])
+
+                setupToolbar()
+                setupPurchaseButton(productId, state)
             }
         }
 

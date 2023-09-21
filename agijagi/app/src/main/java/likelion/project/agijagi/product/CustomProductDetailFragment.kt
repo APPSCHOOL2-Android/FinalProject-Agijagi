@@ -16,6 +16,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import io.supercharge.shimmerlayout.ShimmerLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import likelion.project.agijagi.MainActivity.Companion.displayDialogUserNotLogin
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentCustomProductDetailBinding
@@ -46,11 +51,9 @@ class CustomProductDetailFragment : Fragment() {
 
         val productId = getCustomProductId()
 
-        setupToolbar()
-        setupFloatingButton()
+        loadCustomProductDataAndInitViews(productId)
         setupFloorPlanDownloadButton()
         setupFavoriteButton(productId)
-        loadCustomProductDataAndInitViews(productId)
 
     }
 
@@ -104,9 +107,7 @@ class CustomProductDetailFragment : Fragment() {
 
                     displayProductInfo(brand, name, price, name, detail)
 
-                    loadProductImages(image, shimmerLayoutImages, imageViews)
-
-                    setupPurchaseButton(productId, state)
+                    loadProductImages(image, shimmerLayoutImages, imageViews, productId, state)
                 }
             }
         }
@@ -141,7 +142,9 @@ class CustomProductDetailFragment : Fragment() {
     private fun loadProductImages(
         image: ArrayList<*>,
         shimmerLayoutImages: List<ShimmerLayout>,
-        imageViews: List<ImageView>
+        imageViews: List<ImageView>,
+        productId: String,
+        state: String
     ) {
         for (idx in 0 until image.size) {
             storageRef.child(image[idx].toString()).downloadUrl.addOnSuccessListener { imageUri ->
@@ -151,6 +154,10 @@ class CustomProductDetailFragment : Fragment() {
                     .load(imageUri)
                     .placeholder(R.drawable.product_detail_default_image)
                     .into(imageViews[idx])
+
+                setupPurchaseButton(productId, state)
+                setupToolbar()
+                setupFloatingButton()
             }
         }
 
