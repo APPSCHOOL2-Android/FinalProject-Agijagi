@@ -516,17 +516,6 @@ class ProductUpdateFragment : Fragment() {
         return bitmap
     }
 
-    /*
-    이미지를 수정한다.
-    미리보기 한다.
-    이미지를 스토리지에 업로드 한다.
-    그런데, 뭐가 어떻게 바뀌었는 지는 모른다...
-    그래서 다 올려야 한다?
-    그럼 스토리지 용량초과로 터진다...
-    중복 데이터도 겁나 많아짐.
-    그래서 위치를 바꾸는 경우엔,,, 아 아니다.
-
-    */
     private fun downloadProductImageUri(
         fileName: String,
         action_success: (Uri) -> Unit,
@@ -541,8 +530,6 @@ class ProductUpdateFragment : Fragment() {
             }
         }
     }
-
-    // asd@asd.asd 123456
 
     private fun resetPictureView() {
         binding.run {
