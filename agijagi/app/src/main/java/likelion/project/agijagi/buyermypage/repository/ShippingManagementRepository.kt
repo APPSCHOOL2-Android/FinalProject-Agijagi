@@ -4,12 +4,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import likelion.project.agijagi.model.ShippingAddress
+import likelion.project.agijagi.model.UserModel
 
 class ShippingManagementRepository {
 
     val db = FirebaseFirestore.getInstance()
-    val auth = FirebaseAuth.getInstance()
-    val userUid = auth.currentUser?.uid.toString()
+    val userUid = UserModel.roleId
     lateinit var basicFieldValue: String
 
     // 배송지 삭제
@@ -72,7 +72,6 @@ class ShippingManagementRepository {
             "shipping_name" to shippingAddress.shippingName
         )
 
-        val userUid = auth.currentUser?.uid.toString()
         val shippingAddressRef = db.collection("buyer").document(userUid)
             .collection("shipping_address").document(shippingAddress.shippingAddressId)
 
