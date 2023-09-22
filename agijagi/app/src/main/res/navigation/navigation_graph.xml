@@ -96,7 +96,7 @@
 
     <fragment
         android:id="@+id/customProductDetailFragment"
-        android:name="likelion.project.agijagi.productoption.product.CustomProductDetailFragment"
+        android:name="likelion.project.agijagi.product.CustomProductDetailFragment"
         android:label="fragment_custom_product_detail">
         <action
             android:id="@+id/action_customProductDetailFragment_to_customOptionFragment"
@@ -105,8 +105,8 @@
             android:id="@+id/action_customProductDetailFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
         <action
-            android:id="@+id/action_customProductDetailFragment_to_chattingListFragment"
-            app:destination="@id/chattingListFragment" />
+            android:id="@+id/action_customProductDetailFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
         <action
             android:id="@+id/action_customProductDetailFragment_to_categoryDetailInfoListFragment"
             app:destination="@id/categoryDetailInfoListFragment" />
@@ -132,7 +132,7 @@
 
     <fragment
         android:id="@+id/productDetailFragment"
-        android:name="likelion.project.agijagi.productoption.product.ProductDetailFragment"
+        android:name="likelion.project.agijagi.product.ProductDetailFragment"
         android:label="fragment_product_detail">
         <action
             android:id="@+id/action_productDetailFragment_to_readyMadeOptionFragment"

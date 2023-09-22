@@ -26,8 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:layout_width="wrap_content"
@@ -44,11 +43,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/chatting_input_box"
+                android:inputType="textMultiLine|textNoSuggestions"
                 android:paddingHorizontal="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageButton
+                android:id="@+id/image_button_chatting_room_send"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_margin="8dp"

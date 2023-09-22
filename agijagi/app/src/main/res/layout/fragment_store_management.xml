@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="24dp"
-                android:text="aaaa@gmail.com"
+                android:text="email"
                 android:textSize="22sp" />
 
             <View
@@ -293,7 +293,7 @@
                         android:layout_below="@+id/textview_store_management_text"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="4dp"
-                        android:text="등록증.pdf"
+                        android:text="사업자 등록증 이미지"
                         android:textColor="@color/black"
                         android:textSize="14dp"
                         app:layout_constraintStart_toStartOf="parent"
