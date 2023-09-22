@@ -31,7 +31,7 @@
                 android:layout_height="72dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:background="#9F9F9F"/>
+                android:src="@drawable/order_default_image"/>
         </com.google.android.material.card.MaterialCardView>
 
         <TextView

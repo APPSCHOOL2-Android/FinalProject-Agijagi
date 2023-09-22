@@ -23,6 +23,9 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemProductListBinding
 import likelion.project.agijagi.model.ProductModel
 import likelion.project.agijagi.sellermypage.ProductListFragment
+import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class ProductListAdapter(val context: Context) :
     ListAdapter<ProductModel, ProductListAdapter.ProductListViewHolder>(diffUtil) {
@@ -34,12 +37,12 @@ class ProductListAdapter(val context: Context) :
 
         fun bind(item: ProductModel) {
             with(productListBinding) {
+                val dec = DecimalFormat("#,###")
                 item.thumbnail_image?.let { thumb ->
                     if (thumb.isNotBlank()) {
                         FirebaseStorage.getInstance().reference.child(thumb).downloadUrl.addOnSuccessListener {
                             Glide.with(context)
                                 .load(it)
-                                .placeholder(R.drawable.order_default_image)
                                 .into(imageViewProductListProduct)
                         }
                     }
@@ -54,8 +57,14 @@ class ProductListAdapter(val context: Context) :
 
                 textViewProductListBrand.text = item.brand
                 textViewProductListName.text = item.name
-                textViewProductListPrice.text = item.price
-                textViewProductListDate.text = item.updateDate
+                textViewProductListPrice.text = "${dec.format(item.price.toLong())}원"
+
+                val dateFormat1 = SimpleDateFormat("yyMMddHHmmssSSS", Locale.getDefault())
+                val dateFormat2 = SimpleDateFormat("yy.MM.dd", Locale.getDefault())
+                val dateData = item.updateDate
+                val parseData = dateFormat1.parse(dateData)
+                val productDate = dateFormat2.format(parseData)
+                textViewProductListDate.text = productDate
             }
 
             productListBinding.root.setOnClickListener {
