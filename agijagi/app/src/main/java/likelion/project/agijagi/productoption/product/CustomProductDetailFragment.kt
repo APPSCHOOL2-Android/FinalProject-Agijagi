@@ -16,14 +16,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import io.supercharge.shimmerlayout.ShimmerLayout
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
 import likelion.project.agijagi.MainActivity.Companion.displayDialogUserNotLogin
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentCustomProductDetailBinding
+import likelion.project.agijagi.model.SellerModel.sellerId
 import likelion.project.agijagi.model.UserModel
 import java.text.DecimalFormat
 
@@ -36,6 +32,8 @@ class CustomProductDetailFragment : Fragment() {
 
     val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
+
+    var brand: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +62,6 @@ class CustomProductDetailFragment : Fragment() {
     private fun loadCustomProductDataAndInitViews(productId: String) {
         binding.run {
 
-
             val shimmerLayoutImages = listOf(
                 shimmerLayoutCustomProductDetailImage1,
                 shimmerLayoutCustomProductDetailImage2,
@@ -91,12 +88,13 @@ class CustomProductDetailFragment : Fragment() {
 
             db.collection("product").document(productId).get().addOnSuccessListener {
                 val thumbnailImage = it["thumbnail_image"].toString()
-                val brand = it["brand"].toString()
+                brand = it["brand"].toString()
                 val name = it["name"].toString()
                 val price = "${dec.format(it["price"].toString().toLong())}원"
                 val detail = it["detail"].toString()
                 val image = it["image"] as ArrayList<*>
                 val state = it["state"].toString()
+                sellerId = it["seller_id"].toString()
 
                 storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { thumbnailUri ->
                     shimmerLayoutCustomProductDetailThumbnailImage.stopShimmerAnimation()
@@ -199,8 +197,14 @@ class CustomProductDetailFragment : Fragment() {
                     R.id.action_customProductDetailFragment_to_loginFragment
                 )
             } else {
+                val bundle = Bundle()
+                bundle.putString("brand", brand)
+                bundle.putString("sellerId", sellerId)
                 findNavController()
-                    .navigate(R.id.action_customProductDetailFragment_to_chattingListFragment)
+                    .navigate(
+                        R.id.action_customProductDetailFragment_to_chattingRoomFragment,
+                        bundle
+                    )
             }
         }
     }

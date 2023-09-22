@@ -105,8 +105,8 @@
             android:id="@+id/action_customProductDetailFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
         <action
-            android:id="@+id/action_customProductDetailFragment_to_chattingListFragment"
-            app:destination="@id/chattingListFragment" />
+            android:id="@+id/action_customProductDetailFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
         <action
             android:id="@+id/action_customProductDetailFragment_to_categoryDetailInfoListFragment"
             app:destination="@id/categoryDetailInfoListFragment" />

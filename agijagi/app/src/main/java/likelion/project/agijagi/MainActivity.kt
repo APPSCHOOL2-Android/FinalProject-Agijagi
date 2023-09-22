@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
 
         fun getMilliSec(): String {
-            val sdf = SimpleDateFormat("yyMMddhhmmssSSS", Locale.getDefault())
+            val sdf = SimpleDateFormat("yyMMddHHmmssSSS", Locale.getDefault())
 
             return sdf.format(Date(System.currentTimeMillis()))
         }

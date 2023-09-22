@@ -1,12 +1,16 @@
 package likelion.project.agijagi.chatting
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import likelion.project.agijagi.MainActivity.Companion.getMilliSec
 import likelion.project.agijagi.databinding.FragmentChattingRoomBinding
 import likelion.project.agijagi.model.Message
 import likelion.project.agijagi.model.UserModel
@@ -18,15 +22,14 @@ class ChattingRoomFragment : Fragment() {
 
     lateinit var chattingRoomAdapter: ChattingRoomAdapter
 
-    val list = arrayListOf<Message>().apply {
-        add(Message("09:00", "안녕하세요", true, UserModel.roleId))
-        add(Message("10:12", "안녕하세요~~", true, "홍길동"))
-        add(Message("11:09", "화려한 접시 커스텀 문구 수정 하고 싶어요화려한 접시 커스텀 문구 수정 하고 싶어요화려한 접시 커스텀 문구 수정 하고 싶어요화려한 접시 커스텀 문구 수정 하고 싶어요아주 긴 메시지 긴메세세ㅔ세세ㅔ세서ㅔㅓ매덪ㄴ제ㅐ어레내ㅓㅔㅓ메넝레ㅓ멘어레ㅓㅁㅇㄹㅁㅇㅓㅁㅅ", true, UserModel.roleId))
-        add(Message("11:12", "네~", true, "홍길동"))
-        add(Message("11:15", "멋쟁이 사자처럼 부트캠프입니당", true, UserModel.roleId))
-        add(Message("11:20", "화려한 접시 커스텀 문구 수정 하고 싶어", true, "홍길동"))
-        add(Message("11:23", "화려한 접시 커스텀", true, "홍길동"))
-        add(Message("12:50", "멋쟁이 사자처럼", false, UserModel.roleId))
+    val db = Firebase.firestore
+
+    var roomId: String? = ""
+    lateinit var message: Message
+    private val chattingList = mutableListOf<Message>()
+
+    companion object {
+        var brand: String? = null
     }
 
     override fun onCreateView(
@@ -36,6 +39,8 @@ class ChattingRoomFragment : Fragment() {
         _binding = FragmentChattingRoomBinding.inflate(inflater)
 
         setupToolbar()
+        checkChattingRoom()
+        sendMessage()
 
         return binding.root
     }
@@ -44,20 +49,109 @@ class ChattingRoomFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         chattingRoomAdapter = ChattingRoomAdapter(UserModel.roleId)
-        setupRecyclerViewChattingRoom(list)
+        brand = getBrand()
+    }
+
+    private fun getSellerId(): String {
+        return arguments?.getString("sellerId").toString()
+    }
+
+    private fun getBrand(): String {
+        return arguments?.getString("brand").toString()
     }
 
     private fun setupRecyclerViewChattingRoom(list: List<Message>) {
         binding.recyclerviewChattingRoom.run {
             adapter = chattingRoomAdapter
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(requireContext()).apply {
+                stackFromEnd = true
+                reverseLayout = false
+            }
         }
         chattingRoomAdapter.submitList(list)
     }
 
+    private fun checkChattingRoom() {
+        db.collection("chatting_room")
+            .whereEqualTo("buyer_id", UserModel.roleId)
+            .whereEqualTo("seller_id", getSellerId())
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                querySnapshot.documents.forEach {
+                    Log.d("hye", it.id)
+                    roomId = it.id
+                }
+                getMessage(roomId!!)
+                if (roomId == "") {
+                    createChattingRoom()
+                }
+            }
+    }
+
+    private fun sendMessage() {
+        binding.run {
+            imageButtonChattingRoomSend.setOnClickListener {
+                val content = edittextChattingRoom.text.toString()
+                message = Message(getMilliSec(), content, true, UserModel.roleId)
+                val messageMap = hashMapOf(
+                    "date" to message.date,
+                    "content" to message.content,
+                    "isRead" to message.isRead,
+                    "writer" to message.writer
+                )
+                db.collection("chatting_room")
+                    .document(roomId!!)
+                    .collection("message")
+                    .document(getMilliSec())
+                    .set(messageMap)
+
+                chattingList.add(message)
+                edittextChattingRoom.setText("")
+                setupRecyclerViewChattingRoom(chattingList)
+            }
+        }
+    }
+
+    private fun getMessage(roomId: String) {
+        db.collection("chatting_room")
+            .document(roomId)
+            .collection("message")
+            .get()
+            .addOnSuccessListener {
+                for (document in it) {
+                    Log.d("hye", document.id)
+                    message = Message(
+                        document["date"].toString(),
+                        document["content"].toString(),
+                        document.getBoolean("isRead")!!,
+                        document["writer"].toString()
+                    )
+                    chattingList.add(message)
+                }
+                setupRecyclerViewChattingRoom(chattingList)
+            }
+    }
+
+    private fun createChattingRoom() {
+        val chatRoomUserInfo = hashMapOf(
+            "buyer_id" to UserModel.roleId,
+            "seller_id" to getSellerId()
+        )
+        db.collection("chatting_room").document().set(chatRoomUserInfo)
+    }
+
     private fun setupToolbar() {
-        binding.toolbarChattingRoom.setNavigationOnClickListener {
-            findNavController().popBackStack()
+        binding.toolbarChattingRoom.run {
+            // 로그인 유저 구매자일 때 -> title: 브랜드명
+            // 판매자 일때 -> title: 구매자 닉네임
+            title = if (!UserModel.isSeller!!) {
+                getBrand()
+            } else {
+                "구매자 닉네임"
+            }
+            setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 
