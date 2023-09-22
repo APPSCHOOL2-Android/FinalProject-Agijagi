@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/jagi_ivory"
     android:orientation="vertical"
-    tools:context=".productoption.product.ProductDetailFragment">
+    tools:context=".product.ProductDetailFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_product_detail"
