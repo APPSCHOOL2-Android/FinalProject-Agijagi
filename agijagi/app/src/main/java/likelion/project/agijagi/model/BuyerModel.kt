@@ -5,7 +5,7 @@ object BuyerModel {
     lateinit var wish: ArrayList<String>
     var basic: String = ""
     var nickname: String = ""
-    lateinit var notifSetting: MutableMap<String, Boolean>
+    var notifSetting: MutableMap<String, Boolean> = mutableMapOf()
 }
 
 data class ShippingAddress(
