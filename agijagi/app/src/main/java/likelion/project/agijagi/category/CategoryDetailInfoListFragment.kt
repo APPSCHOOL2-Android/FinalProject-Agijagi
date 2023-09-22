@@ -67,26 +67,29 @@ class CategoryDetailInfoListFragment : Fragment() {
             dataList.clear()
 
             ref.run {
-//                showTravelData(true)
+                showTravelData(true)
                 if (category == "All" && is_custom == 0) {
 
                     get()
                         .addOnSuccessListener { documents ->
                             val filteredDocuments =
                                 documents.filter { it.getString("state") != "숨김" }
+
                             setRecyclerCategoryList(filteredDocuments)
+                            showTravelData(false)
 
                         }.addOnFailureListener {
                             Log.d("category", "데이터")
                         }
                 } else if (category == "All" && is_custom == 1) {
-
                     whereEqualTo("is_custom", true)
                         .get()
                         .addOnSuccessListener { documents ->
                             val filteredDocuments =
                                 documents.filter { it.getString("state") != "숨김" }
+
                             setRecyclerCategoryList(filteredDocuments)
+                            showTravelData(false)
 
                         }.addOnFailureListener {
                             Log.d("category", "데이터")
@@ -99,7 +102,9 @@ class CategoryDetailInfoListFragment : Fragment() {
                         .addOnSuccessListener { documents ->
                             val filteredDocuments =
                                 documents.filter { it.getString("state") != "숨김" }
+
                             setRecyclerCategoryList(filteredDocuments)
+                            showTravelData(false)
 
                         }.addOnFailureListener {
                             Log.d("category", "데이터")
@@ -112,13 +117,15 @@ class CategoryDetailInfoListFragment : Fragment() {
                         .addOnSuccessListener { documents ->
                             val filteredDocuments =
                                 documents.filter { it.getString("state") != "숨김" }
+
                             setRecyclerCategoryList(filteredDocuments)
+                            showTravelData(false)
 
                         }.addOnFailureListener {
                             Log.d("category", "데이터")
                         }
                 } else { }
-                showTravelData(false)
+
             }
         }
 
