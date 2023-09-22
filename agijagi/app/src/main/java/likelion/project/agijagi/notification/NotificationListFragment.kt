@@ -1,6 +1,7 @@
 package likelion.project.agijagi.notification
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -75,9 +76,15 @@ class NotificationListFragment : Fragment() {
             notificationListAdapter.submitList(dataSet)
             notificationListAdapter.setCheckBoxParentState { setCheckBoxParentStete() }
             notificationListAdapter.setGoToChat { roomID ->
+                Log.d("", "roomID = $roomID")
+
                 // 채팅방으로 이동하는 코드
-                //findNavController().findDestination("")
-                Snackbar.make(binding.root, "채팅방 이동: $roomID ", Snackbar.LENGTH_SHORT).show()
+                val bundle = Bundle()
+                bundle.putString("roomID", roomID)
+                findNavController().navigate(
+                    R.id.action_notificationListFragment_to_chattingRoomFragment,
+                    bundle
+                )
             }
             notificationListAdapter.setUpdateIsRead { notifID ->
                 // is_read 필드를 true로 갱신한다
