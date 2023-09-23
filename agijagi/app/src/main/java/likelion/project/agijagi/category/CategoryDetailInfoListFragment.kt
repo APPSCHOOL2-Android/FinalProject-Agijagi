@@ -6,17 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.launch
 import likelion.project.agijagi.R
 import likelion.project.agijagi.category.adapter.CategoryDetailInfoListAdapter
-import likelion.project.agijagi.category.model.CategoryDetailInfoListModel
+import likelion.project.agijagi.model.CategoryDetailInfoListModel
 import likelion.project.agijagi.databinding.FragmentCategoryDetailInfoListBinding
 
 class CategoryDetailInfoListFragment : Fragment() {
@@ -177,7 +175,6 @@ class CategoryDetailInfoListFragment : Fragment() {
             adapter = categoryListAdapter
         }
         categoryListAdapter.submitList(list)
-
     }
 
     private fun setRecyclerCategoryList(documents: List<QueryDocumentSnapshot>) {
