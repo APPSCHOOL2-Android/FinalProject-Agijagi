@@ -1,50 +1,138 @@
 package likelion.project.agijagi.wishlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.checkbox.MaterialCheckBox
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
+import likelion.project.agijagi.buyermypage.ShippingManagementFragment
 import likelion.project.agijagi.databinding.FragmentWishListBinding
+import likelion.project.agijagi.model.UserModel
 
 class WishListFragment : Fragment() {
 
-    lateinit var fragmentWishListBinding: FragmentWishListBinding
+    private var _binding: FragmentWishListBinding? = null
+    private val binding get() = _binding!!
+
     lateinit var mainActivity: MainActivity
     lateinit var listAdapter: WishListAdapter
 
-    val dataSet = arrayListOf<WishListModel>().apply {
-        add(WishListModel("김자기", "화려한 접시", "2억원"))
-        add(WishListModel("아기자기", "아름다운 접시", "2원"))
-        add(WishListModel("아기자기", "큰접시", "20.000,000원"))
-        add(WishListModel("아기자기", "부서진 접시", "20원"))
-        add(WishListModel("김자기", "아쉬운 접시", "2,001,402,414원"))
+    private val wishListData = arrayListOf<String>()
+
+    private val db = Firebase.firestore
+    private val storageRef = Firebase.storage.reference
+
+    companion object {
+        val dataSet = mutableListOf<WishListModel>()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        fragmentWishListBinding = FragmentWishListBinding.inflate(inflater)
+        _binding = FragmentWishListBinding.inflate(inflater)
         mainActivity = activity as MainActivity
-        listAdapter = WishListAdapter()
+        listAdapter = WishListAdapter(itemClick = { item ->
+            // prodid 받아서  iscustom 상태에 따라 분기
+        })
 
-        fragmentWishListBinding.run {
-            toolbarWishList.run {
-                title = "찜"
-                inflateMenu(R.menu.menu_wish_list)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.run {
+            runBlocking {
+                getData()
+            }
+        }
+    }
+
+    private suspend fun getData() {
+        // 데이터 가져오기전에 shimmer
+        showSampleData(true)
+        // buyer컬렉션-> userroleid문서->  wish컬렉션에서 데이터 가져와서
+        CoroutineScope(Dispatchers.IO).launch {
+            val buyer =
+                db.collection("buyer").document(UserModel.roleId)
+                    .collection("wish").get().await()
+            wishListData.clear()
+            for (document in buyer) {
+                wishListData.add(document.id)
+            }
+            // 이게 끝나고 밑에 실행
+            wishListData.forEach { prodId ->
+                val document = db.collection("product").document(prodId).get().await()
+                val thumbnailImage = document["thumbnail_image"].toString()
+                val uri = storageRef.child(thumbnailImage).downloadUrl.await()
+
+                dataSet.add(
+                    WishListModel(
+                        document["brand"].toString(),
+                        document["name"].toString(),
+                        document["price"].toString(),
+                        uri.toString(),
+                        prodId,
+                        true
+                    )
+                )
             }
 
+            withContext(Dispatchers.Main) {
+                setRecyclerView()
+                showSampleData(false)
+            }
+        }
+    }
+
+    private fun setRecyclerView() {
+        binding.run {
             recyclerviewWishList.run {
-                layoutManager = GridLayoutManager(context, 2)
+                layoutManager = GridLayoutManager(requireContext(), 2)
                 adapter = listAdapter
             }
             listAdapter.submitList(dataSet)
+
+            // dataList가 비어있을 때 보이도록
+            if (dataSet.isEmpty()) {
+                binding.recyclerviewWishListEmpty.visibility = View.VISIBLE
+            } else {
+                binding.recyclerviewWishListEmpty.visibility = View.GONE
+            }
         }
-        return fragmentWishListBinding.root
     }
 
+    private fun showSampleData(isLoading: Boolean) {
+        if (isLoading) {
+            binding.recyclerviewWishListShimmer.startShimmer()
+            binding.recyclerviewWishListShimmer.visibility = View.VISIBLE
+            binding.recyclerviewWishList.visibility = View.GONE
+        } else {
+            binding.recyclerviewWishListShimmer.stopShimmer()
+            binding.recyclerviewWishListShimmer.visibility = View.GONE
+            binding.recyclerviewWishList.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
