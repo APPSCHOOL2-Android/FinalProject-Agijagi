@@ -24,28 +24,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imageView_order_product"
-            android:layout_width="112dp"
-            android:layout_height="84dp"
-            android:layout_marginStart="16dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview_order_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/imageview_rounded_stroke"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_order_state"
-            app:srcCompat="@drawable/order_default_image" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/jagi_brown">
+
+            <ImageView
+                android:id="@+id/imageView_order_product"
+                android:layout_width="112dp"
+                android:layout_height="84dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/imageview_rounded_stroke"
+                android:scaleType="centerCrop"
+                android:src="@drawable/order_default_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_order_state" />
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/textView_order_brand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="46dp"
             android:text="브랜드명"
             android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView_order_product"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/cardview_order_product"
+            app:layout_constraintTop_toTopOf="@+id/cardview_order_product" />
 
         <TextView
             android:id="@+id/textView_order_name"
@@ -56,7 +68,7 @@
             android:text="제품명 도자기"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView_order_product"
+            app:layout_constraintStart_toEndOf="@+id/cardview_order_product"
             app:layout_constraintTop_toBottomOf="@+id/textView_order_brand" />
 
         <TextView
@@ -67,7 +79,7 @@
             android:layout_marginTop="2dp"
             android:text="색상 : Blue | 1개"
             android:textSize="9sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView_order_product"
+            app:layout_constraintStart_toEndOf="@+id/cardview_order_product"
             app:layout_constraintTop_toBottomOf="@+id/textView_order_name" />
 
         <TextView
@@ -78,7 +90,7 @@
             android:layout_marginTop="8dp"
             android:text="100,000원"
             android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/imageView_order_product"
+            app:layout_constraintStart_toEndOf="@+id/cardview_order_product"
             app:layout_constraintTop_toBottomOf="@+id/textView_order_option" />
 
         <LinearLayout
@@ -91,7 +103,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_order_product">
+            app:layout_constraintTop_toBottomOf="@+id/cardview_order_product">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_order_exchange"
