@@ -163,8 +163,8 @@ class ProductUpdateFragment : Fragment() {
                 editinputProductUpdateProductname.hint = data.name
             }
             // 가격
-            if (data.name != "") {
-                editinputlayoutProductUpdateProductprice.hint = data.name
+            if (data.price != "") {
+                editinputlayoutProductUpdateProductprice.hint = data.price
             }
             // 카테고리 선택
             if (data.category != "") {
@@ -662,7 +662,10 @@ class ProductUpdateFragment : Fragment() {
 
 
                 // 번들 생성, 전달
-                val bundle = bundleOf("productData" to dataOrigin)
+                val bundle = Bundle()
+                bundle.putParcelable("productData", dataOrigin)
+                bundle.putString("prodId", getProductId())
+
                 findNavController().navigate(
                     R.id.action_productUpdateFragment_to_productUpdateDetailPreviewFragment,
                     bundle
@@ -689,6 +692,10 @@ class ProductUpdateFragment : Fragment() {
         }
 
         return data!!
+    }
+
+    private fun getProductId(): String {
+        return arguments?.getString("prodId").toString()
     }
 
     override fun onDestroyView() {

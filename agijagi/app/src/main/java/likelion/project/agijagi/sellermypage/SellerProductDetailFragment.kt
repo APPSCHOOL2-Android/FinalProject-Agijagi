@@ -1,7 +1,6 @@
 package likelion.project.agijagi.sellermypage
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -151,7 +150,9 @@ class SellerProductDetailFragment : Fragment() {
         binding.run {
             textviewSellerProductDetailBrand.text = brand
             textviewSellerProductDetailName.text = name
-            textviewSellerProductDetailPrice.text = price
+            "${dec.format(price.toLong())}원".also {
+                textviewSellerProductDetailPrice.text = it
+            }
             textviewSellerProductDetailInfoTitle.text = title
             textviewSellerProductDetailInfoDescription.text = detail
         }
@@ -190,6 +191,7 @@ class SellerProductDetailFragment : Fragment() {
                     R.id.menu_product_detail_edit -> {
                         val bundle = Bundle()
                         bundle.putParcelable("productData", product)
+                        bundle.putString("prodId", getProductId())
                         findNavController().navigate(
                             R.id.action_sellerProductDetailFragment_to_productUpdateFragment,
                             bundle
@@ -197,7 +199,15 @@ class SellerProductDetailFragment : Fragment() {
                     }
 
                     R.id.menu_product_detail_delete -> {
-
+                        val isDeleteState = hashMapOf<String, Any>(
+                            "is_delete" to true
+                        )
+                        db.collection("product")
+                            .document(getProductId())
+                            .update(isDeleteState)
+                            .addOnSuccessListener {
+                                findNavController().popBackStack()
+                            }
                     }
                 }
                 false
