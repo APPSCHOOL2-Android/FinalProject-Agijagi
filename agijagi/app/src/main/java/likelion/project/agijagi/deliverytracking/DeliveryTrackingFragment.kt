@@ -1,14 +1,20 @@
 package likelion.project.agijagi.deliverytracking
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentDeliveryTrackingBinding
 import java.text.SimpleDateFormat
@@ -20,6 +26,9 @@ class DeliveryTrackingFragment : Fragment() {
 
     private var _binding: FragmentDeliveryTrackingBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var resultLauncher: ActivityResultLauncher<String>
+    lateinit var callbackActionGranted: () -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +43,7 @@ class DeliveryTrackingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setBundleData()
+        setResultLauncher()
 
         binding.run {
             toolbarDeliveryTracking.setNavigationOnClickListener {
@@ -41,12 +51,11 @@ class DeliveryTrackingFragment : Fragment() {
             }
 
             buttonDeliveryTrackingCourier.setOnClickListener {
-                Snackbar.make(it, "통화 1588-0000", Snackbar.LENGTH_LONG).setAction("확인", null).show()
+                tryPhoneCall("02-345-6789")
             }
 
             buttonDeliveryTrackingShippingDriver.setOnClickListener {
-                Snackbar.make(it, "통화 010-1234-5678", Snackbar.LENGTH_LONG).setAction("확인", null)
-                    .show()
+                tryPhoneCall("010-1234-5678")
             }
         }
     }
@@ -119,6 +128,45 @@ class DeliveryTrackingFragment : Fragment() {
 
             // 운송장번호 14~a자리 랜덤숫자
             textViewDeliveryTrackingTrackingNumber.text = Math.random().toString().substring(2)
+        }
+    }
+
+    private fun setResultLauncher() {
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                    callbackActionGranted()
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        "권한이 없어 전화를 걸 수 없습니다",
+                        Snackbar.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
+    }
+
+    private fun tryPhoneCall(phoneNumber: String) {
+        callbackActionGranted = {
+            val number = phoneNumber.replace("[^0-9]".toRegex(), "")
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("tel:$number"))
+            startActivity(intent)
+        }
+
+        when {
+            requireContext().checkSelfPermission(Manifest.permission.CALL_PHONE) ==
+                    PackageManager.PERMISSION_GRANTED -> {
+                callbackActionGranted()
+            }
+
+            shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE) -> {
+                Snackbar.make(binding.root, "전화를 걸기 위해 권한이 필요합니다", Snackbar.LENGTH_SHORT).show()
+            }
+
+            else -> {
+                resultLauncher.launch(Manifest.permission.CALL_PHONE)
+            }
         }
     }
 
