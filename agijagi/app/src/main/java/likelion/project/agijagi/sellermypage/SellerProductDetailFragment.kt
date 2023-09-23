@@ -90,6 +90,7 @@ class SellerProductDetailFragment : Fragment() {
                 val isCustom = it.getBoolean("is_custom")!!
                 val isDelete = it.getBoolean("is_delete")!!
                 val salesQuantity = it["sales_quantity"].toString().toLong()
+                val shoppingQuantity = it["shopping_quantity"].toString().toLong()
                 val sellerId = it["seller_id"].toString()
                 val shoppingQuantity = it["shopping_quantity"].toString().toLong()
                 val state = it["state"].toString()
@@ -109,6 +110,7 @@ class SellerProductDetailFragment : Fragment() {
                     state,
                     price,
                     salesQuantity,
+                    shoppingQuantity,
                     sellerId,
                     shoppingQuantity,
                     updateDate
