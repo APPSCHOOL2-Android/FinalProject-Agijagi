@@ -110,7 +110,7 @@ class ProductListFragment : Fragment() {
                 parseUpdateDate(it.updateDate)
             }
             // UI
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 // dataList가 비어있을 때 보이도록
                 if (dataList.isEmpty()) {
                     binding.textViewProductListEmpty.visibility = View.VISIBLE

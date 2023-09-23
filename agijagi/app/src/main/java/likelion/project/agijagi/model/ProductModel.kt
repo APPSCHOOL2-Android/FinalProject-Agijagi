@@ -18,7 +18,6 @@ data class ProductModel(
     var state: String = "", // 재고 여부 - 판매, 품절, 숨김
     var price: String = "", // 가격
     var salesQuantity: Long = -1, // 팔린 수량
-    var shoppingQuantity: Long = -1, // 장바구니에 담긴 횟수
     var sellerId: String = "", // 판매자 Pk
     val shoppingQuantity: Long = -1,
     var thumbnail_image: String = "", // 대표 사진 Uri
