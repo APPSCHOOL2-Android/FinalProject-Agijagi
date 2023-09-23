@@ -88,9 +88,11 @@ class SellerProductDetailFragment : Fragment() {
                 val customOptionInfo = it.get("customOptionInfo") as HashMap<String, String>
                 val floorPlan = it.get("floor_plan") as ArrayList<String>
                 val isCustom = it.getBoolean("is_custom")!!
+                val isDelete = it.getBoolean("is_delete")!!
                 val salesQuantity = it["sales_quantity"].toString().toLong()
                 val shoppingQuantity = it["shopping_quantity"].toString().toLong()
                 val sellerId = it["seller_id"].toString()
+                val shoppingQuantity = it["shopping_quantity"].toString().toLong()
                 val state = it["state"].toString()
                 val updateDate = it["updateDate"].toString()
 
@@ -103,13 +105,14 @@ class SellerProductDetailFragment : Fragment() {
                     floorPlan,
                     image,
                     isCustom,
+                    isDelete,
                     name,
                     state,
                     price,
                     salesQuantity,
                     shoppingQuantity,
                     sellerId,
-                    thumbnailImage,
+                    shoppingQuantity,
                     updateDate
                 )
 
@@ -166,7 +169,7 @@ class SellerProductDetailFragment : Fragment() {
             storageRef.child(image[idx].toString()).downloadUrl.addOnSuccessListener { imageUri ->
                 shimmerLayoutImages[idx].stopShimmerAnimation()
                 imageUriString.add(imageUri.toString())
-                Log.d("hye1", imageUriString.toString())
+
                 Glide.with(this@SellerProductDetailFragment)
                     .load(imageUri)
                     .placeholder(R.drawable.product_detail_default_image)

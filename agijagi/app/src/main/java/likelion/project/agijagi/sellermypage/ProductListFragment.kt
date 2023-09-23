@@ -92,13 +92,14 @@ class ProductListFragment : Fragment() {
                         document.getString("detail") ?: "",
                         document.get("floorPlan") as? ArrayList<String> ?: ArrayList(),
                         document.get("image") as? ArrayList<String> ?: ArrayList(),
-                        document.getBoolean("isCustom") ?: false,
+                        document.getBoolean("is_custom") ?: false,
+                        document.getBoolean("is_delete") ?: false,
                         document.getString("name") ?: "",
                         document.getString("state") ?: "",
                         document.getString("price") ?: "",
-                        document.getLong("salesQuantity") ?: 0,
-                        document.getLong("shoppingQuantity") ?: 0,
-                        document.getString("sellerId") ?: "",
+                        document.getLong("sales_quantity") ?: 0,
+                        document.getString("seller_id") ?: "",
+                        document.getLong("shopping_quantity") ?: 0,
                         document.getString("thumbnail_image") ?: "",
                         document.getString("update_date") ?: ""
                     )
