@@ -89,6 +89,7 @@ class SellerProductDetailFragment : Fragment() {
                 val floorPlan = it.get("floor_plan") as ArrayList<String>
                 val isCustom = it.getBoolean("is_custom")!!
                 val salesQuantity = it["sales_quantity"].toString().toLong()
+                val shoppingQuantity = it["shopping_quantity"].toString().toLong()
                 val sellerId = it["seller_id"].toString()
                 val state = it["state"].toString()
                 val updateDate = it["updateDate"].toString()
@@ -106,6 +107,7 @@ class SellerProductDetailFragment : Fragment() {
                     state,
                     price,
                     salesQuantity,
+                    shoppingQuantity,
                     sellerId,
                     thumbnailImage,
                     updateDate

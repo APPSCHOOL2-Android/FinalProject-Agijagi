@@ -1,6 +1,8 @@
 package likelion.project.agijagi.shopping
 
+import android.opengl.Visibility
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +10,22 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.checkbox.MaterialCheckBox
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import likelion.project.agijagi.MainActivity
+import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentShoppingListBinding
+import likelion.project.agijagi.model.ProdInfo
+import likelion.project.agijagi.model.UserModel
 
 class ShoppingListFragment : Fragment() {
 
@@ -19,13 +35,11 @@ class ShoppingListFragment : Fragment() {
     lateinit var shoppingListAdapter: ShoppingListAdapter
 
     private val dataSet = arrayListOf<ShoppingListModel>()
-        .apply {
-        add(ShoppingListModel("김자기", "화려한 접시", "2억원"))
-        add(ShoppingListModel("아기자기", "아름다운 접시", "2원"))
-        add(ShoppingListModel("아기자기", "큰접시", "20.000,000원"))
-        add(ShoppingListModel("아기자기", "부서진 접시", "20원"))
-        add(ShoppingListModel("김자기", "아쉬운 접시", "2,001,402,414원"))
-    }
+    private val shoppingList = hashMapOf<String, String>()
+
+
+    private val db = Firebase.firestore
+    private val storageRef = Firebase.storage.reference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,21 +56,16 @@ class ShoppingListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         binding.run {
+
+            getShoppingListData()
+            // 가격 합산
             toolbarShoppinglist.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
-            //
+            // 체크 초기화
             shoppingListAdapter.setCheckBoxParentState { setCheckBoxParentState() }
 
-            recyclerviewShoppingList.run {
-                layoutManager = LinearLayoutManager(mainActivity)
-                adapter = shoppingListAdapter
-            }
-            shoppingListAdapter.submitList(dataSet)
-
-            // 체크 초기화
             if (dataSet.size == 0) {
                 setCheckBoxParentState()
             } else {
@@ -80,8 +89,142 @@ class ShoppingListFragment : Fragment() {
                     shoppingListAdapter.notifyDataSetChanged()
                 }
             }
+            buttonDeleteSelected.setOnClickListener {
+                // 선택된 메뉴 지우기
+                removeData()
+                shoppingListAdapter.notifyDataSetChanged()
+
+            }
+
+            buttonShoppingListOk.setOnClickListener {
+                // isChecked 되어있는거 prodId paymentFragment에 보내주면된다.
+                val data = dataSet.filter { it.isCheck }
+                Log.d("ttttt",data[0].documentId )
+                db.collection("buyer").document(UserModel.roleId)
+                    .collection("shopping_list").document(data[0].documentId).get()
+                    .addOnSuccessListener {
+                        val customOption = ProdInfo(
+                            it.getBoolean("isCustom")!!,
+                            it["prodInfoId"].toString(),
+                            it["count"].toString().toLong(),
+                            it.get("diagram") as HashMap<String, String?>,
+                            it["option"].toString(),
+                            it["price"].toString(),
+                            it["customWord"].toString(),
+                            it["customLocation"].toString(),
+                        )
+                        val bundle = Bundle().apply {
+                            putParcelable("prodInfo", customOption)
+                        }
+                        findNavController().navigate(
+                            R.id.action_shoppingListFragment_to_paymentFragment, bundle
+                        )
+                    }
+            }
         }
     }
+
+    private fun setRecyclerView() {
+        binding.run {
+            recyclerviewShoppingList.run {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = shoppingListAdapter
+            }
+            shoppingListAdapter.submitList(dataSet)
+        }
+        shoppingListAdapter.notifyDataSetChanged()
+    }
+
+    private fun showSampleData(isLoading: Boolean) {
+        if (isLoading) {
+            binding.shimmerShoppingList.startShimmer()
+            binding.shimmerShoppingList.visibility = View.VISIBLE
+            binding.recyclerviewShoppingList.visibility = View.GONE
+        } else {
+            binding.shimmerShoppingList.stopShimmer()
+            binding.shimmerShoppingList.visibility = View.GONE
+            binding.recyclerviewShoppingList.visibility = View.VISIBLE
+        }
+    }
+
+
+    private fun getShoppingListData() {
+        showSampleData(true)
+        dataSet.clear()
+
+        db.collection("buyer").document(UserModel.roleId).collection("shopping_list").get()
+            .addOnSuccessListener { shopping ->
+                shoppingList.clear()
+                for (document in shopping) {
+                    shoppingList.put(document.id, document["prodInfoId"].toString())
+                    shoppingList.put("count", document["count"].toString())
+                }
+            }
+        CoroutineScope(Dispatchers.IO).launch {
+            val snapshot = db.collection("product").get().await()
+            shoppingList.forEach { productId ->
+                for (document in snapshot) {
+                    val thumbnailImage = document.data["thumbnail_image"].toString()
+                    if (productId.value == document.id) {
+                        val uri = storageRef.child(thumbnailImage).downloadUrl.await()
+                        dataSet.add(
+                            ShoppingListModel(
+                                document["brand"].toString(),
+                                document["name"].toString(),
+                                document["price"].toString(),
+                                shoppingList["count"].toString(),
+                                uri.toString(),
+                                productId.key
+                            )
+                        )
+                    }
+                }
+            }
+            withContext(Dispatchers.Main) {
+                showSampleData(false)
+                if (dataSet.size == 0) {
+                    binding.layoutEmptyState.visibility = View.VISIBLE
+                    binding.recyclerviewShoppingList.visibility = View.GONE
+                    setRecyclerView()
+
+                } else {
+                    binding.layoutEmptyState.visibility = View.GONE
+                    binding.recyclerviewShoppingList.visibility = View.VISIBLE
+                    setRecyclerView()
+                }
+            }
+        }
+    }
+
+
+    private fun removeData() {
+        // 연결 리스트 해제
+        val tempList = dataSet.filter { it.isCheck }
+        dataSet.removeAll(tempList)
+
+        var ch = true
+        for (data in tempList) {
+            db.collection("buyer").document(UserModel.roleId)
+                .collection("shopping_list")
+                .document(data.documentId)
+                .delete()
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                    } else {
+                        ch = false
+                    }
+                }
+        }
+
+        if (ch) {
+            Snackbar.make(binding.root, "성공", Snackbar.LENGTH_SHORT).show()
+        } else {
+            Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
+        }
+        getShoppingListData()
+        setCheckBoxParentState()
+    }
+
 
     private fun setCheckBoxParentState() {
         val checkedCount = dataSet.filter { item -> item.isCheck }.size
@@ -90,11 +233,31 @@ class ShoppingListFragment : Fragment() {
         when (checkedCount) {
             0 -> {
                 state = MaterialCheckBox.STATE_UNCHECKED
+                binding.buttonShoppingListOk.setBackgroundResource(R.drawable.wide_box_bottom_inactive)
+                binding.buttonShoppingListOk.isClickable = false
+                binding.textviewOrderPrice.text = "0원"
+                binding.textviewShoppingShipPrice.text = "0원"
+                binding.textviewOrderAllPrice.text = "0원"
+            }
+
+            1 -> {
+                val data = dataSet.filter { item -> item.isCheck }
+                val price = (data[0].price.toLong()) * (data[0].count.toLong())
+                binding.buttonShoppingListOk.setBackgroundResource(R.drawable.wide_box_bottom_active)
+                binding.buttonShoppingListOk.isClickable = true
+                binding.textviewOrderPrice.text = "${price}원"
+                binding.textviewShoppingShipPrice.text = "3000원"
+                binding.textviewOrderAllPrice.text = "${price + 3000}원"
             }
 
             dataSet.size -> { // ALL
                 state = MaterialCheckBox.STATE_CHECKED
                 str = " 선택 해제"
+                binding.buttonShoppingListOk.setBackgroundResource(R.drawable.wide_box_bottom_inactive)
+                binding.buttonShoppingListOk.isClickable = false
+                binding.textviewOrderPrice.text = "0원"
+                binding.textviewShoppingShipPrice.text = "0원"
+                binding.textviewOrderAllPrice.text = "0원"
             }
 
             else -> {
@@ -106,9 +269,9 @@ class ShoppingListFragment : Fragment() {
         binding.checkboxShoppingListAllItem.checkedState = state
         binding.checkboxShoppingListAllItem.text = str
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }

@@ -1,5 +1,6 @@
 package likelion.project.agijagi.productoption
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -7,12 +8,17 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -22,8 +28,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelAndJoin
@@ -37,6 +46,7 @@ import likelion.project.agijagi.model.ProdInfo
 import likelion.project.agijagi.model.ProductModel
 import likelion.project.agijagi.model.UserModel
 import java.io.ByteArrayOutputStream
+import kotlin.concurrent.thread
 import kotlin.math.log
 
 class CustomOptionFragment : Fragment() {
@@ -52,8 +62,7 @@ class CustomOptionFragment : Fragment() {
     lateinit var leftAlbumLauncher: ActivityResultLauncher<Intent>
     lateinit var rightAlbumLauncher: ActivityResultLauncher<Intent>
 
-    private var lettering = false
-    private var image = false
+    private var itemState = MenuOption.MENU_LETTERING
 
     private var frontImageState = false
     private var backImageState = false
@@ -61,6 +70,7 @@ class CustomOptionFragment : Fragment() {
     private var rightImageState = false
 
     private lateinit var productId: String
+    private lateinit var productHashMap: HashMap<String, Any?>
 
     private var frontImage: String? = null
     private var backImage: String? = null
@@ -68,6 +78,7 @@ class CustomOptionFragment : Fragment() {
     private var rightImage: String? = null
 
     private val db = Firebase.firestore
+    private val storageRef = Firebase.storage.reference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,7 +101,6 @@ class CustomOptionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // 커스텀 옵션 선택
         setCustomOptions()
 
@@ -105,19 +115,40 @@ class CustomOptionFragment : Fragment() {
     }
 
     private fun getData() {
-        db.collection("product")
-            .document(productId)
-            .get().addOnSuccessListener {
-                binding.textviewShoppingListItemBrand.text = it["brand"].toString()
-                binding.textviewShoppingListItemName.text = it["name"].toString()
-                binding.textviewShoppingListItemPrice.text = "${it["price"].toString()}원"
+        showSampleData(true)
+        db.collection("product").document(productId).get().addOnSuccessListener {
+            val thumbnailImage = it["thumbnail_image"].toString()
+            binding.textviewShoppingListItemBrand.text = it["brand"].toString()
+            binding.textviewShoppingListItemName.text = it["name"].toString()
+            binding.textviewShoppingListItemPrice.text = "${it["price"].toString()}원"
+
+            storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { thumbnailUri ->
+                Glide.with(this@CustomOptionFragment)
+                    .load(thumbnailUri)
+                    .placeholder(R.drawable.product_detail_default_image)
+                    .into(binding.imageviewShoppingListItem)
             }
-        // 구매버튼
-        setPurchaseButton()
-        // 장바구니 버튼
-        setShoppingBagButton()
-        // 뒤로가기 버튼
-        setToolbarItemAction()
+
+            showSampleData(false)
+            // 구매버튼
+            setPurchaseButton()
+            // 장바구니 버튼
+            setShoppingBagButton()
+            // 뒤로가기 버튼
+            setToolbarItemAction()
+        }
+    }
+
+    private fun showSampleData(isLoading: Boolean) {
+        if (isLoading) {
+            binding.containerItemShimmer.startShimmer()
+            binding.containerItemShimmer.visibility = View.VISIBLE
+            binding.containerItem.visibility = View.GONE
+        } else {
+            binding.containerItemShimmer.stopShimmer()
+            binding.containerItemShimmer.visibility = View.GONE
+            binding.containerItem.visibility = View.VISIBLE
+        }
     }
 
     private fun setCustomOptions() {
@@ -125,15 +156,13 @@ class CustomOptionFragment : Fragment() {
             menuCustomOptionSelectText.setOnItemClickListener { adapterView, view, i, l ->
                 when (i) {
                     MenuOption.MENU_LETTERING.idx -> {
-                        lettering = true
-                        image = false
+                        itemState = MenuOption.MENU_LETTERING
                         layoutCustomLetteringOption.isVisible = true
                         layoutCustomPrintOption.isGone = true
                     }
 
                     MenuOption.MENU_IMAGE.idx -> {
-                        lettering = false
-                        image = true
+                        itemState = MenuOption.MENU_IMAGE
                         layoutCustomLetteringOption.isGone = true
                         layoutCustomPrintOption.isVisible = true
                     }
@@ -230,51 +259,18 @@ class CustomOptionFragment : Fragment() {
 
     private fun setPurchaseButton() {
         binding.run {
-
             buttonCustomOptionPurchase.setOnClickListener {
                 val count = editInputCustomOptionVolumeText.text.toString().toLong()
-                // 데이터가져오기
-                val customWord = editInputCustomOptionText.text.toString()
-                val customLocation = editInputCustomOptionLocationText.text.toString()
-                if (lettering) {
+                db.collection("product").document(productId).get().addOnSuccessListener {
+                    val price = it["price"].toString()
+                    val bundle = when (itemState) {
+                        MenuOption.MENU_LETTERING -> {
+                            getLetteringData(count, price)
+                        }
 
-                    val letteringCustomOption = ProdInfo(
-                        true,
-                        productId,
-                        count,
-                        hashMapOf(),
-                        "Lettering",
-                        "12341243",
-                        customWord,
-                        customLocation
-                    )
-                    val bundle = Bundle().apply {
-                        putParcelable("prodInfo", letteringCustomOption)
-                    }
-                    findNavController().navigate(
-                        R.id.action_customOptionFragment_to_paymentFragment,
-                        bundle
-                    )
-                }
-                if (image) {
-                    val imageList = hashMapOf(
-                        "frontImage" to frontImage,
-                        "backImage" to backImage,
-                        "leftImage" to leftImage,
-                        "rightImage" to rightImage
-                    )
-
-                    val imageCustomOption = ProdInfo(
-                        true,
-                        productId,
-                        count,
-                        imageList,
-                        "Image",
-                        "12341243",
-                        null, null
-                    )
-                    val bundle = Bundle().apply {
-                        putParcelable("prodInfo", imageCustomOption)
+                        MenuOption.MENU_IMAGE -> {
+                            getImageData(count)
+                        }
                     }
                     findNavController().navigate(
                         R.id.action_customOptionFragment_to_paymentFragment,
@@ -282,6 +278,48 @@ class CustomOptionFragment : Fragment() {
                     )
                 }
             }
+        }
+    }
+
+    private fun getLetteringData(count: Long, price: String): Bundle {
+        binding.run {
+            val customWord = editInputCustomOptionText.text.toString()
+            val customLocation = editInputCustomOptionLocationText.text.toString()
+
+            val letteringCustomOption = ProdInfo(
+                true,
+                productId,
+                count,
+                hashMapOf(),
+                "Lettering",
+                price,
+                customWord,
+                customLocation
+            )
+            return Bundle().apply { putParcelable("prodInfo", letteringCustomOption) }
+        }
+    }
+
+    private fun getImageData(count: Long): Bundle {
+
+        val imageList = hashMapOf(
+            "frontImage" to frontImage,
+            "backImage" to backImage,
+            "leftImage" to leftImage,
+            "rightImage" to rightImage
+        )
+
+        val imageCustomOption = ProdInfo(
+            true,
+            productId,
+            count,
+            imageList,
+            "Image",
+            "",
+            null, null
+        )
+        return Bundle().apply {
+            putParcelable("prodInfo", imageCustomOption)
         }
     }
 
@@ -341,14 +379,79 @@ class CustomOptionFragment : Fragment() {
     }
 
     private fun setShoppingBagButton() {
-        binding.imageButtonCustomOptionShoppingBag.setOnClickListener {
-            // 유저 id를 가져와서 shoppingList에 productId를 추가해준다.
-            db.collection("buyer").document(UserModel.roleId)
-                .collection("shopping_list").document().set()
+        binding.run {
+            imageButtonCustomOptionShoppingBag.setOnClickListener {
 
-            // 스낵바 띄워 확인 -> 장바구니화면으로 이미있으면  이미 있는상품이라고 알려줌
-            findNavController().navigate(R.id.action_customOptionFragment_to_shoppingListFragment)
+                val count = editInputCustomOptionVolumeText.text.toString().toLong()
+                val customWord = editInputCustomOptionText.text.toString()
+                val customLocation = editInputCustomOptionLocationText.text.toString()
+
+                val imageList = hashMapOf(
+                    "frontImage" to frontImage,
+                    "backImage" to backImage,
+                    "leftImage" to leftImage,
+                    "rightImage" to rightImage
+                )
+
+                db.collection("product").document(productId).get().addOnSuccessListener {
+                    val shoppingQuantity = it["shopping_quantity"].toString().toLong()
+                    val id = it.id
+                    db.collection("product").document(productId)
+                        .update("shopping_quantity", shoppingQuantity.plus(1L))
+
+                    val price = it["price"].toString()
+                    val prodInfo = if (itemState == MenuOption.MENU_LETTERING) {
+                        ProdInfo(
+                            true,
+                            productId,
+                            count,
+                            hashMapOf(),
+                            "Lettering",
+                            price,
+                            customWord,
+                            customLocation
+                        )
+                    } else {
+                        ProdInfo(
+                            true,
+                            productId,
+                            count,
+                            imageList,
+                            "Image",
+                            price,
+                            null, null
+                        )
+                    }
+
+                    productHashMap = hashMapOf(
+                        "isCustom" to prodInfo.isCustom,
+                        "prodInfoId" to prodInfo.prodInfoId,
+                        "count" to prodInfo.count,
+                        "diagram" to prodInfo.diagram,
+                        "option" to prodInfo.option,
+                        "price" to prodInfo.price,
+                        "customWord" to prodInfo.customWord,
+                        "customLocation" to prodInfo.customLocation
+                    )
+
+                    // 유저 id를 가져와서 shoppingList에 productId를 추가해준다.
+                    db.collection("buyer").document(UserModel.roleId)
+                        .collection("shopping_list").get().addOnSuccessListener {
+                            db.collection("buyer").document(UserModel.roleId)
+                                .collection("shopping_list").document().set(
+                                    productHashMap
+                                ).addOnSuccessListener {
+                                    showSnackBar("상품이 장바구니에 추가되었습니다.")
+                                    findNavController().popBackStack()
+                                }
+                        }
+                }
+            }
         }
+    }
+
+    private fun showSnackBar(message: String) {
+        Snackbar.make(binding.root, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

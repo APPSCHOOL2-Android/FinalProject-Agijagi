@@ -102,6 +102,7 @@ class ProductListFragment : Fragment() {
                         document.getString("state") ?: "",
                         document.getString("price") ?: "",
                         document.getLong("salesQuantity") ?: 0,
+                        document.getLong("shoppingQuantity") ?: 0,
                         document.getString("sellerId") ?: "",
                         document.getString("thumbnail_image") ?: "",
                         document.getString("updateDate") ?: "",

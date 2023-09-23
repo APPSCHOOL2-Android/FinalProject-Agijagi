@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.DiffUtil.*
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemShoppingListBinding
 
@@ -26,9 +28,16 @@ class ShoppingListAdapter(val context: Context) :
                 checkboxShoppingListItem.isChecked = item.isCheck
                 actionCheckBoxParentState?.invoke()
 
+                Glide.with(itemView)
+                    .load(item.thumbnail)
+                    .placeholder(R.drawable.shopping_list_no_item_logo)
+                    .into(bind.imageviewShoppingListItem)
+
                 textviewShoppingListItemBrand.text = item.brand
                 textviewShoppingListItemName.text = item.name
-                textviewShoppingListItemPrice.text = item.price
+                textviewShoppingListItemPrice.text = "${item.price}원"
+
+                buttonCount.text = item.count
 
 
             }
@@ -53,10 +62,11 @@ class ShoppingListAdapter(val context: Context) :
             currentList[position].isCheck = !currentList[position].isCheck
             actionCheckBoxParentState()
         }
+
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<ShoppingListModel>() {
+        val diffUtil = object : ItemCallback<ShoppingListModel>() {
             override fun areItemsTheSame(
                 oldItem: ShoppingListModel,
                 newItem: ShoppingListModel
@@ -70,6 +80,7 @@ class ShoppingListAdapter(val context: Context) :
             ): Boolean {
                 return oldItem == newItem
             }
+
         }
     }
 

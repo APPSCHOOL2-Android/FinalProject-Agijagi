@@ -3,6 +3,7 @@ package likelion.project.agijagi
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
 
-    companion object{
+    companion object {
 
         fun getMilliSec(): String {
             val sdf = SimpleDateFormat("yyMMddhhmmssSSS", Locale.getDefault())
@@ -49,6 +50,8 @@ class MainActivity : AppCompatActivity() {
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         auth = FirebaseAuth.getInstance()
         auth?.signOut()
