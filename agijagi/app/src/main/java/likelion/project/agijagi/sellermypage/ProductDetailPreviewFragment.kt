@@ -101,17 +101,18 @@ class ProductDetailPreviewFragment : Fragment() {
         storageRef.child(productThumbnailImageFileName).putFile(product.thumbnail_image.toUri())
             .addOnSuccessListener {
                 product.thumbnail_image = productThumbnailImageFileName
-            }
 
-        val productImageFileNameList = arrayListOf<String>()
-        product.image.take(product.image.size).forEach {
-            val productImageFileName = "productImage/$productId/${getMilliSec()}.jpg"
-            productImageFileNameList.add(productImageFileName)
-            storageRef.child(productImageFileName).putFile(it.toUri()).addOnSuccessListener {
-                uploadProductFloorPlans(productId)
+                val productImageFileNameList = arrayListOf<String>()
+                product.image.take(product.image.size).forEach {
+                    val productImageFileName = "productImage/$productId/${getMilliSec()}.jpg"
+                    productImageFileNameList.add(productImageFileName)
+                    storageRef.child(productImageFileName).putFile(it.toUri())
+                        .addOnSuccessListener {
+                            uploadProductFloorPlans(productId)
+                        }
+                }
+                product.image = productImageFileNameList
             }
-        }
-        product.image = productImageFileNameList
     }
 
     private fun uploadProductFloorPlans(productId: String) {
