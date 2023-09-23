@@ -84,12 +84,20 @@ class NotificationListFragment : Fragment() {
             }
             notificationListAdapter.submitList(dataSet)
             notificationListAdapter.setCheckBoxParentState { setCheckBoxParentStete() }
-            notificationListAdapter.setGoToChat { roomID ->
-                Log.d("", "roomID = $roomID")
+            notificationListAdapter.setGoToChat { roomID, sender ->
+                Log.d(
+                    "notificationList to chattingRoom",
+                    "roomID = $roomID, sender = $sender, receiver = ${UserModel.roleId}"
+                )
+
+                val buyerId = if (UserModel.isSeller!!) sender else UserModel.roleId
+                val sellerId = if (!UserModel.isSeller!!) sender else UserModel.roleId
 
                 // 채팅방으로 이동
                 val bundle = Bundle()
                 bundle.putString("roomID", roomID)
+                bundle.putString("buyerId", buyerId)
+                bundle.putString("sellerId", sellerId)
                 findNavController().navigate(
                     R.id.action_notificationListFragment_to_chattingRoomFragment,
                     bundle

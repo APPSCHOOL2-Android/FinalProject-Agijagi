@@ -19,7 +19,7 @@ class NotificationListAdapter(val context: Context) :
     ListAdapter<NotificationListModel, NotificationListAdapter.NotificationListViewHolder>(diffUtil) {
     private var isTrashCan = false
     lateinit var actionCheckBoxParentState: () -> Unit
-    lateinit var actionGoToChat: (roomID: String) -> Unit
+    lateinit var actionGoToChat: (roomID: String, sender: String) -> Unit
     lateinit var actionUpdateIsRead: (notifID: String) -> Unit
 
     inner class NotificationListViewHolder(val bind: ItemNotificationListBinding) :
@@ -94,7 +94,7 @@ class NotificationListAdapter(val context: Context) :
                                 notifyDataSetChanged()
                             }
 
-                            actionGoToChat(item.content) //item.content == roomID
+                            actionGoToChat(item.content, item.sender) //item.content == roomID
                         }
                     }
                 }
@@ -145,7 +145,7 @@ class NotificationListAdapter(val context: Context) :
         actionCheckBoxParentState = action
     }
 
-    fun setGoToChat(action: (roomID: String) -> Unit) {
+    fun setGoToChat(action: (roomID: String, sender: String) -> Unit) {
         actionGoToChat = action
     }
 
