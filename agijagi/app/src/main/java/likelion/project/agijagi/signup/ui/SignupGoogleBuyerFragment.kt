@@ -145,6 +145,7 @@ class SignupGoogleBuyerFragment : Fragment() {
                 .addOnSuccessListener {
                     Log.d("firebase", "user cloud firestore 등록 완료\n authUID: ${mAuth?.uid}")
                     findNavController().navigate(R.id.action_signupGoogleBuyerFragment_to_loginFragment)
+                    showSnackBar("회원가입  성공하였습니다.")
                 }
                 .addOnFailureListener { e -> Log.w("firebase", "user cloud firestore 등록 실패", e) }
         }
