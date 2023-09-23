@@ -19,8 +19,8 @@
         android:id="@+id/shimmer_frame_layout_category_list"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp">
 
         <GridLayout
@@ -35,6 +35,7 @@
             <include layout="@layout/item_category_list_shimmer" />
 
             <include layout="@layout/item_category_list_shimmer" />
+
 
         </GridLayout>
 
