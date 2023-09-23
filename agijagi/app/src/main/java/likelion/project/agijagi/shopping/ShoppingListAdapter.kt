@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemShoppingListBinding
+import java.text.DecimalFormat
 
 class ShoppingListAdapter(val context: Context) :
     ListAdapter<ShoppingListModel, ShoppingListAdapter.ShoppingListViewHolder>(diffUtil) {
@@ -22,6 +23,7 @@ class ShoppingListAdapter(val context: Context) :
 
         fun bind(item: ShoppingListModel) {
             with(bind) {
+                val dec = DecimalFormat("#,###")
                 val params = checkboxShoppingListItem.layoutParams
                 checkboxShoppingListItem.layoutParams = params
 
@@ -35,7 +37,7 @@ class ShoppingListAdapter(val context: Context) :
 
                 textviewShoppingListItemBrand.text = item.brand
                 textviewShoppingListItemName.text = item.name
-                textviewShoppingListItemPrice.text = "${item.price}원"
+                textviewShoppingListItemPrice.text = "${dec.format(item.price.toLong())}원"
 
                 buttonCount.text = item.count
 

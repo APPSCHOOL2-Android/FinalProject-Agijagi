@@ -30,6 +30,7 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentCustomOptionBinding
 import likelion.project.agijagi.model.ProdInfo
 import likelion.project.agijagi.model.UserModel
+import java.text.DecimalFormat
 
 class CustomOptionFragment : Fragment() {
     private var _binding: FragmentCustomOptionBinding? = null
@@ -97,12 +98,13 @@ class CustomOptionFragment : Fragment() {
     }
 
     private fun getData() {
+        val dec = DecimalFormat("#,###")
         showSampleData(true)
         db.collection("product").document(productId).get().addOnSuccessListener {
             val thumbnailImage = it["thumbnail_image"].toString()
             binding.textviewShoppingListItemBrand.text = it["brand"].toString()
             binding.textviewShoppingListItemName.text = it["name"].toString()
-            binding.textviewShoppingListItemPrice.text = "${it["price"].toString()}원"
+            binding.textviewShoppingListItemPrice.text = "${dec.format(it["price"].toString().toLong())}원"
 
             storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { thumbnailUri ->
                 Glide.with(this@CustomOptionFragment)
