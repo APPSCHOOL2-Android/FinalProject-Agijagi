@@ -93,6 +93,7 @@ class ProductListFragment : Fragment() {
                         document.get("floor_plan") as? ArrayList<String> ?: ArrayList(),
                         document.get("image") as? ArrayList<String> ?: ArrayList(),
                         document.getBoolean("is_custom") ?: false,
+                        document.getBoolean("is_delete") ?: false,
                         document.getString("name") ?: "",
                         document.getString("state") ?: "",
                         document.getString("price") ?: "",

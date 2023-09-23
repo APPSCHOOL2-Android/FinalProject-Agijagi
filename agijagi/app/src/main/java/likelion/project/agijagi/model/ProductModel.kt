@@ -13,6 +13,7 @@ data class ProductModel(
     var floorPlan: ArrayList<String> = arrayListOf(), // 도면 Uri <=4
     var image: ArrayList<String> = arrayListOf(), // 사진 Uri <=6
     var isCustom: Boolean = false, // 커스텀 여부
+    var isDelete: Boolean = false,
     var name: String = "", // 상품 이름
     var state: String = "", // 재고 여부 - 판매, 품절, 숨김
     var price: String = "", // 가격

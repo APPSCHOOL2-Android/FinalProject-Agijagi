@@ -88,6 +88,7 @@ class SellerProductDetailFragment : Fragment() {
                 val customOptionInfo = it.get("customOptionInfo") as HashMap<String, String>
                 val floorPlan = it.get("floor_plan") as ArrayList<String>
                 val isCustom = it.getBoolean("is_custom")!!
+                val isDelete = it.getBoolean("is_delete")!!
                 val salesQuantity = it["sales_quantity"].toString().toLong()
                 val sellerId = it["seller_id"].toString()
                 val shoppingQuantity = it["shopping_quantity"].toString().toLong()
@@ -103,6 +104,7 @@ class SellerProductDetailFragment : Fragment() {
                     floorPlan,
                     image,
                     isCustom,
+                    isDelete,
                     name,
                     state,
                     price,

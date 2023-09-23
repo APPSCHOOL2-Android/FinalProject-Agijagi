@@ -146,6 +146,7 @@ class ProductDetailPreviewFragment : Fragment() {
             "floor_plan" to product.floorPlan,
             "image" to product.image,
             "is_custom" to product.isCustom,
+            "is_delete" to product.isDelete,
             "name" to product.name,
             "state" to product.state,
             "price" to product.price,
