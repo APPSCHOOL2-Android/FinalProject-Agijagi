@@ -90,7 +90,7 @@ class ProductListFragment : Fragment() {
                         document.getString("category") ?: "",
                         document.get("customOptionInfo") as? HashMap<String, String> ?: HashMap(),
                         document.getString("detail") ?: "",
-                        document.get("floor_plan") as? ArrayList<String> ?: ArrayList(),
+                        document.get("floorPlan") as? ArrayList<String> ?: ArrayList(),
                         document.get("image") as? ArrayList<String> ?: ArrayList(),
                         document.getBoolean("is_custom") ?: false,
                         document.getBoolean("is_delete") ?: false,
@@ -110,7 +110,7 @@ class ProductListFragment : Fragment() {
                 parseUpdateDate(it.updateDate)
             }
             // UI
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 // dataList가 비어있을 때 보이도록
                 if (dataList.isEmpty()) {
                     binding.textViewProductListEmpty.visibility = View.VISIBLE
