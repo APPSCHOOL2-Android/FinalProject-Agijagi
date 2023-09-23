@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import likelion.project.agijagi.chatting.ChattingRoomFragment.Companion.brand
+import likelion.project.agijagi.chatting.ChattingRoomFragment.Companion.writerName
 import likelion.project.agijagi.databinding.ItemChattingRoomMyChatBinding
 import likelion.project.agijagi.databinding.ItemChattingRoomOtherChatBinding
 import likelion.project.agijagi.model.ChatState
@@ -30,10 +30,7 @@ class ChattingRoomAdapter(
     inner class OtherChatItemViewHolder(private val binding: ItemChattingRoomOtherChatBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(message: Message) {
-            // binding.textviewChattingRoomOtherChatWriter.text = message.writer
-            // 구매자일 때 브랜드명
-            // 판매자일 때 구매자 닉네임
-            binding.textviewChattingRoomOtherChatWriter.text = brand
+            binding.textviewChattingRoomOtherChatWriter.text = writerName
             binding.textviewChattingRoomOtherChatContent.text = message.content
             binding.textviewChattingRoomOtherChatDate.text = convertToTimeFormat(message.date)
         }

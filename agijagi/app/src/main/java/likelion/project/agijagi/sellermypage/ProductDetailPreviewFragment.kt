@@ -18,6 +18,8 @@ import likelion.project.agijagi.MainActivity.Companion.getMilliSec
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentProductDetailPreviewBinding
 import likelion.project.agijagi.model.ProductModel
+import likelion.project.agijagi.model.SellerModel
+import likelion.project.agijagi.model.UserModel
 import java.text.DecimalFormat
 
 class ProductDetailPreviewFragment : Fragment() {
@@ -84,7 +86,7 @@ class ProductDetailPreviewFragment : Fragment() {
                 imageView.visibility = GONE
             }
 
-            textviewProductDetailPreviewBrand.text = product.brand
+            textviewProductDetailPreviewBrand.text = SellerModel.businessName
             textviewProductDetailPreviewName.text = product.name
             "${dec.format(product.price.toLong())}원".also {
                 textviewProductDetailPreviewPrice.text = it
@@ -139,18 +141,20 @@ class ProductDetailPreviewFragment : Fragment() {
         )
 
         val productMap = hashMapOf(
-            "brand" to product.brand,
+            "brand" to SellerModel.businessName,
             "category" to product.category,
             "customOptionInfo" to customOptionInfo,
             "detail" to product.detail,
             "floor_plan" to product.floorPlan,
             "image" to product.image,
             "is_custom" to product.isCustom,
+            "is_delete" to product.isDelete,
             "name" to product.name,
             "state" to product.state,
             "price" to product.price,
             "sales_quantity" to product.salesQuantity,
-            "seller_id" to product.sellerId,
+            "seller_id" to UserModel.roleId,
+            "shopping_quantity" to product.shoppingQuantity,
             "thumbnail_image" to product.thumbnail_image,
             "update_date" to getMilliSec()
         )

@@ -499,6 +499,9 @@
         android:label="fragment_notification_list"
         tools:layout="@layout/fragment_notification_list">
         <action
+            android:id="@+id/action_notificationListFragment_to_chattingRoomFragment"
+            app:destination="@+id/chattingRoomFragment" />
+        <action
             android:id="@+id/action_notificationListFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
         <action
@@ -591,7 +594,7 @@
         android:id="@+id/productUpdateDetailPreviewFragment"
         android:name="likelion.project.agijagi.sellermypage.ProductUpdateDetailPreviewFragment"
         android:label="fragment_product_update_detail_preview"
-        tools:layout="@layout/fragment_product_detail_preview" >
+        tools:layout="@layout/fragment_product_detail_preview">
         <action
             android:id="@+id/action_productUpdateDetailPreviewFragment_to_productListFragment"
             app:destination="@id/productListFragment" />
@@ -600,7 +603,7 @@
         android:id="@+id/searchResultFragment"
         android:name="likelion.project.agijagi.search.SearchResultFragment"
         android:label="fragment_search_result"
-        tools:layout="@layout/fragment_search_result" >
+        tools:layout="@layout/fragment_search_result">
         <action
             android:id="@+id/action_searchResultFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
@@ -611,7 +614,7 @@
     <fragment
         android:id="@+id/signupGoogleBuyerFragment"
         android:name="likelion.project.agijagi.signup.ui.SignupGoogleBuyerFragment"
-        android:label="SignupGoogleBuyerFragment" >
+        android:label="SignupGoogleBuyerFragment">
         <action
             android:id="@+id/action_signupGoogleBuyerFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -625,7 +628,7 @@
         android:id="@+id/signupGoogleSellerFragment"
         android:name="likelion.project.agijagi.signup.ui.SignupGoogleSellerFragment"
         android:label="fragment_google_signup_seller"
-        tools:layout="@layout/fragment_google_signup_seller" >
+        tools:layout="@layout/fragment_google_signup_seller">
         <action
             android:id="@+id/action_signupGoogleSellerFragment_to_loginFragment"
             app:destination="@id/loginFragment"

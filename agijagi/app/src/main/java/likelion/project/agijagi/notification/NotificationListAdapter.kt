@@ -12,12 +12,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemNotificationListBinding
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class NotificationListAdapter(val context: Context) :
     ListAdapter<NotificationListModel, NotificationListAdapter.NotificationListViewHolder>(diffUtil) {
     private var isTrashCan = false
     lateinit var actionCheckBoxParentState: () -> Unit
-    lateinit var actionGoToChat: (roomID: String) -> Unit
+    lateinit var actionGoToChat: (roomID: String, sender: String) -> Unit
     lateinit var actionUpdateIsRead: (notifID: String) -> Unit
 
     inner class NotificationListViewHolder(val bind: ItemNotificationListBinding) :
@@ -29,18 +31,11 @@ class NotificationListAdapter(val context: Context) :
                 params.width = if (isTrashCan) ViewGroup.LayoutParams.WRAP_CONTENT else 0
                 checkboxNotificationList.layoutParams = params
 
-                textViewNotificationListSender.text = item.sender
+                textViewNotificationListSender.text = item.senderName
                 textViewNotificationListBody.text = item.content
                 imageViewNotificationListNew.visibility =
                     if (item.isRead) View.GONE else View.VISIBLE
-
-                // 날자 계산 필요.
-                // 0월 0일
-                // 어제
-                // 오전 00:00
-                // 현재~어제 날자까지는 별도로 표시. 그 이전은 날자로 표시.
-                val dateStr: String = item.date
-                textViewNotificationListDate.text = dateStr
+                textViewNotificationListDate.text = item.dateStr
 
                 if (isTrashCan) {
                     checkboxNotificationList.isChecked = item.isCheck
@@ -50,12 +45,12 @@ class NotificationListAdapter(val context: Context) :
                 // 아이템 클릭 시 동작 구현
                 when (item.type) {
                     NotificationType.NOTIF_MESSAGE.str -> {
-                        textViewNotificationListSender.text = item.sender
+                        textViewNotificationListSender.text = item.senderName
                         textViewNotificationListBody.text = item.content
 
                         // 클릭 시 다이얼로그 생성
                         root.setOnClickListener {
-                            if(!item.isRead) {
+                            if (!item.isRead) {
                                 actionUpdateIsRead(item.id)
                                 item.isRead = true
                                 notifyDataSetChanged()
@@ -69,10 +64,13 @@ class NotificationListAdapter(val context: Context) :
                             )
                             val title =
                                 customTitle.findViewById<TextView>(R.id.textView_notification_dialog_customTitle)
-                            title.text = item.sender
+                            title.text = item.senderName
                             val subTitle =
                                 customTitle.findViewById<TextView>(R.id.textView_notification_dialog_subTitle)
-                            subTitle.text = dateStr
+
+                            subTitle.text = SimpleDateFormat(
+                                "yyyy년 M월 d일 aa h:m", Locale.getDefault()
+                            ).format(SimpleDateFormat("yyMMddHHmmssSSS").parse(item.date))
 
                             MaterialAlertDialogBuilder(context as MainActivity)
                                 .setCustomTitle(customTitle)
@@ -85,18 +83,18 @@ class NotificationListAdapter(val context: Context) :
                     }
 
                     NotificationType.NOTIF_CHAT.str -> {
-                        textViewNotificationListSender.text = item.sender
+                        textViewNotificationListSender.text = item.senderName
                         textViewNotificationListBody.text = "채팅으로 이동합니다"
 
                         // 클릭 시 채팅으로 이동
                         root.setOnClickListener {
-                            if(!item.isRead) {
+                            if (!item.isRead) {
                                 actionUpdateIsRead(item.id)
                                 item.isRead = true
                                 notifyDataSetChanged()
                             }
 
-                            actionGoToChat(item.content) //item.content == roomID
+                            actionGoToChat(item.content, item.sender) //item.content == roomID
                         }
                     }
                 }
@@ -147,7 +145,7 @@ class NotificationListAdapter(val context: Context) :
         actionCheckBoxParentState = action
     }
 
-    fun setGoToChat(action: (roomID: String) -> Unit) {
+    fun setGoToChat(action: (roomID: String, sender: String) -> Unit) {
         actionGoToChat = action
     }
 

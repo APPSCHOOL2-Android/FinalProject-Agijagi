@@ -13,11 +13,13 @@ data class ProductModel(
     var floorPlan: ArrayList<String> = arrayListOf(), // 도면 Uri <=4
     var image: ArrayList<String> = arrayListOf(), // 사진 Uri <=6
     var isCustom: Boolean = false, // 커스텀 여부
+    var isDelete: Boolean = false,
     var name: String = "", // 상품 이름
     var state: String = "", // 재고 여부 - 판매, 품절, 숨김
     var price: String = "", // 가격
     var salesQuantity: Long = -1, // 팔린 수량
     var sellerId: String = "", // 판매자 Pk
+    val shoppingQuantity: Long = -1,
     var thumbnail_image: String = "", // 대표 사진 Uri
     var updateDate: String = "" // yyMMddhhmmsssss
 ) : Parcelable
