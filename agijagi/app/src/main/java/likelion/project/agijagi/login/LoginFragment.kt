@@ -164,7 +164,7 @@ class LoginFragment : Fragment() {
                                     SellerModel.brCert = sellerdocument["br_cert"].toString()
                                     SellerModel.brn = sellerdocument["brn"].toString()
                                     SellerModel.businessName =
-                                        sellerdocument["business_name"].toString()
+                                        sellerdocument["bussiness_name"].toString()
                                     SellerModel.tel = sellerdocument["tel"].toString()
 
                                     // "notif_setting" 필드가 있는지 확인하고 값을 가져옵니다.
