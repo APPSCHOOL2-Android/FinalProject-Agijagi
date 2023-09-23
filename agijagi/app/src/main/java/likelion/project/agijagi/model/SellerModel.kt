@@ -6,6 +6,6 @@ object SellerModel {
     var brCert: String = ""
     var brn: String = ""
     var businessName: String = ""
-    lateinit var notifSetting: MutableMap<String, Boolean>
+    var notifSetting: MutableMap<String, Boolean> = mutableMapOf()
     var tel: String = ""
 }

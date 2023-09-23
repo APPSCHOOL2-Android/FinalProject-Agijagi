@@ -105,11 +105,14 @@
             android:id="@+id/action_customProductDetailFragment_to_shoppingListFragment"
             app:destination="@id/shoppingListFragment" />
         <action
-            android:id="@+id/action_customProductDetailFragment_to_chattingListFragment"
-            app:destination="@id/chattingListFragment" />
+            android:id="@+id/action_customProductDetailFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
         <action
             android:id="@+id/action_customProductDetailFragment_to_categoryDetailInfoListFragment"
             app:destination="@id/categoryDetailInfoListFragment" />
+        <action
+            android:id="@+id/action_customProductDetailFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -146,6 +149,9 @@
         <action
             android:id="@+id/action_productDetailFragment_to_categoryDetailInfoListFragment"
             app:destination="@id/categoryDetailInfoListFragment" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -493,6 +499,9 @@
         android:label="fragment_notification_list"
         tools:layout="@layout/fragment_notification_list">
         <action
+            android:id="@+id/action_notificationListFragment_to_chattingRoomFragment"
+            app:destination="@+id/chattingRoomFragment" />
+        <action
             android:id="@+id/action_notificationListFragment_to_buyerMypageFragment"
             app:destination="@id/buyerMypageFragment" />
         <action
@@ -540,7 +549,9 @@
             app:destination="@id/signupSelectFragment" />
         <action
             android:id="@+id/action_signupBuyerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -557,6 +568,12 @@
         <action
             android:id="@+id/action_loginFragment_to_signupSelectFragment"
             app:destination="@id/signupSelectFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_customProductDetailFragment"
+            app:destination="@id/customProductDetailFragment" />
     </fragment>
 
     <fragment
@@ -569,13 +586,15 @@
             app:destination="@id/signupSelectFragment" />
         <action
             android:id="@+id/action_signupSellerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/productUpdateDetailPreviewFragment"
         android:name="likelion.project.agijagi.sellermypage.ProductUpdateDetailPreviewFragment"
         android:label="fragment_product_update_detail_preview"
-        tools:layout="@layout/fragment_product_detail_preview" >
+        tools:layout="@layout/fragment_product_detail_preview">
         <action
             android:id="@+id/action_productUpdateDetailPreviewFragment_to_productListFragment"
             app:destination="@id/productListFragment" />
@@ -584,7 +603,7 @@
         android:id="@+id/searchResultFragment"
         android:name="likelion.project.agijagi.search.SearchResultFragment"
         android:label="fragment_search_result"
-        tools:layout="@layout/fragment_search_result" >
+        tools:layout="@layout/fragment_search_result">
         <action
             android:id="@+id/action_searchResultFragment_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
@@ -595,10 +614,12 @@
     <fragment
         android:id="@+id/signupGoogleBuyerFragment"
         android:name="likelion.project.agijagi.signup.ui.SignupGoogleBuyerFragment"
-        android:label="SignupGoogleBuyerFragment" >
+        android:label="SignupGoogleBuyerFragment">
         <action
             android:id="@+id/action_signupGoogleBuyerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_signupGoogleBuyerFragment_to_signupSelectFragment"
             app:destination="@id/signupSelectFragment" />
@@ -607,10 +628,12 @@
         android:id="@+id/signupGoogleSellerFragment"
         android:name="likelion.project.agijagi.signup.ui.SignupGoogleSellerFragment"
         android:label="fragment_google_signup_seller"
-        tools:layout="@layout/fragment_google_signup_seller" >
+        tools:layout="@layout/fragment_google_signup_seller">
         <action
             android:id="@+id/action_signupGoogleSellerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_signupGoogleSellerFragment_to_signupSelectFragment"
             app:destination="@id/signupSelectFragment" />

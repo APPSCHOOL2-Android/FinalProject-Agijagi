@@ -1,6 +1,7 @@
 package likelion.project.agijagi.notification
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -18,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentNotificationListBinding
+import likelion.project.agijagi.model.UserModel
 
 class NotificationListFragment : Fragment() {
 
@@ -29,16 +30,7 @@ class NotificationListFragment : Fragment() {
 
     private val dataSet = arrayListOf<NotificationListModel>()
 
-    // 임시 코드
     lateinit var db: FirebaseFirestore
-    fun setup() {
-        db = Firebase.firestore
-
-        val settings = firestoreSettings {
-            isPersistenceEnabled = true
-        }
-        db.firestoreSettings = settings
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +48,23 @@ class NotificationListFragment : Fragment() {
 
         setup()
         getData()
+        setViewFunction()
+        setToolbarItemAction()
+    }
 
+    private fun setToolbarItemAction() {
+        binding.materialToolbarNotificationList.run {
+            setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
+            setOnMenuItemClickListener {
+                changeView(false)
+                false
+            }
+        }
+    }
+
+    private fun setViewFunction() {
         binding.run {
             // 초기화
             changeView(true)
@@ -75,9 +83,15 @@ class NotificationListFragment : Fragment() {
             notificationListAdapter.submitList(dataSet)
             notificationListAdapter.setCheckBoxParentState { setCheckBoxParentStete() }
             notificationListAdapter.setGoToChat { roomID ->
-                // 채팅방으로 이동하는 코드
-                //findNavController().findDestination("")
-                Snackbar.make(binding.root, "채팅방 이동: $roomID ", Snackbar.LENGTH_SHORT).show()
+                Log.d("", "roomID = $roomID")
+
+                // 채팅방으로 이동
+                val bundle = Bundle()
+                bundle.putString("roomID", roomID)
+                findNavController().navigate(
+                    R.id.action_notificationListFragment_to_chattingRoomFragment,
+                    bundle
+                )
             }
             notificationListAdapter.setUpdateIsRead { notifID ->
                 // is_read 필드를 true로 갱신한다
@@ -116,20 +130,6 @@ class NotificationListFragment : Fragment() {
                 // 선택된 메뉴 지우기
                 removeData()
                 changeView(true)
-            }
-        }
-
-        setToolbarItemAction()
-    }
-
-    private fun setToolbarItemAction() {
-        binding.materialToolbarNotificationList.run {
-            setNavigationOnClickListener {
-                findNavController().popBackStack()
-            }
-            setOnMenuItemClickListener {
-                changeView(false)
-                false
             }
         }
     }
@@ -176,20 +176,16 @@ class NotificationListFragment : Fragment() {
     }
 
     private fun getData() {
-        val roleId = "testid" //테스트id
-
         db.collection("notif_info")
             .where(
                 Filter.and(
                     Filter.equalTo("is_deleted", false),
-                    Filter.equalTo("receiver", roleId)
+                    Filter.equalTo("receiver", UserModel.roleId)
                 )
             )
             .get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    Snackbar.make(binding.root, "성공", Snackbar.LENGTH_SHORT).show()
-
                     dataSet.clear()
 
                     val datas = it.result
@@ -221,7 +217,7 @@ class NotificationListFragment : Fragment() {
                     changeView(true)
 
                 } else {
-                    Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
+                    Log.e("FirebaseException", it.exception.toString())
                 }
             }
     }
@@ -231,10 +227,8 @@ class NotificationListFragment : Fragment() {
             .update("is_read", true)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    Snackbar.make(binding.root, "성공", Snackbar.LENGTH_SHORT).show()
-
                 } else {
-                    Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
+                    Log.e("FirebaseException", it.exception.toString())
                 }
             }
     }
@@ -256,10 +250,8 @@ class NotificationListFragment : Fragment() {
                 }
         }
 
-        if (ch) {
-            Snackbar.make(binding.root, "성공", Snackbar.LENGTH_SHORT).show()
-        } else {
-            Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
+        if (!ch) {
+            Log.e("FirebaseException", "1개 이상의 통신 에러 발생")
         }
     }
 
@@ -285,6 +277,15 @@ class NotificationListFragment : Fragment() {
 
         binding.checkboxNotificationListSelectAll.checkedState = state
         binding.checkboxNotificationListSelectAll.text = str
+    }
+
+    fun setup() {
+        db = Firebase.firestore
+
+        val settings = firestoreSettings {
+            isPersistenceEnabled = true
+        }
+        db.firestoreSettings = settings
     }
 
     override fun onDestroyView() {

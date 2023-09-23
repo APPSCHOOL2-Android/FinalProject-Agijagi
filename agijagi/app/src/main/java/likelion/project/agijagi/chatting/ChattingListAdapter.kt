@@ -1,5 +1,7 @@
 package likelion.project.agijagi.chatting
 
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import likelion.project.agijagi.MainActivity.Companion.getMilliSec
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemChattingListBinding
 
@@ -26,22 +29,40 @@ class ChattingListAdapter :
                 }
                 textviewChattingListTitle.text = item.sender
                 textviewChattingListBody.text = item.content
-                imageviewChattingListNew.visibility =
-                    if (item.isRead) View.GONE else View.VISIBLE
 
-                // 날자 계산 필요.
-                // 0월 0일
-                // 어제
-                // 오전 00:00
-                // 현재~어제 날자까지는 별도로 표시. 그 이전은 날자로 표시.
-                textviewChattingListDate.text = item.date
+                if (getMilliSec().substring(0, 7) == item.date.substring(0, 7)) {
+                    textviewChattingListDate.text = convertToTimeFormat(item.date)
+                } else {
+                    textviewChattingListDate.text = convertToDateFormat(item.date)
+                }
+
+//                imageviewChattingListNew.visibility =
+//                    if (item.isRead) View.GONE else View.VISIBLE
 
                 root.setOnClickListener {
+                    val bundle = Bundle()
+                    bundle.putString("buyerId", item.buyerId)
+                    bundle.putString("sellerId", item.sellerId)
+                    bundle.putString("chatRoomTitle", item.sender)
                     it.findNavController()
-                        .navigate(R.id.action_chattingListFragment_to_chattingRoomFragment)
+                        .navigate(R.id.action_chattingListFragment_to_chattingRoomFragment, bundle)
                 }
             }
         }
+    }
+
+    fun convertToTimeFormat(inputDate: String): String {
+        val time = inputDate.substring(6, 10).toLong()
+        val hour = time / 100
+        val minute = time % 100
+        return String.format("%02d:%02d", hour, minute)
+    }
+
+    fun convertToDateFormat(inputDate: String): String {
+        val time = inputDate.substring(2, 6).toLong()
+        val month = time / 100
+        val date = time % 100
+        return String.format("%02d월 %02d일", month, date)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChattingListViewHolder {

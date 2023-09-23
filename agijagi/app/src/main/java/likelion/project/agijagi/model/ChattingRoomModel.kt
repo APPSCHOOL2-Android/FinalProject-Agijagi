@@ -9,7 +9,12 @@ data class ChattingRoomModel(
 
 data class Message(
     var date: String,
-    var description: String,
+    var content: String,
     var isRead: Boolean,
     var writer: String
 )
+
+enum class ChatState {
+    MY_CHAT,
+    OTHER_CHAT
+}

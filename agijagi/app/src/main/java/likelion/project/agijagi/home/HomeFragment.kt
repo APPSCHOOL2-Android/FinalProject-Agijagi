@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentHomeBinding
+import likelion.project.agijagi.model.BuyerModel
 import likelion.project.agijagi.model.UserModel
 
 class HomeFragment : Fragment() {
@@ -31,6 +32,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Log.d("home", "uid: ${UserModel.uid}\n name: ${UserModel.name}")
+        Log.d("home", "basic: ${BuyerModel.basic} \nnickname: ${BuyerModel.nickname}\n notif_setting: ${BuyerModel.notifSetting}")
 
         setToolbarMenuItem()
         setOrderMadeProductButton()
@@ -45,7 +47,15 @@ class HomeFragment : Fragment() {
                 }
 
                 R.id.menu_home_shopping_list -> {
-                    findNavController().navigate(R.id.action_homeFragment_to_shoppingListFragment)
+                    if (UserModel.uid == "") {
+                        MainActivity.displayDialogUserNotLogin(
+                            requireContext(),
+                            findNavController(),
+                            R.id.action_homeFragment_to_loginFragment
+                        )
+                    } else {
+                        findNavController().navigate(R.id.action_homeFragment_to_shoppingListFragment)
+                    }
                 }
             }
             false

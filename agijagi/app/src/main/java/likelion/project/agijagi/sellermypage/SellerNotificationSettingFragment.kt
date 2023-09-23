@@ -1,6 +1,7 @@
 package likelion.project.agijagi.sellermypage
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,7 +72,6 @@ class SellerNotificationSettingFragment : Fragment() {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     // 업데이트 성공 시 동작
-                    Snackbar.make(binding.root, "성공", Snackbar.LENGTH_SHORT).show()
                     val data = it.result.data
 
                     val map = data?.get("notif_setting") as MutableMap<String, Boolean>
@@ -83,7 +83,7 @@ class SellerNotificationSettingFragment : Fragment() {
                     }
                 } else {
                     // 통신 실패 시 동작
-                    Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
+                    Log.e("FirebaseException", it.exception.toString())
                 }
             }
     }
@@ -106,10 +106,9 @@ class SellerNotificationSettingFragment : Fragment() {
         user.update("notif_setting", value).addOnCompleteListener {
             if (it.isSuccessful) {
                 // 업데이트 성공 시 동작
-                Snackbar.make(binding.root, "성공", Snackbar.LENGTH_SHORT).show()
             } else {
                 // 통신 실패 시 동작
-                Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
+                Log.e("FirebaseException", it.exception.toString())
             }
         }
     }

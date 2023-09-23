@@ -24,6 +24,8 @@ import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentLoginBinding
+import likelion.project.agijagi.model.BuyerModel
+import likelion.project.agijagi.model.SellerModel
 import likelion.project.agijagi.model.UserModel
 
 class LoginFragment : Fragment() {
@@ -38,7 +40,6 @@ class LoginFragment : Fragment() {
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
 
-    private var buttonState = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,7 +57,7 @@ class LoginFragment : Fragment() {
 
         fragmentLoginBinding.run {
             toolbarLogin.setNavigationOnClickListener {
-                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                findNavController().popBackStack()
             }
 
             // 구글로그인으로 시작 클릭 시
@@ -67,10 +68,13 @@ class LoginFragment : Fragment() {
             // 로그인 클릭 시 ( 자체 앱 )
             buttonLoginJagilogin.setOnClickListener {
 
-                if(editinputLoginEmail.text.toString().isNotBlank() && editinputLoginPassword.text.toString().isNotBlank()){
+                if (editinputLoginEmail.text.toString()
+                        .isNotBlank() && editinputLoginPassword.text.toString().isNotBlank()
+                ) {
                     createUser(
                         email = editinputLoginEmail.text.toString().trim(),
-                        password = editinputLoginPassword.text.toString().trim())
+                        password = editinputLoginPassword.text.toString().trim()
+                    )
                 } else {
                     showSnackBar("정보를 기입해주세요.")
                 }
@@ -83,51 +87,106 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun createUser(email: String, password: String){
+    private fun createUser(email: String, password: String) {
         auth?.signInWithEmailAndPassword(
-            email,password
+            email, password
         )?.addOnCompleteListener(requireActivity()) {
             if (it.isSuccessful) {
 
                 db.collection("user").document(auth?.currentUser?.uid.toString()).get()
-                    .addOnSuccessListener {
+                    .addOnSuccessListener { user ->
 
-                        if (it["is_seller"] == false) {
+                        if (user["is_seller"] == false) {
                             // auth?.currentUser?.uid.toString() == it.id 같은 값을 가진다
                             Log.d("getid", "get Uid: ${auth?.currentUser?.uid.toString()}")
                             showSnackBar("로그인에 성공하였습니다.")
 
                             UserModel.uid = auth?.currentUser?.uid.toString()
-                            UserModel.email = it["email"].toString()
-                            UserModel.emailNotif = it.getBoolean("emailNotif")
-                            UserModel.googleLoginCheck = it.getBoolean("google_login_check")
-                            UserModel.isSeller = it.getBoolean("is_seller")
-                            UserModel.name = it["name"].toString()
-                            UserModel.newChatCount = it["new_chat_count"].toString().toInt()
-                            UserModel.newNotifCount = it["new_notif_count"].toString().toInt()
-                            UserModel.password =  it["password"].toString()
-                            UserModel.roleId =  it["role_id"].toString()
-                            UserModel.smsNotif = it.getBoolean("sms_notif")
+                            UserModel.email = user["email"].toString()
+                            UserModel.emailNotif = user.getBoolean("emailNotif")
+                            UserModel.googleLoginCheck = user.getBoolean("google_login_check")
+                            UserModel.isSeller = user.getBoolean("is_seller")
+                            UserModel.name = user["name"].toString()
+                            UserModel.newChatCount = user["new_chat_count"].toString().toInt()
+                            UserModel.newNotifCount = user["new_notif_count"].toString().toInt()
+                            UserModel.password = user["password"].toString()
+                            UserModel.roleId = user["role_id"].toString()
+                            UserModel.smsNotif = user.getBoolean("sms_notif")
 
-                            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                            db.collection("buyer").document(user["role_id"].toString()).get()
+                                .addOnSuccessListener { buyerdocument ->
 
-                        } else if(it["is_seller"] == true){
-                            Log.d("getid", "getid: ${it.id}")
+                                    BuyerModel.basic = buyerdocument["basic"].toString()
+                                    BuyerModel.nickname = buyerdocument["nickname"].toString()
+
+                                    // "notif_setting" 필드가 있는지 확인하고 값을 가져옵니다.
+                                    val notifSettingField = buyerdocument["notif_setting"]
+                                    if (notifSettingField is Map<*, *>) {
+                                        // "notif_setting" 필드가 Map으로 저장되어 있을 경우, MutableMap<String, Boolean>으로 변환합니다.
+                                        val notifSettingMap = mutableMapOf<String, Boolean>()
+                                        for (entry in notifSettingField) {
+                                            if (entry.key is String && entry.value is Boolean) {
+                                                notifSettingMap[entry.key.toString()] =
+                                                    entry.value.toString().toBoolean()
+                                            }
+                                        }
+                                        BuyerModel.notifSetting = notifSettingMap
+
+                                    } else {
+                                        // "notif_setting" 필드가 없거나 유효한 Map이 아닌 경우 기본값 또는 오류 처리를 수행합니다.
+                                        // 예를 들어, 기본값으로 빈 Map을 할당할 수 있습니다.
+                                        BuyerModel.notifSetting = mutableMapOf()
+                                    }
+                                    findNavController().popBackStack()
+                                }
+
+                        } else if (user["is_seller"] == true) {
+                            Log.d("getid", "getid: ${user.id}")
                             showSnackBar("로그인에 성공하였습니다.")
 
                             UserModel.uid = auth?.currentUser?.uid.toString()
-                            UserModel.email = it["email"].toString()
-                            UserModel.emailNotif = it.getBoolean("emailNotif")
-                            UserModel.googleLoginCheck = it.getBoolean("google_login_check")
-                            UserModel.isSeller = it.getBoolean("is_seller")
-                            UserModel.name = it["name"].toString()
-                            UserModel.newChatCount = it["new_chat_count"].toString().toInt()
-                            UserModel.newNotifCount = it["new_notif_count"].toString().toInt()
-                            UserModel.password =  it["password"].toString()
-                            UserModel.roleId =  it["role_id"].toString()
-                            UserModel.smsNotif = it.getBoolean("sms_notif")
+                            UserModel.email = user["email"].toString()
+                            UserModel.emailNotif = user.getBoolean("emailNotif")
+                            UserModel.googleLoginCheck = user.getBoolean("google_login_check")
+                            UserModel.isSeller = user.getBoolean("is_seller")
+                            UserModel.name = user["name"].toString()
+                            UserModel.newChatCount = user["new_chat_count"].toString().toInt()
+                            UserModel.newNotifCount = user["new_notif_count"].toString().toInt()
+                            UserModel.password = user["password"].toString()
+                            UserModel.roleId = user["role_id"].toString()
+                            UserModel.smsNotif = user.getBoolean("sms_notif")
 
-                            findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
+                            db.collection("seller").document(user["role_id"].toString()).get()
+                                .addOnSuccessListener { sellerdocument ->
+
+                                    SellerModel.sellerId = user["role_id"].toString()
+                                    SellerModel.address = sellerdocument["address"].toString()
+                                    SellerModel.brCert = sellerdocument["br_cert"].toString()
+                                    SellerModel.brn = sellerdocument["brn"].toString()
+                                    SellerModel.businessName =
+                                        sellerdocument["business_name"].toString()
+                                    SellerModel.tel = sellerdocument["tel"].toString()
+
+                                    // "notif_setting" 필드가 있는지 확인하고 값을 가져옵니다.
+                                    val notifSettingField = sellerdocument["notif_setting"]
+                                    if (notifSettingField is Map<*, *>) {
+                                        // "notif_setting" 필드가 Map으로 저장되어 있을 경우, MutableMap<String, Boolean>으로 변환합니다.
+                                        val notifSettingMap = mutableMapOf<String, Boolean>()
+                                        for (entry in notifSettingField) {
+                                            if (entry.key is String && entry.value is Boolean) {
+                                                notifSettingMap[entry.key.toString()] =
+                                                    entry.value.toString().toBoolean()
+                                            }
+                                        }
+                                        SellerModel.notifSetting = notifSettingMap
+
+                                    } else {
+                                        // "notif_setting" 필드가 없거나 유효한 Map이 아닌 경우 기본값 또는 오류 처리를 수행합니다.
+                                        // 예를 들어, 기본값으로 빈 Map을 할당할 수 있습니다.
+                                        SellerModel.notifSetting = mutableMapOf()
+                                    }
+                                    findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
+                                }
                         }
                     }
             } else {
@@ -137,7 +196,6 @@ class LoginFragment : Fragment() {
             showSnackBar("로그인에 실패하였습니다.")
         }
     }
-
 
     private fun signInWithGoogle() {
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -163,11 +221,11 @@ class LoginFragment : Fragment() {
                     val account = task.getResult(ApiException::class.java)
                     firebaseAuthWithGoogle(account)
                 } catch (e: ApiException) {
-                    Log.d("login","error: ApiException")
+                    Log.d("login", "error: ApiException")
                     showSnackBar("로그인에 실패하였습니다.")
                 }
             } else {
-                Log.d("login","error: requestCode Error")
+                Log.d("login", "error: requestCode Error")
                 showSnackBar("로그인에 실패하였습니다.")
             }
         }
@@ -183,7 +241,7 @@ class LoginFragment : Fragment() {
                     checkUserInfoInFirestore(user)
                 } else {
                     // 로그인 실패 처리
-                    Log.d("login","error: task  is fail")
+                    Log.d("login", "error: task  is fail")
                     showSnackBar("로그인에 실패하였습니다.")
                 }
             }
@@ -195,47 +253,101 @@ class LoginFragment : Fragment() {
                 // 문서 확인을 해야할 듯
                 .document(user.uid)
                 .get()
-                .addOnSuccessListener {
-                    // name 이 널이 아니고 is_seller true or false 로 구분해야하는가 ?
-                    if (it["name"].toString().length >= 2 && it["is_seller"] == false) {
-                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                .addOnSuccessListener { user ->
 
+                    if (user["name"].toString().length >= 2 && user["is_seller"] == false) {
                         UserModel.uid = auth?.currentUser?.uid.toString()
-                        UserModel.email = it["email"].toString()
-                        UserModel.emailNotif = it.getBoolean("emailNotif")
-                        UserModel.googleLoginCheck = it.getBoolean("google_login_check")
-                        UserModel.isSeller = it.getBoolean("is_seller")
-                        UserModel.name = it["name"].toString()
-                        UserModel.newChatCount = it["new_chat_count"].toString().toInt()
-                        UserModel.newNotifCount = it["new_notif_count"].toString().toInt()
-                        UserModel.password =  it["password"].toString()
-                        UserModel.roleId =  it["role_id"].toString()
-                        UserModel.smsNotif = it.getBoolean("sms_notif")
+                        UserModel.email = user["email"].toString()
+                        UserModel.emailNotif = user.getBoolean("emailNotif")
+                        UserModel.googleLoginCheck = user.getBoolean("google_login_check")
+                        UserModel.isSeller = user.getBoolean("is_seller")
+                        UserModel.name = user["name"].toString()
+                        UserModel.newChatCount = user["new_chat_count"].toString().toInt()
+                        UserModel.newNotifCount = user["new_notif_count"].toString().toInt()
+                        UserModel.password = user["password"].toString()
+                        UserModel.roleId = user["role_id"].toString()
+                        UserModel.smsNotif = user.getBoolean("sms_notif")
 
-                        showSnackBar("로그인에 성공하셨습니다.")
-                    } else if (it["name"].toString().length >= 2 && it["is_seller"] == true) {
-                        findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
+                        db.collection("buyer").document(user["role_id"].toString()).get()
+                            .addOnSuccessListener { buyerdocument ->
 
+                                BuyerModel.basic = buyerdocument["basic"].toString()
+                                BuyerModel.nickname = buyerdocument["nickname"].toString()
+
+                                // "notif_setting" 필드가 있는지 확인하고 값을 가져옵니다.
+                                val notifSettingField = buyerdocument["notif_setting"]
+                                if (notifSettingField is Map<*, *>) {
+                                    // "notif_setting" 필드가 Map으로 저장되어 있을 경우, MutableMap<String, Boolean>으로 변환합니다.
+                                    val notifSettingMap = mutableMapOf<String, Boolean>()
+                                    for (entry in notifSettingField) {
+                                        if (entry.key is String && entry.value is Boolean) {
+                                            notifSettingMap[entry.key.toString()] =
+                                                entry.value.toString().toBoolean()
+                                        }
+                                    }
+                                    BuyerModel.notifSetting = notifSettingMap
+
+                                } else {
+                                    // "notif_setting" 필드가 없거나 유효한 Map이 아닌 경우 기본값 또는 오류 처리를 수행합니다.
+                                    // 예를 들어, 기본값으로 빈 Map을 할당할 수 있습니다.
+                                    BuyerModel.notifSetting = mutableMapOf()
+                                }
+                                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                                showSnackBar("로그인에 성공하셨습니다.")
+                            }
+
+                    } else if (user["name"].toString().length >= 2 && user["is_seller"] == true) {
                         UserModel.uid = auth?.currentUser?.uid.toString()
-                        UserModel.email = it["email"].toString()
-                        UserModel.emailNotif = it.getBoolean("emailNotif")
-                        UserModel.googleLoginCheck = it.getBoolean("google_login_check")
-                        UserModel.isSeller = it.getBoolean("is_seller")
-                        UserModel.name = it["name"].toString()
-                        UserModel.newChatCount = it["new_chat_count"].toString().toInt()
-                        UserModel.newNotifCount = it["new_notif_count"].toString().toInt()
-                        UserModel.password =  it["password"].toString()
-                        UserModel.roleId =  it["role_id"].toString()
-                        UserModel.smsNotif = it.getBoolean("sms_notif")
+                        UserModel.email = user["email"].toString()
+                        UserModel.emailNotif = user.getBoolean("emailNotif")
+                        UserModel.googleLoginCheck = user.getBoolean("google_login_check")
+                        UserModel.isSeller = user.getBoolean("is_seller")
+                        UserModel.name = user["name"].toString()
+                        UserModel.newChatCount = user["new_chat_count"].toString().toInt()
+                        UserModel.newNotifCount = user["new_notif_count"].toString().toInt()
+                        UserModel.password = user["password"].toString()
+                        UserModel.roleId = user["role_id"].toString()
+                        UserModel.smsNotif = user.getBoolean("sms_notif")
 
-                        showSnackBar("로그인에 성공하셨습니다.")
-                    }
-                    else {
+                        db.collection("seller").document(user["role_id"].toString()).get()
+                            .addOnSuccessListener { sellerdocument ->
+
+                                SellerModel.sellerId = user["role_id"].toString()
+                                SellerModel.address = sellerdocument["address"].toString()
+                                SellerModel.brCert = sellerdocument["br_cert"].toString()
+                                SellerModel.brn = sellerdocument["brn"].toString()
+                                SellerModel.businessName =
+                                    sellerdocument["business_name"].toString()
+                                SellerModel.tel = sellerdocument["tel"].toString()
+
+                                // "notif_setting" 필드가 있는지 확인하고 값을 가져옵니다.
+                                val notifSettingField = sellerdocument["notif_setting"]
+                                if (notifSettingField is Map<*, *>) {
+                                    // "notif_setting" 필드가 Map으로 저장되어 있을 경우, MutableMap<String, Boolean>으로 변환합니다.
+                                    val notifSettingMap = mutableMapOf<String, Boolean>()
+                                    for (entry in notifSettingField) {
+                                        if (entry.key is String && entry.value is Boolean) {
+                                            notifSettingMap[entry.key.toString()] =
+                                                entry.value.toString().toBoolean()
+                                        }
+                                    }
+                                    SellerModel.notifSetting = notifSettingMap
+
+                                } else {
+                                    // "notif_setting" 필드가 없거나 유효한 Map이 아닌 경우 기본값 또는 오류 처리를 수행합니다.
+                                    // 예를 들어, 기본값으로 빈 Map을 할당할 수 있습니다.
+                                    SellerModel.notifSetting = mutableMapOf()
+                                }
+                                findNavController().navigate(R.id.action_loginFragment_to_sellerMypageFragment)
+                                showSnackBar("로그인에 성공하셨습니다.")
+                            }
+                    } else {
                         // 정보가 없는 경우 SignupSelectFragment로 이동
                         findNavController().navigate(R.id.action_loginFragment_to_signupSelectFragment)
+                    }
+                }.addOnFailureListener {
+                    showSnackBar("로그인에 실패")
                 }
-            }.addOnFailureListener {
-                    showSnackBar("로그인에 실패") }
         }
     }
 

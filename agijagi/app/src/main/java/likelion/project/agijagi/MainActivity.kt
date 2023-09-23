@@ -1,11 +1,13 @@
 package likelion.project.agijagi
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -30,16 +32,22 @@ class MainActivity : AppCompatActivity() {
     companion object {
 
         fun getMilliSec(): String {
-            val sdf = SimpleDateFormat("yyMMddhhmmssSSS", Locale.getDefault())
+            val sdf = SimpleDateFormat("yyMMddHHmmssSSS", Locale.getDefault())
 
             return sdf.format(Date(System.currentTimeMillis()))
         }
 
-        fun displayDialogUserNotLogin(context: Context) {
+        fun displayDialogUserNotLogin(
+            context: Context,
+            navController: NavController,
+            destinationId: Int
+        ) {
             MaterialAlertDialogBuilder(context)
                 .setTitle("로그인으로 이동")
-                .setMessage("해당 서비스를 이용하시려면 로그인 해주세요")
-                .setPositiveButton("로그인", null)
+                .setMessage("해당 서비스를 이용하시려면 로그인 해주세요.")
+                .setPositiveButton("확인") { _: DialogInterface, _: Int ->
+                    navController.navigate(destinationId)
+                }
                 .setNegativeButton("취소", null)
                 .show()
         }
@@ -60,9 +68,6 @@ class MainActivity : AppCompatActivity() {
         onSetUpNavigation()
         handleOnBackPressed()
 
-        activityMainBinding.run {
-
-        }
     }
 
     private fun onSetUpNavigation() {
@@ -74,6 +79,18 @@ class MainActivity : AppCompatActivity() {
             setupWithNavController(navController)
 
             setOnItemSelectedListener { item ->
+                if (UserModel.uid == "" && (item.itemId == R.id.orderFragment ||
+                            item.itemId == R.id.wishListFragment ||
+                            item.itemId == R.id.buyerMypageFragment)
+                ) {
+                    displayDialogUserNotLogin(
+                        this@MainActivity,
+                        navController,
+                        R.id.loginFragment
+                    )
+                    return@setOnItemSelectedListener false
+                }
+
                 NavigationUI.onNavDestinationSelected(item, navController)
                 navController.popBackStack(item.itemId, inclusive = false)
                 true

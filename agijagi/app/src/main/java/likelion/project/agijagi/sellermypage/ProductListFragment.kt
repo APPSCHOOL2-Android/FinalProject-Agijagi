@@ -9,17 +9,20 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentProductListBinding
 import likelion.project.agijagi.model.ProductModel
+import likelion.project.agijagi.model.UserModel
 import likelion.project.agijagi.sellermypage.adapter.ProductListAdapter
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class ProductListFragment : Fragment() {
 
@@ -31,8 +34,7 @@ class ProductListFragment : Fragment() {
     }
 
     val db = FirebaseFirestore.getInstance()
-    val auth = FirebaseAuth.getInstance()
-    val userUid = auth.currentUser?.uid.toString()
+    val roleId = UserModel.roleId
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,15 +79,8 @@ class ProductListFragment : Fragment() {
             showSampleData(true)
             // 리스트 초기화
             dataList.clear()
-            var sellerId = ""
 
-            val querySnapshotId = db.collection("seller").whereEqualTo("user_id",userUid)
-                .get().await()
-            for (document in querySnapshotId) {
-                sellerId = document.id
-            }
-
-            val querySnapshot = db.collection("product").whereEqualTo("seller_id", sellerId)
+            val querySnapshot = db.collection("product").whereEqualTo("seller_id", roleId)
                 .get().await()
             for (document in querySnapshot) {
                 dataList.add(
@@ -105,9 +100,13 @@ class ProductListFragment : Fragment() {
                         document.getLong("shoppingQuantity") ?: 0,
                         document.getString("sellerId") ?: "",
                         document.getString("thumbnail_image") ?: "",
-                        document.getString("updateDate") ?: "",
+                        document.getString("update_date") ?: ""
                     )
                 )
+            }
+            // 날짜 등록순 정렬
+            dataList.sortByDescending {
+                parseUpdateDate(it.updateDate)
             }
             // UI
             withContext(Dispatchers.Main){
@@ -119,9 +118,17 @@ class ProductListFragment : Fragment() {
                 }
 
                 productListAdapter.submitList(dataList)
+                delay(1500)
                 showSampleData(false)
             }
         }
+    }
+
+    // 문자열 date를 날짜로 파싱
+    private fun parseUpdateDate(updateDate: String): Long {
+        val dateFormat = SimpleDateFormat("yyMMddhhmmsssss", Locale.getDefault())
+        val date = dateFormat.parse(updateDate)
+        return date?.time ?: 0L
     }
 
     // 상품리스트에서 상품상태 변경시 DB업데이트

@@ -58,7 +58,7 @@ class SignupGoogleSellerFragment : Fragment() {
 
         fragmentGoogleSignupSellerBinding.run {
             toolbarGoogleSignupSellerToolbar.setNavigationOnClickListener {
-                findNavController().navigate(R.id.action_signupGoogleSellerFragment_to_signupSelectFragment)
+                findNavController().popBackStack()
             }
 
             editinputGoogleSignupSellerBusinessName.doAfterTextChanged { businessName ->
