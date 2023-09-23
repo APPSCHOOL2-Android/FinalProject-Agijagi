@@ -50,7 +50,7 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/order_delivery_ready_on" />
+                android:src="@drawable/order_delivery_ready_selector" />
 
             <TextView
                 android:id="@+id/textView_delivery_tracking_delivery_ready"
@@ -76,7 +76,7 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/order_delivery_off" />
+                android:src="@drawable/order_delivery_selector" />
 
             <TextView
                 android:id="@+id/textView_delivery_tracking_delivery_shipping"
@@ -102,7 +102,7 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/order_delivery_complete_off" />
+                android:src="@drawable/order_delivery_complete_selector" />
 
             <TextView
                 android:id="@+id/textView_delivery_tracking_delivery_complete"
