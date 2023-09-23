@@ -151,6 +151,7 @@ class ProductDetailPreviewFragment : Fragment() {
             "price" to product.price,
             "sales_quantity" to product.salesQuantity,
             "seller_id" to product.sellerId,
+            "shopping_quantity" to product.shoppingQuantity,
             "thumbnail_image" to product.thumbnail_image,
             "update_date" to getMilliSec()
         )

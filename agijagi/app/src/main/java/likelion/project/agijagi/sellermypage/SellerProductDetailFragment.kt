@@ -90,6 +90,7 @@ class SellerProductDetailFragment : Fragment() {
                 val isCustom = it.getBoolean("is_custom")!!
                 val salesQuantity = it["sales_quantity"].toString().toLong()
                 val sellerId = it["seller_id"].toString()
+                val shoppingQuantity = it["shopping_quantity"].toString().toLong()
                 val state = it["state"].toString()
                 val updateDate = it["updateDate"].toString()
 
@@ -107,7 +108,7 @@ class SellerProductDetailFragment : Fragment() {
                     price,
                     salesQuantity,
                     sellerId,
-                    thumbnailImage,
+                    shoppingQuantity,
                     updateDate
                 )
 
@@ -164,7 +165,7 @@ class SellerProductDetailFragment : Fragment() {
             storageRef.child(image[idx].toString()).downloadUrl.addOnSuccessListener { imageUri ->
                 shimmerLayoutImages[idx].stopShimmerAnimation()
                 imageUriString.add(imageUri.toString())
-                Log.d("hye1", imageUriString.toString())
+
                 Glide.with(this@SellerProductDetailFragment)
                     .load(imageUri)
                     .placeholder(R.drawable.product_detail_default_image)

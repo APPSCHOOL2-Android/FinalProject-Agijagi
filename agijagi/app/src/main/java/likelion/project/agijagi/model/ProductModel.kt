@@ -18,6 +18,7 @@ data class ProductModel(
     var price: String = "", // 가격
     var salesQuantity: Long = -1, // 팔린 수량
     var sellerId: String = "", // 판매자 Pk
+    val shoppingQuantity: Long = -1,
     var thumbnail_image: String = "", // 대표 사진 Uri
     var updateDate: String = "" // yyMMddhhmmsssss
 ) : Parcelable
