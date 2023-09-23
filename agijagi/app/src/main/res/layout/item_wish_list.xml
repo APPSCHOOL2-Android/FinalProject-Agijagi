@@ -5,15 +5,32 @@
     android:layout_height="wrap_content"
     android:padding="4dp">
 
-    <ImageView
-        android:id="@+id/imageview_wish_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/wish_list_logo"
-        app:layout_constraintEnd_toEndOf="parent"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/imageview_shopping_list_item_card"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/jagi_white"
+        app:cardCornerRadius="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/jagi_black_42"
+        app:strokeWidth="1dp">
+
+        <ImageView
+            android:id="@+id/imageview_wish_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wish_list_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </com.google.android.material.card.MaterialCardView>
 
     <ImageButton
         android:id="@+id/button_wish_list_favorite"
@@ -23,8 +40,8 @@
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
         android:src="@drawable/favorite_pressed_button"
-        app:layout_constraintBottom_toBottomOf="@id/imageview_wish_list"
-        app:layout_constraintEnd_toEndOf="@id/imageview_wish_list" />
+        app:layout_constraintBottom_toBottomOf="@id/imageview_shopping_list_item_card"
+        app:layout_constraintEnd_toEndOf="@id/imageview_shopping_list_item_card" />
 
     <TextView
         android:id="@+id/textview_wish_list_brand"
@@ -37,7 +54,7 @@
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageview_wish_list" />
+        app:layout_constraintTop_toBottomOf="@id/imageview_shopping_list_item_card" />
 
     <TextView
         android:id="@+id/textview_wish_list_name"
