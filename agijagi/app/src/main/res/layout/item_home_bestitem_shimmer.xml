@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="4dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardview_home_best_item_shimmer_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/jagi_brown">
+
+                <ImageView
+                    android:id="@+id/imageview_home_best_item_image_shimmer_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/search_result_default_image" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textview_home_best_item_brand_one"
+                android:layout_width="56dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="8dp"
+                android:background="#9F9F9F"
+                android:textColor="@color/brand_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardview_home_best_item_shimmer_one" />
+
+            <TextView
+                android:id="@+id/textview_home_best_item_name_one"
+                android:layout_width="80dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="4dp"
+                android:background="#9F9F9F"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textview_home_best_item_brand_one" />
+
+            <TextView
+                android:id="@+id/textview_home_best_item_price_one"
+                android:layout_width="68dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="0.5dp"
+                android:background="#9F9F9F"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textview_home_best_item_name_one" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="4dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardview_home_best_item_shimmer_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/jagi_brown">
+
+                <ImageView
+                    android:id="@+id/imageview_home_best_item_image_shimmer_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/search_result_default_image" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textview_home_best_item_brand_two"
+                android:layout_width="56dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="8dp"
+                android:background="#9F9F9F"
+                android:textColor="@color/brand_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardview_home_best_item_shimmer_two" />
+
+            <TextView
+                android:id="@+id/textview_home_best_item_name_two"
+                android:layout_width="80dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="4dp"
+                android:background="#9F9F9F"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textview_home_best_item_brand_two" />
+
+            <TextView
+                android:id="@+id/textview_home_best_item_price_two"
+                android:layout_width="68dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="0.5dp"
+                android:background="#9F9F9F"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textview_home_best_item_name_two" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</LinearLayout>

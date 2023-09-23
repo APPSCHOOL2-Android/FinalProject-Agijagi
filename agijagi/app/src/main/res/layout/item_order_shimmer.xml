@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textView_orderitem_date_shimmer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="#9F9F9F"
+        android:text="##.##.##"
+        android:textColor="#9F9F9F"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView_orderitem_shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView_orderitem_date_shimmer"
+        app:layout_constraintTop_toBottomOf="@+id/textView_orderitem_date_shimmer">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView_order_state_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:background="#9F9F9F"
+                android:text="배송상태"
+                android:textColor="#9F9F9F"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardview_order_product_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/jagi_brown">
+
+                <ImageView
+                    android:id="@+id/imageView_order_product_shimmer"
+                    android:layout_width="112dp"
+                    android:layout_height="84dp"
+                    android:adjustViewBounds="true"
+                    android:background="#9F9F9F"
+                    android:scaleType="centerCrop"
+                    android:textColor="#9F9F9F"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_order_state_shimmer" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textView_order_brand_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:background="#9F9F9F"
+                android:text="브랜드명"
+                android:textColor="#9F9F9F"
+                app:layout_constraintStart_toEndOf="@+id/cardview_order_product_shimmer"
+                app:layout_constraintTop_toTopOf="@+id/cardview_order_product_shimmer" />
+
+            <TextView
+                android:id="@+id/textView_order_name_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:background="#9F9F9F"
+                android:text="제품명 도자기"
+                android:textColor="#9F9F9F"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/cardview_order_product_shimmer"
+                app:layout_constraintTop_toBottomOf="@+id/textView_order_brand_shimmer" />
+
+            <TextView
+                android:id="@+id/textView_order_option_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="2dp"
+                android:background="#9F9F9F"
+                android:text="색상 : Blue | 1개"
+                android:textColor="#9F9F9F"
+                app:layout_constraintStart_toEndOf="@+id/cardview_order_product_shimmer"
+                app:layout_constraintTop_toBottomOf="@+id/textView_order_name_shimmer" />
+
+            <TextView
+                android:id="@+id/textView_order_price_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:background="#9F9F9F"
+                android:text="100,000원"
+                android:textColor="#9F9F9F"
+                app:layout_constraintStart_toEndOf="@+id/cardview_order_product_shimmer"
+                app:layout_constraintTop_toBottomOf="@+id/textView_order_option_shimmer" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardview_order_product_shimmer">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_order_exchange_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:background="#9F9F9F"
+                    android:text="교환/반품 신청"
+                    android:textColor="#9F9F9F" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_order_shipping_tracking_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:background="#9F9F9F"
+                    android:text="배송조회"
+                    android:textColor="#9F9F9F" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonOrderChat_shimmer"
+                android:layout_width="96dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="#9F9F9F"
+                android:paddingStart="10dp"
+                android:paddingEnd="6dp"
+                android:text="1:1 채팅"
+                android:textColor="#9F9F9F"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView_orderitem_shimmer2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/cardView_orderitem_shimmer"
+        app:layout_constraintTop_toBottomOf="@+id/cardView_orderitem_shimmer">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView_order_state_shimmer2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:background="#9F9F9F"
+                android:text="배송상태"
+                android:textColor="#9F9F9F"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardview_order_product_shimmer2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/jagi_brown">
+
+                <ImageView
+                    android:id="@+id/imageView_order_product_shimmer2"
+                    android:layout_width="112dp"
+                    android:layout_height="84dp"
+                    android:adjustViewBounds="true"
+                    android:background="#9F9F9F"
+                    android:scaleType="centerCrop"
+                    android:textColor="#9F9F9F"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_order_state_shimmer2" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textView_order_brand_shimmer2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:background="#9F9F9F"
+                android:text="브랜드명"
+                android:textColor="#9F9F9F"
+                app:layout_constraintStart_toEndOf="@+id/cardview_order_product_shimmer2"
+                app:layout_constraintTop_toTopOf="@+id/cardview_order_product_shimmer2" />
+
+            <TextView
+                android:id="@+id/textView_order_name_shimmer2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="4dp"
+                android:background="#9F9F9F"
+                android:text="제품명 도자기"
+                android:textColor="#9F9F9F"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/cardview_order_product_shimmer2"
+                app:layout_constraintTop_toBottomOf="@+id/textView_order_brand_shimmer2" />
+
+            <TextView
+                android:id="@+id/textView_order_option_shimmer2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="2dp"
+                android:background="#9F9F9F"
+                android:text="색상 : Blue | 1개"
+                android:textColor="#9F9F9F"
+                android:textSize="9sp"
+                app:layout_constraintStart_toEndOf="@+id/cardview_order_product_shimmer2"
+                app:layout_constraintTop_toBottomOf="@+id/textView_order_name_shimmer2" />
+
+            <TextView
+                android:id="@+id/textView_order_price_shimmer2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:background="#9F9F9F"
+                android:text="100,000원"
+                android:textColor="#9F9F9F"
+                app:layout_constraintStart_toEndOf="@+id/cardview_order_product_shimmer2"
+                app:layout_constraintTop_toBottomOf="@+id/textView_order_option_shimmer2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardview_order_product_shimmer2">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_order_exchange_shimmer2"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:background="#9F9F9F"
+                    android:text="교환/반품 신청"
+                    android:textColor="#9F9F9F" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_order_shipping_tracking_shimmer2"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:background="#9F9F9F"
+                    android:text="배송조회"
+                    android:textColor="#9F9F9F" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonOrderChat_shimmer2"
+                android:layout_width="96dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="#9F9F9F"
+                android:paddingStart="10dp"
+                android:paddingEnd="6dp"
+                android:text="1:1 채팅"
+                android:textColor="#9F9F9F"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

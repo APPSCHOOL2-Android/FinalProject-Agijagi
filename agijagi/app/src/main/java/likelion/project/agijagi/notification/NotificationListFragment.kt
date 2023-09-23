@@ -19,6 +19,8 @@ import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentNotificationListBinding
 import likelion.project.agijagi.model.UserModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class NotificationListFragment : Fragment() {
 
@@ -82,12 +84,20 @@ class NotificationListFragment : Fragment() {
             }
             notificationListAdapter.submitList(dataSet)
             notificationListAdapter.setCheckBoxParentState { setCheckBoxParentStete() }
-            notificationListAdapter.setGoToChat { roomID ->
-                Log.d("", "roomID = $roomID")
+            notificationListAdapter.setGoToChat { roomID, sender ->
+                Log.d(
+                    "notificationList to chattingRoom",
+                    "roomID = $roomID, sender = $sender, receiver = ${UserModel.roleId}"
+                )
+
+                val buyerId = if (UserModel.isSeller!!) sender else UserModel.roleId
+                val sellerId = if (!UserModel.isSeller!!) sender else UserModel.roleId
 
                 // 채팅방으로 이동
                 val bundle = Bundle()
                 bundle.putString("roomID", roomID)
+                bundle.putString("buyerId", buyerId)
+                bundle.putString("sellerId", sellerId)
                 findNavController().navigate(
                     R.id.action_notificationListFragment_to_chattingRoomFragment,
                     bundle
@@ -184,19 +194,77 @@ class NotificationListFragment : Fragment() {
                 )
             )
             .get()
-            .addOnCompleteListener {
+            .addOnCompleteListener { it ->
                 if (it.isSuccessful) {
                     dataSet.clear()
 
                     val datas = it.result
-                    println("datas.size= ${datas.size()}") //2개가 정상
 
                     for (data in datas) {
                         val content = data.getString("content")!!
                         val date = data.getString("date")!!
+
+                        // 날자 계산 필요. pattern: yyMMddHHmmssSSS
+                        val tempDate = SimpleDateFormat("yyMMddHHmmssSSS").parse(date)
+                        val now = MainActivity.getMilliSec()
+                        val year = now.substring(0, 2).toInt() - date.substring(0, 2).toInt()
+                        val month = now.substring(2, 4).toInt() - date.substring(2, 4).toInt()
+                        val day = now.substring(4, 6).toInt() - date.substring(4, 6).toInt()
+
+                        var dateStr = ""
+                        if (1 < year) {
+                            // 1년이 지났다면 연도로 표기
+                            if (month < 1) {
+                                dateStr =
+                                    SimpleDateFormat("M월 d일", Locale.getDefault()).format(tempDate)
+                            } else {
+                                dateStr =
+                                    SimpleDateFormat("YYYY년", Locale.getDefault()).format(tempDate)
+                            }
+                        } else if (1 < day) {
+                            // 1년이 지나지 않았다면 00월 00일로 표기
+                            dateStr =
+                                SimpleDateFormat("M월 d일", Locale.getDefault()).format(tempDate)
+                        } else if (1 == day) {
+                            dateStr = "어제"
+                        } else {
+                            // 하루 이내의 시간은 오전/후 hh:mm 로 표기
+                            dateStr =
+                                SimpleDateFormat("aa h:m", Locale.getDefault()).format(tempDate)
+                        }
+
                         val is_chat = data.getBoolean("is_chat")!!
                         val is_read = data.getBoolean("is_read")!!
+
                         val sender = data.getString("sender")!!
+                        var senderName = "--"
+                        if (sender == "agijagi") {
+                            senderName = "아기자기"
+                        } else {
+                            if (UserModel.isSeller == true) {
+                                db.collection("buyer").document(sender).get()
+                                    .addOnCompleteListener { itTask ->
+                                        if (itTask.isSuccessful) {
+                                            val id = data.id
+                                            dataSet.find { it.id == id }?.senderName =
+                                                itTask.result.data?.get("nickname") as String
+
+                                            notificationListAdapter.notifyDataSetChanged()
+                                        }
+                                    }
+                            } else {
+                                db.collection("seller").document(sender).get()
+                                    .addOnCompleteListener { itTask ->
+                                        if (itTask.isSuccessful) {
+                                            val id = data.id
+                                            dataSet.find { it.id == id }?.senderName =
+                                                itTask.result.data?.get("nickname") as String
+
+                                            notificationListAdapter.notifyDataSetChanged()
+                                        }
+                                    }
+                            }
+                        }
 
                         val type =
                             if (is_chat) NotificationType.NOTIF_CHAT else NotificationType.NOTIF_MESSAGE
@@ -204,8 +272,10 @@ class NotificationListFragment : Fragment() {
                         val model = NotificationListModel(
                             data.id,
                             sender,
+                            senderName,
                             content,
                             date,
+                            dateStr,
                             type.str,
                             is_read
                         )

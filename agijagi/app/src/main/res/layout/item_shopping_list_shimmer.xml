@@ -24,23 +24,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/imageview_shopping_list_item_card"
+                android:id="@+id/cardview_shopping_list_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:backgroundTint="@color/jagi_white"
                 app:cardCornerRadius="8dp"
                 app:layout_constraintStart_toEndOf="@id/checkbox_shopping_list_item"
                 app:layout_constraintTop_toTopOf="parent"
-                app:strokeColor="@color/jagi_black_42"
-                app:strokeWidth="1dp">
+                app:strokeColor="#9F9F9F">
 
                 <ImageView
                     android:id="@+id/imageview_shopping_list_item"
@@ -56,9 +53,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="28dp"
+                android:background="#9F9F9F"
                 android:text="브랜드명"
+                android:textColor="#9F9F9F"
                 android:textSize="10sp"
-                app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item_card"
+                app:layout_constraintStart_toEndOf="@+id/cardview_shopping_list_item"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -67,9 +66,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
+                android:background="#9F9F9F"
                 android:text="제품명 도자기"
+                android:textColor="#9F9F9F"
                 android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item_card"
+                app:layout_constraintStart_toEndOf="@+id/cardview_shopping_list_item"
                 app:layout_constraintTop_toBottomOf="@id/textview_shopping_list_item_brand" />
 
             <TextView
@@ -78,9 +79,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
+                android:background="#9F9F9F"
                 android:text="100,000원"
+                android:textColor="#9F9F9F"
                 android:textSize="11sp"
-                app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item_card"
+                app:layout_constraintStart_toEndOf="@+id/cardview_shopping_list_item"
                 app:layout_constraintTop_toBottomOf="@id/textview_shopping_list_item_name" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -91,12 +94,13 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/wide_box_rounded_button_stroke"
+                android:backgroundTint="#9F9F9F"
                 android:text="옵션변경"
-                android:textColor="@color/jagi_ivory"
+                android:textColor="#9F9F9F"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/button_count"
-                app:layout_constraintTop_toBottomOf="@id/imageview_shopping_list_item_card" />
+                app:layout_constraintTop_toBottomOf="@id/cardview_shopping_list_item" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_count"
@@ -105,8 +109,9 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/wide_box_rounded_button_stroke"
+                android:backgroundTint="#9F9F9F"
                 android:text="1"
-                android:textColor="@color/jagi_ivory"
+                android:textColor="#9F9F9F"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
