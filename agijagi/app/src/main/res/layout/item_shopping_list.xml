@@ -27,15 +27,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/imageview_shopping_list_item"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/imageview_shopping_list_item_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/shopping_list_no_item_logo"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:backgroundTint="@color/jagi_white"
+                app:cardCornerRadius="8dp"
                 app:layout_constraintStart_toEndOf="@id/checkbox_shopping_list_item"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/jagi_black_42"
+                app:strokeWidth="1dp">
+
+                <ImageView
+                    android:id="@+id/imageview_shopping_list_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/shopping_list_no_item_logo" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/textview_shopping_list_item_brand"
@@ -45,7 +58,7 @@
                 android:layout_marginTop="28dp"
                 android:text="브랜드명"
                 android:textSize="10sp"
-                app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item"
+                app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item_card"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -56,7 +69,7 @@
                 android:layout_marginTop="4dp"
                 android:text="제품명 도자기"
                 android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item"
+                app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item_card"
                 app:layout_constraintTop_toBottomOf="@id/textview_shopping_list_item_brand" />
 
             <TextView
@@ -67,7 +80,7 @@
                 android:layout_marginTop="4dp"
                 android:text="100,000원"
                 android:textSize="11sp"
-                app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item"
+                app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item_card"
                 app:layout_constraintTop_toBottomOf="@id/textview_shopping_list_item_name" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -83,7 +96,7 @@
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/button_count"
-                app:layout_constraintTop_toBottomOf="@id/imageview_shopping_list_item" />
+                app:layout_constraintTop_toBottomOf="@id/imageview_shopping_list_item_card" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_count"

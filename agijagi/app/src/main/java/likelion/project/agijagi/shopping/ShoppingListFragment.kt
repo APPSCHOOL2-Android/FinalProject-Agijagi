@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import likelion.project.agijagi.MainActivity
@@ -36,6 +37,7 @@ class ShoppingListFragment : Fragment() {
 
     private val dataSet = arrayListOf<ShoppingListModel>()
     private val shoppingList = hashMapOf<String, String>()
+    private val countList = hashMapOf<String, String>()
 
 
     private val db = Firebase.firestore
@@ -57,9 +59,10 @@ class ShoppingListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.run {
+            runBlocking {
+                getShoppingListData()
+            }
 
-            getShoppingListData()
-            // 가격 합산
             toolbarShoppinglist.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
@@ -99,7 +102,7 @@ class ShoppingListFragment : Fragment() {
             buttonShoppingListOk.setOnClickListener {
                 // isChecked 되어있는거 prodId paymentFragment에 보내주면된다.
                 val data = dataSet.filter { it.isCheck }
-                Log.d("ttttt",data[0].documentId )
+                Log.d("ttttt", data[0].documentId)
                 db.collection("buyer").document(UserModel.roleId)
                     .collection("shopping_list").document(data[0].documentId).get()
                     .addOnSuccessListener {
@@ -148,50 +151,58 @@ class ShoppingListFragment : Fragment() {
     }
 
 
-    private fun getShoppingListData() {
+    private suspend fun getShoppingListData() {
         showSampleData(true)
-        dataSet.clear()
-
-        db.collection("buyer").document(UserModel.roleId).collection("shopping_list").get()
-            .addOnSuccessListener { shopping ->
-                shoppingList.clear()
-                for (document in shopping) {
-                    shoppingList.put(document.id, document["prodInfoId"].toString())
-                    shoppingList.put("count", document["count"].toString())
-                }
-            }
         CoroutineScope(Dispatchers.IO).launch {
+            Log.d("tttt",  "쇼핑리스트 시작${dataSet.size}")
+            db.collection("buyer").document(UserModel.roleId)
+                .collection("shopping_list").get()
+                .addOnSuccessListener { shopping ->
+                    shoppingList.clear()
+                    Log.d("tttt",  "쇼핑리스트 들어옴${dataSet.size}")
+                    for (document in shopping) {
+                        shoppingList[document.id] = document["prodInfoId"].toString()
+                        countList[document.id] = document["count"].toString()
+                    }
+                }
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(100)
+            dataSet.clear()
+            Log.d("tttt",  "코루틴 시작 ${dataSet.size}")
             val snapshot = db.collection("product").get().await()
             shoppingList.forEach { productId ->
                 for (document in snapshot) {
                     val thumbnailImage = document.data["thumbnail_image"].toString()
                     if (productId.value == document.id) {
                         val uri = storageRef.child(thumbnailImage).downloadUrl.await()
+                        Log.d("tttt",  "productId ${productId.value}")
+
                         dataSet.add(
                             ShoppingListModel(
                                 document["brand"].toString(),
                                 document["name"].toString(),
                                 document["price"].toString(),
-                                shoppingList["count"].toString(),
+                                countList[productId.key].toString(),
                                 uri.toString(),
                                 productId.key
                             )
                         )
                     }
                 }
+                Log.d("tttt",  "코루틴 끝 ${dataSet.size}")
             }
             withContext(Dispatchers.Main) {
                 showSampleData(false)
-                if (dataSet.size == 0) {
-                    binding.layoutEmptyState.visibility = View.VISIBLE
-                    binding.recyclerviewShoppingList.visibility = View.GONE
-                    setRecyclerView()
-
-                } else {
-                    binding.layoutEmptyState.visibility = View.GONE
-                    binding.recyclerviewShoppingList.visibility = View.VISIBLE
-                    setRecyclerView()
-                }
+                setRecyclerView()
+                Log.d("tttt", "데이터 그릴때 ${dataSet.size}")
+//                if (dataSet.size == 0) {
+//                    binding.layoutEmptyState.visibility = View.VISIBLE
+//                    binding.recyclerviewShoppingList.visibility = View.GONE
+//                } else {
+//                    binding.layoutEmptyState.visibility = View.GONE
+//                }
             }
         }
     }
@@ -212,6 +223,7 @@ class ShoppingListFragment : Fragment() {
                     if (it.isSuccessful) {
                     } else {
                         ch = false
+
                     }
                 }
         }
@@ -221,7 +233,9 @@ class ShoppingListFragment : Fragment() {
         } else {
             Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
         }
-        getShoppingListData()
+        runBlocking {
+            getShoppingListData()
+        }
         setCheckBoxParentState()
     }
 
@@ -263,6 +277,8 @@ class ShoppingListFragment : Fragment() {
             else -> {
                 state = MaterialCheckBox.STATE_INDETERMINATE
                 str = " 전체 ${checkedCount}개"
+                binding.buttonShoppingListOk.setBackgroundResource(R.drawable.wide_box_bottom_inactive)
+                binding.buttonShoppingListOk.isClickable = false
             }
         }
 
