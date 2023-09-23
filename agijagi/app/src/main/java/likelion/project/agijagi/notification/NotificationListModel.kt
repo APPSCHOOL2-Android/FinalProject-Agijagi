@@ -6,6 +6,7 @@ data class NotificationListModel(
     var senderName: String, // seller BussinessName, buyer nickName, system agijagi
     var content: String, // 본문
     var date: String, // 보낸 시간 (yyMMddHHmmssSSS)
+    var dateStr: String, // 화면에 표시할 값
     var type: String = "message", // NotificationType.str
     var isRead: Boolean = false, // 확인 여부 (false: new!)
     var isCheck: Boolean = false // 삭제 시 사용

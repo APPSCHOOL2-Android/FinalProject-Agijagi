@@ -32,37 +32,10 @@ class NotificationListAdapter(val context: Context) :
                 checkboxNotificationList.layoutParams = params
 
                 textViewNotificationListSender.text = item.senderName
-
-
                 textViewNotificationListBody.text = item.content
                 imageViewNotificationListNew.visibility =
                     if (item.isRead) View.GONE else View.VISIBLE
-
-                // 날자 계산 필요. pattern: yyMMddHHmmssSSS
-                val date = SimpleDateFormat("yyMMddHHmmssSSS").parse(item.date)
-                val now = MainActivity.getMilliSec()
-                val year = now.substring(0, 2).toInt() - item.date.substring(0, 2).toInt()
-                val month = now.substring(2, 4).toInt() - item.date.substring(2, 4).toInt()
-                val day = now.substring(4, 6).toInt() - item.date.substring(4, 6).toInt()
-
-                var dateStr = ""
-                if (1 < year) {
-                    // 1년이 지났다면 연도로 표기
-                    if (month < 1) {
-                        dateStr = SimpleDateFormat("M월 d일", Locale.getDefault()).format(date)
-                    } else {
-                        dateStr = SimpleDateFormat("YYYY년", Locale.getDefault()).format(date)
-                    }
-                } else if (1 < day) {
-                    // 1년이 지나지 않았다면 00월 00일로 표기
-                    dateStr = SimpleDateFormat("M월 d일", Locale.getDefault()).format(date)
-                } else if (1 == day) {
-                    dateStr = "어제"
-                } else {
-                    // 하루 이내의 시간은 오전/후 hh:mm 로 표기
-                    dateStr = SimpleDateFormat("aa h:m", Locale.getDefault()).format(date)
-                }
-                textViewNotificationListDate.text = dateStr
+                textViewNotificationListDate.text = item.dateStr
 
                 if (isTrashCan) {
                     checkboxNotificationList.isChecked = item.isCheck
@@ -97,7 +70,7 @@ class NotificationListAdapter(val context: Context) :
 
                             subTitle.text = SimpleDateFormat(
                                 "yyyy년 M월 d일 aa h:m", Locale.getDefault()
-                            ).format(date)
+                            ).format(SimpleDateFormat("yyMMddHHmmssSSS").parse(item.date))
 
                             MaterialAlertDialogBuilder(context as MainActivity)
                                 .setCustomTitle(customTitle)
