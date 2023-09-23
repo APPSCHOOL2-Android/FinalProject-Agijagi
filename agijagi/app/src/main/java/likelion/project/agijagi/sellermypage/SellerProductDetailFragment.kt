@@ -197,7 +197,15 @@ class SellerProductDetailFragment : Fragment() {
                     }
 
                     R.id.menu_product_detail_delete -> {
-
+                        val isDeleteState = hashMapOf<String, Any>(
+                            "is_delete" to true
+                        )
+                        db.collection("product")
+                            .document(getProductId())
+                            .update(isDeleteState)
+                            .addOnSuccessListener {
+                                findNavController().popBackStack()
+                            }
                     }
                 }
                 false
