@@ -184,19 +184,47 @@ class NotificationListFragment : Fragment() {
                 )
             )
             .get()
-            .addOnCompleteListener {
+            .addOnCompleteListener { it ->
                 if (it.isSuccessful) {
                     dataSet.clear()
 
                     val datas = it.result
-                    println("datas.size= ${datas.size()}") //2개가 정상
 
                     for (data in datas) {
                         val content = data.getString("content")!!
                         val date = data.getString("date")!!
                         val is_chat = data.getBoolean("is_chat")!!
                         val is_read = data.getBoolean("is_read")!!
+
                         val sender = data.getString("sender")!!
+                        var senderName = "--"
+                        if (sender == "agijagi") {
+                            senderName = "아기자기"
+                        } else {
+                            if (UserModel.isSeller == true) {
+                                db.collection("buyer").document(sender).get()
+                                    .addOnCompleteListener { itTask ->
+                                        if (itTask.isSuccessful) {
+                                            val id = data.id
+                                            dataSet.find { it.id == id }?.senderName =
+                                                itTask.result.data?.get("nickname") as String
+
+                                            notificationListAdapter.notifyDataSetChanged()
+                                        }
+                                    }
+                            } else {
+                                db.collection("seller").document(sender).get()
+                                    .addOnCompleteListener { itTask ->
+                                        if (itTask.isSuccessful) {
+                                            val id = data.id
+                                            dataSet.find { it.id == id }?.senderName =
+                                                itTask.result.data?.get("nickname") as String
+
+                                            notificationListAdapter.notifyDataSetChanged()
+                                        }
+                                    }
+                            }
+                        }
 
                         val type =
                             if (is_chat) NotificationType.NOTIF_CHAT else NotificationType.NOTIF_MESSAGE
@@ -204,6 +232,7 @@ class NotificationListFragment : Fragment() {
                         val model = NotificationListModel(
                             data.id,
                             sender,
+                            senderName,
                             content,
                             date,
                             type.str,

@@ -31,7 +31,9 @@ class NotificationListAdapter(val context: Context) :
                 params.width = if (isTrashCan) ViewGroup.LayoutParams.WRAP_CONTENT else 0
                 checkboxNotificationList.layoutParams = params
 
-                textViewNotificationListSender.text = item.sender
+                textViewNotificationListSender.text = item.senderName
+
+
                 textViewNotificationListBody.text = item.content
                 imageViewNotificationListNew.visibility =
                     if (item.isRead) View.GONE else View.VISIBLE
@@ -70,7 +72,7 @@ class NotificationListAdapter(val context: Context) :
                 // 아이템 클릭 시 동작 구현
                 when (item.type) {
                     NotificationType.NOTIF_MESSAGE.str -> {
-                        textViewNotificationListSender.text = item.sender
+                        textViewNotificationListSender.text = item.senderName
                         textViewNotificationListBody.text = item.content
 
                         // 클릭 시 다이얼로그 생성
@@ -89,7 +91,7 @@ class NotificationListAdapter(val context: Context) :
                             )
                             val title =
                                 customTitle.findViewById<TextView>(R.id.textView_notification_dialog_customTitle)
-                            title.text = item.sender
+                            title.text = item.senderName
                             val subTitle =
                                 customTitle.findViewById<TextView>(R.id.textView_notification_dialog_subTitle)
 
@@ -108,7 +110,7 @@ class NotificationListAdapter(val context: Context) :
                     }
 
                     NotificationType.NOTIF_CHAT.str -> {
-                        textViewNotificationListSender.text = item.sender
+                        textViewNotificationListSender.text = item.senderName
                         textViewNotificationListBody.text = "채팅으로 이동합니다"
 
                         // 클릭 시 채팅으로 이동
