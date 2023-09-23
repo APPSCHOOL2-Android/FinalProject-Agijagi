@@ -198,8 +198,9 @@ class CustomProductDetailFragment : Fragment() {
                 )
             } else {
                 val bundle = Bundle()
-                bundle.putString("brand", brand)
+                bundle.putString("buyerId", UserModel.roleId)
                 bundle.putString("sellerId", sellerId)
+                bundle.putString("chatRoomTitle", brand)
                 findNavController()
                     .navigate(
                         R.id.action_customProductDetailFragment_to_chattingRoomFragment,

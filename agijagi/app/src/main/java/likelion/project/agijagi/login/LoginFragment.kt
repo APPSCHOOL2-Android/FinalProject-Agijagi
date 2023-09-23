@@ -164,7 +164,7 @@ class LoginFragment : Fragment() {
                                     SellerModel.brCert = sellerdocument["br_cert"].toString()
                                     SellerModel.brn = sellerdocument["brn"].toString()
                                     SellerModel.businessName =
-                                        sellerdocument["business_name"].toString()
+                                        sellerdocument["bussiness_name"].toString()
                                     SellerModel.tel = sellerdocument["tel"].toString()
 
                                     // "notif_setting" 필드가 있는지 확인하고 값을 가져옵니다.
@@ -249,7 +249,8 @@ class LoginFragment : Fragment() {
 
     private fun checkUserInfoInFirestore(user: FirebaseUser?) {
         if (user != null) {
-            db.collection("users")
+
+            db.collection("user")
                 // 문서 확인을 해야할 듯
                 .document(user.uid)
                 .get()
@@ -292,9 +293,9 @@ class LoginFragment : Fragment() {
                                     // 예를 들어, 기본값으로 빈 Map을 할당할 수 있습니다.
                                     BuyerModel.notifSetting = mutableMapOf()
                                 }
-                                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                                showSnackBar("로그인에 성공하셨습니다.")
                             }
+                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                        showSnackBar("로그인에 성공하셨습니다.")
 
                     } else if (user["name"].toString().length >= 2 && user["is_seller"] == true) {
                         UserModel.uid = auth?.currentUser?.uid.toString()
@@ -317,7 +318,7 @@ class LoginFragment : Fragment() {
                                 SellerModel.brCert = sellerdocument["br_cert"].toString()
                                 SellerModel.brn = sellerdocument["brn"].toString()
                                 SellerModel.businessName =
-                                    sellerdocument["business_name"].toString()
+                                    sellerdocument["bussiness_name"].toString()
                                 SellerModel.tel = sellerdocument["tel"].toString()
 
                                 // "notif_setting" 필드가 있는지 확인하고 값을 가져옵니다.

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.MainActivity.Companion.getMilliSec
@@ -20,16 +22,19 @@ class ChattingRoomFragment : Fragment() {
     private var _binding: FragmentChattingRoomBinding? = null
     private val binding get() = _binding!!
 
-    lateinit var chattingRoomAdapter: ChattingRoomAdapter
+    private lateinit var chattingRoomAdapter: ChattingRoomAdapter
 
     val db = Firebase.firestore
 
-    var roomId: String? = ""
+    var chatRoomId: String? = ""
+
     lateinit var message: Message
     private val chattingList = mutableListOf<Message>()
 
+    private var messageListener: ListenerRegistration? = null
+
     companion object {
-        var brand: String? = null
+        var writerName = ""
     }
 
     override fun onCreateView(
@@ -38,10 +43,6 @@ class ChattingRoomFragment : Fragment() {
     ): View {
         _binding = FragmentChattingRoomBinding.inflate(inflater)
 
-        setupToolbar()
-        checkChattingRoom()
-        sendMessage()
-
         return binding.root
     }
 
@@ -49,15 +50,22 @@ class ChattingRoomFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         chattingRoomAdapter = ChattingRoomAdapter(UserModel.roleId)
-        brand = getBrand()
+        writerName = getChatRoomTitle()
+        setupToolbar()
+        checkChattingRoom()
+        sendMessage()
     }
 
     private fun getSellerId(): String {
         return arguments?.getString("sellerId").toString()
     }
 
-    private fun getBrand(): String {
-        return arguments?.getString("brand").toString()
+    private fun getBuyerId(): String {
+        return arguments?.getString("buyerId").toString()
+    }
+
+    private fun getChatRoomTitle(): String {
+        return arguments?.getString("chatRoomTitle").toString()
     }
 
     private fun setupRecyclerViewChattingRoom(list: List<Message>) {
@@ -73,17 +81,17 @@ class ChattingRoomFragment : Fragment() {
 
     private fun checkChattingRoom() {
         db.collection("chatting_room")
-            .whereEqualTo("buyer_id", UserModel.roleId)
+            .whereEqualTo("buyer_id", getBuyerId())
             .whereEqualTo("seller_id", getSellerId())
             .get()
             .addOnSuccessListener { querySnapshot ->
                 querySnapshot.documents.forEach {
-                    Log.d("hye", it.id)
-                    roomId = it.id
-                }
-                getMessage(roomId!!)
-                if (roomId == "") {
-                    createChattingRoom()
+                    chatRoomId = it.id
+                    if (chatRoomId == "") {
+                        createChattingRoom()
+                    } else {
+                        startChattingListener(chatRoomId!!)
+                    }
                 }
             }
     }
@@ -100,41 +108,61 @@ class ChattingRoomFragment : Fragment() {
                     "writer" to message.writer
                 )
                 db.collection("chatting_room")
-                    .document(roomId!!)
+                    .document(chatRoomId!!)
                     .collection("message")
                     .document(getMilliSec())
                     .set(messageMap)
 
-                chattingList.add(message)
+                Log.d("chat", chatRoomId.toString())
+
                 edittextChattingRoom.setText("")
-                setupRecyclerViewChattingRoom(chattingList)
+                // 메시지를 Firestore에 추가한 후 Firestore 리스너를 통해 자동으로 반영
             }
         }
     }
 
-    private fun getMessage(roomId: String) {
-        db.collection("chatting_room")
+    private fun startChattingListener(roomId: String) {
+        // Firestore 리스너를 시작하여 메시지를 실시간으로 업데이트
+        messageListener = db.collection("chatting_room")
             .document(roomId)
             .collection("message")
-            .get()
-            .addOnSuccessListener {
-                for (document in it) {
-                    Log.d("hye", document.id)
-                    message = Message(
-                        document["date"].toString(),
-                        document["content"].toString(),
-                        document.getBoolean("isRead")!!,
-                        document["writer"].toString()
-                    )
-                    chattingList.add(message)
+            .orderBy("date")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e("ChattingRoomFragment", "Error listening for messages: $error")
+                    return@addSnapshotListener
                 }
-                setupRecyclerViewChattingRoom(chattingList)
+
+                if (snapshot != null) {
+                    // snapshot의 변경 내용을 처리
+                    for (documentChange in snapshot.documentChanges) {
+                        when (documentChange.type) {
+                            DocumentChange.Type.ADDED -> {
+                                val document = documentChange.document
+                                val message = Message(
+                                    document["date"].toString(),
+                                    document["content"].toString(),
+                                    document.getBoolean("isRead")!!,
+                                    document["writer"].toString()
+                                )
+                                chattingList.add(message)
+                            }
+                            DocumentChange.Type.MODIFIED -> {
+
+                            }
+                            DocumentChange.Type.REMOVED -> {
+
+                            }
+                        }
+                    }
+                    setupRecyclerViewChattingRoom(chattingList)
+                }
             }
     }
 
     private fun createChattingRoom() {
         val chatRoomUserInfo = hashMapOf(
-            "buyer_id" to UserModel.roleId,
+            "buyer_id" to getBuyerId(),
             "seller_id" to getSellerId()
         )
         db.collection("chatting_room").document().set(chatRoomUserInfo)
@@ -142,13 +170,7 @@ class ChattingRoomFragment : Fragment() {
 
     private fun setupToolbar() {
         binding.toolbarChattingRoom.run {
-            // 로그인 유저 구매자일 때 -> title: 브랜드명
-            // 판매자 일때 -> title: 구매자 닉네임
-            title = if (!UserModel.isSeller!!) {
-                getBrand()
-            } else {
-                "구매자 닉네임"
-            }
+            title = writerName
             setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
@@ -157,7 +179,9 @@ class ChattingRoomFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+
         _binding = null
     }
 
 }
+
