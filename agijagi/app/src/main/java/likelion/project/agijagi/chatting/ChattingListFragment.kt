@@ -3,14 +3,19 @@ package likelion.project.agijagi.chatting
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentChattingListBinding
+import likelion.project.agijagi.model.UserModel
 
 class ChattingListFragment : Fragment() {
 
@@ -20,26 +25,11 @@ class ChattingListFragment : Fragment() {
     lateinit var mainActivity: MainActivity
     lateinit var chattingListAdapter: ChattingListAdapter
 
-    companion object {
-        val dataSet = arrayListOf<ChattingListModel>().apply {
-            add(ChattingListModel("홍길동", "채팅내용채팅내용채팅내용", "2022. 08. 15"))
-            add(ChattingListModel("고길동", "내용입니다", "08월 16일", true, true))
-            add(
-                ChattingListModel(
-                    "김길동",
-                    "아주긴내용아주긴내용아주긴내용아주긴내용아주긴내용\n아주긴내용아주긴내용",
-                    "어제"
-                )
-            )
-            add(
-                ChattingListModel(
-                    "이길동",
-                    "커스텀해주세요",
-                    "오전 12:50", true, true
-                )
-            )
-        }
-    }
+    val db = Firebase.firestore
+
+    lateinit var chattingListModel: ChattingListModel
+
+    private val chattingRoomList = mutableListOf<ChattingListModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,37 +45,13 @@ class ChattingListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataSet.reverse()
+        setupToolbar()
+        getChattingRoomList()
+
+        // dataSet.reverse()
 
         binding.run {
             // 초기화
-            changeView(true)
-
-            recyclerviewChattingList.run {
-                layoutManager = LinearLayoutManager(mainActivity)
-                adapter = chattingListAdapter
-
-                addItemDecoration(
-                    MaterialDividerItemDecoration(
-                        context,
-                        MaterialDividerItemDecoration.VERTICAL
-                    )
-                )
-            }
-            chattingListAdapter.submitList(dataSet)
-
-
-            materialToolbarChattingList.run {
-                setNavigationOnClickListener {
-                    findNavController().popBackStack()
-                }
-
-                setOnMenuItemClickListener {
-                    changeView(false)
-                    false
-                }
-            }
-
             buttonChattingListCancel.setOnClickListener {
                 changeView(true)
             }
@@ -100,10 +66,136 @@ class ChattingListFragment : Fragment() {
         }
     }
 
+    private fun setupToolbar() {
+        binding.run {
+            materialToolbarChattingList.run {
+                setNavigationOnClickListener {
+                    findNavController().popBackStack()
+                }
+
+                setOnMenuItemClickListener {
+                    changeView(false)
+                    false
+                }
+            }
+        }
+    }
+
+    private fun setupRecyclerViewChattingList() {
+        binding.recyclerviewChattingList.run {
+            adapter = chattingListAdapter
+            layoutManager = LinearLayoutManager(requireContext()).apply {
+                addItemDecoration(
+                    MaterialDividerItemDecoration(
+                        context,
+                        MaterialDividerItemDecoration.VERTICAL
+                    )
+                )
+                reverseLayout = false
+            }
+            chattingListAdapter.submitList(chattingRoomList)
+        }
+    }
+
+    private fun getChattingRoomList() {
+        chattingRoomList.clear()
+        // seller 채팅룸
+        if (UserModel.isSeller == true) {
+            db.collection("chatting_room")
+                .whereEqualTo("seller_id", UserModel.roleId)
+                .get()
+                .addOnSuccessListener {
+                    for (document in it) {
+                        val buyerId = document.getString("buyer_id").toString()
+                        db.collection("buyer").get().addOnSuccessListener { buyerDocuments ->
+                            for (documentBuyer in buyerDocuments) {
+                                if (documentBuyer.id == buyerId) {
+                                    db.collection("chatting_room")
+                                        .document(document.id)
+                                        .collection("message").get()
+                                        .addOnSuccessListener { querySnapshot ->
+                                            val messageDocuments = querySnapshot.documents
+                                            if (messageDocuments.isNotEmpty()) {
+                                                // 문서를 역순으로 정렬
+                                                messageDocuments.sortByDescending { it.id }
+
+                                                // 마지막 문서 가져오기
+                                                val lastMessage = messageDocuments[0]
+                                                chattingListModel = ChattingListModel(
+                                                    document.data["buyer_id"].toString(),
+                                                    document.data["seller_id"].toString(),
+                                                    documentBuyer["nickname"].toString(),
+                                                    lastMessage.data!!["content"].toString(),
+                                                    lastMessage.data!!["date"].toString(),
+                                                    lastMessage.getBoolean("isRead")!!,
+                                                    true
+                                                )
+                                                chattingRoomList.add(chattingListModel)
+                                                setupRecyclerViewChattingList()
+                                                changeViewWhenNoChatList()
+                                                // changeView(true)
+                                            }
+                                        }
+                                }
+                            }
+                        }
+                    }
+                }
+        } else {
+            // buyer 채팅룸
+            db.collection("chatting_room")
+                .whereEqualTo("buyer_id", UserModel.roleId)
+                .get()
+                .addOnSuccessListener {
+                    for (document in it) {
+                        val sellerId = document.getString("seller_id").toString()
+                        db.collection("seller").get().addOnSuccessListener { sellerDocuments ->
+                            for (documentSeller in sellerDocuments) {
+                                if (documentSeller.id == sellerId) {
+                                    db.collection("chatting_room")
+                                        .document(document.id)
+                                        .collection("message").get()
+                                        .addOnSuccessListener { querySnapshot ->
+                                            val messageDocuments = querySnapshot.documents
+                                            if (messageDocuments.isNotEmpty()) {
+                                                // 문서를 역순으로 정렬
+                                                messageDocuments.sortByDescending { it.id }
+
+                                                // 마지막 문서 가져오기
+                                                val lastMessage = messageDocuments[0]
+                                                chattingListModel = ChattingListModel(
+                                                    document.data["buyer_id"].toString(),
+                                                    document.data["seller_id"].toString(),
+                                                    documentSeller["bussiness_name"].toString(),
+                                                    lastMessage.data!!["content"].toString(),
+                                                    lastMessage.data!!["date"].toString(),
+                                                    lastMessage.getBoolean("isRead")!!,
+                                                    true
+                                                )
+
+                                                chattingRoomList.add(chattingListModel)
+                                                setupRecyclerViewChattingList()
+                                                changeViewWhenNoChatList()
+                                                // changeView(true)
+                                            }
+                                        }
+                                }
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun changeViewWhenNoChatList() {
+        binding.textviewChattingListEmptyMsg.visibility =
+            if (chattingRoomList.size <= 0) VISIBLE else GONE
+    }
+
     private fun changeView(isListView: Boolean) {
         binding.run {
             if (isListView) {
-                layoutChattingListBottomButton.visibility = View.GONE
+                layoutChattingListBottomButton.visibility = GONE
                 materialToolbarChattingList.run {
                     menu.findItem(R.id.menu_notification_list_delete).isVisible = true
                     setNavigationIcon(R.drawable.arrow_back_24px)
@@ -113,12 +205,9 @@ class ChattingListFragment : Fragment() {
                 chattingListAdapter.updateCheckbox(false)
                 chattingListAdapter.notifyDataSetChanged()
 
-                // 알림 없음 메시지
-                textviewChattingListEmptyMsg.visibility =
-                    if (dataSet.size <= 0) View.VISIBLE else View.GONE
 
             } else {
-                layoutChattingListBottomButton.visibility = View.VISIBLE
+                layoutChattingListBottomButton.visibility = VISIBLE
 
                 materialToolbarChattingList.run {
                     menu.findItem(R.id.menu_notification_list_delete).isVisible = false
