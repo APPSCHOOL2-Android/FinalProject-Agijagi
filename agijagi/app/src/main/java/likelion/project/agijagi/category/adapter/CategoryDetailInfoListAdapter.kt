@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import likelion.project.agijagi.R
-import likelion.project.agijagi.category.model.CategoryDetailInfoListModel
+import likelion.project.agijagi.model.CategoryDetailInfoListModel
 import likelion.project.agijagi.databinding.ItemCategoryDetailInfoListBinding
 
 class CategoryDetailInfoListAdapter :

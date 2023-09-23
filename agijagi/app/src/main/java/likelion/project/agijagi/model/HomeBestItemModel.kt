@@ -1,6 +1,7 @@
-package likelion.project.agijagi.category.model
+package likelion.project.agijagi.model
 
-data class CategoryDetailInfoListModel(
+
+data class HomeBestItemModel(
     val prodId: String,
     val prodisCustom: Boolean?,
     val thumbnail: String,
