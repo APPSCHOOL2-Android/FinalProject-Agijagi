@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import likelion.project.agijagi.MainActivity
 import likelion.project.agijagi.databinding.FragmentWishListBinding
 import likelion.project.agijagi.model.UserModel
 
@@ -23,6 +24,8 @@ class WishListFragment : Fragment() {
     private var _binding: FragmentWishListBinding? = null
     private val binding get() = _binding!!
 
+
+    lateinit var mainActivity: MainActivity
     lateinit var listAdapter: WishListAdapter
 
     private val wishListData = arrayListOf<String>()
@@ -39,15 +42,16 @@ class WishListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentWishListBinding.inflate(inflater)
+        mainActivity = activity as MainActivity
+        listAdapter = WishListAdapter(itemClick = { item ->
+            // prodid 받아서  iscustom 상태에 따라 분기
+        })
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        listAdapter = WishListAdapter(itemClick = { item ->
-            // prodid 받아서  iscustom 상태에 따라 분기
-        })
 
         binding.run {
             runBlocking {
@@ -58,6 +62,8 @@ class WishListFragment : Fragment() {
 
     private suspend fun getData() {
         // 데이터 가져오기전에 shimmer
+        dataSet.clear()
+
         showSampleData(true)
         // buyer컬렉션-> userroleid문서->  wish컬렉션에서 데이터 가져와서
         CoroutineScope(Dispatchers.IO).launch {
@@ -85,6 +91,11 @@ class WishListFragment : Fragment() {
                     )
                 )
             }
+            // 이게 끝나고 밑에 실행
+            wishListData.forEach { prodId ->
+                val document = db.collection("product").document(prodId).get().await()
+                val thumbnailImage = document["thumbnail_image"].toString()
+                val uri = storageRef.child(thumbnailImage).downloadUrl.await()
 
             withContext(Dispatchers.Main) {
                 setRecyclerView()
