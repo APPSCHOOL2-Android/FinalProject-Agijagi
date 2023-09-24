@@ -84,11 +84,3 @@ class WishListAdapter(val itemClick: (WishListModel) -> Unit) :
         }
     }
 }
-
-//230916011944877
-//
-//230916012212464
-//
-//230916012555664
-//
-//230916013523863
