@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -20,6 +21,7 @@ class ShippingUpdateFragment : Fragment() {
 
     private var _binding: FragmentShippingUpdateBinding? = null
     private val binding get() = _binding!!
+
     lateinit var shippingUpdateUid: String
     private val shippingManagementRepository = ShippingManagementRepository()
 
@@ -44,23 +46,18 @@ class ShippingUpdateFragment : Fragment() {
     // bundle로 넘겨받은 주소uid
     private fun getAddressUid() {
         shippingUpdateUid = arguments?.getString("shippingUpdate").toString()
-        Log.d("shippingUpdate", shippingUpdateUid)
+        Log.d("ShippingUpdateFragment.getAddressUid()", shippingUpdateUid)
     }
 
     private fun createTextWatcher(): TextWatcher {
         return object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // 텍스트 변경 이전에 호출
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // 텍스트가 변경될 때 호출
-            }
-
+            // 텍스트 변경 후에 호출
             override fun afterTextChanged(s: Editable?) {
-                // 텍스트 변경 후에 호출
                 updateButtonStateAndAction()
             }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
     }
 
@@ -79,7 +76,7 @@ class ShippingUpdateFragment : Fragment() {
                     }
                 } ?: run {
                     // 데이터가 null인 경우 처리
-                    Log.e("ShippingUpdateFragment", "해당 배송지 데이터 없음")
+                    Log.e("ShippingUpdateFragment.getShippingData()", "해당 배송지 데이터 없음")
                 }
             }
         )
@@ -124,8 +121,21 @@ class ShippingUpdateFragment : Fragment() {
                     setOnClickListener {
                         // 배송지 수정
                         updateShippingData()
-                        Snackbar.make(it, "배송지 수정이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
-                        findNavController().popBackStack()
+                        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                        Snackbar.make(it, "배송지 수정이 완료되었습니다.", Snackbar.LENGTH_SHORT)
+                            .setAnchorView(buttonShippingUpdateRegistration)
+                            .addCallback(object : Snackbar.Callback() {
+                                override fun onDismissed(
+                                    transientBottomBar: Snackbar?,
+                                    event: Int
+                                ) {
+                                    super.onDismissed(transientBottomBar, event)
+                                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                                    // 화면이동
+                                    findNavController().popBackStack()
+                                }
+                            })
+                            .show()
                     }
                 }
             } else {
@@ -170,5 +180,4 @@ class ShippingUpdateFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
