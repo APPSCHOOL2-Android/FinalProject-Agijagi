@@ -19,9 +19,8 @@ import likelion.project.agijagi.databinding.FragmentCategoryDetailInfoListBindin
 
 class CategoryDetailInfoListFragment : Fragment() {
 
-    private var _fragmentCategoryDetailInfoListBinding: FragmentCategoryDetailInfoListBinding? =
-        null
-    private val fragmentCategoryDetailInfoListBinding get() = _fragmentCategoryDetailInfoListBinding!!
+    private var _binding: FragmentCategoryDetailInfoListBinding? = null
+    private val binding get() = _binding!!
 
     lateinit var categoryListAdapter: CategoryDetailInfoListAdapter
 
@@ -38,21 +37,19 @@ class CategoryDetailInfoListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _fragmentCategoryDetailInfoListBinding =
-            FragmentCategoryDetailInfoListBinding.inflate(inflater)
+        _binding = FragmentCategoryDetailInfoListBinding.inflate(inflater)
 
-        return fragmentCategoryDetailInfoListBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         categoryListAdapter = CategoryDetailInfoListAdapter()
         getCategory = arguments?.getString("category").toString()
         getIsCustom = arguments?.getInt("is_custom").toString().toInt()
-        Log.d("category", "category: ${getCategory}")
-        Log.d("category", "iscustom: ${getIsCustom}")
+        Log.d("CategoryDetailInfoListFragment.onViewCreated()", "category: ${getCategory}")
+        Log.d("CategoryDetailInfoListFragment.onViewCreated()", "iscustom: ${getIsCustom}")
         setToolbarTitle()
         setToolbarMenuItem()
         setCategoryList(getCategory, getIsCustom)
@@ -61,24 +58,23 @@ class CategoryDetailInfoListFragment : Fragment() {
     // 0 == all , 1 == is_custom = true, -1 == is_cusom = false
     private fun setCategoryList(category: String, is_custom: Int) {
         // is_custom 을 통해 order made인지 아닌지 분류
-        fragmentCategoryDetailInfoListBinding.run {
+        binding.run {
             dataList.clear()
 
             ref.run {
                 showTravelData(true)
                 if (category == "All" && is_custom == 0) {
 
-                    get()
-                        .addOnSuccessListener { documents ->
-                            val filteredDocuments =
-                                documents.filter { it.getString("state") != "숨김" }
+                    get().addOnSuccessListener { documents ->
+                        val filteredDocuments =
+                            documents.filter { it.getString("state") != "숨김" }
 
-                            setRecyclerCategoryList(filteredDocuments)
-                            showTravelData(false)
+                        setRecyclerCategoryList(filteredDocuments)
+                        showTravelData(false)
 
-                        }.addOnFailureListener {
-                            Log.d("category", "데이터")
-                        }
+                    }.addOnFailureListener {
+                        Log.d("FirebaseException", it.toString())
+                    }
                 } else if (category == "All" && is_custom == 1) {
                     whereEqualTo("is_custom", true)
                         .get()
@@ -90,10 +86,9 @@ class CategoryDetailInfoListFragment : Fragment() {
                             showTravelData(false)
 
                         }.addOnFailureListener {
-                            Log.d("category", "데이터")
+                            Log.d("FirebaseException", it.toString())
                         }
                 } else if (category in categoryList && is_custom == -1) {
-
                     whereEqualTo("category", category)
                         .whereEqualTo("is_custom", false)
                         .get()
@@ -105,10 +100,9 @@ class CategoryDetailInfoListFragment : Fragment() {
                             showTravelData(false)
 
                         }.addOnFailureListener {
-                            Log.d("category", "데이터")
+                            Log.d("FirebaseException", it.toString())
                         }
                 } else if (category in categoryList && is_custom == 1) {
-
                     whereEqualTo("category", category)
                         .whereEqualTo("is_custom", true)
                         .get()
@@ -120,23 +114,24 @@ class CategoryDetailInfoListFragment : Fragment() {
                             showTravelData(false)
 
                         }.addOnFailureListener {
-                            Log.d("category", "데이터")
+                            Log.d("FirebaseException", it.toString())
                         }
-                } else { }
-
+                } else {
+                    Log.d("CategoryDetailInfoListFragment.setCategoryList()", "else")
+                }
             }
         }
-
     }
+
     private fun showTravelData(isLoading: Boolean) {
         if (isLoading) {
-            fragmentCategoryDetailInfoListBinding.run {
+            binding.run {
                 shimmerFrameLayoutCategoryList.startShimmer()
                 shimmerFrameLayoutCategoryList.visibility = View.VISIBLE
                 recyclerviewCategoryDetailInfoList.visibility = View.GONE
             }
         } else {
-            fragmentCategoryDetailInfoListBinding.run {
+            binding.run {
                 shimmerFrameLayoutCategoryList.stopShimmer()
                 shimmerFrameLayoutCategoryList.visibility = View.GONE
                 recyclerviewCategoryDetailInfoList.visibility = View.VISIBLE
@@ -145,7 +140,7 @@ class CategoryDetailInfoListFragment : Fragment() {
     }
 
     private fun setToolbarTitle() {
-        fragmentCategoryDetailInfoListBinding.run {
+        binding.run {
             toolbarCategoryDetailInfoList.run {
                 // category 클릭 시 정보를 전달 받아서 title 변경 필요
                 title = getCategory
@@ -154,7 +149,7 @@ class CategoryDetailInfoListFragment : Fragment() {
     }
 
     private fun setToolbarMenuItem() {
-        fragmentCategoryDetailInfoListBinding.toolbarCategoryDetailInfoList.run {
+        binding.toolbarCategoryDetailInfoList.run {
             setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
@@ -170,7 +165,7 @@ class CategoryDetailInfoListFragment : Fragment() {
     }
 
     private fun setRecyclerviewCategory(list: List<CategoryDetailInfoListModel>) {
-        fragmentCategoryDetailInfoListBinding.recyclerviewCategoryDetailInfoList.run {
+        binding.recyclerviewCategoryDetailInfoList.run {
             layoutManager = GridLayoutManager(context, 2)
             adapter = categoryListAdapter
         }
@@ -179,11 +174,17 @@ class CategoryDetailInfoListFragment : Fragment() {
 
     private fun setRecyclerCategoryList(documents: List<QueryDocumentSnapshot>) {
         for (document in documents) {
-            Log.d("category", "document id: ${document.id}")
+            Log.d(
+                "CategoryDetailInfoListFragment.setRecyclerCategoryList()",
+                "document id: ${document.id}"
+            )
             try {
                 val thumbnailImage = document.data["thumbnail_image"].toString()
                 storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { uri ->
-                    Log.d("category", "All & 0 -> uri ${uri}")
+                    Log.d(
+                        "CategoryDetailInfoListFragment.setRecyclerCategoryList()",
+                        "All & 0 -> uri ${uri}"
+                    )
                     val model = CategoryDetailInfoListModel(
                         document.id,
                         document.getBoolean("is_custom"),
@@ -195,9 +196,7 @@ class CategoryDetailInfoListFragment : Fragment() {
                     dataList.add(model)
                     setRecyclerviewCategory(dataList)
                 }
-
             } catch (e: Exception) {
-                // 오류가 발생한 경우 오류를 처리합니다.
                 Log.e(
                     "StorageException",
                     "Error downloading image: ${e.message}",
@@ -209,6 +208,6 @@ class CategoryDetailInfoListFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _fragmentCategoryDetailInfoListBinding = null
+        _binding = null
     }
 }
