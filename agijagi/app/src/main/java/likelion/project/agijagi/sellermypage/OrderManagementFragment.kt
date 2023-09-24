@@ -1,13 +1,10 @@
 package likelion.project.agijagi.sellermypage
 
 import android.os.Bundle
-import android.os.SystemClock
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.ktx.firestore
@@ -85,9 +82,6 @@ class OrderManagementFragment : Fragment() {
                         if (sellerProduct.id == productId["prodInfoId"]) {
                             val thumbnail = sellerProduct["thumbnail_image"].toString()
                             val uri = storageRef.child(thumbnail).downloadUrl.await()
-
-                            Log.d("tttt", sellerProduct.id)
-                            Log.d("tttt", orderProduct.data["buyerId"].toString())
 
                             var userName = ""
                             val buyerUserId = db.collection("user").get().await()
