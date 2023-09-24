@@ -76,8 +76,8 @@
             android:id="@+id/action_orderFragment_to_deliveryTrackingFragment"
             app:destination="@id/deliveryTrackingFragment" />
         <action
-            android:id="@+id/action_orderFragment_to_chattingListFragment"
-            app:destination="@id/chattingListFragment" />
+            android:id="@+id/action_orderFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
     </fragment>
 
     <fragment
