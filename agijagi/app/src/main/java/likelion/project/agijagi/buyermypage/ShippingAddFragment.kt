@@ -7,15 +7,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.firestoreSettings
-import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentShippingAddBinding
 import likelion.project.agijagi.model.UserModel
@@ -41,25 +38,18 @@ class ShippingAddFragment : Fragment() {
 
         setToolbarItemAction()
         updateButtonStateAndAction()
-//        setShippingRegistrationButton()
         setupTextChangeListeners()
-
     }
 
     private fun createTextWatcher(): TextWatcher {
         return object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // 텍스트 변경 이전에 호출
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // 텍스트가 변경될 때 호출
-            }
-
+            // 텍스트 변경 후에 호출
             override fun afterTextChanged(s: Editable?) {
-                // 텍스트 변경 후에 호출
                 updateButtonStateAndAction()
             }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         }
     }
 
@@ -98,9 +88,24 @@ class ShippingAddFragment : Fragment() {
                     setTextColor(ContextCompat.getColor(context, R.color.jagi_ivory))
                     setOnClickListener {
                         // 배송지등록
-                        addShippingData()
-                        Snackbar.make(it, "배송지 등록이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
-                        findNavController().popBackStack()
+                        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                        addShippingData {
+                            Snackbar.make(it, "배송지 등록이 완료되었습니다", Snackbar.LENGTH_SHORT)
+                                .setAnchorView(buttonShippingAddRegistration)
+                                .addCallback(object : Snackbar.Callback() {
+                                    // 스낵바가 종료될 때의 처리
+                                    override fun onDismissed(
+                                        transientBottomBar: Snackbar?,
+                                        event: Int
+                                    ) {
+                                        super.onDismissed(transientBottomBar, event)
+                                        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                                        // 화면이동
+                                        findNavController().popBackStack()
+                                    }
+                                })
+                                .show()
+                        }
                     }
                 }
             } else {
@@ -113,7 +118,7 @@ class ShippingAddFragment : Fragment() {
     }
 
     // 데이터 저장
-    private fun addShippingData() {
+    private fun addShippingData(action: () -> Unit) {
         binding.run {
             val title = editinputShippingAddTitle.text.toString()
             val address = editinputShippingAddAddress.text.toString()
@@ -130,10 +135,8 @@ class ShippingAddFragment : Fragment() {
                 "shipping_name" to title
             )
 
-            val userUid = UserModel.roleId
-
-            // 데이터저장 테스트코드 (db, auth, setup 같이 지울코드)
-            db.collection("buyer").document(userUid)
+            // 데이터 저장
+            db.collection("buyer").document(UserModel.roleId)
                 .collection("shipping_address")
                 .add(shippingInfo)
                 .addOnCompleteListener {
@@ -141,50 +144,41 @@ class ShippingAddFragment : Fragment() {
                     if (basic) {
                         updateBasicShippingAddress(newShippingId)
                     }
-                    Log.d("shippingAdd", "데이터저장 성공")
-                }.addOnFailureListener {
-                    Log.d("shippingAdd", "데이터저장 실패")
-                }
+                    action()
 
-//            // 데이터저장 userEssential 사용코드
-//            db.collection("buyer").document(roleId)
-//                .collection("shipping_address")
-//                .add(shippingInfo)
-//                .addOnCompleteListener {
-//                    val newShippingId = it.result.id
-//                    if (basic) {
-//                        updateBasicShippingAddress(newShippingId)
-//                    }
-//                    Log.d("shippingAdd", "데이터저장 성공")
-//                }.addOnFailureListener {
-//                    Log.d("shippingAdd", "데이터저장 실패")
-//                }
+                    Log.d(
+                        "ShippingAddFragment.addShippingData()",
+                        "데이터저장 성공"
+                    )
+                }.addOnFailureListener {
+                    Log.d(
+                        "ShippingAddFragment.addShippingData()",
+                        "데이터저장 실패: ${it.stackTrace}"
+                    )
+                }
         }
     }
 
     // 기본배송지 설정
     private fun updateBasicShippingAddress(shippingId: String) {
-        val userUid = UserModel.roleId
-        val dbCollection = db.collection("buyer").document(userUid)
-
+        val dbCollection = db.collection("buyer").document(UserModel.roleId)
         dbCollection.update("basic", shippingId)
             .addOnSuccessListener {
-                Log.d("updateBasicShipping", "기본 배송지 업데이트 성공")
+                Log.d(
+                    "ShippingAddFragment.updateBasicShippingAddress()",
+                    "기본 배송지 업데이트 성공"
+                )
             }
             .addOnFailureListener {
-                Log.e("updateBasicShipping", "기본 배송지 업데이트 실패")
+                Log.e(
+                    "ShippingAddFragment.updateBasicShippingAddress()",
+                    "기본 배송지 업데이트 실패: ${it.stackTrace}"
+                )
             }
     }
 
     private fun setToolbarItemAction() {
         binding.toolbarShippingAdd.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
-    }
-
-    private fun setShippingRegistrationButton() {
-        binding.buttonShippingAddRegistration.setOnClickListener {
-            Snackbar.make(it, "배송지 등록이 왼료되었습니다.", Snackbar.LENGTH_SHORT).show()
             findNavController().popBackStack()
         }
     }
