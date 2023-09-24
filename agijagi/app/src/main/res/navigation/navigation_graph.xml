@@ -617,7 +617,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupGoogleBuyerFragment"
-        android:name="likelion.project.agijagi.signup.ui.SignupGoogleBuyerFragment"
+        android:name="likelion.project.agijagi.signup.SignupGoogleBuyerFragment"
         android:label="SignupGoogleBuyerFragment">
         <action
             android:id="@+id/action_signupGoogleBuyerFragment_to_loginFragment"
