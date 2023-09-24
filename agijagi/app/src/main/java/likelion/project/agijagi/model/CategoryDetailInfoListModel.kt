@@ -7,5 +7,6 @@ data class CategoryDetailInfoListModel(
     val thumbnail: String,
     val brand: String,
     val name: String,
-    val price: String
+    val price: String,
+    var isCheck: Boolean
 )
