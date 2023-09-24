@@ -90,9 +90,10 @@ class OrderAdapter() :
                     val bundle = Bundle().apply {
                         putString("buyerId", orderItem.buyerId)
                         putString("sellerId", orderItem.sellerId)
+                        putString("chatRoomTitle", orderItem.brand)
                     }
                     it.findNavController()
-                        .navigate(R.id.action_orderFragment_to_chattingListFragment, bundle)
+                        .navigate(R.id.action_orderFragment_to_chattingRoomFragment, bundle)
                 }
 
                 buttonOrderShippingTracking.setOnClickListener {

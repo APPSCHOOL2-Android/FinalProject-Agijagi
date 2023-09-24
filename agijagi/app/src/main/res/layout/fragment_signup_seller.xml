@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/jagi_ivory"
     android:orientation="vertical"
-    tools:context=".signup.ui.SignupSellerFragment">
+    tools:context=".signup.SignupSellerFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_signup_seller_toolbar"

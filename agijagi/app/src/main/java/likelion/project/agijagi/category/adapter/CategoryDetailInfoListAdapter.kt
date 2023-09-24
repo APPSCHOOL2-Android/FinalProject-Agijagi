@@ -15,8 +15,8 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.category.CategoryDetailInfoListFragment
 import likelion.project.agijagi.model.CategoryDetailInfoListModel
 import likelion.project.agijagi.databinding.ItemCategoryDetailInfoListBinding
+import java.text.DecimalFormat
 import likelion.project.agijagi.model.UserModel
-import likelion.project.agijagi.wishlist.WishListFragment
 
 class CategoryDetailInfoListAdapter :
     ListAdapter<CategoryDetailInfoListModel, CategoryDetailInfoListAdapter.CategoryListViewHolder>(
@@ -30,6 +30,8 @@ class CategoryDetailInfoListAdapter :
 
         fun bind(item: CategoryDetailInfoListModel) {
             with(bind) {
+                val dec = DecimalFormat("#,###")
+
                 Glide.with(itemView)
                     .load(item.thumbnail)
                     .placeholder(R.drawable.category_list_item_default_image)
@@ -37,7 +39,8 @@ class CategoryDetailInfoListAdapter :
 
                 textviewCategoryDetailInfoBrand.text = item.brand
                 textviewCategoryDetailInfoName.text = item.name
-                textviewCategoryDetailInfoPrice.text = item.price
+                textviewCategoryDetailInfoPrice.text = "${dec.format(item.price.toLong())}원"
+
 
                 if (UserModel.uid != null) {
                     imagebuttonCategoryDetailInfoListFavorite.isSelected = item.isCheck
@@ -69,16 +72,10 @@ class CategoryDetailInfoListAdapter :
                 bundle.putString("prodId", item.prodId)
                 if (!item.prodisCustom!!) {
                     it.findNavController()
-                        .navigate(
-                            R.id.action_categoryDetailInfoListFragment_to_productDetailFragment,
-                            bundle
-                        )
+                        .navigate(R.id.action_categoryDetailInfoListFragment_to_productDetailFragment, bundle)
                 } else {
                     it.findNavController()
-                        .navigate(
-                            R.id.action_categoryDetailInfoListFragment_to_customProductDetailFragment,
-                            bundle
-                        )
+                        .navigate(R.id.action_categoryDetailInfoListFragment_to_customProductDetailFragment, bundle)
                 }
             }
         }

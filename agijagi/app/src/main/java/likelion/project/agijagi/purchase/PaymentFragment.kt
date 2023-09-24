@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.firebase.firestore.ktx.firestore
@@ -50,11 +49,7 @@ class PaymentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         setShippingChangeButton()
-
-
-        //todo 이전 페이지에서 정보를 받아 결제 버튼을 누르면 정보를 서버에 올려야 함
 
         // customoption 페이지에서 데이터 가져오기
         if (arguments?.getParcelable<ProdInfo>("prodInfo") != null) {
@@ -160,8 +155,6 @@ class PaymentFragment : Fragment() {
                 if (prodInfo.option == "Lettering") {
                     registerOrderData(orderDate)
                 }
-//                it.findNavController()
-//                    .navigate(R.id.action_paymentFragment_to_purchaseCompleteFragment, bundle)
             }
         }
     }
@@ -188,7 +181,6 @@ class PaymentFragment : Fragment() {
             textViewPaymentShippingPhone.visibility = View.GONE
         }
     }
-
 
     // 배송지 정보 가져오기
     private fun getShippingAddress() {
@@ -222,7 +214,7 @@ class PaymentFragment : Fragment() {
                                 showSampleData(false)
                             } ?: run {
                                 // 데이터가 null인 경우 처리
-                                Log.e("paymentFragment", "해당 배송지 데이터 없음")
+                                Log.e("PaymentFragment.getShippingAddress()", "해당 배송지 데이터 없음")
                                 showNoShippingDataMessage()
                                 showSampleData(false)
                             }
@@ -248,7 +240,7 @@ class PaymentFragment : Fragment() {
                         }
                     } ?: run {
                         // 데이터가 null인 경우 처리
-                        Log.e("paymentFragment", "해당 배송지 데이터 없음")
+                        Log.e("PaymentFragment.getShippingAddress()", "해당 배송지 데이터 없음")
                         showNoShippingDataMessage()
                         showSampleData(false)
                     }
@@ -419,7 +411,8 @@ class PaymentFragment : Fragment() {
         }
     }
 
-    // 결제 상태 enum 클래스
-//    enum class
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

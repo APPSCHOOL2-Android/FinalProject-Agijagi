@@ -1,39 +1,26 @@
-package likelion.project.agijagi.signup.ui
+package likelion.project.agijagi.signup
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.firestoreSettings
-import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentSignupSelectBinding
 
-
 class SignupSelectFragment : Fragment() {
 
-    private var _fragmentSignupSelectBinding: FragmentSignupSelectBinding? = null
-    protected val fragmentSignupSelectBinding
-        get() = _fragmentSignupSelectBinding!!
-
-
+    private var _binding: FragmentSignupSelectBinding? = null
+    protected val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        _fragmentSignupSelectBinding = FragmentSignupSelectBinding.inflate(inflater, container, false)
-        return fragmentSignupSelectBinding.root
+        _binding = FragmentSignupSelectBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,8 +28,7 @@ class SignupSelectFragment : Fragment() {
 
         val user = FirebaseAuth.getInstance().currentUser
 
-        fragmentSignupSelectBinding.run {
-
+        binding.run {
             // toolbar back button
             toolbarSignupSelectSiginup.setNavigationOnClickListener {
                 findNavController().popBackStack()
@@ -50,7 +36,7 @@ class SignupSelectFragment : Fragment() {
 
             layoutSignupSelectBuyer.setOnClickListener {
                 layoutSignupSelectBuyer.isSelected = true
-                if(layoutSignupSelectBuyer.isSelected == true)
+                if (layoutSignupSelectBuyer.isSelected)
                     buttonSignupSelectBuyer.setImageResource(R.drawable.outline_person_outline_24_selected)
 
                 if (user != null) {
@@ -63,7 +49,7 @@ class SignupSelectFragment : Fragment() {
 
             layoutSignupSelectSeller.setOnClickListener {
                 layoutSignupSelectSeller.isSelected = true
-                if (layoutSignupSelectSeller.isSelected == true)
+                if (layoutSignupSelectSeller.isSelected)
                     buttonSignupSelectSeller.setImageResource(R.drawable.outline_storefront_24_selected)
 
                 if (user != null) {
@@ -77,6 +63,6 @@ class SignupSelectFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _fragmentSignupSelectBinding = null
+        _binding = null
     }
 }

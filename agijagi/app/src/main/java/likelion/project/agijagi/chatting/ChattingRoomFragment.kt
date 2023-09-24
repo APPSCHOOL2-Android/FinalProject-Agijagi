@@ -113,7 +113,7 @@ class ChattingRoomFragment : Fragment() {
                     .document(getMilliSec())
                     .set(messageMap)
 
-                Log.d("chat", chatRoomId.toString())
+                Log.d("ChattingRoomFragment.sendMessage()", chatRoomId.toString())
 
                 edittextChattingRoom.setText("")
                 // 메시지를 Firestore에 추가한 후 Firestore 리스너를 통해 자동으로 반영
@@ -129,7 +129,7 @@ class ChattingRoomFragment : Fragment() {
             .orderBy("date")
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
-                    Log.e("ChattingRoomFragment", "Error listening for messages: $error")
+                    Log.e("FirebaseException", "Error listening for messages: $error")
                     return@addSnapshotListener
                 }
 
@@ -147,12 +147,9 @@ class ChattingRoomFragment : Fragment() {
                                 )
                                 chattingList.add(message)
                             }
-                            DocumentChange.Type.MODIFIED -> {
 
-                            }
-                            DocumentChange.Type.REMOVED -> {
-
-                            }
+                            DocumentChange.Type.MODIFIED -> {}
+                            DocumentChange.Type.REMOVED -> {}
                         }
                     }
                     setupRecyclerViewChattingRoom(chattingList)
@@ -182,6 +179,4 @@ class ChattingRoomFragment : Fragment() {
 
         _binding = null
     }
-
 }
-

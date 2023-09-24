@@ -1,7 +1,6 @@
 package likelion.project.agijagi.product
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import android.widget.ImageView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
@@ -229,7 +227,9 @@ class ProductDetailFragment : Fragment() {
             }
             setOnClickListener {
                 if (state == "품절") {
-                    Snackbar.make(binding.root, "품절된 상품입니다.", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "품절된 상품입니다.", Snackbar.LENGTH_SHORT)
+                        .setAnchorView(binding.layoutBottomButtonArea)
+                        .show()
                 } else if (UserModel.uid == "") {
                     displayDialogUserNotLogin(
                         requireContext(),
@@ -239,7 +239,10 @@ class ProductDetailFragment : Fragment() {
                 } else {
                     val bundle = bundleOf("prodId" to productId)
                     it.findNavController()
-                        .navigate(R.id.action_productDetailFragment_to_readyMadeOptionFragment, bundle)
+                        .navigate(
+                            R.id.action_productDetailFragment_to_readyMadeOptionFragment,
+                            bundle
+                        )
                 }
             }
         }
@@ -249,6 +252,4 @@ class ProductDetailFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
-

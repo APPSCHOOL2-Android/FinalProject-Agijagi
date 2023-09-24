@@ -19,9 +19,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
@@ -64,7 +62,6 @@ class ProductAddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentProductAddBinding.inflate(inflater)
         mainActivity = activity as MainActivity
 
@@ -357,7 +354,7 @@ class ProductAddFragment : Fragment() {
                 callbackActionGranted = {
                     // 사진을 추가할 공간이 있는 지 확인
                     if (6 <= dataOrigin.image.size) {
-                        Snackbar.make(it, "최대 6장의 사진만 추가할 수 있습니다", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(it, "최대 6장의 사진만 추가할 수 있습니다", Snackbar.LENGTH_SHORT).show()
                     } else {
                         val newIntent =
                             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -369,7 +366,7 @@ class ProductAddFragment : Fragment() {
                     }
                 }
                 callbackActionDenide = {
-                    Snackbar.make(it, "권한을 허용하세요", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(it, "권한을 허용하세요", Snackbar.LENGTH_SHORT).show()
                 }
             }
 
@@ -418,7 +415,7 @@ class ProductAddFragment : Fragment() {
                 callbackActionGranted = {
                     // 도면을 추가할 공간이 있는 지 확인
                     if (4 <= dataOrigin.floorPlan.size) {
-                        Snackbar.make(it, "최대 4장의 도면만 추가할 수 있습니다", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(it, "최대 4장의 도면만 추가할 수 있습니다", Snackbar.LENGTH_SHORT).show()
                     } else {
                         val newIntent =
                             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -430,7 +427,7 @@ class ProductAddFragment : Fragment() {
                     }
                 }
                 callbackActionDenide = {
-                    Snackbar.make(it, "권한을 허용하세요", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(it, "권한을 허용하세요", Snackbar.LENGTH_SHORT).show()
                 }
             }
 
@@ -459,12 +456,10 @@ class ProductAddFragment : Fragment() {
     private fun checkBottomButtonActive() {
         binding.run {
             val data = dataOrigin
-
             val checker = !(data.name == "" || data.name == " " ||
                     data.price == "" || data.price == " " ||
                     data.category == "" || data.category == " ")
 
-            // 버튼 활성화
             buttonProductAddOk.isSelected = checker
             buttonProductAddOk.isClickable = checker
         }
@@ -485,27 +480,15 @@ class ProductAddFragment : Fragment() {
                     if (6 <= dataOrigin.image.size) {
                         break
                     }
-
                     val uri = it.data!!.clipData!!.getItemAt(i).uri
 
-                    // 버젼별 이미지 디코드
-                    val bitmap = imageDecode(uri)
-
-                    // 가져온 이미지가 있다면 저장하고 화면에 보여줌
-                    if (bitmap != null) {
-                        // 이미지 추가
+                    if (imageDecode(uri) != null) {
                         dataOrigin.image.add(uri.toString())
                     }
                 }
 
                 resetPictureView()
-                Snackbar.make(
-                    binding.root,
-                    "사진을 추가했습니다",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-
+                Snackbar.make(binding.root, "사진을 추가했습니다", Snackbar.LENGTH_SHORT).show()
             }
 
         // 도면 추가
@@ -520,31 +503,20 @@ class ProductAddFragment : Fragment() {
                     if (4 <= dataOrigin.floorPlan.size) {
                         break
                     }
-
                     val uri = it.data!!.clipData!!.getItemAt(i).uri
 
-                    // 버젼별 이미지 디코드
-                    val bitmap = imageDecode(uri)
-
-                    // 가져온 이미지가 있다면 저장하고 화면에 보여줌
-                    if (bitmap != null) {
-                        // 이미지 추가
+                    if (imageDecode(uri) != null) {
                         dataOrigin.floorPlan.add(uri.toString())
                     }
                 }
 
                 resetPlanView()
-                Snackbar.make(
-                    binding.root,
-                    "도면을 추가했습니다",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                Snackbar.make(binding.root, "도면을 추가했습니다", Snackbar.LENGTH_SHORT).show()
             }
     }
 
+    // 버젼별 이미지 디코드
     private fun imageDecode(uri: Uri): Bitmap? {
-        // 버젼별 이미지 디코드
         var bitmap: Bitmap? = null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val source =
@@ -638,30 +610,36 @@ class ProductAddFragment : Fragment() {
                 val data = dataOrigin
                 data.run {
                     if (name == "" || name == " ") {
-                        Snackbar.make(it, "상품명을 입력하세요", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(it, "상품명을 입력하세요", Snackbar.LENGTH_SHORT).setAnchorView(it)
+                            .show()
                         return@setOnClickListener
                     }
                     if (price == "" || price == " ") {
-                        Snackbar.make(it, "상품가격을 입력하세요", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(it, "상품가격을 입력하세요", Snackbar.LENGTH_SHORT).setAnchorView(it)
+                            .show()
                         return@setOnClickListener
                     }
                     if (category == "") {
-                        Snackbar.make(it, "카테고리를 선택하세요", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(it, "카테고리를 선택하세요", Snackbar.LENGTH_SHORT).setAnchorView(it)
+                            .show()
                         return@setOnClickListener
                     }
 
                     // 주문 제작 가능 옵션의 유효성 검사
                     if (isCustom) {
                         if (customOptionInfo["lettering_is_use"] == "true" && customOptionInfo["lettering_fee"] == "") {
-                            Snackbar.make(it, "선택한 옵션의 가격을 입력하세요", Snackbar.LENGTH_SHORT).show()
+                            Snackbar.make(it, "선택한 옵션의 가격을 입력하세요", Snackbar.LENGTH_SHORT)
+                                .setAnchorView(it).show()
                             return@setOnClickListener
                         }
                         if (customOptionInfo["image_is_use"] == "true" && customOptionInfo["image_fee"] == "") {
-                            Snackbar.make(it, "선택한 옵션의 가격을 입력하세요", Snackbar.LENGTH_SHORT).show()
+                            Snackbar.make(it, "선택한 옵션의 가격을 입력하세요", Snackbar.LENGTH_SHORT)
+                                .setAnchorView(it).show()
                             return@setOnClickListener
                         }
                         if (customOptionInfo["lettering_is_use"] == "false" && customOptionInfo["image_is_use"] == "false") {
-                            Snackbar.make(it, "옵션을 하나 이상 추가하세요", Snackbar.LENGTH_SHORT).show()
+                            Snackbar.make(it, "옵션을 하나 이상 추가하세요", Snackbar.LENGTH_SHORT)
+                                .setAnchorView(it).show()
                             return@setOnClickListener
                         }
                     } else {
@@ -677,7 +655,6 @@ class ProductAddFragment : Fragment() {
                             image[pictureCheckIndex]
                         else ""
                 }
-
 
                 // 번들 생성, 전달
                 val bundle = bundleOf("productData" to data)
@@ -702,5 +679,4 @@ class ProductAddFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

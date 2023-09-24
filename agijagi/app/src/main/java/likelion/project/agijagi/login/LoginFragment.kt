@@ -29,24 +29,24 @@ import likelion.project.agijagi.model.SellerModel
 import likelion.project.agijagi.model.UserModel
 
 class LoginFragment : Fragment() {
-    companion object {
-        const val RC_SIGN_IN = 100 // 원하는 값으로 설정할 수 있음
-    }
 
-    private var _fragmentLoginBinding: FragmentLoginBinding? = null
-    private val fragmentLoginBinding
-        get() = _fragmentLoginBinding!!
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
 
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
+
+    companion object {
+        const val RC_SIGN_IN = 100 // 원하는 값으로 설정할 수 있음
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _fragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        return fragmentLoginBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,7 +55,7 @@ class LoginFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         setup()
 
-        fragmentLoginBinding.run {
+        binding.run {
             toolbarLogin.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
@@ -67,7 +67,6 @@ class LoginFragment : Fragment() {
 
             // 로그인 클릭 시 ( 자체 앱 )
             buttonLoginJagilogin.setOnClickListener {
-
                 if (editinputLoginEmail.text.toString()
                         .isNotBlank() && editinputLoginPassword.text.toString().isNotBlank()
                 ) {
@@ -98,7 +97,10 @@ class LoginFragment : Fragment() {
 
                         if (user["is_seller"] == false) {
                             // auth?.currentUser?.uid.toString() == it.id 같은 값을 가진다
-                            Log.d("getid", "get Uid: ${auth?.currentUser?.uid.toString()}")
+                            Log.d(
+                                "LoginFragment.createUser()",
+                                "get Uid: ${auth?.currentUser?.uid.toString()}"
+                            )
                             showSnackBar("로그인에 성공하였습니다.")
 
                             UserModel.uid = auth?.currentUser?.uid.toString()
@@ -141,7 +143,7 @@ class LoginFragment : Fragment() {
                                 }
 
                         } else if (user["is_seller"] == true) {
-                            Log.d("getid", "getid: ${user.id}")
+                            Log.d("LoginFragment.createUser()", "getid: ${user.id}")
                             showSnackBar("로그인에 성공하였습니다.")
 
                             UserModel.uid = auth?.currentUser?.uid.toString()
@@ -205,8 +207,6 @@ class LoginFragment : Fragment() {
 
         val googleSignInClient = GoogleSignIn.getClient(requireActivity(), googleSignInOptions)
 
-//        googleSignInClient.signOut()
-
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
@@ -221,11 +221,11 @@ class LoginFragment : Fragment() {
                     val account = task.getResult(ApiException::class.java)
                     firebaseAuthWithGoogle(account)
                 } catch (e: ApiException) {
-                    Log.d("login", "error: ApiException")
+                    Log.d("FirebaseAuthException", "error: ApiException")
                     showSnackBar("로그인에 실패하였습니다.")
                 }
             } else {
-                Log.d("login", "error: requestCode Error")
+                Log.d("FirebaseAuth", "error: requestCode Error")
                 showSnackBar("로그인에 실패하였습니다.")
             }
         }
@@ -241,7 +241,7 @@ class LoginFragment : Fragment() {
                     checkUserInfoInFirestore(user)
                 } else {
                     // 로그인 실패 처리
-                    Log.d("login", "error: task  is fail")
+                    Log.d("FirebaseAuthException", task.exception.toString())
                     showSnackBar("로그인에 실패하였습니다.")
                 }
             }
@@ -249,13 +249,11 @@ class LoginFragment : Fragment() {
 
     private fun checkUserInfoInFirestore(user: FirebaseUser?) {
         if (user != null) {
-
             db.collection("user")
                 // 문서 확인을 해야할 듯
                 .document(user.uid)
                 .get()
                 .addOnSuccessListener { user ->
-
                     if (user["name"].toString().length >= 2 && user["is_seller"] == false) {
                         UserModel.uid = auth?.currentUser?.uid.toString()
                         UserModel.email = user["email"].toString()
@@ -353,12 +351,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun showSnackBar(message: String) {
-        Snackbar.make(fragmentLoginBinding.root, message, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _fragmentLoginBinding = null
+        Snackbar.make(binding.root, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setup() {
@@ -368,5 +361,10 @@ class LoginFragment : Fragment() {
             isPersistenceEnabled = true
         }
         db.firestoreSettings = settings
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

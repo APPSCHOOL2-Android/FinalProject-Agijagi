@@ -86,7 +86,7 @@ class NotificationListFragment : Fragment() {
             notificationListAdapter.setCheckBoxParentState { setCheckBoxParentStete() }
             notificationListAdapter.setGoToChat { roomID, sender ->
                 Log.d(
-                    "notificationList to chattingRoom",
+                    "NotificationListFragment.setViewFunction()",
                     "roomID = $roomID, sender = $sender, receiver = ${UserModel.roleId}"
                 )
 
@@ -137,7 +137,6 @@ class NotificationListFragment : Fragment() {
             }
 
             buttonNotificationListDelete.setOnClickListener {
-                // 선택된 메뉴 지우기
                 removeData()
                 changeView(true)
             }
@@ -180,7 +179,6 @@ class NotificationListFragment : Fragment() {
                 // 체크박스 보이기
                 notificationListAdapter.updateCheckbox(true)
                 notificationListAdapter.notifyDataSetChanged()
-
             }
         }
     }
@@ -362,5 +360,4 @@ class NotificationListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

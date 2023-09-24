@@ -1,7 +1,6 @@
 package likelion.project.agijagi.chatting
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,9 +34,6 @@ class ChattingListAdapter :
                 } else {
                     textviewChattingListDate.text = convertToDateFormat(item.date)
                 }
-
-//                imageviewChattingListNew.visibility =
-//                    if (item.isRead) View.GONE else View.VISIBLE
 
                 root.setOnClickListener {
                     val bundle = Bundle()
@@ -98,5 +94,4 @@ class ChattingListAdapter :
     fun updateCheckbox(state: Boolean) {
         isTrashCan = state
     }
-
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -174,8 +175,22 @@ class ProductDetailPreviewFragment : Fragment() {
             setOnClickListener {
                 val productId = getMilliSec()
                 uploadProductImages(productId)
-                Snackbar.make(it, "상품 등록이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_productDetailPreviewFragment_to_productListFragment)
+
+                activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                Snackbar.make(it, "상품 등록이 완료되었습니다.", Snackbar.LENGTH_SHORT)
+                    .setAnchorView(binding.buttonProductDetailPreviewProductRegistration)
+                    .addCallback(object : Snackbar.Callback() {
+                        override fun onDismissed(
+                            transientBottomBar: Snackbar?,
+                            event: Int
+                        ) {
+                            super.onDismissed(transientBottomBar, event)
+                            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                            // 화면이동
+                            findNavController().navigate(R.id.action_productDetailPreviewFragment_to_productListFragment)
+                        }
+                    })
+                    .show()
             }
         }
     }
@@ -184,5 +199,4 @@ class ProductDetailPreviewFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

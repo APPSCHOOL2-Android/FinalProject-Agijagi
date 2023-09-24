@@ -270,6 +270,7 @@
         </ScrollView>
 
         <LinearLayout
+            android:id="@+id/layout_bottom_button_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/wide_box_product_detail"
