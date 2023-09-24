@@ -97,9 +97,10 @@ class WishListFragment : Fragment() {
                 val thumbnailImage = document["thumbnail_image"].toString()
                 val uri = storageRef.child(thumbnailImage).downloadUrl.await()
 
-            withContext(Dispatchers.Main) {
-                setRecyclerView()
-                showSampleData(false)
+                withContext(Dispatchers.Main) {
+                    setRecyclerView()
+                    showSampleData(false)
+                }
             }
         }
     }
