@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import likelion.project.agijagi.R
 import likelion.project.agijagi.model.CategoryDetailInfoListModel
 import likelion.project.agijagi.databinding.ItemCategoryDetailInfoListBinding
+import java.text.DecimalFormat
 
 class CategoryDetailInfoListAdapter :
     ListAdapter<CategoryDetailInfoListModel, CategoryDetailInfoListAdapter.CategoryListViewHolder>(
@@ -22,6 +23,8 @@ class CategoryDetailInfoListAdapter :
 
         fun bind(item: CategoryDetailInfoListModel) {
             with(bind) {
+                val dec = DecimalFormat("#,###")
+
                 Glide.with(itemView)
                     .load(item.thumbnail)
                     .placeholder(R.drawable.category_list_item_default_image)
@@ -29,7 +32,7 @@ class CategoryDetailInfoListAdapter :
 
                 textviewCategoryDetailInfoBrand.text = item.brand
                 textviewCategoryDetailInfoName.text = item.name
-                textviewCategoryDetailInfoPrice.text = item.price
+                textviewCategoryDetailInfoPrice.text = "${dec.format(item.price.toLong())}원"
             }
 
             // 추후 기성품, 주문 제작 상품 구분 필요

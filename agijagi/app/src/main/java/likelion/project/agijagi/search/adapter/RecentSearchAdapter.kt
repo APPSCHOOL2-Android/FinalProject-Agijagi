@@ -3,7 +3,6 @@ package likelion.project.agijagi.search.adapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,7 +11,8 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemSearchRecentSearchesBinding
 import likelion.project.agijagi.search.SearchFragment.Companion.recentSearchesList
 
-class RecentSearchAdapter : ListAdapter<String, RecentSearchAdapter.RecentSearchViewHolder>(diffUtil) {
+class RecentSearchAdapter :
+    ListAdapter<String, RecentSearchAdapter.RecentSearchViewHolder>(diffUtil) {
 
     inner class RecentSearchViewHolder(private val binding: ItemSearchRecentSearchesBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -61,5 +61,4 @@ class RecentSearchAdapter : ListAdapter<String, RecentSearchAdapter.RecentSearch
             }
         }
     }
-
 }

@@ -140,6 +140,7 @@ class ProductUpdateDetailPreviewFragment : Fragment() {
     }
 
     private fun uploadProductImages(productId: String) {
+        Snackbar.make(requireView(), "상품 등록 중...", Snackbar.LENGTH_SHORT).show()
         val productThumbnailImageFileName =
             "productImage/$productId/thumbnail_${getMilliSec()}.jpg"
         storageRef.child(productThumbnailImageFileName).putFile(newThumbnailImage.toUri())
@@ -204,7 +205,6 @@ class ProductUpdateDetailPreviewFragment : Fragment() {
             "update_date" to getMilliSec()
         )
         db.collection("product").document(productId).set(productMap).addOnSuccessListener {
-            Snackbar.make(requireView(), "상품 수정이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_productUpdateDetailPreviewFragment_to_productListFragment)
         }
     }
@@ -220,6 +220,22 @@ class ProductUpdateDetailPreviewFragment : Fragment() {
             text = "수정"
             setOnClickListener {
                 uploadProductImages(getProductId())
+
+//                activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+//                Snackbar.make(it, "상품 수정이 완료되었습니다.", Snackbar.LENGTH_SHORT)
+//                    .setAnchorView(binding.buttonProductDetailPreviewProductRegistration)
+//                    .addCallback(object : Snackbar.Callback() {
+//                        override fun onDismissed(
+//                            transientBottomBar: Snackbar?,
+//                            event: Int
+//                        ) {
+//                            super.onDismissed(transientBottomBar, event)
+//                            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+//                            // 화면이동
+//                            findNavController().navigate(R.id.action_productUpdateDetailPreviewFragment_to_productListFragment)
+//                        }
+//                    })
+//                    .show()
             }
         }
     }
@@ -228,5 +244,4 @@ class ProductUpdateDetailPreviewFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -18,7 +17,6 @@ import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.FragmentHomeBinding
 import likelion.project.agijagi.home.adapter.BestItemAdapter
 import likelion.project.agijagi.model.BuyerModel
-import likelion.project.agijagi.model.CategoryDetailInfoListModel
 import likelion.project.agijagi.model.HomeBestItemModel
 import likelion.project.agijagi.model.UserModel
 
@@ -47,9 +45,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("home", "uid: ${UserModel.uid}\n name: ${UserModel.name}")
+        Log.d("HomeFragment.onViewCreated()", "uid: ${UserModel.uid}\n name: ${UserModel.name}")
         Log.d(
-            "home",
+            "HomeFragment.onViewCreated()",
             "basic: ${BuyerModel.basic} \nnickname: ${BuyerModel.nickname}\n notif_setting: ${BuyerModel.notifSetting}"
         )
 
@@ -58,7 +56,6 @@ class HomeFragment : Fragment() {
         setToolbarMenuItem()
         setOrderMadeProductButton()
         setBestItem()
-
     }
 
     private fun setToolbarMenuItem() {
@@ -92,11 +89,10 @@ class HomeFragment : Fragment() {
 
     private fun setRecyclerBestItemData(documents: List<QueryDocumentSnapshot>) {
         for (document in documents) {
-            Log.d("home", "document id: ${document.id}")
+            Log.d("HomeFragment.setRecyclerBestItemData()", "document id: ${document.id}")
             try {
                 val thumbnailImage = document.data["thumbnail_image"].toString()
                 storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { uri ->
-
                     val model = HomeBestItemModel(
                         document.id,
                         document.getBoolean("is_custom"),
@@ -108,9 +104,7 @@ class HomeFragment : Fragment() {
                     dataList.add(model)
                     setRecyclerviewBestItem(dataList)
                 }
-
             } catch (e: Exception) {
-                // 오류가 발생한 경우 오류를 처리합니다.
                 Log.e(
                     "StorageException",
                     "Error downloading image: ${e.message}",
@@ -126,20 +120,15 @@ class HomeFragment : Fragment() {
             dataList.clear()
 
             ref.run {
-//                showTravelData(true)
-                get()
-                    .addOnSuccessListener { documents ->
-                        val filteredDocuments =
-                            documents.filter { it.getString("state") != "숨김" }
-                                .sortedByDescending { it.get("sales_quantity") as? Int }
-                                .take(4)
-
-                        setRecyclerBestItemData(filteredDocuments)
-//                        showTravelData(false)
-
-                    }.addOnFailureListener {
-                        Log.d("home", "데이터")
-                    }
+                get().addOnSuccessListener { documents ->
+                    val filteredDocuments =
+                        documents.filter { it.getString("state") != "숨김" }
+                            .sortedByDescending { it.getLong("sales_quantity") }
+                            .take(4)
+                    setRecyclerBestItemData(filteredDocuments)
+                }.addOnFailureListener {
+                    Log.d("FirebaseException", it.toString())
+                }
             }
         }
     }
@@ -176,5 +165,4 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

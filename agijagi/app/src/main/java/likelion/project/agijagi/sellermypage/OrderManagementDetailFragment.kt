@@ -1,8 +1,6 @@
 package likelion.project.agijagi.sellermypage
 
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +28,6 @@ class OrderManagementDetailFragment : Fragment() {
 
     private val db = Firebase.firestore
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,9 +46,6 @@ class OrderManagementDetailFragment : Fragment() {
             val orderId = item?.orderId.toString()
             val productId = item?.productId.toString()
             val userName = item?.userName.toString()
-            Log.d("tttt", orderId.toString())
-            Log.d("tttt", productId.toString())
-            Log.d("tttt", userName.toString())
 
             CoroutineScope(Dispatchers.IO).launch {
                 showSampleData(true)
@@ -59,10 +53,6 @@ class OrderManagementDetailFragment : Fragment() {
                 val orderData = db.collection("order").document(orderId).get().await()
                 val orderProductInfo = db.collection("order").document(orderId)
                     .collection("prod_Info").document(orderData["date"].toString()).get().await()
-
-                Log.d("tttt", productInfo.toString())
-                Log.d("tttt", orderData.toString())
-                Log.d("tttt", orderProductInfo.toString())
 
                 val address = orderData["shippingAddress"] as HashMap<String, String>
 
@@ -109,15 +99,17 @@ class OrderManagementDetailFragment : Fragment() {
     private fun setOrderRejectButton() {
         binding.buttonOrderReject.setOnClickListener {
             // 다이얼로그 커스텀 필요
-            MaterialAlertDialogBuilder(mainActivity)
+            MaterialAlertDialogBuilder(requireContext())
                 .setTitle("주문 거부")
                 .setMessage("주문을 거부 하시겠습니까?")
-                .setPositiveButton("확인") { _: DialogInterface, _: Int ->
-
-                }
+                .setPositiveButton("확인", null)
                 .setNegativeButton("취소", null)
                 .show()
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

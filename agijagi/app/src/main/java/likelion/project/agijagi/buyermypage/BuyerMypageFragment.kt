@@ -51,7 +51,6 @@ class BuyerMypageFragment : Fragment() {
         findNavController().navigate(R.id.action_buyerMypageFragment_to_loginFragment)
     }
 
-    // 회원탈퇴
     private fun delete() {
         UserModel.clearData()
         FirebaseAuth.getInstance().currentUser?.delete()
@@ -119,5 +118,4 @@ class BuyerMypageFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

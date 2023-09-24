@@ -1,6 +1,5 @@
 package likelion.project.agijagi.shopping
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,14 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.checkbox.MaterialCheckBox
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
@@ -39,7 +36,6 @@ class ShoppingListFragment : Fragment() {
     private val shoppingList = hashMapOf<String, String>()
     private val countList = hashMapOf<String, String>()
 
-
     private val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
 
@@ -47,7 +43,6 @@ class ShoppingListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentShoppingListBinding.inflate(inflater)
         mainActivity = activity as MainActivity
         shoppingListAdapter = ShoppingListAdapter(requireContext())
@@ -96,13 +91,12 @@ class ShoppingListFragment : Fragment() {
                 // 선택된 메뉴 지우기
                 removeData()
                 shoppingListAdapter.notifyDataSetChanged()
-
             }
 
             buttonShoppingListOk.setOnClickListener {
                 // isChecked 되어있는거 prodId paymentFragment에 보내주면된다.
                 val data = dataSet.filter { it.isCheck }
-                Log.d("ttttt", data[0].documentId)
+                Log.d("ShoppingListFragment.onViewCreated()", data[0].documentId)
                 db.collection("buyer").document(UserModel.roleId)
                     .collection("shopping_list").document(data[0].documentId).get()
                     .addOnSuccessListener {
@@ -150,16 +144,15 @@ class ShoppingListFragment : Fragment() {
         }
     }
 
-
     private suspend fun getShoppingListData() {
         showSampleData(true)
         CoroutineScope(Dispatchers.IO).launch {
-            Log.d("tttt",  "쇼핑리스트 시작${dataSet.size}")
+            Log.d("ShoppingListFragment.getShoppingListData()", "쇼핑리스트 시작 ${dataSet.size}")
             db.collection("buyer").document(UserModel.roleId)
                 .collection("shopping_list").get()
                 .addOnSuccessListener { shopping ->
                     shoppingList.clear()
-                    Log.d("tttt",  "쇼핑리스트 들어옴${dataSet.size}")
+                    Log.d("ShoppingListFragment.getShoppingListData()", "쇼핑리스트 들어옴 ${dataSet.size}")
                     for (document in shopping) {
                         shoppingList[document.id] = document["prodInfoId"].toString()
                         countList[document.id] = document["count"].toString()
@@ -170,14 +163,14 @@ class ShoppingListFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             delay(100)
             dataSet.clear()
-            Log.d("tttt",  "코루틴 시작 ${dataSet.size}")
+            Log.d("ShoppingListFragment.getShoppingListData()", "코루틴 시작 ${dataSet.size}")
             val snapshot = db.collection("product").get().await()
             shoppingList.forEach { productId ->
                 for (document in snapshot) {
                     val thumbnailImage = document.data["thumbnail_image"].toString()
                     if (productId.value == document.id) {
                         val uri = storageRef.child(thumbnailImage).downloadUrl.await()
-                        Log.d("tttt",  "productId ${productId.value}")
+                        Log.d("ShoppingListFragment.getShoppingListData()", "productId ${productId.value}")
 
                         dataSet.add(
                             ShoppingListModel(
@@ -191,22 +184,15 @@ class ShoppingListFragment : Fragment() {
                         )
                     }
                 }
-                Log.d("tttt",  "코루틴 끝 ${dataSet.size}")
+                Log.d("ShoppingListFragment.getShoppingListData()", "코루틴 끝 ${dataSet.size}")
             }
             withContext(Dispatchers.Main) {
                 showSampleData(false)
                 setRecyclerView()
-                Log.d("tttt", "데이터 그릴때 ${dataSet.size}")
-//                if (dataSet.size == 0) {
-//                    binding.layoutEmptyState.visibility = View.VISIBLE
-//                    binding.recyclerviewShoppingList.visibility = View.GONE
-//                } else {
-//                    binding.layoutEmptyState.visibility = View.GONE
-//                }
+                Log.d("ShoppingListFragment.getShoppingListData()", "데이터 그릴때 ${dataSet.size}")
             }
         }
     }
-
 
     private fun removeData() {
         // 연결 리스트 해제
@@ -223,22 +209,19 @@ class ShoppingListFragment : Fragment() {
                     if (it.isSuccessful) {
                     } else {
                         ch = false
-
                     }
                 }
         }
 
-        if (ch) {
-            Snackbar.make(binding.root, "성공", Snackbar.LENGTH_SHORT).show()
-        } else {
-            Snackbar.make(binding.root, "실패", Snackbar.LENGTH_SHORT).show()
+        if (!ch) {
+            Log.e("FirebaseException", "하나 이상의 통신 실패")
         }
+
         runBlocking {
             getShoppingListData()
         }
         setCheckBoxParentState()
     }
-
 
     private fun setCheckBoxParentState() {
         val checkedCount = dataSet.filter { item -> item.isCheck }.size

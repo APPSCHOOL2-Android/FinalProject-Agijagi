@@ -7,7 +7,6 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -97,6 +96,7 @@ class ProductDetailPreviewFragment : Fragment() {
     }
 
     private fun uploadProductImages(productId: String) {
+        Snackbar.make(requireView(), "상품 등록 중...", Snackbar.LENGTH_SHORT).show()
         val productThumbnailImageFileName = "productImage/$productId/thumbnail_${getMilliSec()}.jpg"
         storageRef.child(productThumbnailImageFileName).putFile(product.thumbnail_image.toUri())
             .addOnSuccessListener {
@@ -159,7 +159,9 @@ class ProductDetailPreviewFragment : Fragment() {
             "thumbnail_image" to product.thumbnail_image,
             "update_date" to getMilliSec()
         )
-        db.collection("product").document(productId).set(productMap)
+        db.collection("product").document(productId).set(productMap).addOnSuccessListener {
+            findNavController().navigate(R.id.action_productDetailPreviewFragment_to_productListFragment)
+        }
     }
 
     private fun setToolbarNavigationAction() {
@@ -174,8 +176,22 @@ class ProductDetailPreviewFragment : Fragment() {
             setOnClickListener {
                 val productId = getMilliSec()
                 uploadProductImages(productId)
-                Snackbar.make(it, "상품 등록이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_productDetailPreviewFragment_to_productListFragment)
+
+//                activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+//                Snackbar.make(it, "상품 등록이 완료되었습니다.", Snackbar.LENGTH_SHORT)
+//                    .setAnchorView(binding.buttonProductDetailPreviewProductRegistration)
+//                    .addCallback(object : Snackbar.Callback() {
+//                        override fun onDismissed(
+//                            transientBottomBar: Snackbar?,
+//                            event: Int
+//                        ) {
+//                            super.onDismissed(transientBottomBar, event)
+//                            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+//                            // 화면이동
+//                            findNavController().navigate(R.id.action_productDetailPreviewFragment_to_productListFragment)
+//                        }
+//                    })
+//                    .show()
             }
         }
     }
@@ -184,5 +200,4 @@ class ProductDetailPreviewFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

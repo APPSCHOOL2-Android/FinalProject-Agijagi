@@ -52,7 +52,6 @@ class CustomProductDetailFragment : Fragment() {
         loadCustomProductDataAndInitViews(productId)
         setupFloorPlanDownloadButton()
         setupFavoriteButton(productId)
-
     }
 
     private fun getCustomProductId(): String {
@@ -84,7 +83,6 @@ class CustomProductDetailFragment : Fragment() {
                 shimmerLayoutCustomProductDetailThumbnailImage,
                 shimmerLayoutImages
             )
-
 
             db.collection("product").document(productId).get().addOnSuccessListener {
                 val thumbnailImage = it["thumbnail_image"].toString()
@@ -212,7 +210,9 @@ class CustomProductDetailFragment : Fragment() {
 
     private fun setupFloorPlanDownloadButton() {
         binding.buttonCustomProductDetailDownloadFloorPlan.setOnClickListener {
-            Snackbar.make(it, "도면 다운로드가 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(it, "도면 다운로드가 완료되었습니다.", Snackbar.LENGTH_SHORT)
+                .setAnchorView(binding.layoutBottomButtonArea)
+                .show()
         }
     }
 
@@ -270,7 +270,9 @@ class CustomProductDetailFragment : Fragment() {
             }
             setOnClickListener {
                 if (state == "품절") {
-                    Snackbar.make(binding.root, "품절된 상품입니다.", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "품절된 상품입니다.", Snackbar.LENGTH_SHORT)
+                        .setAnchorView(binding.layoutBottomButtonArea)
+                        .show()
                 } else if (UserModel.uid == "") {
                     displayDialogUserNotLogin(
                         requireContext(),
@@ -293,5 +295,4 @@ class CustomProductDetailFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
