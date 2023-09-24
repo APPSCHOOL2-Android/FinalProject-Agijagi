@@ -30,11 +30,11 @@ class ProductListFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var productListAdapter: ProductListAdapter
 
-    val dataList = arrayListOf<ProductModel>().apply {
-    }
+    private val dataList = arrayListOf<ProductModel>()
 
     val db = FirebaseFirestore.getInstance()
     val roleId = UserModel.roleId
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -174,4 +174,8 @@ class ProductListFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
