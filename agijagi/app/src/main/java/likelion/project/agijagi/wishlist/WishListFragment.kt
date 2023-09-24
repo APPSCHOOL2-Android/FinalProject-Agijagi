@@ -67,6 +67,7 @@ class WishListFragment : Fragment() {
 
     private suspend fun getData() {
         // 데이터 가져오기전에 shimmer
+        dataSet.clear()
         showSampleData(true)
         // buyer컬렉션-> userroleid문서->  wish컬렉션에서 데이터 가져와서
         CoroutineScope(Dispatchers.IO).launch {
