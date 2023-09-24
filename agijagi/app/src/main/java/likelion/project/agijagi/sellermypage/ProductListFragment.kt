@@ -80,7 +80,7 @@ class ProductListFragment : Fragment() {
             // 리스트 초기화
             dataList.clear()
 
-            val querySnapshot = db.collection("product").whereEqualTo("seller_id", roleId)
+            val querySnapshot = db.collection("product").whereEqualTo("seller_id", roleId).whereEqualTo("is_delete", false)
                 .get().await()
             for (document in querySnapshot) {
                 dataList.add(
