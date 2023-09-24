@@ -34,16 +34,16 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/container_item_shimmer"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -104,18 +104,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/toolbar_ready_made_option">
 
-                    <ImageView
-                        android:id="@+id/imageview_shopping_list_item"
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_view_custom_option"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/shopping_list_no_item_logo"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/imageview_shopping_list_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/shopping_list_no_item_logo" />
+
+                    </com.google.android.material.card.MaterialCardView>
 
                     <TextView
                         android:id="@+id/textview_shopping_list_item_brand"
@@ -125,7 +135,7 @@
                         android:layout_marginTop="8dp"
                         android:text="브랜드명"
                         android:textSize="10sp"
-                        app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item"
+                        app:layout_constraintStart_toEndOf="@+id/card_view_custom_option"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
@@ -136,7 +146,7 @@
                         android:layout_marginTop="4dp"
                         android:text="제품명 도자기"
                         android:textSize="12sp"
-                        app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item"
+                        app:layout_constraintStart_toEndOf="@+id/card_view_custom_option"
                         app:layout_constraintTop_toBottomOf="@id/textview_shopping_list_item_brand" />
 
                     <TextView
@@ -147,7 +157,7 @@
                         android:layout_marginTop="4dp"
                         android:text="100,000원"
                         android:textSize="11sp"
-                        app:layout_constraintStart_toEndOf="@+id/imageview_shopping_list_item"
+                        app:layout_constraintStart_toEndOf="@+id/card_view_custom_option"
                         app:layout_constraintTop_toBottomOf="@id/textview_shopping_list_item_name" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
