@@ -1,28 +1,21 @@
 package likelion.project.agijagi.wishlist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import likelion.project.agijagi.MainActivity
-import likelion.project.agijagi.R
-import likelion.project.agijagi.buyermypage.ShippingManagementFragment
 import likelion.project.agijagi.databinding.FragmentWishListBinding
 import likelion.project.agijagi.model.UserModel
 
@@ -30,6 +23,7 @@ class WishListFragment : Fragment() {
 
     private var _binding: FragmentWishListBinding? = null
     private val binding get() = _binding!!
+
 
     lateinit var mainActivity: MainActivity
     lateinit var listAdapter: WishListAdapter
@@ -58,6 +52,7 @@ class WishListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.run {
             runBlocking {
                 getData()
@@ -68,6 +63,7 @@ class WishListFragment : Fragment() {
     private suspend fun getData() {
         // 데이터 가져오기전에 shimmer
         dataSet.clear()
+
         showSampleData(true)
         // buyer컬렉션-> userroleid문서->  wish컬렉션에서 데이터 가져와서
         CoroutineScope(Dispatchers.IO).launch {
@@ -95,6 +91,11 @@ class WishListFragment : Fragment() {
                     )
                 )
             }
+            // 이게 끝나고 밑에 실행
+            wishListData.forEach { prodId ->
+                val document = db.collection("product").document(prodId).get().await()
+                val thumbnailImage = document["thumbnail_image"].toString()
+                val uri = storageRef.child(thumbnailImage).downloadUrl.await()
 
             withContext(Dispatchers.Main) {
                 setRecyclerView()

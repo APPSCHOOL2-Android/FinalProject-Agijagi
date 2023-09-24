@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
@@ -71,9 +70,7 @@ class BuyerNotificationSettingFragment : Fragment() {
         db.collection("buyer").document(UserModel.roleId).get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    // 업데이트 성공 시 동작
                     val data = it.result.data
-
                     val map = data?.get("notif_setting") as MutableMap<String, Boolean>
                     // 초기 설정
                     binding.run {
@@ -82,7 +79,6 @@ class BuyerNotificationSettingFragment : Fragment() {
                         switchBuyerNotificationSettingQa.isChecked = map["cs_alert"]!!
                     }
                 } else {
-                    // 통신 실패 시 동작
                     Log.e("FirebaseException", it.exception.toString())
                 }
             }
@@ -105,9 +101,7 @@ class BuyerNotificationSettingFragment : Fragment() {
             )
         user.update("notif_setting", value).addOnCompleteListener {
             if (it.isSuccessful) {
-                // 업데이트 성공 시 동작
             } else {
-                // 통신 실패 시 동작
                 Log.e("FirebaseException", it.exception.toString())
             }
         }
@@ -118,5 +112,4 @@ class BuyerNotificationSettingFragment : Fragment() {
 
         _binding = null
     }
-
 }

@@ -19,7 +19,7 @@ class SearchViewModel : ViewModel() {
                 val productNameAndBrandData = searchRepository.getProductNameAndBrand()
                 productNameAndBrand.postValue(productNameAndBrandData)
             } catch (e: Exception) {
-                Log.d("err", e.toString())
+                Log.d("SearchViewModel.getProductNameAndBrand()", e.toString())
             }
         }
     }

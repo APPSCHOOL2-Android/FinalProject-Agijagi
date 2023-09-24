@@ -2,7 +2,6 @@ package likelion.project.agijagi.wishlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +10,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemWishListBinding
 import likelion.project.agijagi.model.UserModel
-import likelion.project.agijagi.sellermypage.model.OrderManagementModel
 import likelion.project.agijagi.wishlist.WishListFragment.Companion.dataSet
 import java.text.DecimalFormat
 
@@ -84,11 +82,3 @@ class WishListAdapter(val itemClick: (WishListModel) -> Unit) :
         }
     }
 }
-
-//230916011944877
-//
-//230916012212464
-//
-//230916012555664
-//
-//230916013523863

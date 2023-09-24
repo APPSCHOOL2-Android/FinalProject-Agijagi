@@ -1,4 +1,4 @@
-package likelion.project.agijagi.signup.ui
+package likelion.project.agijagi.signup
 
 import android.os.Bundle
 import android.util.Log
@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -22,8 +21,8 @@ import java.util.regex.Pattern
 
 class SignupSellerFragment : Fragment() {
 
-    private var _fragmentSignupSellerBinding: FragmentSignupSellerBinding? = null
-    private val fragmentSignupSellerBinding get() = _fragmentSignupSellerBinding!!
+    private var _binding: FragmentSignupSellerBinding? = null
+    private val binding get() = _binding!!
 
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
@@ -47,11 +46,9 @@ class SignupSellerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentSignupSellerBinding.inflate(inflater, container, false)
 
-        _fragmentSignupSellerBinding =
-            FragmentSignupSellerBinding.inflate(inflater, container, false)
-
-        return fragmentSignupSellerBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +57,7 @@ class SignupSellerFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         setup()
 
-        fragmentSignupSellerBinding.run {
+        binding.run {
             toolbarSignupSellerToolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
@@ -119,7 +116,7 @@ class SignupSellerFragment : Fragment() {
             }
 
             buttonSignupSellerComplete.setOnClickListener {
-                if(buttonState == true) {
+                if (buttonState == true) {
                     createUser(
                         email = editinputSignupSellerEmail.text.toString(),
                         password = editinputSignupSellerPassword.text.toString()
@@ -132,7 +129,7 @@ class SignupSellerFragment : Fragment() {
     }
 
     private fun isValiedPassWord() {
-        fragmentSignupSellerBinding.run {
+        binding.run {
             passWordState =
                 editinputSignupSellerPassword.text.toString() == editinputSignupSellerCheckPassword.text.toString() &&
                         editinputSignupSellerPassword.text.toString().isNotBlank() &&
@@ -150,17 +147,17 @@ class SignupSellerFragment : Fragment() {
 
     private fun setSignupButtonState(state: Boolean) {
         if (state) {
-            fragmentSignupSellerBinding.buttonSignupSellerComplete.isSelected = true
-            fragmentSignupSellerBinding.buttonSignupSellerComplete.setTextColor(resources.getColor(R.color.white))
+            binding.buttonSignupSellerComplete.isSelected = true
+            binding.buttonSignupSellerComplete.setTextColor(resources.getColor(R.color.white))
         } else {
-            fragmentSignupSellerBinding.buttonSignupSellerComplete.isSelected = false
-            fragmentSignupSellerBinding.buttonSignupSellerComplete.setTextColor(resources.getColor(R.color.jagi_hint_color))
+            binding.buttonSignupSellerComplete.isSelected = false
+            binding.buttonSignupSellerComplete.setTextColor(resources.getColor(R.color.jagi_hint_color))
 
         }
     }
 
     private fun createUser(email: String, password: String) {
-        if (_fragmentSignupSellerBinding != null) {
+        if (_binding != null) {
 
             auth?.createUserWithEmailAndPassword(email, password)
                 ?.addOnCompleteListener { task ->
@@ -176,25 +173,24 @@ class SignupSellerFragment : Fragment() {
                             )
 
                             val sellerInfo = hashMapOf(
-                                "address" to fragmentSignupSellerBinding.editinputSignupSellerBusinessAddress.text.toString(),
+                                "address" to binding.editinputSignupSellerBusinessAddress.text.toString(),
                                 "br_cert" to "",
-                                "brn" to fragmentSignupSellerBinding.editinputSignupSellerRegistrationNumber.text.toString(),
-                                "bussiness_name" to fragmentSignupSellerBinding.editinputSignupSellerBusinessName.text.toString(),
+                                "brn" to binding.editinputSignupSellerRegistrationNumber.text.toString(),
+                                "bussiness_name" to binding.editinputSignupSellerBusinessName.text.toString(),
                                 "notif_setting" to sellerSetting,
-                                "tel" to fragmentSignupSellerBinding.editinputSignupSellerBusinessNumber.text.toString()
+                                "tel" to binding.editinputSignupSellerBusinessNumber.text.toString()
                             )
 
                             db.collection("seller")
                                 .add(sellerInfo)
                                 .addOnSuccessListener { documentReference ->
-
                                     roleId = documentReference.id
-                                    Log.d("sellerFragment", "roleID: ${roleId}")
+                                    Log.d("SignupSellerFragment.createUser()", "roleID: ${roleId}")
 
                                     val userInfo = hashMapOf(
                                         "email" to email,
                                         "password" to password,
-                                        "name" to fragmentSignupSellerBinding.editinputSignupSellerRepresentativeName.text.toString(),
+                                        "name" to binding.editinputSignupSellerRepresentativeName.text.toString(),
                                         "google_login_check" to false,
                                         "email_notif" to false,
                                         "sms_notif" to false,
@@ -208,16 +204,16 @@ class SignupSellerFragment : Fragment() {
                                         .set(userInfo, SetOptions.merge())
                                         .addOnSuccessListener {
                                             Log.d(
-                                                "firebase",
+                                                "SignupSellerFragment.createUser()",
                                                 "user cloud firestore 등록 완료\n authUID: ${user?.uid}"
                                             )
                                             showSnackBar("회원가입 성공했습니다.")
                                             findNavController().navigate(R.id.action_signupSellerFragment_to_loginFragment)
                                         }
                                         .addOnFailureListener { e ->
-                                            Log.w(
-                                                "firebase",
-                                                "user cloud firestore 등록 실패",
+                                            Log.e(
+                                                "FirebaseException",
+                                                "user cloud firestore 등록 실패: ${e.stackTrace}",
                                                 e
                                             )
                                         }
@@ -227,7 +223,7 @@ class SignupSellerFragment : Fragment() {
                         }
                     } else {
                         showSnackBar("이메일 형식이 아닙니다.")
-                        fragmentSignupSellerBinding.run {
+                        binding.run {
                             editinputSignupSellerEmail.requestFocus()
                             editinputSignupSellerEmail.setText("")
                         }
@@ -236,16 +232,10 @@ class SignupSellerFragment : Fragment() {
         }
     }
 
-    private fun showSnackBar(message: String){
-        Snackbar.make(
-            fragmentSignupSellerBinding.root, message, Toast.LENGTH_SHORT).apply {
-                anchorView = fragmentSignupSellerBinding.buttonSignupSellerComplete
-        }.show()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _fragmentSignupSellerBinding = null
+    private fun showSnackBar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT)
+            .setAnchorView(binding.buttonSignupSellerComplete)
+            .show()
     }
 
     private fun setup() {
@@ -255,5 +245,10 @@ class SignupSellerFragment : Fragment() {
             isPersistenceEnabled = true
         }
         db.firestoreSettings = settings
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
