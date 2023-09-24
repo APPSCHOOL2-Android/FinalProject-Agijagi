@@ -6,7 +6,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -72,10 +71,6 @@ class SearchFragment : Fragment() {
 
     private fun updateSearchListDisplay() {
         binding.run {
-            textinputlayoutSearch.run {
-
-            }
-
             edittextSearch.run {
                 doAfterTextChanged {
                     val searchText = it.toString()
@@ -140,5 +135,4 @@ class SearchFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
