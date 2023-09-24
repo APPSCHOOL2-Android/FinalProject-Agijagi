@@ -11,17 +11,21 @@ import com.bumptech.glide.Glide
 import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemHomeBestItemBinding
 import likelion.project.agijagi.model.HomeBestItemModel
+import java.text.DecimalFormat
 
 class BestItemAdapter :
     ListAdapter<HomeBestItemModel, BestItemAdapter.BestItemViewHolder>(
         diffUtil
     ) {
 
+
+
     inner class BestItemViewHolder(val bind: ItemHomeBestItemBinding) :
         RecyclerView.ViewHolder(bind.root) {
 
         fun bind(item: HomeBestItemModel) {
             with(bind) {
+                val dec = DecimalFormat("#,###")
                 Glide.with(itemView)
                     .load(item.thumbnail)
                     .placeholder(R.drawable.search_result_default_image)
@@ -29,7 +33,7 @@ class BestItemAdapter :
 
                 textviewHomeBestItemBrand.text = item.brand
                 textviewHomeBestItemName.text = item.name
-                textviewHomeBestItemPrice.text = item.price
+                textviewHomeBestItemPrice.text = "${dec.format(item.price.toLong())}원"
             }
 
             // 추후 기성품, 주문 제작 상품 구분 필요

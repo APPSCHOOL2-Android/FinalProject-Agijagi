@@ -123,7 +123,7 @@ class HomeFragment : Fragment() {
                 get().addOnSuccessListener { documents ->
                     val filteredDocuments =
                         documents.filter { it.getString("state") != "숨김" }
-                            .sortedByDescending { it.get("sales_quantity") as? Int }
+                            .sortedByDescending { it.getLong("sales_quantity") }
                             .take(4)
                     setRecyclerBestItemData(filteredDocuments)
                 }.addOnFailureListener {
