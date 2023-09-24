@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -104,7 +105,8 @@ class CustomOptionFragment : Fragment() {
             val thumbnailImage = it["thumbnail_image"].toString()
             binding.textviewShoppingListItemBrand.text = it["brand"].toString()
             binding.textviewShoppingListItemName.text = it["name"].toString()
-            binding.textviewShoppingListItemPrice.text = "${dec.format(it["price"].toString().toLong())}원"
+            binding.textviewShoppingListItemPrice.text =
+                "${dec.format(it["price"].toString().toLong())}원"
 
             storageRef.child(thumbnailImage).downloadUrl.addOnSuccessListener { thumbnailUri ->
                 Glide.with(this@CustomOptionFragment)
@@ -425,8 +427,26 @@ class CustomOptionFragment : Fragment() {
                                 .collection("shopping_list").document().set(
                                     productHashMap
                                 ).addOnSuccessListener {
-                                    showSnackBar("상품이 장바구니에 추가되었습니다.")
-                                    findNavController().popBackStack()
+                                    activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                                    Snackbar.make(
+                                        binding.root,
+                                        "상품이 장바구니에 추가되었습니다.",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .setAnchorView(binding.bottomLayoutCheck)
+                                        .addCallback(object : Snackbar.Callback() {
+                                            // 스낵바가 종료될 때의 처리
+                                            override fun onDismissed(
+                                                transientBottomBar: Snackbar?,
+                                                event: Int
+                                            ) {
+                                                super.onDismissed(transientBottomBar, event)
+                                                activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                                                // 화면이동
+                                                findNavController().popBackStack()
+                                            }
+                                        })
+                                        .show()
                                 }
                         }
                 }
@@ -434,17 +454,13 @@ class CustomOptionFragment : Fragment() {
         }
     }
 
-    private fun showSnackBar(message: String) {
-        Snackbar.make(binding.root, message, Toast.LENGTH_SHORT).show()
+    enum class MenuOption(val idx: Int, val string: String) {
+        MENU_LETTERING(0, "lettering"),
+        MENU_IMAGE(1, "image")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    enum class MenuOption(val idx: Int, val string: String) {
-        MENU_LETTERING(0, "lettering"),
-        MENU_IMAGE(1, "image")
     }
 }
