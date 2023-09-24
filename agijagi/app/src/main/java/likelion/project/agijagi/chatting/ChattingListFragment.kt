@@ -48,21 +48,16 @@ class ChattingListFragment : Fragment() {
         setupToolbar()
         getChattingRoomList()
 
-        // dataSet.reverse()
-
         binding.run {
             // 초기화
             buttonChattingListCancel.setOnClickListener {
                 changeView(true)
             }
 
+            // 선택된 메뉴 지우기
             buttonChattingListDelete.setOnClickListener {
-                // 선택된 메뉴 지우기
-                // dataSet.removeIf {it.isCheck}
-
                 changeView(true)
             }
-
         }
     }
 
@@ -133,7 +128,6 @@ class ChattingListFragment : Fragment() {
                                                 chattingRoomList.add(chattingListModel)
                                                 setupRecyclerViewChattingList()
                                                 changeViewWhenNoChatList()
-                                                // changeView(true)
                                             }
                                         }
                                 }
@@ -176,7 +170,6 @@ class ChattingListFragment : Fragment() {
                                                 chattingRoomList.add(chattingListModel)
                                                 setupRecyclerViewChattingList()
                                                 changeViewWhenNoChatList()
-                                                // changeView(true)
                                             }
                                         }
                                 }
@@ -204,11 +197,8 @@ class ChattingListFragment : Fragment() {
                 // 체크박스 숨기기
                 chattingListAdapter.updateCheckbox(false)
                 chattingListAdapter.notifyDataSetChanged()
-
-
             } else {
                 layoutChattingListBottomButton.visibility = VISIBLE
-
                 materialToolbarChattingList.run {
                     menu.findItem(R.id.menu_notification_list_delete).isVisible = false
                     navigationIcon = null
@@ -217,11 +207,6 @@ class ChattingListFragment : Fragment() {
                 // 체크박스 보이기
                 chattingListAdapter.updateCheckbox(true)
                 chattingListAdapter.notifyDataSetChanged()
-
-                // 체크 초기화
-//                for (data in dataSet) {
-//                    data.isCheck = false
-//                }
             }
         }
     }
@@ -230,5 +215,4 @@ class ChattingListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

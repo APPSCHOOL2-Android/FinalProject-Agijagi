@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DiffUtil.*
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -40,8 +39,6 @@ class ShoppingListAdapter(val context: Context) :
                 textviewShoppingListItemPrice.text = "${dec.format(item.price.toLong())}원"
 
                 buttonCount.text = item.count
-
-
             }
 
             bind.buttonChangeOption.setOnClickListener {
@@ -60,7 +57,7 @@ class ShoppingListAdapter(val context: Context) :
 
     override fun onBindViewHolder(holder: ShoppingListViewHolder, position: Int) {
         holder.bind(currentList[position])
-        holder.bind.checkboxShoppingListItem.setOnClickListener{
+        holder.bind.checkboxShoppingListItem.setOnClickListener {
             currentList[position].isCheck = !currentList[position].isCheck
             actionCheckBoxParentState()
         }
@@ -82,7 +79,6 @@ class ShoppingListAdapter(val context: Context) :
             ): Boolean {
                 return oldItem == newItem
             }
-
         }
     }
 

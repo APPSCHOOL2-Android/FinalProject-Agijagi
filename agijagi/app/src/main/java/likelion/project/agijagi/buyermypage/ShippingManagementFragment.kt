@@ -10,14 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.firestoreSettings
-import com.google.firebase.ktx.Firebase
 import likelion.project.agijagi.R
 import likelion.project.agijagi.buyermypage.adapter.ShippingManagementAdapter
-import likelion.project.agijagi.buyermypage.model.ShippingManagementModel
 import likelion.project.agijagi.databinding.FragmentShippingManagementBinding
 import likelion.project.agijagi.model.ShippingAddress
 import likelion.project.agijagi.model.UserModel
@@ -48,7 +43,8 @@ class ShippingManagementFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getShowCheckBoxState()
-        Log.d("pooooooooo", showCheckBox.toString())
+        Log.d("ShippingManagementFragment.onViewCreated()", showCheckBox.toString())
+
         setToolbarItemAction()
         setShippingAddButton()
         getShippingData()
@@ -56,7 +52,6 @@ class ShippingManagementFragment : Fragment() {
         shippingManagementAdapter = ShippingManagementAdapter(showCheckBox)
 
         binding.run {
-
             recyclerviewShippingManagement.run {
                 adapter = shippingManagementAdapter
                 layoutManager = LinearLayoutManager(context)
@@ -68,48 +63,10 @@ class ShippingManagementFragment : Fragment() {
 
     // 배송지 데이터 불러오기
     private fun getShippingData() {
-
-        val userUid = UserModel.roleId
-
         // 리스트 초기화
         shippingManagementList.clear()
 
-        // userEssential 사용 할 때 코드
-//        db.collection("buyer").document(roleId).collection("shipping_address")
-//            .get().addOnSuccessListener {
-//                Log.d("shippingList", "데이터 불러오기 성공")
-//                for (shippingData in it) {
-//                    val address = shippingData.getString("address") ?: ""
-//                    val addressDetail = shippingData.getString("address_detail") ?: ""
-//                    val basic = shippingData.getBoolean("basic") ?: false
-//                    val title = shippingData.getString("shipping_name") ?: ""
-//                    val recipientPhone = shippingData.getString("phone_number") ?: ""
-//                    val recipient = shippingData.getString("recipient") ?: ""
-//                    Log.d("shippingList", addressDetail)
-//                    shippingManagementList.add(
-//                        ShippingManagementModel(
-//                            address,
-//                            addressDetail,
-//                            basic,
-//                            title,
-//                            recipientPhone,
-//                            recipient
-//                        )
-//                    )
-//                }
-//                shippingManagementAdapter.submitList(shippingManagementList)
-//                Log.d("shippingList", shippingManagementList.toString())
-//
-//                // dataList가 비어있을 때 보이도록
-//                if (shippingManagementList.isEmpty()) {
-//                    binding.textViewShippingManagemnetNull.visibility = View.VISIBLE
-//                } else {
-//                    binding.textViewShippingManagemnetNull.visibility = View.GONE
-//                }
-//            }
-
-        // 테스트용 코드 (db, auth, setup 이랑 같이 지울코드)
-        db.collection("buyer").document(userUid).collection("shipping_address")
+        db.collection("buyer").document(UserModel.roleId).collection("shipping_address")
             .get().addOnSuccessListener {
                 Log.d("shippingList", "데이터 불러오기 성공")
                 for (shippingData in it) {
@@ -133,7 +90,10 @@ class ShippingManagementFragment : Fragment() {
                     )
                 }
                 shippingManagementAdapter.submitList(shippingManagementList)
-                Log.d("shippingList", shippingManagementList.toString())
+                Log.d(
+                    "ShippingManagementFragment.getShippingData()",
+                    shippingManagementList.toString()
+                )
 
                 // dataList가 비어있을 때 보이도록
                 if (shippingManagementList.isEmpty()) {
@@ -144,10 +104,10 @@ class ShippingManagementFragment : Fragment() {
             }
     }
 
-    private fun getShowCheckBoxState(){
+    private fun getShowCheckBoxState() {
         arguments?.getBoolean("payment_to_shippingManagement")?.let {
             showCheckBox = it
-            if(showCheckBox) binding.toolbarShippingManagement.title = "배송지 변경"
+            if (showCheckBox) binding.toolbarShippingManagement.title = "배송지 변경"
         }
     }
 
@@ -161,11 +121,6 @@ class ShippingManagementFragment : Fragment() {
         binding.buttonShippingManagementAdd.setOnClickListener {
             findNavController().navigate(R.id.action_shippingManagementFragment_to_shippingAddFragment)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     inner class MarginItemDecoration(private val spaceSize: Int) : RecyclerView.ItemDecoration() {
@@ -187,4 +142,8 @@ class ShippingManagementFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

@@ -1,4 +1,4 @@
-package likelion.project.agijagi.signup
+package likelion.project.agijagi.signup.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

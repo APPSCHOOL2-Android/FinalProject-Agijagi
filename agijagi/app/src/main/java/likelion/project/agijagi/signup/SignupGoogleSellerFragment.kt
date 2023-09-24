@@ -1,4 +1,4 @@
-package likelion.project.agijagi.signup.ui
+package likelion.project.agijagi.signup
 
 import android.os.Bundle
 import android.util.Log
@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -22,8 +21,8 @@ import likelion.project.agijagi.databinding.FragmentGoogleSignupSellerBinding
 
 class SignupGoogleSellerFragment : Fragment() {
 
-    private var _fragmentGoogleSignupSellerBinding: FragmentGoogleSignupSellerBinding? = null
-    private val fragmentGoogleSignupSellerBinding get() = _fragmentGoogleSignupSellerBinding!!
+    private var _binding: FragmentGoogleSignupSellerBinding? = null
+    private val binding get() = _binding!!
 
     private var auth: FirebaseAuth? = null
     private lateinit var db: FirebaseFirestore
@@ -44,10 +43,9 @@ class SignupGoogleSellerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentGoogleSignupSellerBinding.inflate(inflater, container, false)
 
-        _fragmentGoogleSignupSellerBinding = FragmentGoogleSignupSellerBinding.inflate(inflater, container, false)
-
-        return fragmentGoogleSignupSellerBinding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,7 +54,7 @@ class SignupGoogleSellerFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         setup()
 
-        fragmentGoogleSignupSellerBinding.run {
+        binding.run {
             toolbarGoogleSignupSellerToolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
@@ -87,36 +85,34 @@ class SignupGoogleSellerFragment : Fragment() {
             }
 
             buttonGoogleSignupSellerComplete.setOnClickListener {
-                if(buttonState == true) {
+                if (buttonState == true) {
                     createUser()
-                }
-                else {
+                } else {
                     showSnackBar("회원가입 실패했습니다.")
                 }
             }
         }
-
     }
 
-    private fun showSnackBar(message: String){
-        Snackbar.make(fragmentGoogleSignupSellerBinding.root, message, Toast.LENGTH_SHORT).apply {
-            anchorView = fragmentGoogleSignupSellerBinding.buttonGoogleSignupSellerComplete
-        }.show()
+    private fun showSnackBar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT)
+            .setAnchorView(binding.buttonGoogleSignupSellerComplete)
+            .show()
     }
+
     private fun isValidSignupButton(): Boolean {
         buttonState = businessNameState && representativeNameState && registrationNumberState &&
-                 businessAddressState && businessNumberState
+                businessAddressState && businessNumberState
         return buttonState
     }
 
-    private fun setSignupButtonState(state: Boolean){
-        if(state) {
-            fragmentGoogleSignupSellerBinding.buttonGoogleSignupSellerComplete.isSelected = true
-            fragmentGoogleSignupSellerBinding.buttonGoogleSignupSellerComplete.setTextColor(resources.getColor(R.color.white))
+    private fun setSignupButtonState(state: Boolean) {
+        if (state) {
+            binding.buttonGoogleSignupSellerComplete.isSelected = true
+            binding.buttonGoogleSignupSellerComplete.setTextColor(resources.getColor(R.color.white))
         } else {
-            fragmentGoogleSignupSellerBinding.buttonGoogleSignupSellerComplete.isSelected = false
-            fragmentGoogleSignupSellerBinding.buttonGoogleSignupSellerComplete.setTextColor(resources.getColor(R.color.jagi_hint_color))
-
+            binding.buttonGoogleSignupSellerComplete.isSelected = false
+            binding.buttonGoogleSignupSellerComplete.setTextColor(resources.getColor(R.color.jagi_hint_color))
         }
     }
 
@@ -128,22 +124,22 @@ class SignupGoogleSellerFragment : Fragment() {
         )
 
         val sellerInfo = hashMapOf(
-            "address" to fragmentGoogleSignupSellerBinding.editinputGoogleSignupSellerBusinessAddress.text.toString(),
+            "address" to binding.editinputGoogleSignupSellerBusinessAddress.text.toString(),
             "br_cert" to "",
-            "brn" to fragmentGoogleSignupSellerBinding.editinputGoogleSignupSellerRegistrationNumber.text.toString(),
-            "bussiness_name" to fragmentGoogleSignupSellerBinding.editinputGoogleSignupSellerBusinessName.text.toString(),
+            "brn" to binding.editinputGoogleSignupSellerRegistrationNumber.text.toString(),
+            "bussiness_name" to binding.editinputGoogleSignupSellerBusinessName.text.toString(),
             "notif_setting" to sellerSetting,
-            "tel" to fragmentGoogleSignupSellerBinding.editinputGoogleSignupSellerBusinessNumber.text.toString()
+            "tel" to binding.editinputGoogleSignupSellerBusinessNumber.text.toString()
         )
 
         db.collection("seller").add(sellerInfo)
             .addOnSuccessListener {
-            roleId = it.id
+                roleId = it.id
 
                 val userInfo = hashMapOf(
                     "email" to mAuth?.email.toString(),
                     "password" to "",
-                    "name" to fragmentGoogleSignupSellerBinding.editinputGoogleSignupSellerRepresentativeName.text.toString(),
+                    "name" to binding.editinputGoogleSignupSellerRepresentativeName.text.toString(),
                     "google_login_check" to true,
                     "email_notif" to false,
                     "sms_notif" to false,
@@ -155,20 +151,25 @@ class SignupGoogleSellerFragment : Fragment() {
 
                 db.collection("user").document(mAuth?.uid.toString())
                     .set(userInfo, SetOptions.merge())
-                    .addOnSuccessListener { Log.d("firebase", "user cloud firestore 등록 완료\n" +
-                            " authUID: ${mAuth?.uid}")
-                        findNavController().navigate(R.id.action_signupGoogleSellerFragment_to_loginFragment)}
-                    .addOnFailureListener { e -> Log.w("firebase", "user cloud firestore 등록 실패", e)  }
+                    .addOnSuccessListener {
+                        Log.d(
+                            "SignupGoogleSellerFragment.createUser()",
+                            "user cloud firestore 등록 완료\n" +
+                                    " authUID: ${mAuth?.uid}"
+                        )
+                        findNavController().navigate(R.id.action_signupGoogleSellerFragment_to_loginFragment)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e(
+                            "FirebaseException",
+                            "user cloud firestore 등록 실패: ${e.stackTrace}",
+                            e
+                        )
+                    }
             }
             .addOnFailureListener {
                 showSnackBar("회원가입 실패")
             }
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _fragmentGoogleSignupSellerBinding = null
     }
 
     private fun setup() {
@@ -178,5 +179,10 @@ class SignupGoogleSellerFragment : Fragment() {
             isPersistenceEnabled = true
         }
         db.firestoreSettings = settings
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

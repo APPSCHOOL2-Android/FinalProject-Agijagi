@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
@@ -67,13 +66,10 @@ class SellerNotificationSettingFragment : Fragment() {
     }
 
     private fun init() {
-        // download from server
         db.collection("seller").document(UserModel.roleId).get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    // 업데이트 성공 시 동작
                     val data = it.result.data
-
                     val map = data?.get("notif_setting") as MutableMap<String, Boolean>
                     // 초기 설정
                     binding.run {
@@ -82,14 +78,12 @@ class SellerNotificationSettingFragment : Fragment() {
                         switchSellerNotificationSettingExchange.isChecked = map["exchange"]!!
                     }
                 } else {
-                    // 통신 실패 시 동작
                     Log.e("FirebaseException", it.exception.toString())
                 }
             }
     }
 
     private fun updateSettings() {
-        // update data
         val (inquiry, order, exchange) = arrayOf(
             binding.switchSellerNotificationSettingInquiry.isChecked,
             binding.switchSellerNotificationSettingOrder.isChecked,
@@ -105,9 +99,7 @@ class SellerNotificationSettingFragment : Fragment() {
             )
         user.update("notif_setting", value).addOnCompleteListener {
             if (it.isSuccessful) {
-                // 업데이트 성공 시 동작
             } else {
-                // 통신 실패 시 동작
                 Log.e("FirebaseException", it.exception.toString())
             }
         }
@@ -115,7 +107,6 @@ class SellerNotificationSettingFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
         _binding = null
     }
 }

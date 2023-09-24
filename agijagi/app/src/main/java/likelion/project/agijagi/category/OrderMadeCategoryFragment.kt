@@ -48,10 +48,18 @@ class OrderMadeCategoryFragment : Fragment() {
 
     private fun setOrderMadeCategoryMenuButton() {
         binding.run {
-            linearlayoutOrderMadeCategoryButtonAll.setOnClickListener { it.navigateToCategoryDetail("All",1) }
-            linearlayoutOrderMadeCategoryButtonPlate.setOnClickListener { it.navigateToCategoryDetail("Plate",1) }
-            linearlayoutOrderMadeCategoryButtonCup.setOnClickListener { it.navigateToCategoryDetail("Cup",1) }
-            linearlayoutOrderMadeCategoryButtonBowl.setOnClickListener { it.navigateToCategoryDetail("Bowl",1) }
+            linearlayoutOrderMadeCategoryButtonAll.setOnClickListener {
+                it.navigateToCategoryDetail("All", 1)
+            }
+            linearlayoutOrderMadeCategoryButtonPlate.setOnClickListener {
+                it.navigateToCategoryDetail("Plate", 1)
+            }
+            linearlayoutOrderMadeCategoryButtonCup.setOnClickListener {
+                it.navigateToCategoryDetail("Cup", 1)
+            }
+            linearlayoutOrderMadeCategoryButtonBowl.setOnClickListener {
+                it.navigateToCategoryDetail("Bowl", 1)
+            }
         }
     }
 
@@ -60,8 +68,11 @@ class OrderMadeCategoryFragment : Fragment() {
         binding.run {
             val bundle = Bundle()
             bundle.putString("category", category)
-            bundle.putInt("is_custom",is_custom)
-            findNavController().navigate(R.id.action_orderMadeCategoryFragment_to_categoryDetailInfoListFragment, bundle)
+            bundle.putInt("is_custom", is_custom)
+            findNavController().navigate(
+                R.id.action_orderMadeCategoryFragment_to_categoryDetailInfoListFragment,
+                bundle
+            )
         }
     }
 
@@ -69,5 +80,4 @@ class OrderMadeCategoryFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

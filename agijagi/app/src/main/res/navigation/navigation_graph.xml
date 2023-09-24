@@ -360,7 +360,7 @@
 
     <fragment
         android:id="@+id/signupSelectFragment"
-        android:name="likelion.project.agijagi.signup.ui.SignupSelectFragment"
+        android:name="likelion.project.agijagi.signup.SignupSelectFragment"
         android:label="fragment_signup_select"
         tools:layout="@layout/fragment_signup_select">
         <action
@@ -582,7 +582,7 @@
 
     <fragment
         android:id="@+id/signupSellerFragment"
-        android:name="likelion.project.agijagi.signup.ui.SignupSellerFragment"
+        android:name="likelion.project.agijagi.signup.SignupSellerFragment"
         android:label="fragment_signup_seller"
         tools:layout="@layout/fragment_signup_seller">
         <action
@@ -617,7 +617,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupGoogleBuyerFragment"
-        android:name="likelion.project.agijagi.signup.ui.SignupGoogleBuyerFragment"
+        android:name="likelion.project.agijagi.signup.SignupGoogleBuyerFragment"
         android:label="SignupGoogleBuyerFragment">
         <action
             android:id="@+id/action_signupGoogleBuyerFragment_to_loginFragment"
@@ -630,7 +630,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupGoogleSellerFragment"
-        android:name="likelion.project.agijagi.signup.ui.SignupGoogleSellerFragment"
+        android:name="likelion.project.agijagi.signup.SignupGoogleSellerFragment"
         android:label="fragment_google_signup_seller"
         tools:layout="@layout/fragment_google_signup_seller">
         <action

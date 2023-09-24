@@ -65,7 +65,7 @@ class DeliveryTrackingFragment : Fragment() {
 
         if (bundle == null) {
             // 일어날 수 없음.
-            Log.e("BundleException", "Bundle is null!!")
+            Log.e("DeliveryTrackingFragment.setBundleData()", "Bundle is null!!")
             return
         }
 
@@ -137,12 +137,7 @@ class DeliveryTrackingFragment : Fragment() {
                 if (isGranted) {
                     callbackActionGranted()
                 } else {
-                    Snackbar.make(
-                        binding.root,
-                        "권한이 없어 전화를 걸 수 없습니다",
-                        Snackbar.LENGTH_SHORT
-                    )
-                        .show()
+                    Snackbar.make(binding.root, "권한이 없어 전화를 걸 수 없습니다", Snackbar.LENGTH_SHORT).show()
                 }
             }
     }
@@ -174,5 +169,4 @@ class DeliveryTrackingFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
