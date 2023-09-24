@@ -42,6 +42,7 @@
         app:layout_constraintTop_toBottomOf="@id/button_order_reject">
 
         <LinearLayout
+            android:id="@+id/layout_product_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -89,6 +90,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/text_view_order_detail_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -107,7 +109,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/textview_order_detail_name"
+                        android:id="@+id/text_view_order_detail_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -126,6 +128,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/text_view_order_detail_option"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -144,7 +147,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/textview_order_detail_price"
+                        android:id="@+id/text_view_order_detail_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -168,7 +171,197 @@
                 android:textSize="15sp" />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardview_order_info"
+                android:id="@+id/card_view_order_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:backgroundTint="@color/jagi_white"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="@color/jagi_black_42"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/text_view_order_detail_buyer_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="주문자명"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/text_view_order_detail_buyer_phone_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
+                        android:text="010-0001-1101"
+                        android:textColor="@color/jagi_black_70"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/text_view_order_detail_buyer_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="24dp"
+                        android:text="배송지 주소가 들어갑니다. 시군구 도로명 상세주소 (우편번호)"
+                        android:textColor="@color/jagi_black_70"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/layout_product_data_shimmer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_order_reject">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:text="주문 정보"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:text="주문상태 : 발송처리"
+                android:background="#9F9F9F"
+                android:textColor="#9F9F9F"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:backgroundTint="@color/jagi_white"
+                app:cardCornerRadius="8dp"
+                app:strokeColor="@color/jagi_black_42"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="주문번호"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="00000000000000"
+                        android:background="#9F9F9F"
+                        android:textColor="#9F9F9F"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="상품명"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="도자기"
+                        android:background="#9F9F9F"
+                        android:textColor="#9F9F9F"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="옵션"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:text="옵션1 : Blue"
+                        android:background="#9F9F9F"
+                        android:textColor="#9F9F9F"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:text="결제금액"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="24dp"
+                        android:text="159,000원"
+                        android:background="#9F9F9F"
+                        android:textColor="#9F9F9F"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:text="주문자 정보"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"
@@ -188,16 +381,17 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:text="주문자명"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:background="#9F9F9F"
+                        android:textColor="#9F9F9F"                        android:textSize="15sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="12dp"
+                        android:background="#9F9F9F"
                         android:text="010-0001-1101"
-                        android:textColor="@color/jagi_black_70"
+                        android:textColor="#9F9F9F"
                         android:textSize="14sp" />
 
                     <TextView
@@ -206,8 +400,9 @@
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="24dp"
+                        android:background="#9F9F9F"
                         android:text="배송지 주소가 들어갑니다. 시군구 도로명 상세주소 (우편번호)"
-                        android:textColor="@color/jagi_black_70"
+                        android:textColor="#9F9F9F"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -215,7 +410,6 @@
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
-
-    </ScrollView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

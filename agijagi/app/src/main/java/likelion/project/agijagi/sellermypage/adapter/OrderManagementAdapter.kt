@@ -5,8 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import likelion.project.agijagi.R
 import likelion.project.agijagi.databinding.ItemOrderManagementBinding
 import likelion.project.agijagi.sellermypage.model.OrderManagementModel
+import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class OrderManagementAdapter(val itemClick: (OrderManagementModel) -> Unit) :
     ListAdapter<OrderManagementModel, OrderManagementAdapter.OrderManagementHolder>(diffUtil) {
@@ -15,8 +20,23 @@ class OrderManagementAdapter(val itemClick: (OrderManagementModel) -> Unit) :
         RecyclerView.ViewHolder(bind.root) {
         fun bind(item: OrderManagementModel) {
             with(bind) {
-                textviewOrderManagementItemBrand.text = item.brand
+                val dec = DecimalFormat("#,###")
+                val dateFormat = SimpleDateFormat("yyMMddHHmmssSSS", Locale.getDefault())
+                val dateFormat2 = SimpleDateFormat("yy.MM.dd", Locale.getDefault())
+
+                val dateData = dateFormat.parse(item.date)
+                val dateData2 = dateFormat2.format(dateData)
+
+                textviewOrderManagementItemBuyerName.text = item.userName
                 textviewOrderManagementItemName.text = item.name
+                textviewOrderManagementItemPrice.text = "${dec.format(item.totalPrice.toLong())}원"
+                textviewOrderManagementDate.text = dateData2
+
+
+                Glide.with(itemView)
+                    .load(item.thumbnailImage)
+                    .placeholder(R.drawable.shopping_list_no_item_logo)
+                    .into(bind.imageviewOrderManagementItem)
             }
 
             bind.root.setOnClickListener {
