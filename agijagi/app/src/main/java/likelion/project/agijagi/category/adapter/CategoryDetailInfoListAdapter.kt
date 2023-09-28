@@ -8,15 +8,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import likelion.project.agijagi.R
+import likelion.project.agijagi.category.CategoryDetailInfoListFragment
 import likelion.project.agijagi.model.CategoryDetailInfoListModel
 import likelion.project.agijagi.databinding.ItemCategoryDetailInfoListBinding
 import java.text.DecimalFormat
+import likelion.project.agijagi.model.UserModel
 
 class CategoryDetailInfoListAdapter :
     ListAdapter<CategoryDetailInfoListModel, CategoryDetailInfoListAdapter.CategoryListViewHolder>(
         diffUtil
     ) {
+
+    val db = FirebaseFirestore.getInstance()
 
     inner class CategoryListViewHolder(val bind: ItemCategoryDetailInfoListBinding) :
         RecyclerView.ViewHolder(bind.root) {
@@ -33,6 +40,30 @@ class CategoryDetailInfoListAdapter :
                 textviewCategoryDetailInfoBrand.text = item.brand
                 textviewCategoryDetailInfoName.text = item.name
                 textviewCategoryDetailInfoPrice.text = "${dec.format(item.price.toLong())}원"
+
+
+                if (UserModel.uid != null) {
+                    imagebuttonCategoryDetailInfoListFavorite.isSelected = item.isCheck
+
+                    imagebuttonCategoryDetailInfoListFavorite.setOnClickListener {
+                        item.isCheck = item.isCheck != true
+
+                        if (item.isCheck == true) {
+                            val wishdata = hashMapOf("prodId" to item.prodId)
+
+                            db.collection("buyer").document(UserModel.roleId)
+                                .collection("wish").document(item.prodId)
+                                .set(wishdata)
+                        } else {
+                            db.collection("buyer").document(UserModel.roleId)
+                                .collection("wish").document(item.prodId)
+                                .delete()
+
+                            /*CategoryDetailInfoListFragment.categoryDataList.removeAt(adapterPosition)
+                            notifyItemRemoved(adapterPosition)*/
+                        }
+                    }
+                }
             }
 
             // 추후 기성품, 주문 제작 상품 구분 필요
